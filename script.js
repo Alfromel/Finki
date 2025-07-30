@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
-            thumbnail: "https://via.placeholder.com/300x169/1e3a8a/ffffff?text=Canal+1",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAl-Wh9iSx0DNi6UzXbtdUoNhJybbeTvDMKA&s",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x9n2qyk"
                     style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;"

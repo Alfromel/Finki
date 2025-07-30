@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const body = document.body;
-    const themeToggle = document.querySelector('.theme-toggle');
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsModal = document.getElementById('settings-modal');
+    const closeSettingsBtn = document.getElementById('close-settings');
     const navItems = document.querySelectorAll('.nav-item');
     const footerNavBtns = document.querySelectorAll('.footer-nav-btn');
     const contentSections = document.querySelectorAll('.content-section');
@@ -22,13 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnFav = document.querySelector('.btn-fav');
     const modalPlay = document.querySelector('.modal-play');
     const modalFav = document.querySelector('.modal-fav');
-    
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const modeOptions = document.querySelectorAll('.mode-option');
+    const themeOptions = document.querySelectorAll('.theme-option');
+
     // Channel data with the 3 Dailymotion iframes
     const channels = [
         {
             id: 1,
             title: "Canal Premium 1",
-            description: "Transmisión en vivo de contenido premium las 24 horas. Disfruta de la mejor programación internacional sin interrupciones.",
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
@@ -46,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 2,
             title: "Canal Premium 2",
-            description: "Lo mejor del entretenimiento internacional sin cortes. Programación variada para toda la familia.",
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
@@ -64,11 +67,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 3,
             title: "Canal Premium 3",
-            description: "Variedad de programas y contenido exclusivo para toda la familia. Transmisiones en alta calidad las 24 horas.",
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
-            thumbnail: "",
+            thumbnail: "https://via.placeholder.com/300x169/1e3a8a/ffffff?text=Canal+3",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x84eirw"
                     style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;"
@@ -83,11 +85,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Current playing channel
     let currentChannel = null;
-    
+    // Current focused element for TV mode
+    let currentFocus = null;
+    // All focusable elements
+    let focusableElements = [];
+
     // Initialize the app
     function initApp() {
-        // Load theme preference
-        loadTheme();
+        // Load preferences
+        loadPreferences();
         
         // Setup event listeners
         setupEventListeners();
@@ -97,24 +103,29 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Set default section
         showSection('home');
-    }
-    
-    // Load theme preference from localStorage
-    function loadTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        body.setAttribute('data-theme', savedTheme);
         
-        if (savedTheme === 'light') {
-            body.classList.add('light-theme');
-        } else {
-            body.classList.remove('light-theme');
+        // Initialize TV mode navigation if needed
+        if (body.classList.contains('tv-mode')) {
+            initTVNavigation();
         }
     }
-    
+
+    // Load preferences from localStorage
+    function loadPreferences() {
+        // Load theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+        
+        // Load mode
+        const savedMode = localStorage.getItem('mode') || 'tv';
+        setMode(savedMode);
+    }
+
     // Setup event listeners
     function setupEventListeners() {
-        // Theme toggle
-        themeToggle.addEventListener('click', toggleTheme);
+        // Settings button
+        settingsBtn.addEventListener('click', openSettings);
+        closeSettingsBtn.addEventListener('click', closeSettings);
         
         // Navigation items
         navItems.forEach(item => {
@@ -134,6 +145,27 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
+        // Mode options
+        modeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const mode = this.dataset.mode;
+                setMode(mode);
+                highlightSelectedOption(this, modeOptions);
+            });
+        });
+        
+        // Theme options
+        themeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const theme = this.dataset.theme;
+                setTheme(theme);
+                highlightSelectedOption(this, themeOptions);
+            });
+        });
+        
+        // Fullscreen button
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        
         // Channel click events are set in renderChannels()
         
         // Modal close
@@ -149,21 +181,86 @@ document.addEventListener('DOMContentLoaded', function() {
         // Favorite buttons
         btnFav.addEventListener('click', toggleCurrentFavorite);
         modalFav.addEventListener('click', toggleCurrentFavorite);
-    }
-    
-    // Toggle theme between dark and light
-    function toggleTheme() {
-        body.classList.toggle('light-theme');
         
-        if (body.classList.contains('light-theme')) {
+        // Keyboard navigation for TV mode
+        document.addEventListener('keydown', handleRemoteNavigation);
+    }
+
+    // Set application theme
+    function setTheme(theme) {
+        if (theme === 'light') {
+            body.classList.add('light-theme');
             body.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
         } else {
+            body.classList.remove('light-theme');
             body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
+        }
+        localStorage.setItem('theme', theme);
+    }
+
+    // Set application mode (tv, mobile, desktop)
+    function setMode(mode) {
+        // Remove all mode classes first
+        body.classList.remove('tv-mode', 'mobile-mode', 'desktop-mode');
+        
+        // Add the selected mode class
+        body.classList.add(`${mode}-mode`);
+        localStorage.setItem('mode', mode);
+        
+        // Reinitialize TV navigation if needed
+        if (mode === 'tv') {
+            initTVNavigation();
         }
     }
-    
+
+    // Highlight selected option in settings
+    function highlightSelectedOption(selected, options) {
+        options.forEach(option => {
+            option.classList.remove('active');
+        });
+        selected.classList.add('active');
+    }
+
+    // Open settings modal
+    function openSettings() {
+        settingsModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Highlight current settings
+        highlightCurrentSettings();
+    }
+
+    // Highlight current settings in modal
+    function highlightCurrentSettings() {
+        // Highlight current mode
+        const currentMode = body.classList.contains('tv-mode') ? 'tv' : 
+                          body.classList.contains('mobile-mode') ? 'mobile' : 'desktop';
+        document.querySelector(`.mode-option[data-mode="${currentMode}"]`).classList.add('active');
+        
+        // Highlight current theme
+        const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
+        document.querySelector(`.theme-option[data-theme="${currentTheme}"]`).classList.add('active');
+    }
+
+    // Close settings modal
+    function closeSettings() {
+        settingsModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Toggle fullscreen
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable fullscreen: ${err.message}`);
+            });
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+
     // Show selected section
     function showSection(sectionId) {
         contentSections.forEach(section => {
@@ -172,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById(`${sectionId}-section`).classList.add('active');
     }
-    
+
     // Set active navigation item
     function setActiveNav(activeItem) {
         navItems.forEach(item => {
@@ -181,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         activeItem.classList.add('active');
     }
-    
+
     // Set active footer navigation
     function setActiveFooterNav(activeItem) {
         footerNavBtns.forEach(btn => {
@@ -190,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         activeItem.classList.add('active');
     }
-    
+
     // Render channels to the grids
     function renderChannels() {
         channelsGrid.innerHTML = '';
@@ -204,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
             allChannelsGrid.appendChild(fullChannelCard);
         });
     }
-    
+
     // Create channel card element
     function createChannelCard(channel) {
         const card = document.createElement('div');
@@ -225,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         return card;
     }
-    
+
     // Open channel modal
     function openChannelModal(channel) {
         currentChannel = channel;
@@ -246,13 +343,13 @@ document.addEventListener('DOMContentLoaded', function() {
         channelModal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
-    
+
     // Close modal
     function closeModal() {
         channelModal.classList.remove('active');
         document.body.style.overflow = 'auto';
     }
-    
+
     // Play current channel in main player
     function playCurrentChannel() {
         if (!currentChannel) return;
@@ -266,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update favorite button state
         updateFavoriteButtons();
     }
-    
+
     // Toggle favorite status for current channel
     function toggleCurrentFavorite() {
         if (!currentChannel) return;
@@ -281,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 : `Eliminado de favoritos: ${currentChannel.title}`
         );
     }
-    
+
     // Update favorite buttons state
     function updateFavoriteButtons() {
         if (!currentChannel) return;
@@ -297,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // Show notification
     function showNotification(message) {
         const notification = document.createElement('div');
@@ -317,7 +414,97 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 3000);
     }
-    
+
+    // TV Mode Navigation Functions
+    function initTVNavigation() {
+        // Get all focusable elements
+        focusableElements = Array.from(document.querySelectorAll('.nav-item, .channel-card, .footer-nav-btn, .mode-option, .theme-option, .btn-play, .btn-fav, .modal-btn'));
+        
+        // Set initial focus
+        if (focusableElements.length > 0) {
+            currentFocus = focusableElements[0];
+            currentFocus.classList.add('focused');
+        }
+    }
+
+    function handleRemoteNavigation(e) {
+        if (!body.classList.contains('tv-mode')) return;
+        
+        switch (e.key) {
+            case 'ArrowUp':
+                navigate('up');
+                e.preventDefault();
+                break;
+            case 'ArrowDown':
+                navigate('down');
+                e.preventDefault();
+                break;
+            case 'ArrowLeft':
+                navigate('left');
+                e.preventDefault();
+                break;
+            case 'ArrowRight':
+                navigate('right');
+                e.preventDefault();
+                break;
+            case 'Enter':
+                if (currentFocus) {
+                    currentFocus.click();
+                    e.preventDefault();
+                }
+                break;
+            case 'Backspace':
+                if (settingsModal.classList.contains('active')) {
+                    closeSettings();
+                    e.preventDefault();
+                } else if (channelModal.classList.contains('active')) {
+                    closeModal();
+                    e.preventDefault();
+                }
+                break;
+        }
+    }
+
+    function navigate(direction) {
+        if (!currentFocus) return;
+        
+        // Remove focus from current element
+        currentFocus.classList.remove('focused');
+        
+        // Get current position
+        const currentIndex = focusableElements.indexOf(currentFocus);
+        let newIndex = currentIndex;
+        
+        // Calculate new index based on direction
+        switch (direction) {
+            case 'up':
+                newIndex = Math.max(0, currentIndex - 1);
+                break;
+            case 'down':
+                newIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
+                break;
+            case 'left':
+                newIndex = Math.max(0, currentIndex - 1);
+                break;
+            case 'right':
+                newIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
+                break;
+        }
+        
+        // Ensure new index is valid
+        if (newIndex >= 0 && newIndex < focusableElements.length) {
+            currentFocus = focusableElements[newIndex];
+            currentFocus.classList.add('focused');
+            currentFocus.focus();
+            
+            // Scroll into view if needed
+            currentFocus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            // If no valid new index, keep focus on current element
+            currentFocus.classList.add('focused');
+        }
+    }
+
     // Initialize the app
     initApp();
 });

@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const channels = [
         {
             id: 1,
-            title: "Canal Premium 1",
+            
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 2,
-            title: "Canal Premium 2",
+            
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 3,
-            title: "Canal Premium 3",
+            
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",

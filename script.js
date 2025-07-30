@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
-            thumbnail: "https://via.placeholder.com/300x169/1e3a8a/ffffff?text=Canal+2",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOdEfaOkHFy6LeOzD_hgc1vDvrwDf0OPf45g&s",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x8eimg9"
                     style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;"
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
-            thumbnail: "https://via.placeholder.com/300x169/1e3a8a/ffffff?text=Canal+3",
+            thumbnail: "https://media.licdn.com/dms/image/v2/C4E0BAQHP8O9DxUbfRQ/company-logo_200_200/company-logo_200_200/0/1630614586206?e=2147483647&v=beta&t=rZgAqvqDKvqnTR-KcyxqAd1_86mo-rYKXxngHDoOHCo",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x84eirw"
                     style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;"

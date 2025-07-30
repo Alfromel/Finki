@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const channels = [
         {
             id: 1,
-            
+            title: "RED UNO",
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
-            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAl-Wh9iSx0DNi6UzXbtdUoNhJybbeTvDMKA&s",
+            thumbnail: "https://yt3.googleusercontent.com/Z9-5VuT1xqHWp_QJ3JvLD-PZlYQt_subNOfi-Lz-qYN75iaFP2r0oK7qclcnP4o9biLIo6qQROA=s900-c-k-c0x00ffffff-no-rj",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x9n2qyk"
                     style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;"
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 2,
-            
+            title: "UNITEL",
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
@@ -66,11 +66,11 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 3,
-            
+            title: "ATB",
             category: "entretenimiento",
             country: "Internacional",
             language: "Español",
-            thumbnail: "https://media.licdn.com/dms/image/v2/C4E0BAQHP8O9DxUbfRQ/company-logo_200_200/company-logo_200_200/0/1630614586206?e=2147483647&v=beta&t=rZgAqvqDKvqnTR-KcyxqAd1_86mo-rYKXxngHDoOHCo",
+            thumbnail: "https://play-lh.googleusercontent.com/sgL9elaLnROZ-njx1G5n7PyIcYWvaUuIsjecWtTOAY275giwquEG_J07ETmJbxfBFNaX",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x84eirw"
                     style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;"

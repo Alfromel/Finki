@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0a1a">
+    <link rel="manifest" href="/manifest.json">
+    <title>Finki TV Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="Magis TV">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0a0a1a" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+   
+</head>
+<body class="dark-theme" data-theme="dark">
+    <div class="app-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Magis TV Logo" class="logo">
+                    <span class="logo-text">Finki</span>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li class="nav-item active" data-section="home">
+                            <i class="fas fa-home"></i>
+                            <span>Inicio</span>
+                        </li>
+                        <li class="nav-item" data-section="channels">
+                            <i class="fas fa-tv"></i>
+                            <span>Canales</span>
+                        </li>
+                        <li class="nav-item" data-section="movies">
+                            <i class="fas fa-film"></i>
+                            <span>Películas</span>
+                            <span class="coming-soon">PRÓXIMAMENTE</span>
+                        </li>
+                        <li class="nav-item" data-section="series">
+                            <i class="fas fa-tv"></i>
+                            <span>Series</span>
+                            <span class="coming-soon">PRÓXIMAMENTE</span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Buscar...">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon dark-icon"></i>
+                        <i class="fas fa-sun light-icon"></i>
+                    </button>
+                    <div class="user-menu">
+                        <div class="user-avatar">
+                            <img src="user.jpg" alt="Usuario">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section class="content-section active" id="home-section">
+                <!-- Featured Channel -->
+                <div class="featured-container">
+                    <div class="featured-channel">
+                        <div class="channel-info">
+                            <h2 class="section-title">EN VIVO AHORA</h2>
+                            <h1 id="current-channel-title">Selecciona un canal</h1>
+                            <p id="current-channel-description">Disfruta de la mejor programación en vivo las 24 horas</p>
+                            <div class="channel-actions">
+                                <button class="btn-play"><i class="fas fa-play"></i> Ver ahora</button>
+                                <button class="btn-fav"><i class="far fa-heart"></i> Favoritos</button>
+                            </div>
+                        </div>
+                        <div class="channel-player" id="main-player">
+                            <div class="player-placeholder">
+                                <i class="fas fa-tv"></i>
+                                <p>Selecciona un canal para comenzar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Channel Categories -->
+                <div class="categories-container">
+                    <h2 class="section-title">CANALES EN VIVO</h2>
+                    <div class="channels-grid" id="channels-grid">
+                        <!-- Channels will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Coming Soon Sections -->
+                <div class="coming-soon-container">
+                    <h2 class="section-title">PRÓXIMAMENTE</h2>
+                    <div class="coming-soon-grid">
+                        <div class="coming-soon-card">
+                            <div class="coming-soon-thumbnail">
+                                <img src="https://via.placeholder.com/300x169/2c3e50/ecf0f1?text=Películas" alt="Películas">
+                                <div class="coming-soon-overlay">
+                                    <i class="fas fa-film"></i>
+                                    <span>PRÓXIMAMENTE</span>
+                                </div>
+                            </div>
+                            <h3>Biblioteca de Películas</h3>
+                        </div>
+                        <div class="coming-soon-card">
+                            <div class="coming-soon-thumbnail">
+                                <img src="https://via.placeholder.com/300x169/2c3e50/ecf0f1?text=Series" alt="Series">
+                                <div class="coming-soon-overlay">
+                                    <i class="fas fa-tv"></i>
+                                    <span>PRÓXIMAMENTE</span>
+                                </div>
+                            </div>
+                            <h3>Series Exclusivas</h3>
+                        </div>
+                        <div class="coming-soon-card">
+                            <div class="coming-soon-thumbnail">
+                                <img src="https://via.placeholder.com/300x169/2c3e50/ecf0f1?text=Deportes" alt="Deportes">
+                                <div class="coming-soon-overlay">
+                                    <i class="fas fa-running"></i>
+                                    <span>PRÓXIMAMENTE</span>
+                                </div>
+                            </div>
+                            <h3>Canales Deportivos</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Channels Section -->
+            <section class="content-section" id="channels-section">
+                <div class="full-channels-container">
+                    <h2 class="section-title">TODOS LOS CANALES</h2>
+                    <div class="full-channels-grid" id="all-channels-grid">
+                        <!-- All channels will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Movies Section -->
+            <section class="content-section" id="movies-section">
+                <div class="coming-full-container">
+                    <div class="coming-full-content">
+                        <i class="fas fa-film"></i>
+                        <h2>SECCIÓN DE PELÍCULAS</h2>
+                        <p>Estamos trabajando para traerte el mejor catálogo de películas</p>
+                        <span class="coming-badge">PRÓXIMAMENTE</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Series Section -->
+            <section class="content-section" id="series-section">
+                <div class="coming-full-container">
+                    <div class="coming-full-content">
+                        <i class="fas fa-tv"></i>
+                        <h2>SECCIÓN DE SERIES</h2>
+                        <p>Próximamente disfrutarás de las mejores series exclusivas</p>
+                        <span class="coming-badge">PRÓXIMAMENTE</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Quick Navigation Footer -->
+        <footer class="app-footer">
+            <div class="footer-nav">
+                <button class="footer-nav-btn active" data-section="home">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </button>
+                <button class="footer-nav-btn" data-section="channels">
+                    <i class="fas fa-tv"></i>
+                    <span>Canales</span>
+                </button>
+                <button class="footer-nav-btn" data-section="movies">
+                    <i class="fas fa-film"></i>
+                    <span>Películas</span>
+                </button>
+                <button class="footer-nav-btn" data-section="series">
+                    <i class="fas fa-tv"></i>
+                    <span>Series</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Channel Modal -->
+    <div class="modal" id="channel-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-header">
+                <h2 id="modal-channel-title">Nombre del Canal</h2>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-play"><i class="fas fa-play"></i> Reproducir</button>
+                    <button class="modal-btn modal-fav"><i class="far fa-heart"></i> Favorito</button>
+                </div>
+            </div>
+            <div class="modal-player-container">
+                <div class="modal-player" id="modal-player">
+                    <!-- Iframe will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-info">
+                <p id="modal-channel-description">Descripción detallada del canal seleccionado.</p>
+                <div class="modal-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-globe"></i>
+                        <span id="modal-channel-country">Internacional</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-language"></i>
+                        <span id="modal-channel-language">Español</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-tag"></i>
+                        <span id="modal-channel-category">Entretenimiento</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Registro del Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker registrado con éxito:', registration.scope);
+                })
+                .catch(error => {
+                    console.log('Error al registrar el ServiceWorker:', error);
+                });
+        });
+    }
+
+    // Manejar el evento beforeinstallprompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Previene que el mini-infobar aparezca en mobile
+        e.preventDefault();
+        // Guarda el evento para que pueda ser activado después
+        deferredPrompt = e;
+        // Actualiza la UI para notificar al usuario que puede instalar la PWA
+        showInstallPromotion();
+    });
+
+    function showInstallPromotion() {
+        // Puedes mostrar un botón o banner para instalar la app
+        console.log('La aplicación puede ser instalada');
+        // Ejemplo: mostrar un botón de instalación
+        const installButton = document.createElement('button');
+        installButton.textContent = 'Instalar Magis TV';
+        installButton.style.position = 'fixed';
+        installButton.style.bottom = '20px';
+        installButton.style.right = '20px';
+        installButton.style.zIndex = '1000';
+        installButton.style.padding = '10px 20px';
+        installButton.style.backgroundColor = '#2563eb';
+        installButton.style.color = 'white';
+        installButton.style.border = 'none';
+        installButton.style.borderRadius = '5px';
+        installButton.style.cursor = 'pointer';
+        
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+            }
+        });
+        
+        document.body.appendChild(installButton);
+    }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

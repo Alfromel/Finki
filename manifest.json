@@ -1,0 +1,23 @@
+{
+  "name": "Finki TV Pro",
+  "short_name": "Finki TV",
+  "description": "La mejor aplicación de streaming de canales en vivo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#2563eb",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "icons/favicon.ico",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://tudominio.com/manifest.json"
+    }
+  ]
+}

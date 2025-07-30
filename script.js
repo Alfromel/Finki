@@ -508,3 +508,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the app
     initApp();
 });
+
+// Control de orientación
+function lockOrientation() {
+    if (window.screen.orientation && window.screen.orientation.lock) {
+        // Solo bloquear orientación en móviles
+        if (window.innerWidth < 768) {
+            window.screen.orientation.lock('portrait')
+                .catch(error => {
+                    console.log('Orientation lock failed: ', error);
+                });
+        }
+    }
+}
+
+// Verificar orientación al cargar y al cambiar tamaño
+window.addEventListener('load', lockOrientation);
+window.addEventListener('resize', lockOrientation);
+
+// Para dispositivos iOS que no soportan completamente screen.orientation
+window.addEventListener('orientationchange', function() {
+    if (window.innerWidth > window.innerHeight) {
+        // Mostrar mensaje si está en horizontal en móvil
+        if (window.innerWidth < 768) {
+            alert("Por favor gira tu dispositivo a modo vertical para mejor experiencia");
+        }
+    }
+});

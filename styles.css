@@ -19,11 +19,14 @@
     --light-hover: #cbd5e1;
     --light-border: #cbd5e1;
     
+    /* TV Mode Variables */
+    --tv-focus-color: #2563eb;
+    --tv-focus-outline: 0 0 0 3px var(--tv-focus-color);
+    
     /* Common Variables */
     --border-radius: 12px;
     --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --focus-outline: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
 * {
@@ -45,12 +48,54 @@ body.light-theme {
     color: var(--light-text);
 }
 
+/* TV Mode Styles */
+body.tv-mode {
+    --focus-outline: var(--tv-focus-outline);
+}
+
+body.tv-mode .focused {
+    outline: var(--focus-outline);
+    z-index: 10;
+}
+
+/* Mobile Mode Styles */
+body.mobile-mode {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body.mobile-mode .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+body.mobile-mode .app-footer {
+    display: flex;
+}
+
+body.mobile-mode .main-nav {
+    display: none;
+}
+
+/* Desktop Mode Styles */
+body.desktop-mode {
+    max-width: 100%;
+}
+
+body.desktop-mode .app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* App Container */
 .app-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    max-width: 1920px;
-    margin: 0 auto;
+    position: relative;
 }
 
 /* App Header Styles */
@@ -62,8 +107,6 @@ body.light-theme {
     background-color: var(--dark-secondary);
     box-shadow: var(--box-shadow);
     z-index: 100;
-    position: sticky;
-    top: 0;
     transition: var(--transition);
 }
 
@@ -213,7 +256,7 @@ body.light-theme .search-btn {
     gap: 15px;
 }
 
-.theme-toggle {
+.settings-btn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -224,38 +267,19 @@ body.light-theme .search-btn {
     border: none;
     cursor: pointer;
     transition: var(--transition);
-    position: relative;
-    overflow: hidden;
 }
 
-body.light-theme .theme-toggle {
+body.light-theme .settings-btn {
     background-color: var(--light-card);
 }
 
-.theme-toggle i {
-    position: absolute;
-    transition: var(--transition);
-    font-size: 1rem;
+.settings-btn:hover {
+    background-color: var(--dark-accent);
+    color: white;
 }
 
-.dark-icon {
-    opacity: 1;
-    transform: rotate(0deg);
-}
-
-.light-icon {
-    opacity: 0;
-    transform: rotate(100deg);
-}
-
-body.light-theme .dark-icon {
-    opacity: 0;
-    transform: rotate(-100deg);
-}
-
-body.light-theme .light-icon {
-    opacity: 1;
-    transform: rotate(0deg);
+body.light-theme .settings-btn:hover {
+    background-color: var(--light-accent);
 }
 
 .user-avatar {
@@ -337,6 +361,10 @@ body.light-theme .section-title::before {
 
 body.light-theme .featured-channel {
     background-color: var(--light-card);
+}
+
+body.mobile-mode .featured-channel {
+    flex-direction: column;
 }
 
 .channel-info {
@@ -709,9 +737,14 @@ body.light-theme .app-footer {
     background-color: var(--light-secondary);
 }
 
+body.mobile-mode .app-footer {
+    display: flex;
+}
+
 .footer-nav {
     display: flex;
     justify-content: space-around;
+    width: 100%;
 }
 
 .footer-nav-btn {
@@ -727,6 +760,7 @@ body.light-theme .app-footer {
     transition: var(--transition);
     font-size: 0.8rem;
     gap: 5px;
+    flex: 1;
 }
 
 body.light-theme .footer-nav-btn {
@@ -755,7 +789,203 @@ body.light-theme .footer-nav-btn:hover {
     color: var(--light-text);
 }
 
-/* Modal Styles */
+/* Settings Modal Styles */
+.tv-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.tv-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: var(--dark-card);
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    animation: modalFadeIn 0.3s ease;
+    padding: 25px;
+}
+
+body.light-theme .modal-content {
+    background-color: var(--light-card);
+}
+
+.settings-section {
+    margin-bottom: 30px;
+}
+
+.settings-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--dark-text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.light-theme .settings-section h3 {
+    color: var(--light-text);
+}
+
+.settings-section h3 i {
+    color: var(--dark-accent);
+    font-size: 1.1rem;
+}
+
+body.light-theme .settings-section h3 i {
+    color: var(--light-accent);
+}
+
+.settings-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.mode-option, .theme-option {
+    background-color: var(--dark-hover);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+body.light-theme .mode-option,
+body.light-theme .theme-option {
+    background-color: var(--light-hover);
+}
+
+.mode-option i, .theme-option i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: var(--dark-text);
+}
+
+body.light-theme .mode-option i,
+body.light-theme .theme-option i {
+    color: var(--light-text);
+}
+
+.mode-option span, .theme-option span {
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+body.light-theme .mode-option span,
+body.light-theme .theme-option span {
+    color: var(--light-text);
+}
+
+.mode-option small, .theme-option small {
+    font-size: 0.8rem;
+    color: var(--dark-text-secondary);
+}
+
+body.light-theme .mode-option small,
+body.light-theme .theme-option small {
+    color: var(--light-text-secondary);
+}
+
+.mode-option:hover, .theme-option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mode-option.active, .theme-option.active {
+    background-color: var(--dark-accent);
+    color: white;
+}
+
+body.light-theme .mode-option.active,
+body.light-theme .theme-option.active {
+    background-color: var(--light-accent);
+}
+
+.mode-option.active i, .theme-option.active i,
+.mode-option.active span, .theme-option.active span,
+.mode-option.active small, .theme-option.active small {
+    color: white;
+}
+
+.fullscreen-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--dark-hover);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+body.light-theme .fullscreen-btn {
+    background-color: var(--light-hover);
+    color: var(--light-text);
+}
+
+.fullscreen-btn i {
+    font-size: 1.2rem;
+}
+
+.fullscreen-btn:hover {
+    background-color: var(--dark-accent);
+    color: white;
+}
+
+body.light-theme .fullscreen-btn:hover {
+    background-color: var(--light-accent);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    padding: 12px 25px;
+    background-color: var(--dark-accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* Channel Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -775,22 +1005,6 @@ body.light-theme .footer-nav-btn:hover {
 .modal.active {
     display: flex;
     opacity: 1;
-}
-
-.modal-content {
-    background-color: var(--dark-card);
-    border-radius: var(--border-radius);
-    width: 100%;
-    max-width: 1000px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-    animation: modalFadeIn 0.3s ease;
-}
-
-body.light-theme .modal-content {
-    background-color: var(--light-card);
 }
 
 .modal-close {
@@ -1031,7 +1245,7 @@ body.light-theme .meta-item i {
     }
     
     .app-footer {
-        display: block;
+        display: flex;
     }
 }
 
@@ -1061,5 +1275,9 @@ body.light-theme .meta-item i {
     .modal-btn {
         width: 100%;
         justify-content: center;
+    }
+    
+    .settings-options {
+        grid-template-columns: 1fr;
     }
 }

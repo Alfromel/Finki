@@ -1,4 +1,4 @@
-const CACHE_NAME = 'magistv-v1.0';
+const CACHE_NAME = 'Finki';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

@@ -38,43 +38,12 @@
                     <div class="logo">F</div>
                     <span class="logo-text">Finki TV</span>
                 </div>
-                <nav class="main-nav">
-                    <ul>
-                        <li class="nav-item active" data-section="home">
-                            <i class="fas fa-home"></i>
-                            <span>Inicio</span>
-                        </li>
-                        <li class="nav-item" data-section="channels">
-                            <i class="fas fa-tv"></i>
-                            <span>Canales</span>
-                        </li>
-                        <li class="nav-item" data-section="movies">
-                            <i class="fas fa-film"></i>
-                            <span>Películas</span>
-                            <span class="coming-soon">PRÓXIMAMENTE</span>
-                        </li>
-                        <li class="nav-item" data-section="series">
-                            <i class="fas fa-tv"></i>
-                            <span>Series</span>
-                            <span class="coming-soon">PRÓXIMAMENTE</span>
-                        </li>
-                    </ul>
-                </nav>
             </div>
             <div class="header-right">
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Buscar...">
-                    <button class="search-btn"><i class="fas fa-search"></i></button>
-                </div>
                 <div class="header-actions">
                     <button class="settings-btn" id="settings-btn">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <div class="user-menu">
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </div>
                 </div>
             </div>
         </header>
@@ -83,8 +52,7 @@
         <main class="main-content">
             <!-- Home Section -->
             <section class="content-section active" id="home-section">
-                <!-- Channel Categories -->
-                <div class="categories-container">
+                <div class="channels-container">
                     <h2 class="section-title">CANALES EN VIVO</h2>
                     <div class="channels-grid" id="channels-grid">
                         <!-- Channels will be loaded here -->
@@ -94,9 +62,9 @@
 
             <!-- Channels Section -->
             <section class="content-section" id="channels-section">
-                <div class="full-channels-container">
+                <div class="channels-container">
                     <h2 class="section-title">TODOS LOS CANALES</h2>
-                    <div class="full-channels-grid" id="all-channels-grid">
+                    <div class="channels-grid" id="all-channels-grid">
                         <!-- All channels will be loaded here -->
                     </div>
                 </div>
@@ -153,24 +121,12 @@
     <!-- Fullscreen Player -->
     <div class="fullscreen-player" id="fullscreen-player">
         <div id="fullscreen-iframe-container"></div>
-        <div class="exit-hint">
-            <p>Presiona ESC para salir</p>
-        </div>
     </div>
 
     <!-- Settings Modal -->
     <div class="tv-modal" id="settings-modal">
         <div class="modal-content">
             <h2><i class="fas fa-cog"></i> AJUSTES</h2>
-            
-            <div class="settings-section">
-                <h3>Pantalla Completa</h3>
-                <button class="fullscreen-btn" id="fullscreen-btn">
-                    <i class="fas fa-expand"></i>
-                    <span>Activar Pantalla Completa</span>
-                </button>
-            </div>
-            
             <div class="modal-actions">
                 <button class="btn-primary" id="close-settings">Cerrar</button>
             </div>
@@ -181,6 +137,7 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 

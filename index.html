@@ -29,14 +29,14 @@
     <meta name="theme-color" content="#0a0a1a" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 </head>
-<body class="dark-theme tv-mode">
+<body class="tv-mode">
     <div class="app-container">
         <!-- App Header -->
         <header class="app-header">
             <div class="header-left">
                 <div class="logo-container">
-                    <img src="logo.png" alt="Magis TV Logo" class="logo">
-                    <span class="logo-text">Finki</span>
+                    <div class="logo">F</div>
+                    <span class="logo-text">Finki TV</span>
                 </div>
                 <nav class="main-nav">
                     <ul>
@@ -72,7 +72,7 @@
                     </button>
                     <div class="user-menu">
                         <div class="user-avatar">
-                            <img src="user.jpg" alt="Usuario">
+                            <i class="fas fa-user"></i>
                         </div>
                     </div>
                 </div>
@@ -91,14 +91,13 @@
                             <h1 id="current-channel-title">Selecciona un canal</h1>
                             <p id="current-channel-description">Disfruta de la mejor programación en vivo las 24 horas</p>
                             <div class="channel-actions">
-                                <button class="btn-play"><i class="fas fa-play"></i> Ver ahora</button>
                                 <button class="btn-fav"><i class="far fa-heart"></i> Favoritos</button>
                             </div>
                         </div>
                         <div class="channel-player" id="main-player">
                             <div class="player-placeholder">
                                 <i class="fas fa-tv"></i>
-                                <p>Selecciona un canal para comenzar</p>
+                                <p>Haz clic en cualquier canal para verlo en pantalla completa</p>
                             </div>
                         </div>
                     </div>
@@ -111,8 +110,6 @@
                         <!-- Channels will be loaded here -->
                     </div>
                 </div>
-
-       
             </section>
 
             <!-- Channels Section -->
@@ -173,47 +170,26 @@
         </footer>
     </div>
 
+    <!-- Fullscreen Player -->
+    <div class="fullscreen-player" id="fullscreen-player">
+        <div id="fullscreen-iframe-container"></div>
+        <div class="player-controls">
+            <button class="control-btn" id="exit-fullscreen">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="control-btn" id="prev-channel">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="control-btn" id="next-channel">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- Settings Modal -->
     <div class="tv-modal" id="settings-modal">
         <div class="modal-content">
-            <h2><i class="fas fa-cog"></i> AJUSTES DE LA APLICACIÓN</h2>
-            
-            <div class="settings-section">
-                <h3>Modo de Visualización</h3>
-                <div class="settings-options">
-                    <button class="mode-option active" data-mode="tv">
-                        <i class="fas fa-tv"></i>
-                        <span>Modo TV</span>
-                        <small>Optimizado para control remoto</small>
-                    </button>
-                    <button class="mode-option" data-mode="mobile">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>Modo Móvil</span>
-                        <small>Vertical, táctil</small>
-                    </button>
-                    <button class="mode-option" data-mode="desktop">
-                        <i class="fas fa-desktop"></i>
-                        <span>Modo Computadora</span>
-                        <small>Pantalla completa</small>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="settings-section">
-                <h3>Tema de Color</h3>
-                <div class="settings-options">
-                    <button class="theme-option" data-theme="dark">
-                        <i class="fas fa-moon"></i>
-                        <span>Oscuro</span>
-                        <small>Azul y Negro</small>
-                    </button>
-                    <button class="theme-option" data-theme="light">
-                        <i class="fas fa-sun"></i>
-                        <span>Claro</span>
-                        <small>Blanco Brillante</small>
-                    </button>
-                </div>
-            </div>
+            <h2><i class="fas fa-cog"></i> AJUSTES</h2>
             
             <div class="settings-section">
                 <h3>Pantalla Completa</h3>
@@ -224,63 +200,13 @@
             </div>
             
             <div class="modal-actions">
-                <button class="btn-primary" id="close-settings">Guardar Cambios</button>
+                <button class="btn-primary" id="close-settings">Cerrar</button>
             </div>
         </div>
     </div>
-
-    <!-- Channel Modal -->
-    <div class="modal" id="channel-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-header">
-                <h2 id="modal-channel-title">Nombre del Canal</h2>
-                <div class="modal-actions">
-                    <button class="modal-btn modal-play"><i class="fas fa-play"></i> Reproducir</button>
-                    <button class="modal-btn modal-fav"><i class="far fa-heart"></i> Favorito</button>
-                </div>
-            </div>
-            <div class="modal-player-container">
-                <div class="modal-player" id="modal-player">
-                    <!-- Iframe will be inserted here -->
-                </div>
-            </div>
-            <div class="modal-info">
-                <p id="modal-channel-description">Descripción detallada del canal seleccionado.</p>
-                <div class="modal-meta">
-                    <div class="meta-item">
-                        <i class="fas fa-globe"></i>
-                        <span id="modal-channel-country">Internacional</span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="fas fa-language"></i>
-                        <span id="modal-channel-language">Español</span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="fas fa-tag"></i>
-                        <span id="modal-channel-category">Entretenimiento</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registrado con éxito:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('Error al registrar el ServiceWorker:', error);
-                    });
-            });
-        }
-    </script>
 
     <!-- Main App Script -->
     <script src="script.js"></script>
 </body>
 </html>
+

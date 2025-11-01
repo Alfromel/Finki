@@ -89,15 +89,12 @@
                         <div class="channel-info">
                             <h2 class="section-title">EN VIVO AHORA</h2>
                             <h1 id="current-channel-title">Selecciona un canal</h1>
-                            <p id="current-channel-description">Disfruta de la mejor programación en vivo las 24 horas</p>
-                            <div class="channel-actions">
-                                <button class="btn-fav"><i class="far fa-heart"></i> Favoritos</button>
-                            </div>
+                            <p id="current-channel-description">Haz clic en cualquier canal para verlo en pantalla completa</p>
                         </div>
                         <div class="channel-player" id="main-player">
                             <div class="player-placeholder">
                                 <i class="fas fa-tv"></i>
-                                <p>Haz clic en cualquier canal para verlo en pantalla completa</p>
+                                <p>Selecciona un canal para comenzar</p>
                             </div>
                         </div>
                     </div>
@@ -170,7 +167,10 @@
         </footer>
     </div>
 
-
+    <!-- Fullscreen Player -->
+    <div class="fullscreen-player" id="fullscreen-player">
+        <div id="fullscreen-iframe-container"></div>
+    </div>
 
     <!-- Settings Modal -->
     <div class="tv-modal" id="settings-modal">
@@ -195,5 +195,6 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 

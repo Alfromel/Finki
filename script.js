@@ -12,21 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainPlayer = document.getElementById('main-player');
     const currentChannelTitle = document.getElementById('current-channel-title');
     const currentChannelDescription = document.getElementById('current-channel-description');
-    const channelModal = document.getElementById('channel-modal');
-    const modalPlayer = document.getElementById('modal-player');
-    const modalChannelTitle = document.getElementById('modal-channel-title');
-    const modalChannelDescription = document.getElementById('modal-channel-description');
-    const modalChannelCountry = document.getElementById('modal-channel-country');
-    const modalChannelLanguage = document.getElementById('modal-channel-language');
-    const modalChannelCategory = document.getElementById('modal-channel-category');
-    const modalClose = document.querySelector('.modal-close');
-    const btnPlay = document.querySelector('.btn-play');
     const btnFav = document.querySelector('.btn-fav');
-    const modalPlay = document.querySelector('.modal-play');
-    const modalFav = document.querySelector('.modal-fav');
     const fullscreenBtn = document.getElementById('fullscreen-btn');
-    const modeOptions = document.querySelectorAll('.mode-option');
-    const themeOptions = document.querySelectorAll('.theme-option');
+    const fullscreenPlayer = document.getElementById('fullscreen-player');
+    const fullscreenIframeContainer = document.getElementById('fullscreen-iframe-container');
+    const exitFullscreenBtn = document.getElementById('exit-fullscreen');
+    const prevChannelBtn = document.getElementById('prev-channel');
+    const nextChannelBtn = document.getElementById('next-channel');
 
     // Channel data with the 3 Dailymotion iframes
     const channels = [
@@ -34,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 1,
             title: "RED UNO",
             category: "entretenimiento",
-            country: "Internacional",
+            country: "Bolivia",
             language: "Español",
+            description: "Canal líder de entretenimiento en Bolivia con programación variada",
             thumbnail: "https://yt3.googleusercontent.com/Z9-5VuT1xqHWp_QJ3JvLD-PZlYQt_subNOfi-Lz-qYN75iaFP2r0oK7qclcnP4o9biLIo6qQROA=s900-c-k-c0x00ffffff-no-rj",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x9n2qyk"
@@ -51,8 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 2,
             title: "UNITEL",
             category: "entretenimiento",
-            country: "Internacional",
+            country: "Bolivia",
             language: "Español",
+            description: "Canal de televisión boliviano con programación nacional e internacional",
             thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOdEfaOkHFy6LeOzD_hgc1vDvrwDf0OPf45g&s",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x8eimg9"
@@ -68,8 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 3,
             title: "ATB",
             category: "entretenimiento",
-            country: "Internacional",
+            country: "Bolivia",
             language: "Español",
+            description: "Canal de televisión boliviano con noticias y entretenimiento",
             thumbnail: "https://play-lh.googleusercontent.com/sgL9elaLnROZ-njx1G5n7PyIcYWvaUuIsjecWtTOAY275giwquEG_J07ETmJbxfBFNaX",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://geo.dailymotion.com/player.html?video=x84eirw"
@@ -85,16 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Current playing channel
     let currentChannel = null;
-    // Current focused element for TV mode
-    let currentFocus = null;
-    // All focusable elements
-    let focusableElements = [];
+    let currentChannelIndex = -1;
 
     // Initialize the app
     function initApp() {
-        // Load preferences
-        loadPreferences();
-        
         // Setup event listeners
         setupEventListeners();
         
@@ -104,21 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set default section
         showSection('home');
         
-        // Initialize TV mode navigation if needed
-        if (body.classList.contains('tv-mode')) {
-            initTVNavigation();
-        }
-    }
-
-    // Load preferences from localStorage
-    function loadPreferences() {
-        // Load theme
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(savedTheme);
-        
-        // Load mode
-        const savedMode = localStorage.getItem('mode') || 'tv';
-        setMode(savedMode);
+        // Auto enter fullscreen on channel play
+        setupAutoFullscreen();
     }
 
     // Setup event listeners
@@ -145,107 +121,60 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Mode options
-        modeOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const mode = this.dataset.mode;
-                setMode(mode);
-                highlightSelectedOption(this, modeOptions);
-            });
-        });
-        
-        // Theme options
-        themeOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const theme = this.dataset.theme;
-                setTheme(theme);
-                highlightSelectedOption(this, themeOptions);
-            });
-        });
-        
         // Fullscreen button
         fullscreenBtn.addEventListener('click', toggleFullscreen);
         
-        // Channel click events are set in renderChannels()
-        
-        // Modal close
-        modalClose.addEventListener('click', closeModal);
-        
-        // Play buttons
-        btnPlay.addEventListener('click', playCurrentChannel);
-        modalPlay.addEventListener('click', function() {
-            playCurrentChannel();
-            closeModal();
-        });
-        
-        // Favorite buttons
+        // Favorite button
         btnFav.addEventListener('click', toggleCurrentFavorite);
-        modalFav.addEventListener('click', toggleCurrentFavorite);
         
-        // Keyboard navigation for TV mode
-        document.addEventListener('keydown', handleRemoteNavigation);
+        // Fullscreen player controls
+        exitFullscreenBtn.addEventListener('click', exitFullscreen);
+        prevChannelBtn.addEventListener('click', playPreviousChannel);
+        nextChannelBtn.addEventListener('click', playNextChannel);
+        
+        // Keyboard controls for fullscreen
+        document.addEventListener('keydown', handleFullscreenKeyboard);
     }
 
-    // Set application theme
-    function setTheme(theme) {
-        if (theme === 'light') {
-            body.classList.add('light-theme');
-            body.setAttribute('data-theme', 'light');
-        } else {
-            body.classList.remove('light-theme');
-            body.setAttribute('data-theme', 'dark');
-        }
-        localStorage.setItem('theme', theme);
-    }
-
-    // Set application mode (tv, mobile, desktop)
-    function setMode(mode) {
-        // Remove all mode classes first
-        body.classList.remove('tv-mode', 'mobile-mode', 'desktop-mode');
-        
-        // Add the selected mode class
-        body.classList.add(`${mode}-mode`);
-        localStorage.setItem('mode', mode);
-        
-        // Reinitialize TV navigation if needed
-        if (mode === 'tv') {
-            initTVNavigation();
-        }
-    }
-
-    // Highlight selected option in settings
-    function highlightSelectedOption(selected, options) {
-        options.forEach(option => {
-            option.classList.remove('active');
+    // Setup auto fullscreen functionality
+    function setupAutoFullscreen() {
+        // Auto enter fullscreen when a channel starts playing
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' && fullscreenIframeContainer.children.length > 0) {
+                    enterFullscreen();
+                }
+            });
         });
-        selected.classList.add('active');
+        
+        observer.observe(fullscreenIframeContainer, { childList: true });
     }
 
-    // Open settings modal
-    function openSettings() {
-        settingsModal.classList.add('active');
+    // Enter fullscreen mode
+    function enterFullscreen() {
+        fullscreenPlayer.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // Highlight current settings
-        highlightCurrentSettings();
+        // Enter browser fullscreen
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error attempting to enable fullscreen: ${err.message}`);
+            });
+        }
     }
 
-    // Highlight current settings in modal
-    function highlightCurrentSettings() {
-        // Highlight current mode
-        const currentMode = body.classList.contains('tv-mode') ? 'tv' : 
-                          body.classList.contains('mobile-mode') ? 'mobile' : 'desktop';
-        document.querySelector(`.mode-option[data-mode="${currentMode}"]`).classList.add('active');
-        
-        // Highlight current theme
-        const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
-        document.querySelector(`.theme-option[data-theme="${currentTheme}"]`).classList.add('active');
-    }
-
-    // Close settings modal
-    function closeSettings() {
-        settingsModal.classList.remove('active');
+    // Exit fullscreen mode
+    function exitFullscreen() {
+        fullscreenPlayer.classList.remove('active');
         document.body.style.overflow = 'auto';
+        
+        // Exit browser fullscreen
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        }
+        
+        // Clear fullscreen iframe
+        fullscreenIframeContainer.innerHTML = '';
     }
 
     // Toggle fullscreen
@@ -259,6 +188,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.exitFullscreen();
             }
         }
+    }
+
+    // Handle keyboard in fullscreen
+    function handleFullscreenKeyboard(e) {
+        if (!fullscreenPlayer.classList.contains('active')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                exitFullscreen();
+                e.preventDefault();
+                break;
+            case 'ArrowLeft':
+                playPreviousChannel();
+                e.preventDefault();
+                break;
+            case 'ArrowRight':
+                playNextChannel();
+                e.preventDefault();
+                break;
+            case ' ':
+                // Pause/play could be implemented here
+                e.preventDefault();
+                break;
+        }
+    }
+
+    // Play previous channel
+    function playPreviousChannel() {
+        if (currentChannelIndex <= 0) return;
+        
+        const prevChannel = channels[currentChannelIndex - 1];
+        playChannelFullscreen(prevChannel, currentChannelIndex - 1);
+    }
+
+    // Play next channel
+    function playNextChannel() {
+        if (currentChannelIndex >= channels.length - 1) return;
+        
+        const nextChannel = channels[currentChannelIndex + 1];
+        playChannelFullscreen(nextChannel, currentChannelIndex + 1);
+    }
+
+    // Open settings modal
+    function openSettings() {
+        settingsModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close settings modal
+    function closeSettings() {
+        settingsModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
     }
 
     // Show selected section
@@ -293,20 +274,21 @@ document.addEventListener('DOMContentLoaded', function() {
         channelsGrid.innerHTML = '';
         allChannelsGrid.innerHTML = '';
         
-        channels.forEach(channel => {
-            const channelCard = createChannelCard(channel);
+        channels.forEach((channel, index) => {
+            const channelCard = createChannelCard(channel, index);
             channelsGrid.appendChild(channelCard);
             
-            const fullChannelCard = createChannelCard(channel);
+            const fullChannelCard = createChannelCard(channel, index);
             allChannelsGrid.appendChild(fullChannelCard);
         });
     }
 
     // Create channel card element
-    function createChannelCard(channel) {
+    function createChannelCard(channel, index) {
         const card = document.createElement('div');
         card.className = 'channel-card';
         card.dataset.id = channel.id;
+        card.dataset.index = index;
         
         card.innerHTML = `
             <div class="channel-thumbnail">
@@ -316,52 +298,31 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="channel-title">${channel.title}</div>
         `;
         
+        // Single click for instant fullscreen play
         card.addEventListener('click', function() {
-            openChannelModal(channel);
+            playChannelFullscreen(channel, index);
         });
         
         return card;
     }
 
-    // Open channel modal
-    function openChannelModal(channel) {
+    // Play channel in fullscreen
+    function playChannelFullscreen(channel, index) {
         currentChannel = channel;
+        currentChannelIndex = index;
         
-        modalChannelTitle.textContent = channel.title;
-        modalChannelDescription.textContent = channel.description;
-        modalChannelCountry.textContent = channel.country;
-        modalChannelLanguage.textContent = channel.language;
-        modalChannelCategory.textContent = channel.category;
-        
-        // Update favorite button state
-        updateFavoriteButtons();
-        
-        // Load iframe
-        modalPlayer.innerHTML = channel.iframeCode;
-        
-        // Show modal
-        channelModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    // Close modal
-    function closeModal() {
-        channelModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-
-    // Play current channel in main player
-    function playCurrentChannel() {
-        if (!currentChannel) return;
-        
-        currentChannelTitle.textContent = currentChannel.title;
-        currentChannelDescription.textContent = currentChannel.description;
-        
-        // Load iframe
-        mainPlayer.innerHTML = currentChannel.iframeCode;
+        // Update featured channel info
+        currentChannelTitle.textContent = channel.title;
+        currentChannelDescription.textContent = channel.description;
         
         // Update favorite button state
         updateFavoriteButtons();
+        
+        // Load iframe in fullscreen container
+        fullscreenIframeContainer.innerHTML = channel.iframeCode;
+        
+        // Show notification
+        showNotification(`Reproduciendo: ${channel.title}`);
     }
 
     // Toggle favorite status for current channel
@@ -415,123 +376,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
-    // TV Mode Navigation Functions
-    function initTVNavigation() {
-        // Get all focusable elements
-        focusableElements = Array.from(document.querySelectorAll('.nav-item, .channel-card, .footer-nav-btn, .mode-option, .theme-option, .btn-play, .btn-fav, .modal-btn'));
-        
-        // Set initial focus
-        if (focusableElements.length > 0) {
-            currentFocus = focusableElements[0];
-            currentFocus.classList.add('focused');
-        }
-    }
-
-    function handleRemoteNavigation(e) {
-        if (!body.classList.contains('tv-mode')) return;
-        
-        switch (e.key) {
-            case 'ArrowUp':
-                navigate('up');
-                e.preventDefault();
-                break;
-            case 'ArrowDown':
-                navigate('down');
-                e.preventDefault();
-                break;
-            case 'ArrowLeft':
-                navigate('left');
-                e.preventDefault();
-                break;
-            case 'ArrowRight':
-                navigate('right');
-                e.preventDefault();
-                break;
-            case 'Enter':
-                if (currentFocus) {
-                    currentFocus.click();
-                    e.preventDefault();
-                }
-                break;
-            case 'Backspace':
-                if (settingsModal.classList.contains('active')) {
-                    closeSettings();
-                    e.preventDefault();
-                } else if (channelModal.classList.contains('active')) {
-                    closeModal();
-                    e.preventDefault();
-                }
-                break;
-        }
-    }
-
-    function navigate(direction) {
-        if (!currentFocus) return;
-        
-        // Remove focus from current element
-        currentFocus.classList.remove('focused');
-        
-        // Get current position
-        const currentIndex = focusableElements.indexOf(currentFocus);
-        let newIndex = currentIndex;
-        
-        // Calculate new index based on direction
-        switch (direction) {
-            case 'up':
-                newIndex = Math.max(0, currentIndex - 1);
-                break;
-            case 'down':
-                newIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
-                break;
-            case 'left':
-                newIndex = Math.max(0, currentIndex - 1);
-                break;
-            case 'right':
-                newIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
-                break;
-        }
-        
-        // Ensure new index is valid
-        if (newIndex >= 0 && newIndex < focusableElements.length) {
-            currentFocus = focusableElements[newIndex];
-            currentFocus.classList.add('focused');
-            currentFocus.focus();
-            
-            // Scroll into view if needed
-            currentFocus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        } else {
-            // If no valid new index, keep focus on current element
-            currentFocus.classList.add('focused');
-        }
-    }
-
     // Initialize the app
     initApp();
-});
-
-// Control de orientación
-function lockOrientation() {
-    if (window.screen.orientation && window.screen.orientation.lock) {
-        // Solo bloquear orientación en móviles
-        if (window.innerWidth < 768) {
-            window.screen.orientation.lock('portrait')
-                .catch(error => {
-                    console.log('Orientation lock failed: ', error);
-                });
-        }
-    }
-}
-
-// Verificar orientación al cargar y al cambiar tamaño
-window.addEventListener('load', lockOrientation);
-window.addEventListener('resize', lockOrientation);
-
-// Para dispositivos iOS que no soportan completamente screen.orientation
-window.addEventListener('orientationchange', function() {
-    if (window.innerWidth > window.innerHeight) {
-        // Mostrar mensaje si está en horizontal en móvil
-        if (window.innerWidth < 768) {
-            alert("Por favor gira tu dispositivo a modo vertical para mejor experiencia");
-        }
-    }
 });

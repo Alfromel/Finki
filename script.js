@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const contentSections = document.querySelectorAll('.content-section');
     const channelsGrid = document.getElementById('channels-grid');
     const allChannelsGrid = document.getElementById('all-channels-grid');
-    const mainPlayer = document.getElementById('main-player');
-    const currentChannelTitle = document.getElementById('current-channel-title');
-    const currentChannelDescription = document.getElementById('current-channel-description');
     const fullscreenBtn = document.getElementById('fullscreen-btn');
     const fullscreenPlayer = document.getElementById('fullscreen-player');
     const fullscreenIframeContainer = document.getElementById('fullscreen-iframe-container');
@@ -148,6 +145,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(`Error attempting to enable fullscreen: ${err.message}`);
             });
         }
+        
+        // Show notification
+        showNotification(`Reproduciendo: ${currentChannel.title} - Presiona ESC para salir`);
     }
 
     // Exit fullscreen mode
@@ -162,6 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear fullscreen iframe
         fullscreenIframeContainer.innerHTML = '';
+        
+        // Show notification
+        showNotification('Saliendo del modo pantalla completa');
     }
 
     // Toggle fullscreen
@@ -269,15 +272,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function playChannelFullscreen(channel, index) {
         currentChannel = channel;
         
-        // Update featured channel info
-        currentChannelTitle.textContent = channel.title;
-        currentChannelDescription.textContent = channel.description;
-        
         // Load iframe in fullscreen container
         fullscreenIframeContainer.innerHTML = channel.iframeCode;
-        
-        // Show notification
-        showNotification(`Reproduciendo: ${channel.title}`);
     }
 
     // Show notification

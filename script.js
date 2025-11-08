@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 1,
             title: "BOLIVIA TV",
-            thumbnail: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Bolivia_TV_logo.svg/1200px-Bolivia_TV_logo.svg.png",
+            thumbnail: "https://www.betanoticias.com/wp-content/uploads/2014/02/bolivia-tv.jpg",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="https://geo.dailymotion.com/player.html?video=x9nzqpo" style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;" allowfullscreen title="Dailymotion Video Player" allow="web-share"></iframe></div>`
         },
         {
@@ -222,3 +222,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the app
     initApp();
 });
+

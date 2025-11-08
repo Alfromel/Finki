@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const channels = [
         {
             id: 1,
+            title: "BOLIVIA TV",
+            thumbnail: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Bolivia_TV_logo.svg/1200px-Bolivia_TV_logo.svg.png",
+            iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="https://geo.dailymotion.com/player.html?video=x9nzqpo" style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;" allowfullscreen title="Dailymotion Video Player" allow="web-share"></iframe></div>`
+        },
+        {
+            id: 2,
             title: "RED UNO",
             thumbnail: "https://yt3.googleusercontent.com/Z9-5VuT1xqHWp_QJ3JvLD-PZlYQt_subNOfi-Lz-qYN75iaFP2r0oK7qclcnP4o9biLIo6qQROA=s900-c-k-c0x00ffffff-no-rj",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
@@ -27,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>`
         },
         {
-            id: 2,
+            id: 3,
             title: "UNITEL",
             thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOdEfaOkHFy6LeOzD_hgc1vDvrwDf0OPf45g&s",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
@@ -40,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>`
         },
         {
-            id: 3,
+            id: 4,
             title: "ATB",
             thumbnail: "https://play-lh.googleusercontent.com/sgL9elaLnROZ-njx1G5n7PyIcYWvaUuIsjecWtTOAY275giwquEG_J07ETmJbxfBFNaX",
             iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">

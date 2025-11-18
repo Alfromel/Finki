@@ -2,8 +2,7 @@ const CACHE_NAME = 'Finki';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/styles.css',
-  '/script.js',
+
   '/logo.png',
   '/user.jpg',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
@@ -52,3 +51,4 @@ self.addEventListener('fetch', event => {
       })
   );
 });
+

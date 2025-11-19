@@ -222,6 +222,61 @@
       border-top: 1px solid #333;
     }
 
+    /* Series Grid */
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .series-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid #333;
+      position: relative;
+    }
+
+    .series-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary-color);
+    }
+
+    .series-thumbnail {
+      position: relative;
+      height: 160px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .series-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .series-card:hover .series-thumbnail img {
+      transform: scale(1.05);
+    }
+
+    .series-title {
+      padding: 20px;
+      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      background: var(--bg-darker);
+      border-top: 1px solid #333;
+    }
+
     /* Coming Soon Sections */
     .coming-full-container {
       display: flex;
@@ -397,6 +452,11 @@
         gap: 15px;
       }
       
+      .series-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+      }
+      
       .footer-nav {
         gap: 20px;
       }
@@ -466,12 +526,15 @@
 
             <!-- Series Section -->
             <section class="content-section" id="series-section">
-                <div class="coming-full-container">
-                    <div class="coming-full-content">
-                        <i class="fas fa-tv"></i>
-                        <h2>SECCIÓN DE SERIES</h2>
-                        <p>Próximamente disfrutarás de las mejores series exclusivas</p>
-                        <span class="coming-badge">PRÓXIMAMENTE</span>
+                <div class="series-container">
+                    <h2 class="section-title">SERIES WWE</h2>
+                    <div class="series-grid" id="series-grid">
+                        <div class="series-card" data-video='<iframe width="560" height="315" src="https://www.youtube.com/embed/lvGEJ686CmE?si=kBCPgGWstXeZB_3h" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'>
+                            <div class="series-thumbnail">
+                                <img src="https://i.ytimg.com/vi/lvGEJ686CmE/maxresdefault.jpg" alt="WWE" loading="lazy">
+                            </div>
+                            <div class="series-title">WWE</div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -526,6 +589,7 @@
             const contentSections = document.querySelectorAll('.content-section');
             const channelsGrid = document.getElementById('channels-grid');
             const allChannelsGrid = document.getElementById('all-channels-grid');
+            const seriesGrid = document.getElementById('series-grid');
             const fullscreenPlayer = document.getElementById('fullscreen-player');
             const fullscreenIframeContainer = document.getElementById('fullscreen-iframe-container');
 
@@ -572,7 +636,7 @@
                 {
                     id: 5,
                     title: "BOLIVISION",
-                    thumbnail: "https://yt3.googleusercontent.com/64PF6ZPp9kjf5CWuZatRT3Gr7ox40tQOq6HazFD3FiPTeKw9McOWVr_GqUJ9blmasE96AvU6=s900-c-k-c0x00ffffff-no-rj",
+                    thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeYQh0FacSAPMVRTe99X1C4_qRL7KG0iu2zfGsHyVk46gJpkyQBPccrpnibRsFNPpBj3M&usqp=CAU",
                     iframeCode: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                         <video width="100%" height="100%" controls autoplay style="position:absolute; left:0px; top:0px;">
                             <source src="https://d2qsan2ut81n2k.cloudfront.net/live/20446f64-67d8-4100-8c4b-20a759a8e919/ts:abr.m3u8" type="application/x-mpegURL">
@@ -592,10 +656,27 @@
             function initApp() {
                 setupEventListeners();
                 renderChannels();
+                setupSeries();
                 showSection('home');
                 setupAutoFullscreen();
                 setupTVRemote();
                 setupBackButtonHandler();
+            }
+
+            // Setup series functionality
+            function setupSeries() {
+                const seriesCards = document.querySelectorAll('.series-card');
+                seriesCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        const videoCode = this.getAttribute('data-video');
+                        playVideoFullscreen(videoCode);
+                    });
+                });
+            }
+
+            // Play video in fullscreen
+            function playVideoFullscreen(videoCode) {
+                fullscreenIframeContainer.innerHTML = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">${videoCode}</div>`;
             }
 
             // Setup TV Remote functionality
@@ -882,7 +963,7 @@
                 controls.className = 'tv-controls-overlay';
                 controls.innerHTML = `
                     <div class="tv-controls-info">
-                        <div class="current-channel">${currentChannel.title}</div>
+                        <div class="current-channel">${currentChannel ? currentChannel.title : 'Serie WWE'}</div>
                         <div class="tv-instructions">
                             ← → Cambiar canal | ESC Salir | 1-${channels.length} Canal directo
                         </div>

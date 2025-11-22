@@ -55,10 +55,100 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* Splash Screen */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .splash-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .splash-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0.7) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .splash-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .splash-subtitle {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2rem;
+      color: var(--text-gray);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .splash-progress {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .splash-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      border-radius: 2px;
+      transition: width 5s linear;
+    }
+
+    /* App Container */
     .app-container {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .app-container.loaded {
+      opacity: 1;
     }
 
     /* Header Styles */
@@ -659,6 +749,14 @@
         width: 100%;
         height: 100%;
       }
+
+      .splash-logo {
+        font-size: 3.5rem;
+      }
+
+      .splash-subtitle {
+        font-size: 1rem;
+      }
     }
 
     @media (max-width: 480px) {
@@ -687,6 +785,14 @@
       
       .main-content {
         padding: 15px;
+      }
+
+      .splash-logo {
+        font-size: 2.5rem;
+      }
+
+      .splash-subtitle {
+        font-size: 0.9rem;
       }
     }
 
@@ -718,13 +824,30 @@
   </style>
 </head>
 <body class="tv-mode">
-    <div class="app-container">
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splash-screen">
+      <video class="splash-video" autoplay muted loop>
+        <!-- Reemplaza esta URL con tu video de fondo -->
+        <source src="video/inicio.mp4" type="video/mp4">
+      
+      </video>
+      <div class="splash-overlay">
+        <div class="splash-logo">GC</div>
+        <div class="splash-subtitle">Finki</div>
+        <div class="splash-progress">
+          <div class="splash-progress-bar" id="splash-progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Container -->
+    <div class="app-container" id="app-container">
         <!-- App Header -->
         <header class="app-header">
             <div class="header-left">
                 <div class="logo-container">
-                    <div class="logo">F</div>
-                    <span class="logo-text">Finki TV</span>
+                    <div class="logo">GC</div>
+                    <span class="logo-text">Finki</span>
                 </div>
             </div>
             <div class="header-right">
@@ -741,7 +864,7 @@
             <!-- Home Section -->
             <section class="content-section active" id="home-section">
                 <div class="channels-container">
-                    <h2 class="section-title">CANALES EN VIVO</h2>
+                    <h2 class=""></h2>
                     <div class="channels-grid" id="channels-grid">
                         <!-- Channels will be loaded here -->
                     </div>
@@ -831,6 +954,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Splash Screen Elements
+            const splashScreen = document.getElementById('splash-screen');
+            const splashProgress = document.getElementById('splash-progress');
+            const appContainer = document.getElementById('app-container');
+
+            // Show splash screen and start progress
+            splashProgress.style.width = '100%';
+            
+            setTimeout(function() {
+                splashScreen.style.opacity = '0';
+                setTimeout(function() {
+                    splashScreen.style.display = 'none';
+                    appContainer.classList.add('loaded');
+                }, 500);
+            }, 5000); // 5 seconds
+
             // DOM Elements
             const body = document.body;
             const settingsBtn = document.getElementById('settings-btn');
@@ -1285,8 +1424,8 @@
                 fullscreenIframeContainer.innerHTML = channel.iframeCode;
             }
 
-            // Initialize the app
-            initApp();
+            // Initialize the app after splash screen
+            setTimeout(initApp, 5000);
         });
     </script>
 </body>

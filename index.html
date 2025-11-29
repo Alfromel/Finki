@@ -425,53 +425,61 @@
       border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* Coming Soon Sections */
-    .coming-full-container {
+    /* Movies Grid */
+    .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .movie-card {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      box-shadow: var(--shadow-light);
+    }
+
+    .movie-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
+    }
+
+    .movie-thumbnail {
+      position: relative;
+      height: 160px;
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 60vh;
+      overflow: hidden;
     }
 
-    .coming-full-content {
+    .movie-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .movie-card:hover .movie-thumbnail img {
+      transform: scale(1.05);
+    }
+
+    .movie-title {
+      padding: 20px;
+      font-weight: 600;
       text-align: center;
-      max-width: 500px;
-      padding: 40px;
-      background: var(--bg-card);
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-    }
-
-    .coming-full-content i {
-      font-size: 80px;
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 20px;
-    }
-
-    .coming-full-content h2 {
-      font-size: 28px;
-      margin-bottom: 15px;
-      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .coming-full-content p {
-      color: var(--text-gray);
-      margin-bottom: 20px;
-    }
-
-    .coming-badge {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: var(--shadow-light);
+      font-size: 16px;
+      background: var(--bg-darker);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     /* Footer */
@@ -573,6 +581,30 @@
     }
 
     .series-fullscreen-player iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Movies Fullscreen Player */
+    .movies-fullscreen-player {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 2000;
+      display: none;
+    }
+
+    .movies-fullscreen-player.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .movies-fullscreen-player iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -705,10 +737,122 @@
       font-weight: bold;
     }
 
+    /* Series Selection Modal */
+    .series-selection-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1500;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .series-selection-modal.active {
+      display: flex;
+    }
+
+    .series-modal-content {
+      background: var(--bg-card);
+      border-radius: 15px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0, 102, 255, 0.3);
+    }
+
+    .series-modal-header {
+      padding: 20px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .series-modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--text-gray);
+      font-size: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .close-modal:hover {
+      color: var(--primary-color);
+    }
+
+    .series-modal-body {
+      padding: 25px;
+    }
+
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .episode-card {
+      background: var(--bg-darker);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .episode-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-light);
+      border-color: rgba(0, 102, 255, 0.3);
+    }
+
+    .episode-thumbnail {
+      position: relative;
+      height: 120px;
+      overflow: hidden;
+    }
+
+    .episode-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .episode-info {
+      padding: 15px;
+    }
+
+    .episode-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .episode-duration {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
     /* Focus styles for TV navigation */
     .channel-card:focus,
     .series-card:focus,
-    .footer-nav-btn:focus {
+    .footer-nav-btn:focus,
+    .episode-card:focus,
+    .movie-card:focus {
       outline: 2px solid var(--primary-color);
       outline-offset: 2px;
     }
@@ -733,6 +877,11 @@
         gap: 15px;
       }
       
+      .movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+      }
+      
       .footer-nav {
         gap: 20px;
       }
@@ -745,7 +894,8 @@
         font-size: 24px;
       }
 
-      .series-fullscreen-player iframe {
+      .series-fullscreen-player iframe,
+      .movies-fullscreen-player iframe {
         width: 100%;
         height: 100%;
       }
@@ -757,6 +907,10 @@
       .splash-subtitle {
         font-size: 1rem;
       }
+
+      .episodes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
     }
 
     @media (max-width: 480px) {
@@ -766,6 +920,11 @@
       }
       
       .series-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      
+      .movies-grid {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 12px;
       }
@@ -794,17 +953,23 @@
       .splash-subtitle {
         font-size: 0.9rem;
       }
+
+      .episodes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
     }
 
     /* TV Box specific styles */
     @media (min-width: 1024px) and (min-height: 600px) {
       .channel-card,
-      .series-card {
+      .series-card,
+      .movie-card {
         min-height: 220px;
       }
       
       .channel-thumbnail,
-      .series-thumbnail {
+      .series-thumbnail,
+      .movie-thumbnail {
         height: 180px;
       }
       
@@ -883,12 +1048,10 @@
 
             <!-- Movies Section -->
             <section class="content-section" id="movies-section">
-                <div class="coming-full-container">
-                    <div class="coming-full-content">
-                        <i class="fas fa-film"></i>
-                        <h2>SECCIÓN DE PELÍCULAS</h2>
-                        <p>Estamos trabajando para traerte el mejor catálogo de películas</p>
-                        <span class="coming-badge">PRÓXIMAMENTE</span>
+                <div class="movies-container">
+                    <h2 class="section-title">NUESTRAS PELÍCULAS</h2>
+                    <div class="movies-grid" id="movies-grid">
+                        <!-- Movies will be loaded here -->
                     </div>
                 </div>
             </section>
@@ -896,56 +1059,9 @@
             <!-- Series Section -->
             <section class="content-section" id="series-section">
                 <div class="series-container">
-                    <h2 class="section-title">HÉROES DE GUARDIA</h2>
+                    <h2 class="section-title">NUESTRAS SERIES</h2>
                     <div class="series-grid" id="series-grid">
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445488266?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 1" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 1</div>
-                        </div>
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445553802?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 2" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 2</div>
-                        </div>
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445619338?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 3" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 3</div>
-                        </div>
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445684874?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 4" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 4</div>
-                        </div>
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445750410?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 5" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 5</div>
-                        </div>
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445815946?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 6" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 6</div>
-                        </div>
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445947018?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 7" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 7</div>
-                        </div>
-                        <div class="series-card" data-video='https://ok.ru/videoembed/9067445881482?autoplay=1'>
-                            <div class="series-thumbnail">
-                                <img src="https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad" alt="Héroes de Guardia Episodio 8" loading="lazy">
-                            </div>
-                            <div class="series-title">Episodio 8</div>
-                        </div>
+                        <!-- Series will be loaded here -->
                     </div>
                 </div>
             </section>
@@ -982,6 +1098,28 @@
     <!-- Fullscreen Player for Series -->
     <div class="series-fullscreen-player" id="series-fullscreen-player">
         <iframe id="series-iframe" allowfullscreen allow="autoplay"></iframe>
+    </div>
+
+    <!-- Fullscreen Player for Movies -->
+    <div class="movies-fullscreen-player" id="movies-fullscreen-player">
+        <iframe id="movies-iframe" allowfullscreen allow="autoplay"></iframe>
+    </div>
+
+    <!-- Series Selection Modal -->
+    <div class="series-selection-modal" id="series-selection-modal">
+        <div class="series-modal-content">
+            <div class="series-modal-header">
+                <h2 class="series-modal-title" id="series-modal-title">Seleccionar Episodio</h2>
+                <button class="close-modal" id="close-series-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="series-modal-body">
+                <div class="episodes-grid" id="episodes-grid">
+                    <!-- Episodes will be loaded here -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Settings Modal -->
@@ -1022,10 +1160,17 @@
             const channelsGrid = document.getElementById('channels-grid');
             const allChannelsGrid = document.getElementById('all-channels-grid');
             const seriesGrid = document.getElementById('series-grid');
+            const moviesGrid = document.getElementById('movies-grid');
             const fullscreenPlayer = document.getElementById('fullscreen-player');
             const seriesFullscreenPlayer = document.getElementById('series-fullscreen-player');
+            const moviesFullscreenPlayer = document.getElementById('movies-fullscreen-player');
             const fullscreenIframeContainer = document.getElementById('fullscreen-iframe-container');
             const seriesIframe = document.getElementById('series-iframe');
+            const moviesIframe = document.getElementById('movies-iframe');
+            const seriesSelectionModal = document.getElementById('series-selection-modal');
+            const closeSeriesModalBtn = document.getElementById('close-series-modal');
+            const episodesGrid = document.getElementById('episodes-grid');
+            const seriesModalTitle = document.getElementById('series-modal-title');
 
             // Channel data
             const channels = [
@@ -1079,33 +1224,346 @@
                     </div>`
                 }
             ];
+
+            // Series data
+            const series = [
+                {
+                    id: 1,
+                    title: "HÉROES DE GUARDIA",
+                    thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                    episodes: [
+                        {
+                            id: 1,
+                            title: "Episodio 1",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445488266?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 2,
+                            title: "Episodio 2",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445553802?autoplay=1",
+                            duration: "42 min"
+                        },
+                        {
+                            id: 3,
+                            title: "Episodio 3",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445619338?autoplay=1",
+                            duration: "48 min"
+                        },
+                        {
+                            id: 4,
+                            title: "Episodio 4",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445684874?autoplay=1",
+                            duration: "44 min"
+                        },
+                        {
+                            id: 5,
+                            title: "Episodio 5",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445750410?autoplay=1",
+                            duration: "46 min"
+                        },
+                        {
+                            id: 6,
+                            title: "Episodio 6",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445815946?autoplay=1",
+                            duration: "43 min"
+                        },
+                        {
+                            id: 7,
+                            title: "Episodio 7",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445947018?autoplay=1",
+                            duration: "47 min"
+                        },
+                        {
+                            id: 8,
+                            title: "Episodio 8",
+                            thumbnail: "https://occ-0-8407-2219.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTMz1tiwU9LLJ6ooPQ9AB5RxrGGwtnJue2ebQei9SK-ZO3TneKyCUo0hwPjG5eQgfN4LIxJE60HVN_tcD1xNn9yXGPzoWl8def4v.jpg?r=aad",
+                            videoUrl: "https://ok.ru/videoembed/9067445881482?autoplay=1",
+                            duration: "45 min"
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "NUEVA SERIE PRÓXIMAMENTE",
+                    thumbnail: "https://via.placeholder.com/300x450/1a1a1a/0066ff?text=PRÓXIMAMENTE",
+                    episodes: [
+                        {
+                            id: 1,
+                            title: "Próximamente",
+                            thumbnail: "https://via.placeholder.com/300x169/1a1a1a/0066ff?text=PRÓXIMAMENTE",
+                            videoUrl: "",
+                            duration: "0 min"
+                        }
+                    ]
+                }
+            ];
+
+            // Movies data
+            const movies = [
+                {
+                    id: 1,
+                    title: "RÁPIDOS Y FURIOSOS 9",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BNWEwNWExNWUtODI1OC00NzYzLTk4ZTctYmY4ZTBjMWQzMjMwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-xw7dqyzcna5q.html?autoplay=1"
+                },
+                {
+                    id: 2,
+                    title: "AVENGERS END GAME",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg",
+                    videoUrl: "https://uqload.cx/embed-75c7sw2fsagw.html?autoplay=1"
+                },
+                {
+                    id: 3,
+                    title: "VENOM CARNAGE LIBERADO",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BZGIxMTU1MjItM2FmMi00YmFiLTgwNDMtMTczYmVjYTBhNGZhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-ob5wdepjw1d0.html?autoplay=1"
+                },
+                {
+                    id: 4,
+                    title: "SPIDER-MAN: SIN CAMINO A CASA",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-u8idsdvpu36j.html?autoplay=1"
+                },
+                {
+                    id: 5,
+                    title: "WAKANDA POR SIEMPRE",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BNTM4NjIxNmEtYWE5NS00NDczLTkyNWQtYThhNmQyZGQzMjM0XkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-61l7edc11g62.html?autoplay=1"
+                },
+                {
+                    id: 6,
+                    title: "MATRIX 4 RESURRECTIONS",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMGJkNDJlZWUtOGM1Ny00YjNkLThiM2QtY2ZjMzQxMTIxNWNmXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-be73469boh82.html?autoplay=1"
+                },
+                {
+                    id: 7,
+                    title: "THE GANGSTER, THE COP, THE DEVIL",
+                    thumbnail: "https://upload.wikimedia.org/wikipedia/en/b/bf/The_Gangster%2C_The_Cop%2C_The_Devil.jpg",
+                    videoUrl: "https://uqload.cx/embed-1wed352375g2.html?autoplay=1"
+                },
+                {
+                    id: 8,
+                    title: "ELEMENTAL",
+                    thumbnail: "https://sm.ign.com/ign_es/cover/e/elemental/elemental_h9du.jpg",
+                    videoUrl: "https://uqload.cx/embed-5sxll7p0ymc3.html?autoplay=1"
+                },
+                {
+                    id: 9,
+                    title: "ALADDIN",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMjQ2ODIyMjY4MF5BMl5BanBnXkFtZTgwNzY4ODI2NzM@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-0dplpylc0r9u.html?autoplay=1"
+                },
+                {
+                    id: 10,
+                    title: "A TRAVÉS DEL SPIDER-VERSO",
+                    thumbnail: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEia4Y_N5sgVF1qS1ravvd_rcrfI2wBGWxMIDaAKM5SyIshxqmIMzqHj-rxGtGs9VfN-rUY5fIQRhwYEauRZ1_GpoQD1w0k01Lpyv8vQ-njKr309acsGO2B1ZcqBpbWqjr3mrre6HEA5Bl8jv5K-RSiiAqQjmvIhnu-E1Vrxzc_QTIhP871yttGXTV0e/w1200-h630-p-k-no-nu/Spider-ManAcrossTheSpiderVerse.jpg",
+                    videoUrl: "https://uqload.cx/embed-712lyiwhwuyy.html?autoplay=1"
+                },
+                {
+                    id: 11,
+                    title: "EL ÚLTIMO DESEO",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BN2VjN2M2MjAtMDNhYS00NzA0LWIxNDctODU1MzZlZTA1YjJmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-996gzqzpg3a3.html?autoplay=1"
+                },
+                {
+                    id: 12,
+                    title: "LAS AVENTURAS DE BUCK",
+                    thumbnail: "https://pics.filmaffinity.com/Ice_Age_Las_aventuras_de_Buck-115600317-large.jpg",
+                    videoUrl: "https://uqload.cx/embed-kkzydjd4tz7x.html?autoplay=1"
+                },
+                {
+                    id: 13,
+                    title: "DRAGON BALL SUPER: BROLY",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMjhhMDU5Y2QtMzcyZS00ZGE1LTg3ZjMtMTYyOTM0OTFlYTRkXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-nx2z1niy60gg.html?autoplay=1"
+                },
+                {
+                    id: 14,
+                    title: "KUNG FU PANDA",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BODJkZTZhMWItMDI3Yy00ZWZlLTk4NjQtOTI1ZjU5NjBjZTVjXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-wkis2gwhffuv.html?autoplay=1"
+                },
+                {
+                    id: 15,
+                    title: "EL GRINCH",
+                    thumbnail: "https://australianlatam.com/wp-content/uploads/2022/11/el-Grinch-2-683x1024.jpg",
+                    videoUrl: "https://uqload.cx/embed-ynsua0cb71nz.html?autoplay=1"
+                },
+                {
+                    id: 16,
+                    title: "COCO",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BYjQ5NjM0Y2YtNjZkNC00ZDhkLWJjMWItN2QyNzFkMDE3ZjAxXkEyXkFqcGdeQXVyODIxMzk5NjA@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://uqload.cx/embed-zo0gzfzu5pa3.html?autoplay=1"
+                }
+            ];
             
             // Current playing channel
             let currentChannel = null;
             let isFullscreen = false;
             let currentChannelIndex = 0;
             let tvRemoteEnabled = false;
+            let currentSeries = null;
 
             // Initialize the app
             function initApp() {
                 setupEventListeners();
                 renderChannels();
-                setupSeries();
+                renderSeries();
+                renderMovies();
                 showSection('home');
                 setupAutoFullscreen();
                 setupTVRemote();
                 setupBackButtonHandler();
             }
 
-            // Setup series functionality
-            function setupSeries() {
-                const seriesCards = document.querySelectorAll('.series-card');
-                seriesCards.forEach(card => {
-                    card.addEventListener('click', function() {
-                        const videoUrl = this.getAttribute('data-video');
-                        playSeriesFullscreen(videoUrl);
-                    });
+            // Render movies to the grid
+            function renderMovies() {
+                moviesGrid.innerHTML = '';
+                
+                movies.forEach((movie, index) => {
+                    const movieCard = createMovieCard(movie, index);
+                    moviesGrid.appendChild(movieCard);
                 });
+            }
+
+            // Create movie card element
+            function createMovieCard(movie, index) {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.dataset.id = movie.id;
+                
+                card.innerHTML = `
+                    <div class="movie-thumbnail">
+                        <img src="${movie.thumbnail}" alt="${movie.title}" loading="lazy">
+                    </div>
+                    <div class="movie-title">${movie.title}</div>
+                `;
+                
+                card.addEventListener('click', function() {
+                    playMovieFullscreen(movie);
+                });
+                
+                return card;
+            }
+
+            // Play movie in fullscreen
+            function playMovieFullscreen(movie) {
+                moviesIframe.src = movie.videoUrl;
+                moviesFullscreenPlayer.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Entrar automáticamente en pantalla completa
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.log('Fullscreen error:', err);
+                    });
+                }
+                
+                // Forzar el sonido (esto depende de las políticas del navegador)
+                setTimeout(() => {
+                    try {
+                        moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
+                    } catch(e) {
+                        console.log('No se pudo forzar reproducción automática');
+                    }
+                }, 1000);
+            }
+
+            // Exit movie fullscreen
+            function exitMovieFullscreen() {
+                moviesFullscreenPlayer.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                moviesIframe.src = '';
+                
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            }
+
+            // Render series to the grid
+            function renderSeries() {
+                seriesGrid.innerHTML = '';
+                
+                series.forEach((serie, index) => {
+                    const seriesCard = createSeriesCard(serie, index);
+                    seriesGrid.appendChild(seriesCard);
+                });
+            }
+
+            // Create series card element
+            function createSeriesCard(serie, index) {
+                const card = document.createElement('div');
+                card.className = 'series-card';
+                card.dataset.id = serie.id;
+                
+                card.innerHTML = `
+                    <div class="series-thumbnail">
+                        <img src="${serie.thumbnail}" alt="${serie.title}" loading="lazy">
+                    </div>
+                    <div class="series-title">${serie.title}</div>
+                `;
+                
+                card.addEventListener('click', function() {
+                    openSeriesSelection(serie);
+                });
+                
+                return card;
+            }
+
+            // Open series selection modal
+            function openSeriesSelection(serie) {
+                currentSeries = serie;
+                seriesModalTitle.textContent = serie.title;
+                episodesGrid.innerHTML = '';
+                
+                serie.episodes.forEach(episode => {
+                    const episodeCard = createEpisodeCard(episode);
+                    episodesGrid.appendChild(episodeCard);
+                });
+                
+                seriesSelectionModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Create episode card element
+            function createEpisodeCard(episode) {
+                const card = document.createElement('div');
+                card.className = 'episode-card';
+                card.dataset.id = episode.id;
+                
+                card.innerHTML = `
+                    <div class="episode-thumbnail">
+                        <img src="${episode.thumbnail}" alt="${episode.title}" loading="lazy">
+                    </div>
+                    <div class="episode-info">
+                        <div class="episode-title">${episode.title}</div>
+                        <div class="episode-duration">${episode.duration}</div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', function() {
+                    if (episode.videoUrl) {
+                        playSeriesFullscreen(episode.videoUrl);
+                        closeSeriesSelection();
+                    }
+                });
+                
+                return card;
+            }
+
+            // Close series selection modal
+            function closeSeriesSelection() {
+                seriesSelectionModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
             }
 
             // Play series in fullscreen
@@ -1163,6 +1621,16 @@
                         event.preventDefault();
                         window.history.pushState(null, null, window.location.href);
                     }
+                    if (moviesFullscreenPlayer.classList.contains('active')) {
+                        exitMovieFullscreen();
+                        event.preventDefault();
+                        window.history.pushState(null, null, window.location.href);
+                    }
+                    if (seriesSelectionModal.classList.contains('active')) {
+                        closeSeriesSelection();
+                        event.preventDefault();
+                        window.history.pushState(null, null, window.location.href);
+                    }
                 });
 
                 window.history.pushState(null, null, window.location.href);
@@ -1172,6 +1640,7 @@
             function setupEventListeners() {
                 settingsBtn.addEventListener('click', openSettings);
                 closeSettingsBtn.addEventListener('click', closeSettings);
+                closeSeriesModalBtn.addEventListener('click', closeSeriesSelection);
                 
                 footerNavBtns.forEach(btn => {
                     btn.addEventListener('click', function() {
@@ -1190,6 +1659,16 @@
 
                 // Series fullscreen close on click
                 seriesFullscreenPlayer.addEventListener('click', exitSeriesFullscreen);
+                
+                // Movies fullscreen close on click
+                moviesFullscreenPlayer.addEventListener('click', exitMovieFullscreen);
+                
+                // Close series selection modal when clicking outside
+                seriesSelectionModal.addEventListener('click', function(e) {
+                    if (e.target === seriesSelectionModal) {
+                        closeSeriesSelection();
+                    }
+                });
             }
 
             // Touch controls para cambiar canales
@@ -1262,6 +1741,16 @@
                 } else if (seriesFullscreenPlayer.classList.contains('active')) {
                     if (e.key === 'Escape' || e.key === 'Backspace') {
                         exitSeriesFullscreen();
+                        e.preventDefault();
+                    }
+                } else if (moviesFullscreenPlayer.classList.contains('active')) {
+                    if (e.key === 'Escape' || e.key === 'Backspace') {
+                        exitMovieFullscreen();
+                        e.preventDefault();
+                    }
+                } else if (seriesSelectionModal.classList.contains('active')) {
+                    if (e.key === 'Escape' || e.key === 'Backspace') {
+                        closeSeriesSelection();
                         e.preventDefault();
                     }
                 }

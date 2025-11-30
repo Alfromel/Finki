@@ -1665,45 +1665,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Detectar tipo de dispositivo por píxeles
+            // Detectar tipo de dispositivo por relación de aspecto
             function detectDeviceType() {
                 const width = window.innerWidth;
                 const height = window.innerHeight;
                 
-                // Si el ancho es mayor a 1024px y la relación de aspecto es mayor a 1.3 (orientación horizontal)
-                // consideramos que es una TV
-                const isTV = width > 1024 && (width / height) > 1.3;
+                // Si el ancho es mayor que el alto = TV (pantalla horizontal)
+                // Si el alto es mayor que el ancho = Móvil (pantalla vertical)
+                const isTV = width > height;
                 
                 return isTV ? 'tv' : 'mobile';
-            }
-
-            // Ajustar tamaño de pantalla para que sea preciso
-            function adjustScreenSize() {
-                const deviceType = detectDeviceType();
-                
-                if (deviceType === 'tv') {
-                    // Para TV, forzar el tamaño completo de la pantalla
-                    document.body.style.width = '100vw';
-                    document.body.style.height = '100vh';
-                    document.body.style.overflow = 'hidden';
-                    
-                    const tvLayout = document.getElementById('tv-layout');
-                    tvLayout.style.width = '100vw';
-                    tvLayout.style.height = '100vh';
-                } else {
-                    // Para móvil, usar viewport normal
-                    document.body.style.width = '100%';
-                    document.body.style.height = 'auto';
-                    document.body.style.overflow = 'auto';
-                }
             }
 
             // Inicializar diseño según el tipo de dispositivo
             function initializeLayout() {
                 const deviceType = detectDeviceType();
-                
-                // Ajustar tamaño de pantalla primero
-                adjustScreenSize();
                 
                 if (deviceType === 'tv') {
                     document.getElementById('tv-layout').style.display = 'block';
@@ -1928,8 +1904,127 @@
                 },
                 {
                     id: 2,
+                    title: "W DOS MUNDOS",
+                    thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                    episodes: [
+                        {
+                            id: 1,
+                            title: "Episodio 1",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882994555634?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 2,
+                            title: "Episodio 2",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882994490098?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 3,
+                            title: "Episodio 3",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882994686706?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 4,
+                            title: "Episodio 4",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882994621170?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 5,
+                            title: "Episodio 5",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882994883314?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 6,
+                            title: "Episodio 6",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://video.doramedplay.net/videos/embed/vESp1Yd6mR5ft7UT2hbSZ6?title=0&warningTitle=0&peertubeLink=0&autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 7,
+                            title: "Episodio 7",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882994752242?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 8,
+                            title: "Episodio 8",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995014386?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 9,
+                            title: "Episodio 9",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882994948850?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 10,
+                            title: "Episodio 10",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995604210?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 11,
+                            title: "Episodio 11",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995866354?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 12,
+                            title: "Episodio 12",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995669746?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 13,
+                            title: "Episodio 13",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995735282?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 14,
+                            title: "Episodio 14",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995473138?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 15,
+                            title: "Episodio 15",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995538674?autoplay=1",
+                            duration: "45 min"
+                        },
+                        {
+                            id: 16,
+                            title: "Episodio 16",
+                            thumbnail: "https://images.justwatch.com/poster/306331992/s718/w-dos-mundos-w-two-worlds.jpg",
+                            videoUrl: "https://ok.ru/videoembed/6882995800818?autoplay=1",
+                            duration: "45 min"
+                        }
+                    ]
+                },
+                {
+                    id: 3,
                     title: "NUEVA SERIE PRÓXIMAMENTE",
-                    thumbnail: "https://pics.filmaffinity.com/it_welcome_to_derry-327973676-mmed.jpg",
+                    thumbnail: "https://resizing.flixster.com/keD72b6iJJOE8Y1FVV6xUwC3tLk=/fit-in/705x460/v2/https://resizing.flixster.com/8GGzzrT3CqBy0r1vb0dd2bKqSoY=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvOGEyMzAyY2QtNzUwZC00Y2JlLWIyNTEtZTYyNjAzNjcwNjM5LmpwZw==",
                     episodes: [
                         {
                             id: 1,

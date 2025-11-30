@@ -571,8 +571,15 @@
     }
 
     /* ========== DISEÑO TV ========== */
+    .tv-layout {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
     .tv-layout .app-container {
-      min-height: 100vh;
+      width: 100%;
+      height: 100%;
       display: flex;
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -638,6 +645,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      height: 100%;
     }
 
     /* Header Styles */
@@ -726,11 +734,13 @@
       flex: 1;
       padding: 30px;
       overflow-y: auto;
+      height: calc(100% - 80px);
     }
 
     .tv-layout .content-section {
       display: none;
       animation: fadeIn 0.5s ease;
+      height: 100%;
     }
 
     .tv-layout .content-section.active {
@@ -925,7 +935,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 60vh;
+      height: 100%;
     }
 
     .tv-layout .coming-full-content {
@@ -1655,17 +1665,45 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Detectar tipo de dispositivo
+            // Detectar tipo de dispositivo por píxeles
             function detectDeviceType() {
-                const isTV = window.matchMedia('(min-width: 1024px) and (min-height: 600px) and (orientation: landscape)').matches;
-                const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window);
+                const width = window.innerWidth;
+                const height = window.innerHeight;
                 
-                return isTV && !isMobile ? 'tv' : 'mobile';
+                // Si el ancho es mayor a 1024px y la relación de aspecto es mayor a 1.3 (orientación horizontal)
+                // consideramos que es una TV
+                const isTV = width > 1024 && (width / height) > 1.3;
+                
+                return isTV ? 'tv' : 'mobile';
+            }
+
+            // Ajustar tamaño de pantalla para que sea preciso
+            function adjustScreenSize() {
+                const deviceType = detectDeviceType();
+                
+                if (deviceType === 'tv') {
+                    // Para TV, forzar el tamaño completo de la pantalla
+                    document.body.style.width = '100vw';
+                    document.body.style.height = '100vh';
+                    document.body.style.overflow = 'hidden';
+                    
+                    const tvLayout = document.getElementById('tv-layout');
+                    tvLayout.style.width = '100vw';
+                    tvLayout.style.height = '100vh';
+                } else {
+                    // Para móvil, usar viewport normal
+                    document.body.style.width = '100%';
+                    document.body.style.height = 'auto';
+                    document.body.style.overflow = 'auto';
+                }
             }
 
             // Inicializar diseño según el tipo de dispositivo
             function initializeLayout() {
                 const deviceType = detectDeviceType();
+                
+                // Ajustar tamaño de pantalla primero
+                adjustScreenSize();
                 
                 if (deviceType === 'tv') {
                     document.getElementById('tv-layout').style.display = 'block';

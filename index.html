@@ -36,7 +36,7 @@
       --text-muted: #888888;
       --shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
       --shadow-light: 0 2px 8px rgba(0, 102, 255, 0.2);
-      --border-radius: 12px;
+      --border-radius: 8px;
       --transition: all 0.3s ease;
     }
 
@@ -53,6 +53,32 @@
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Snowflakes */
+    .snowflakes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: #fff;
+      font-size: 1em;
+      opacity: 0.7;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+      }
     }
 
     /* Splash Screen */
@@ -237,7 +263,7 @@
     /* Main Content */
     .main-content {
       flex: 1;
-      padding: 30px;
+      padding: 20px;
     }
 
     .content-section {
@@ -257,14 +283,13 @@
     .section-title {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 28px;
-      margin-bottom: 25px;
+      font-size: 24px;
+      margin-bottom: 20px;
       background: linear-gradient(to right, var(--primary-color), var(--accent-color));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
       letter-spacing: 1px;
-      text-align: center;
       position: relative;
     }
 
@@ -272,9 +297,8 @@
       content: '';
       position: absolute;
       bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
+      left: 0;
+      width: 60px;
       height: 3px;
       background: linear-gradient(to right, var(--primary-color), var(--accent-color));
       border-radius: 2px;
@@ -283,8 +307,8 @@
     /* Channels Grid */
     .channels-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 15px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -298,18 +322,20 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
+      aspect-ratio: 16/9;
     }
 
-    .channel-card:hover {
-      transform: translateY(-8px);
+    .channel-card:hover, .channel-card.focused {
+      transform: translateY(-5px) scale(1.05);
       box-shadow: var(--shadow);
       background: var(--bg-card-hover);
       border-color: rgba(0, 102, 255, 0.3);
+      z-index: 10;
     }
 
     .channel-thumbnail {
       position: relative;
-      height: 160px;
+      height: 100%;
       background: #000;
       display: flex;
       align-items: center;
@@ -324,19 +350,19 @@
       transition: transform 0.3s;
     }
 
-    .channel-card:hover .channel-thumbnail img {
+    .channel-card:hover .channel-thumbnail img, .channel-card.focused .channel-thumbnail img {
       transform: scale(1.05);
     }
 
     .channel-live-badge {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 8px;
+      right: 8px;
       background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
       color: white;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 12px;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -345,34 +371,38 @@
 
     .channel-number {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 8px;
+      left: 8px;
       background: rgba(0, 0, 0, 0.7);
       color: white;
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .channel-title {
-      padding: 20px;
-      font-weight: 600;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      font-weight: 500;
       text-align: center;
-      font-size: 16px;
-      background: var(--bg-darker);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
     }
 
     /* Series Grid */
     .series-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 15px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -386,18 +416,20 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
+      aspect-ratio: 2/3;
     }
 
-    .series-card:hover {
-      transform: translateY(-8px);
+    .series-card:hover, .series-card.focused {
+      transform: translateY(-5px) scale(1.05);
       box-shadow: var(--shadow);
       background: var(--bg-card-hover);
       border-color: rgba(0, 102, 255, 0.3);
+      z-index: 10;
     }
 
     .series-thumbnail {
       position: relative;
-      height: 160px;
+      height: 100%;
       background: #000;
       display: flex;
       align-items: center;
@@ -412,74 +444,70 @@
       transition: transform 0.3s;
     }
 
-    .series-card:hover .series-thumbnail img {
+    .series-card:hover .series-thumbnail img, .series-card.focused .series-thumbnail img {
       transform: scale(1.05);
     }
 
     .series-title {
-      padding: 20px;
-      font-weight: 600;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      font-weight: 500;
       text-align: center;
-      font-size: 16px;
-      background: var(--bg-darker);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
     }
 
-    /* Movies Grid */
-    .movies-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 25px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .movie-card {
-      background: var(--bg-card);
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      position: relative;
-      box-shadow: var(--shadow-light);
-    }
-
-    .movie-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow);
-      background: var(--bg-card-hover);
-      border-color: rgba(0, 102, 255, 0.3);
-    }
-
-    .movie-thumbnail {
-      position: relative;
-      height: 160px;
-      background: #000;
+    /* Coming Soon Sections */
+    .coming-full-container {
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      height: 60vh;
     }
 
-    .movie-thumbnail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s;
-    }
-
-    .movie-card:hover .movie-thumbnail img {
-      transform: scale(1.05);
-    }
-
-    .movie-title {
-      padding: 20px;
-      font-weight: 600;
+    .coming-full-content {
       text-align: center;
-      font-size: 16px;
-      background: var(--bg-darker);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      max-width: 500px;
+      padding: 40px;
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .coming-full-content i {
+      font-size: 80px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    .coming-full-content h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .coming-full-content p {
+      color: var(--text-gray);
+      margin-bottom: 20px;
+    }
+
+    .coming-badge {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow-light);
     }
 
     /* Footer */
@@ -526,12 +554,12 @@
       transition: var(--transition);
     }
 
-    .footer-nav-btn.active {
+    .footer-nav-btn.active, .footer-nav-btn.focused {
       color: var(--primary-color);
       background: rgba(0, 102, 255, 0.1);
     }
 
-    .footer-nav-btn.active i {
+    .footer-nav-btn.active i, .footer-nav-btn.focused i {
       transform: translateY(-2px);
     }
 
@@ -581,30 +609,6 @@
     }
 
     .series-fullscreen-player iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Movies Fullscreen Player */
-    .movies-fullscreen-player {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      z-index: 2000;
-      display: none;
-    }
-
-    .movies-fullscreen-player.active {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .movies-fullscreen-player iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -666,7 +670,7 @@
       box-shadow: var(--shadow-light);
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover, .btn-primary.focused {
       transform: translateY(-2px);
       box-shadow: var(--shadow);
     }
@@ -791,7 +795,7 @@
       transition: var(--transition);
     }
 
-    .close-modal:hover {
+    .close-modal:hover, .close-modal.focused {
       color: var(--primary-color);
     }
 
@@ -801,7 +805,7 @@
 
     .episodes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 15px;
     }
 
@@ -812,9 +816,10 @@
       cursor: pointer;
       transition: var(--transition);
       border: 1px solid rgba(255, 255, 255, 0.05);
+      aspect-ratio: 16/9;
     }
 
-    .episode-card:hover {
+    .episode-card:hover, .episode-card.focused {
       transform: translateY(-5px);
       box-shadow: var(--shadow-light);
       border-color: rgba(0, 102, 255, 0.3);
@@ -822,7 +827,7 @@
 
     .episode-thumbnail {
       position: relative;
-      height: 120px;
+      height: 100%;
       overflow: hidden;
     }
 
@@ -833,13 +838,19 @@
     }
 
     .episode-info {
-      padding: 15px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
     }
 
     .episode-title {
       font-weight: 600;
       margin-bottom: 5px;
       font-size: 14px;
+      color: white;
     }
 
     .episode-duration {
@@ -851,10 +862,31 @@
     .channel-card:focus,
     .series-card:focus,
     .footer-nav-btn:focus,
-    .episode-card:focus,
-    .movie-card:focus {
+    .episode-card:focus {
       outline: 2px solid var(--primary-color);
       outline-offset: 2px;
+    }
+
+    /* Selection indicator for TV remote navigation */
+    .selection-indicator {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .channel-card.focused .selection-indicator,
+    .series-card.focused .selection-indicator,
+    .footer-nav-btn.focused .selection-indicator,
+    .episode-card.focused .selection-indicator {
+      opacity: 1;
     }
 
     /* Responsive */
@@ -868,18 +900,13 @@
       }
       
       .channels-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
       }
       
       .series-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 15px;
-      }
-      
-      .movies-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
       }
       
       .footer-nav {
@@ -887,15 +914,14 @@
       }
       
       .main-content {
-        padding: 20px;
+        padding: 15px;
       }
       
       .section-title {
-        font-size: 24px;
+        font-size: 20px;
       }
 
-      .series-fullscreen-player iframe,
-      .movies-fullscreen-player iframe {
+      .series-fullscreen-player iframe {
         width: 100%;
         height: 100%;
       }
@@ -909,24 +935,19 @@
       }
 
       .episodes-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       }
     }
 
     @media (max-width: 480px) {
       .channels-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
       }
       
       .series-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 12px;
-      }
-      
-      .movies-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
       }
       
       .footer-nav {
@@ -943,7 +964,7 @@
       }
       
       .main-content {
-        padding: 15px;
+        padding: 10px;
       }
 
       .splash-logo {
@@ -955,22 +976,20 @@
       }
 
       .episodes-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
       }
     }
 
     /* TV Box specific styles */
     @media (min-width: 1024px) and (min-height: 600px) {
       .channel-card,
-      .series-card,
-      .movie-card {
-        min-height: 220px;
+      .series-card {
+        min-height: auto;
       }
       
       .channel-thumbnail,
-      .series-thumbnail,
-      .movie-thumbnail {
-        height: 180px;
+      .series-thumbnail {
+        height: 100%;
       }
       
       .footer-nav-btn {
@@ -989,6 +1008,9 @@
   </style>
 </head>
 <body class="tv-mode">
+    <!-- Snowflakes Container -->
+    <div class="snowflakes" id="snowflakes"></div>
+
     <!-- Splash Screen -->
     <div class="splash-screen" id="splash-screen">
       <video class="splash-video" autoplay muted loop>
@@ -1029,7 +1051,7 @@
             <!-- Home Section -->
             <section class="content-section active" id="home-section">
                 <div class="channels-container">
-                    <h2 class=""></h2>
+                    <h2 class="section-title">Canales en Vivo</h2>
                     <div class="channels-grid" id="channels-grid">
                         <!-- Channels will be loaded here -->
                     </div>
@@ -1039,7 +1061,7 @@
             <!-- Channels Section -->
             <section class="content-section" id="channels-section">
                 <div class="channels-container">
-                    <h2 class="section-title">TODOS LOS CANALES</h2>
+                    <h2 class="section-title">Todos los Canales</h2>
                     <div class="channels-grid" id="all-channels-grid">
                         <!-- All channels will be loaded here -->
                     </div>
@@ -1048,10 +1070,12 @@
 
             <!-- Movies Section -->
             <section class="content-section" id="movies-section">
-                <div class="movies-container">
-                    <h2 class="section-title">NUESTRAS PELÍCULAS</h2>
-                    <div class="movies-grid" id="movies-grid">
-                        <!-- Movies will be loaded here -->
+                <div class="coming-full-container">
+                    <div class="coming-full-content">
+                        <i class="fas fa-film"></i>
+                        <h2>SECCIÓN DE PELÍCULAS</h2>
+                        <p>Estamos trabajando para traerte el mejor catálogo de películas</p>
+                        <span class="coming-badge">PRÓXIMAMENTE</span>
                     </div>
                 </div>
             </section>
@@ -1059,7 +1083,7 @@
             <!-- Series Section -->
             <section class="content-section" id="series-section">
                 <div class="series-container">
-                    <h2 class="section-title">NUESTRAS SERIES</h2>
+                    <h2 class="section-title">Nuestras Series</h2>
                     <div class="series-grid" id="series-grid">
                         <!-- Series will be loaded here -->
                     </div>
@@ -1073,18 +1097,22 @@
                 <button class="footer-nav-btn active" data-section="home">
                     <i class="fas fa-home"></i>
                     <span>Inicio</span>
+                    <div class="selection-indicator"></div>
                 </button>
                 <button class="footer-nav-btn" data-section="channels">
                     <i class="fas fa-tv"></i>
                     <span>Canales</span>
+                    <div class="selection-indicator"></div>
                 </button>
                 <button class="footer-nav-btn" data-section="movies">
                     <i class="fas fa-film"></i>
                     <span>Películas</span>
+                    <div class="selection-indicator"></div>
                 </button>
                 <button class="footer-nav-btn" data-section="series">
                     <i class="fas fa-tv"></i>
                     <span>Series</span>
+                    <div class="selection-indicator"></div>
                 </button>
             </div>
         </footer>
@@ -1100,11 +1128,6 @@
         <iframe id="series-iframe" allowfullscreen allow="autoplay"></iframe>
     </div>
 
-    <!-- Fullscreen Player for Movies -->
-    <div class="movies-fullscreen-player" id="movies-fullscreen-player">
-        <iframe id="movies-iframe" allowfullscreen allow="autoplay"></iframe>
-    </div>
-
     <!-- Series Selection Modal -->
     <div class="series-selection-modal" id="series-selection-modal">
         <div class="series-modal-content">
@@ -1112,6 +1135,7 @@
                 <h2 class="series-modal-title" id="series-modal-title">Seleccionar Episodio</h2>
                 <button class="close-modal" id="close-series-modal">
                     <i class="fas fa-times"></i>
+                    <div class="selection-indicator"></div>
                 </button>
             </div>
             <div class="series-modal-body">
@@ -1134,6 +1158,47 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Create snowflakes
+            function createSnowflakes() {
+                const snowflakesContainer = document.getElementById('snowflakes');
+                const snowflakeCount = 30; // Reduced number of snowflakes
+                
+                for (let i = 0; i < snowflakeCount; i++) {
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.innerHTML = '❄';
+                    
+                    // Random position
+                    const left = Math.random() * 100;
+                    snowflake.style.left = `${left}vw`;
+                    
+                    // Random size
+                    const size = Math.random() * 0.8 + 0.5;
+                    snowflake.style.fontSize = `${size}em`;
+                    
+                    // Random animation duration
+                    const duration = Math.random() * 10 + 10;
+                    snowflake.style.animationDuration = `${duration}s`;
+                    
+                    // Random delay
+                    const delay = Math.random() * 5;
+                    snowflake.style.animationDelay = `${delay}s`;
+                    
+                    snowflakesContainer.appendChild(snowflake);
+                }
+            }
+
+            // Remove snowflakes when in fullscreen
+            function removeSnowflakes() {
+                const snowflakesContainer = document.getElementById('snowflakes');
+                snowflakesContainer.innerHTML = '';
+            }
+
+            // Restore snowflakes when exiting fullscreen
+            function restoreSnowflakes() {
+                createSnowflakes();
+            }
+
             // Splash Screen Elements
             const splashScreen = document.getElementById('splash-screen');
             const splashProgress = document.getElementById('splash-progress');
@@ -1147,6 +1212,7 @@
                 setTimeout(function() {
                     splashScreen.style.display = 'none';
                     appContainer.classList.add('loaded');
+                    createSnowflakes(); // Create snowflakes after splash screen
                 }, 500);
             }, 5000); // 5 seconds
 
@@ -1160,13 +1226,10 @@
             const channelsGrid = document.getElementById('channels-grid');
             const allChannelsGrid = document.getElementById('all-channels-grid');
             const seriesGrid = document.getElementById('series-grid');
-            const moviesGrid = document.getElementById('movies-grid');
             const fullscreenPlayer = document.getElementById('fullscreen-player');
             const seriesFullscreenPlayer = document.getElementById('series-fullscreen-player');
-            const moviesFullscreenPlayer = document.getElementById('movies-fullscreen-player');
             const fullscreenIframeContainer = document.getElementById('fullscreen-iframe-container');
             const seriesIframe = document.getElementById('series-iframe');
-            const moviesIframe = document.getElementById('movies-iframe');
             const seriesSelectionModal = document.getElementById('series-selection-modal');
             const closeSeriesModalBtn = document.getElementById('close-series-modal');
             const episodesGrid = document.getElementById('episodes-grid');
@@ -1305,7 +1368,6 @@
                     ]
                 }
             ];
-
             
             // Current playing channel
             let currentChannel = null;
@@ -1314,79 +1376,261 @@
             let tvRemoteEnabled = false;
             let currentSeries = null;
 
+            // TV Remote Navigation Variables
+            let currentFocus = {
+                section: 'home',
+                elementIndex: 0,
+                type: 'channel' // 'channel', 'series', 'footer', 'episode'
+            };
+
             // Initialize the app
             function initApp() {
                 setupEventListeners();
                 renderChannels();
                 renderSeries();
-                renderMovies();
                 showSection('home');
                 setupAutoFullscreen();
                 setupTVRemote();
                 setupBackButtonHandler();
+                setupTVNavigation();
             }
 
-            // Render movies to the grid
-            function renderMovies() {
-                moviesGrid.innerHTML = '';
-                
-                movies.forEach((movie, index) => {
-                    const movieCard = createMovieCard(movie, index);
-                    moviesGrid.appendChild(movieCard);
+            // Setup TV Navigation
+            function setupTVNavigation() {
+                // Add selection indicators to all focusable elements
+                document.querySelectorAll('.channel-card, .series-card, .footer-nav-btn, .episode-card, .close-modal, .btn-primary').forEach(el => {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'selection-indicator';
+                    el.appendChild(indicator);
                 });
+
+                // Set initial focus
+                setFocus('home', 0, 'channel');
             }
 
-            // Create movie card element
-            function createMovieCard(movie, index) {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.dataset.id = movie.id;
-                
-                card.innerHTML = `
-                    <div class="movie-thumbnail">
-                        <img src="${movie.thumbnail}" alt="${movie.title}" loading="lazy">
-                    </div>
-                    <div class="movie-title">${movie.title}</div>
-                `;
-                
-                card.addEventListener('click', function() {
-                    playMovieFullscreen(movie);
+            // Set focus to specific element
+            function setFocus(section, index, type) {
+                // Remove focus from all elements
+                document.querySelectorAll('.focused').forEach(el => {
+                    el.classList.remove('focused');
                 });
-                
-                return card;
-            }
 
-            // Play movie in fullscreen
-            function playMovieFullscreen(movie) {
-                moviesIframe.src = movie.videoUrl;
-                moviesFullscreenPlayer.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                
-                // Entrar automáticamente en pantalla completa
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.log('Fullscreen error:', err);
-                    });
+                currentFocus.section = section;
+                currentFocus.elementIndex = index;
+                currentFocus.type = type;
+
+                let element;
+
+                switch(type) {
+                    case 'channel':
+                        const channelGrid = section === 'home' ? channelsGrid : allChannelsGrid;
+                        element = channelGrid.children[index];
+                        break;
+                    case 'series':
+                        element = seriesGrid.children[index];
+                        break;
+                    case 'footer':
+                        element = footerNavBtns[index];
+                        break;
+                    case 'episode':
+                        element = episodesGrid.children[index];
+                        break;
+                    case 'close':
+                        element = closeSeriesModalBtn;
+                        break;
+                    case 'button':
+                        element = closeSettingsBtn;
+                        break;
                 }
-                
-                // Forzar el sonido (esto depende de las políticas del navegador)
-                setTimeout(() => {
-                    try {
-                        moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
-                    } catch(e) {
-                        console.log('No se pudo forzar reproducción automática');
-                    }
-                }, 1000);
+
+                if (element) {
+                    element.classList.add('focused');
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
 
-            // Exit movie fullscreen
-            function exitMovieFullscreen() {
-                moviesFullscreenPlayer.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                moviesIframe.src = '';
-                
-                if (document.fullscreenElement) {
-                    document.exitFullscreen();
+            // Handle TV Remote Navigation
+            function handleTVNavigation(direction) {
+                if (isFullscreen || seriesFullscreenPlayer.classList.contains('active')) {
+                    // Navigation in fullscreen mode
+                    if (direction === 'left') {
+                        changeChannel(-1);
+                    } else if (direction === 'right') {
+                        changeChannel(1);
+                    } else if (direction === 'back') {
+                        if (seriesFullscreenPlayer.classList.contains('active')) {
+                            exitSeriesFullscreen();
+                        } else {
+                            exitFullscreen();
+                        }
+                    }
+                    return;
+                }
+
+                if (seriesSelectionModal.classList.contains('active')) {
+                    // Navigation in series selection modal
+                    handleEpisodeNavigation(direction);
+                    return;
+                }
+
+                // Navigation in main interface
+                switch(currentFocus.type) {
+                    case 'channel':
+                        handleChannelNavigation(direction);
+                        break;
+                    case 'series':
+                        handleSeriesNavigation(direction);
+                        break;
+                    case 'footer':
+                        handleFooterNavigation(direction);
+                        break;
+                }
+            }
+
+            // Handle channel navigation
+            function handleChannelNavigation(direction) {
+                const grid = currentFocus.section === 'home' ? channelsGrid : allChannelsGrid;
+                const itemsPerRow = Math.floor(grid.offsetWidth / 180); // Approximate items per row
+                const totalItems = grid.children.length;
+
+                let newIndex = currentFocus.elementIndex;
+
+                switch(direction) {
+                    case 'up':
+                        if (currentFocus.section === 'home') {
+                            setFocus('home', 0, 'footer');
+                        } else {
+                            newIndex = Math.max(0, newIndex - itemsPerRow);
+                        }
+                        break;
+                    case 'down':
+                        if (currentFocus.section === 'home') {
+                            setFocus('home', 0, 'footer');
+                        } else {
+                            newIndex = Math.min(totalItems - 1, newIndex + itemsPerRow);
+                        }
+                        break;
+                    case 'left':
+                        newIndex = Math.max(0, newIndex - 1);
+                        break;
+                    case 'right':
+                        newIndex = Math.min(totalItems - 1, newIndex + 1);
+                        break;
+                    case 'select':
+                        const channel = channels[newIndex];
+                        playChannelFullscreen(channel);
+                        break;
+                }
+
+                if (newIndex !== currentFocus.elementIndex) {
+                    setFocus(currentFocus.section, newIndex, 'channel');
+                }
+            }
+
+            // Handle series navigation
+            function handleSeriesNavigation(direction) {
+                const itemsPerRow = Math.floor(seriesGrid.offsetWidth / 180); // Approximate items per row
+                const totalItems = seriesGrid.children.length;
+
+                let newIndex = currentFocus.elementIndex;
+
+                switch(direction) {
+                    case 'up':
+                        newIndex = Math.max(0, newIndex - itemsPerRow);
+                        break;
+                    case 'down':
+                        newIndex = Math.min(totalItems - 1, newIndex + itemsPerRow);
+                        break;
+                    case 'left':
+                        newIndex = Math.max(0, newIndex - 1);
+                        break;
+                    case 'right':
+                        newIndex = Math.min(totalItems - 1, newIndex + 1);
+                        break;
+                    case 'select':
+                        const seriesItem = series[newIndex];
+                        openSeriesSelection(seriesItem);
+                        break;
+                }
+
+                if (newIndex !== currentFocus.elementIndex) {
+                    setFocus('series', newIndex, 'series');
+                }
+            }
+
+            // Handle footer navigation
+            function handleFooterNavigation(direction) {
+                let newIndex = currentFocus.elementIndex;
+
+                switch(direction) {
+                    case 'up':
+                        if (currentFocus.section === 'home') {
+                            setFocus('home', 0, 'channel');
+                        }
+                        return;
+                    case 'down':
+                        // Already at bottom, do nothing
+                        return;
+                    case 'left':
+                        newIndex = Math.max(0, newIndex - 1);
+                        break;
+                    case 'right':
+                        newIndex = Math.min(footerNavBtns.length - 1, newIndex + 1);
+                        break;
+                    case 'select':
+                        const section = footerNavBtns[newIndex].dataset.section;
+                        showSection(section);
+                        setActiveFooterNav(footerNavBtns[newIndex]);
+                        
+                        // Set focus to first item in the new section
+                        if (section === 'home' || section === 'channels') {
+                            setFocus(section, 0, 'channel');
+                        } else if (section === 'series') {
+                            setFocus('series', 0, 'series');
+                        }
+                        return;
+                }
+
+                if (newIndex !== currentFocus.elementIndex) {
+                    setFocus(currentFocus.section, newIndex, 'footer');
+                }
+            }
+
+            // Handle episode navigation
+            function handleEpisodeNavigation(direction) {
+                const itemsPerRow = Math.floor(episodesGrid.offsetWidth / 170); // Approximate items per row
+                const totalItems = episodesGrid.children.length;
+
+                let newIndex = currentFocus.elementIndex;
+
+                switch(direction) {
+                    case 'up':
+                        newIndex = Math.max(0, newIndex - itemsPerRow);
+                        break;
+                    case 'down':
+                        newIndex = Math.min(totalItems - 1, newIndex + itemsPerRow);
+                        break;
+                    case 'left':
+                        newIndex = Math.max(0, newIndex - 1);
+                        break;
+                    case 'right':
+                        newIndex = Math.min(totalItems - 1, newIndex + 1);
+                        break;
+                    case 'select':
+                        const episode = currentSeries.episodes[newIndex];
+                        if (episode.videoUrl) {
+                            playSeriesFullscreen(episode.videoUrl);
+                            closeSeriesSelection();
+                        }
+                        break;
+                    case 'back':
+                        closeSeriesSelection();
+                        setFocus('series', currentFocus.elementIndex, 'series');
+                        break;
+                }
+
+                if (newIndex !== currentFocus.elementIndex) {
+                    setFocus(currentFocus.section, newIndex, 'episode');
                 }
             }
 
@@ -1426,17 +1670,20 @@
                 seriesModalTitle.textContent = serie.title;
                 episodesGrid.innerHTML = '';
                 
-                serie.episodes.forEach(episode => {
-                    const episodeCard = createEpisodeCard(episode);
+                serie.episodes.forEach((episode, index) => {
+                    const episodeCard = createEpisodeCard(episode, index);
                     episodesGrid.appendChild(episodeCard);
                 });
                 
                 seriesSelectionModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                
+                // Set focus to first episode
+                setFocus('series-modal', 0, 'episode');
             }
 
             // Create episode card element
-            function createEpisodeCard(episode) {
+            function createEpisodeCard(episode, index) {
                 const card = document.createElement('div');
                 card.className = 'episode-card';
                 card.dataset.id = episode.id;
@@ -1465,10 +1712,15 @@
             function closeSeriesSelection() {
                 seriesSelectionModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
+                
+                // Restore focus to the series that was selected
+                const seriesIndex = series.findIndex(s => s.id === currentSeries.id);
+                setFocus('series', seriesIndex, 'series');
             }
 
             // Play series in fullscreen
             function playSeriesFullscreen(videoUrl) {
+                removeSnowflakes(); // Remove snowflakes in fullscreen
                 seriesIframe.src = videoUrl;
                 seriesFullscreenPlayer.classList.add('active');
                 document.body.style.overflow = 'hidden';
@@ -1492,6 +1744,7 @@
 
             // Exit series fullscreen
             function exitSeriesFullscreen() {
+                restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                 seriesFullscreenPlayer.classList.remove('active');
                 document.body.style.overflow = 'auto';
                 seriesIframe.src = '';
@@ -1522,11 +1775,6 @@
                         event.preventDefault();
                         window.history.pushState(null, null, window.location.href);
                     }
-                    if (moviesFullscreenPlayer.classList.contains('active')) {
-                        exitMovieFullscreen();
-                        event.preventDefault();
-                        window.history.pushState(null, null, window.location.href);
-                    }
                     if (seriesSelectionModal.classList.contains('active')) {
                         closeSeriesSelection();
                         event.preventDefault();
@@ -1543,11 +1791,18 @@
                 closeSettingsBtn.addEventListener('click', closeSettings);
                 closeSeriesModalBtn.addEventListener('click', closeSeriesSelection);
                 
-                footerNavBtns.forEach(btn => {
+                footerNavBtns.forEach((btn, index) => {
                     btn.addEventListener('click', function() {
                         const section = this.dataset.section;
                         showSection(section);
                         setActiveFooterNav(this);
+                        
+                        // Set focus to first item in the section
+                        if (section === 'home' || section === 'channels') {
+                            setFocus(section, 0, 'channel');
+                        } else if (section === 'series') {
+                            setFocus('series', 0, 'series');
+                        }
                     });
                 });
                 
@@ -1561,13 +1816,17 @@
                 // Series fullscreen close on click
                 seriesFullscreenPlayer.addEventListener('click', exitSeriesFullscreen);
                 
-                // Movies fullscreen close on click
-                moviesFullscreenPlayer.addEventListener('click', exitMovieFullscreen);
-                
                 // Close series selection modal when clicking outside
                 seriesSelectionModal.addEventListener('click', function(e) {
                     if (e.target === seriesSelectionModal) {
                         closeSeriesSelection();
+                    }
+                });
+
+                // Settings modal close on click outside
+                settingsModal.addEventListener('click', function(e) {
+                    if (e.target === settingsModal) {
+                        closeSettings();
                     }
                 });
             }
@@ -1607,19 +1866,42 @@
 
             // Handle keyboard
             function handleKeyboard(e) {
-                if (isFullscreen) {
+                if (isFullscreen || seriesFullscreenPlayer.classList.contains('active') || 
+                    seriesSelectionModal.classList.contains('active')) {
+                    // Navigation in fullscreen or modal modes
                     switch(e.key) {
                         case 'Escape':
                         case 'Backspace':
-                            exitFullscreen();
+                            if (seriesFullscreenPlayer.classList.contains('active')) {
+                                exitSeriesFullscreen();
+                            } else if (isFullscreen) {
+                                exitFullscreen();
+                            } else if (seriesSelectionModal.classList.contains('active')) {
+                                closeSeriesSelection();
+                            }
                             e.preventDefault();
                             break;
                         case 'ArrowLeft':
-                            changeChannel(-1);
+                            if (isFullscreen) changeChannel(-1);
+                            else handleTVNavigation('left');
                             e.preventDefault();
                             break;
                         case 'ArrowRight':
-                            changeChannel(1);
+                            if (isFullscreen) changeChannel(1);
+                            else handleTVNavigation('right');
+                            e.preventDefault();
+                            break;
+                        case 'ArrowUp':
+                            handleTVNavigation('up');
+                            e.preventDefault();
+                            break;
+                        case 'ArrowDown':
+                            handleTVNavigation('down');
+                            e.preventDefault();
+                            break;
+                        case 'Enter':
+                        case ' ':
+                            handleTVNavigation('select');
                             e.preventDefault();
                             break;
                         case '0':
@@ -1632,27 +1914,46 @@
                         case '7':
                         case '8':
                         case '9':
-                            const channelNumber = parseInt(e.key);
-                            if (channelNumber <= channels.length) {
-                                changeToChannel(channelNumber - 1);
+                            if (isFullscreen) {
+                                const channelNumber = parseInt(e.key);
+                                if (channelNumber <= channels.length) {
+                                    changeToChannel(channelNumber - 1);
+                                }
                             }
                             e.preventDefault();
                             break;
                     }
-                } else if (seriesFullscreenPlayer.classList.contains('active')) {
-                    if (e.key === 'Escape' || e.key === 'Backspace') {
-                        exitSeriesFullscreen();
-                        e.preventDefault();
-                    }
-                } else if (moviesFullscreenPlayer.classList.contains('active')) {
-                    if (e.key === 'Escape' || e.key === 'Backspace') {
-                        exitMovieFullscreen();
-                        e.preventDefault();
-                    }
-                } else if (seriesSelectionModal.classList.contains('active')) {
-                    if (e.key === 'Escape' || e.key === 'Backspace') {
-                        closeSeriesSelection();
-                        e.preventDefault();
+                } else {
+                    // Navigation in main interface
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                            handleTVNavigation('left');
+                            e.preventDefault();
+                            break;
+                        case 'ArrowRight':
+                            handleTVNavigation('right');
+                            e.preventDefault();
+                            break;
+                        case 'ArrowUp':
+                            handleTVNavigation('up');
+                            e.preventDefault();
+                            break;
+                        case 'ArrowDown':
+                            handleTVNavigation('down');
+                            e.preventDefault();
+                            break;
+                        case 'Enter':
+                        case ' ':
+                            handleTVNavigation('select');
+                            e.preventDefault();
+                            break;
+                        case 'Escape':
+                        case 'Backspace':
+                            if (settingsModal.classList.contains('active')) {
+                                closeSettings();
+                            }
+                            e.preventDefault();
+                            break;
                     }
                 }
             }
@@ -1723,6 +2024,7 @@
 
             // Enter fullscreen mode
             function enterFullscreen() {
+                removeSnowflakes(); // Remove snowflakes in fullscreen
                 fullscreenPlayer.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 isFullscreen = true;
@@ -1774,6 +2076,7 @@
 
             // Exit fullscreen mode
             function exitFullscreen() {
+                restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                 fullscreenPlayer.classList.remove('active');
                 document.body.style.overflow = 'auto';
                 isFullscreen = false;
@@ -1791,6 +2094,10 @@
                 
                 fullscreenPlayer.removeEventListener('mousemove', showTVControls);
                 fullscreenPlayer.removeEventListener('touchstart', showTVControls);
+                
+                // Restore focus to the channel that was playing
+                const channelIndex = channels.findIndex(ch => ch.id === currentChannel.id);
+                setFocus(currentFocus.section, channelIndex, 'channel');
             }
 
             // Open settings modal

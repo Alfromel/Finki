@@ -463,6 +463,70 @@
       color: white;
     }
 
+    /* Movies Grid */
+    .mobile-layout .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 15px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .mobile-layout .movie-card {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      box-shadow: var(--shadow-light);
+      aspect-ratio: 2/3;
+    }
+
+    .mobile-layout .movie-card:hover, .mobile-layout .movie-card:active {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
+      z-index: 10;
+    }
+
+    .mobile-layout .movie-thumbnail {
+      position: relative;
+      height: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .mobile-layout .movie-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .mobile-layout .movie-card:hover .movie-thumbnail img, 
+    .mobile-layout .movie-card:active .movie-thumbnail img {
+      transform: scale(1.05);
+    }
+
+    .mobile-layout .movie-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      font-weight: 500;
+      text-align: center;
+      font-size: 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
+    }
+
     /* Coming Soon Sections */
     .mobile-layout .coming-full-container {
       display: flex;
@@ -930,6 +994,70 @@
       color: white;
     }
 
+    /* Movies Grid */
+    .tv-layout .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .tv-layout .movie-card {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      box-shadow: var(--shadow-light);
+      aspect-ratio: 2/3;
+    }
+
+    .tv-layout .movie-card:hover, .tv-layout .movie-card.focused {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
+      z-index: 10;
+    }
+
+    .tv-layout .movie-thumbnail {
+      position: relative;
+      height: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .tv-layout .movie-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .tv-layout .movie-card:hover .movie-thumbnail img, 
+    .tv-layout .movie-card.focused .movie-thumbnail img {
+      transform: scale(1.05);
+    }
+
+    .tv-layout .movie-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px;
+      font-weight: 500;
+      text-align: center;
+      font-size: 16px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
+    }
+
     /* Coming Soon Sections */
     .tv-layout .coming-full-container {
       display: flex;
@@ -984,6 +1112,7 @@
     /* Focus styles for TV navigation */
     .tv-layout .channel-card:focus,
     .tv-layout .series-card:focus,
+    .tv-layout .movie-card:focus,
     .tv-layout .nav-btn:focus,
     .tv-layout .episode-card:focus {
       outline: 2px solid var(--primary-color);
@@ -1007,6 +1136,7 @@
 
     .tv-layout .channel-card.focused .selection-indicator,
     .tv-layout .series-card.focused .selection-indicator,
+    .tv-layout .movie-card.focused .selection-indicator,
     .tv-layout .nav-btn.focused .selection-indicator,
     .tv-layout .episode-card.focused .selection-indicator {
       opacity: 1;
@@ -1054,6 +1184,30 @@
     }
 
     .series-fullscreen-player iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Movies Fullscreen Player */
+    .movies-fullscreen-player {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 2000;
+      display: none;
+    }
+
+    .movies-fullscreen-player.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .movies-fullscreen-player iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -1323,6 +1477,11 @@
         gap: 12px;
       }
       
+      .mobile-layout .movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      
       .mobile-layout .footer-nav {
         gap: 20px;
       }
@@ -1336,6 +1495,11 @@
       }
 
       .series-fullscreen-player iframe {
+        width: 100%;
+        height: 100%;
+      }
+
+      .movies-fullscreen-player iframe {
         width: 100%;
         height: 100%;
       }
@@ -1360,6 +1524,11 @@
       }
       
       .mobile-layout .series-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+      }
+      
+      .mobile-layout .movies-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 10px;
       }
@@ -1397,12 +1566,14 @@
     /* TV Box specific styles */
     @media (min-width: 1024px) and (min-height: 600px) {
       .tv-layout .channel-card,
-      .tv-layout .series-card {
+      .tv-layout .series-card,
+      .tv-layout .movie-card {
         min-height: auto;
       }
       
       .tv-layout .channel-thumbnail,
-      .tv-layout .series-thumbnail {
+      .tv-layout .series-thumbnail,
+      .tv-layout .movie-thumbnail {
         height: 100%;
       }
       
@@ -1484,12 +1655,10 @@
 
                 <!-- Movies Section -->
                 <section class="content-section" id="movies-section">
-                    <div class="coming-full-container">
-                        <div class="coming-full-content">
-                            <i class="fas fa-film"></i>
-                            <h2>SECCIÓN DE PELÍCULAS</h2>
-                            <p>Estamos trabajando para traerte el mejor catálogo de películas</p>
-                            <span class="coming-badge">PRÓXIMAMENTE</span>
+                    <div class="movies-container">
+                        <h2 class="section-title">Nuestras Películas</h2>
+                        <div class="movies-grid" id="movies-grid">
+                            <!-- Movies will be loaded here -->
                         </div>
                     </div>
                 </section>
@@ -1601,12 +1770,10 @@
 
                     <!-- Movies Section -->
                     <section class="content-section" id="tv-movies-section">
-                        <div class="coming-full-container">
-                            <div class="coming-full-content">
-                                <i class="fas fa-film"></i>
-                                <h2>SECCIÓN DE PELÍCULAS</h2>
-                                <p>Estamos trabajando para traerte el mejor catálogo de películas</p>
-                                <span class="coming-badge">PRÓXIMAMENTE</span>
+                        <div class="movies-container">
+                            <h2 class="section-title">Nuestras Películas</h2>
+                            <div class="movies-grid" id="tv-movies-grid">
+                                <!-- Movies will be loaded here -->
                             </div>
                         </div>
                     </section>
@@ -1633,6 +1800,11 @@
     <!-- Fullscreen Player for Series -->
     <div class="series-fullscreen-player" id="series-fullscreen-player">
         <iframe id="series-iframe" allowfullscreen allow="autoplay"></iframe>
+    </div>
+
+    <!-- Fullscreen Player for Movies -->
+    <div class="movies-fullscreen-player" id="movies-fullscreen-player">
+        <iframe id="movies-iframe" allowfullscreen allow="autoplay"></iframe>
     </div>
 
     <!-- Series Selection Modal -->
@@ -2078,6 +2250,46 @@
                     ]
                 }
             ];
+
+            // Movies data
+            const movies = [
+                {
+                    id: 1,
+                    title: "Zootopia",
+                    thumbnail: "https://lumiere-a.akamaihd.net/v1/images/movie_poster_zootopia_866a1bf2.jpeg?region=0%2C0%2C300%2C450",
+                    videoUrl: "https://vimeos.net/embed-ecahshgr021m.html?autoplay=1"
+                },
+                {
+                    id: 2,
+                    title: "Megalodón",
+                    thumbnail: "https://play-lh.googleusercontent.com/x5pAVGOSC8nYyYCskzuQAnZgrVXpzsGiYTwmCaaIt42EaLqz6Cbgr2-7rAGJM9tnA0-3-Yi2F-RAzWEZXg",
+                    videoUrl: "https://vimeos.net/embed-93hu1g7z7ri2.html?autoplay=1"
+                },
+                {
+                    id: 3,
+                    title: "Comando",
+                    thumbnail: "https://play-lh.googleusercontent.com/mOrCRf5pW60MbWz0WfvtYDBsFlTf-E_cZtLrkqsfCHh010GDyXnembxSIIXUonJvbVs",
+                    videoUrl: "https://vimeos.net/embed-bxaelsf5kt7r.html?autoplay=1"
+                },
+                {
+                    id: 4,
+                    title: "El Grinch",
+                    thumbnail: "https://i.pinimg.com/736x/46/7f/bb/467fbbed233c10f94ad0bd29671a3c73.jpg",
+                    videoUrl: "https://vimeos.net/embed-b9ndtepqzs2n.html?autoplay=1"
+                },
+                {
+                    id: 5,
+                    title: "El gato",
+                    thumbnail: "https://pics.filmaffinity.com/El_gato-437054652-large.jpg",
+                    videoUrl: "https://vimeos.net/embed-2z1ajv3exi7a.html?autoplay=1"
+                },
+                {
+                    id: 6,
+                    title: "Lilo & Stitch",
+                    thumbnail: "https://cdn.bolivia.com/cine/2025/5/lilo-stitch-44922-1.jpg",
+                    videoUrl: "https://vimeos.net/embed-ph8dhp41s8sp.html?autoplay=1"
+                }
+            ];
             
             // ========== APLICACIÓN MÓVIL ==========
             function initializeMobileApp() {
@@ -2093,10 +2305,13 @@
                 const channelsGrid = document.getElementById('channels-grid');
                 const allChannelsGrid = document.getElementById('all-channels-grid');
                 const seriesGrid = document.getElementById('series-grid');
+                const moviesGrid = document.getElementById('movies-grid');
                 const fullscreenPlayer = document.getElementById('fullscreen-player');
                 const seriesFullscreenPlayer = document.getElementById('series-fullscreen-player');
+                const moviesFullscreenPlayer = document.getElementById('movies-fullscreen-player');
                 const fullscreenIframeContainer = document.getElementById('fullscreen-iframe-container');
                 const seriesIframe = document.getElementById('series-iframe');
+                const moviesIframe = document.getElementById('movies-iframe');
                 const seriesSelectionModal = document.getElementById('series-selection-modal');
                 const closeSeriesModalBtn = document.getElementById('close-series-modal');
                 const episodesGrid = document.getElementById('episodes-grid');
@@ -2128,6 +2343,9 @@
 
                     // Series fullscreen close on click
                     seriesFullscreenPlayer.addEventListener('click', exitSeriesFullscreen);
+                    
+                    // Movies fullscreen close on click
+                    moviesFullscreenPlayer.addEventListener('click', exitMoviesFullscreen);
                     
                     // Close series selection modal when clicking outside
                     seriesSelectionModal.addEventListener('click', function(e) {
@@ -2416,6 +2634,36 @@
                     return card;
                 }
 
+                // Render movies to the grid
+                function renderMovies() {
+                    moviesGrid.innerHTML = '';
+                    
+                    movies.forEach((movie, index) => {
+                        const movieCard = createMovieCard(movie, index);
+                        moviesGrid.appendChild(movieCard);
+                    });
+                }
+
+                // Create movie card element
+                function createMovieCard(movie, index) {
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.dataset.id = movie.id;
+                    
+                    card.innerHTML = `
+                        <div class="movie-thumbnail">
+                            <img src="${movie.thumbnail}" alt="${movie.title}" loading="lazy">
+                        </div>
+                        <div class="movie-title">${movie.title}</div>
+                    `;
+                    
+                    card.addEventListener('click', function() {
+                        playMovieFullscreen(movie);
+                    });
+                    
+                    return card;
+                }
+
                 // Open series selection modal
                 function openSeriesSelection(serie) {
                     currentSeries = serie;
@@ -2487,6 +2735,30 @@
                     }, 1000);
                 }
 
+                // Play movie in fullscreen
+                function playMovieFullscreen(movie) {
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
+                    moviesIframe.src = movie.videoUrl;
+                    moviesFullscreenPlayer.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Entrar automáticamente en pantalla completa
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            console.log('Fullscreen error:', err);
+                        });
+                    }
+                    
+                    // Forzar el sonido (esto depende de las políticas del navegador)
+                    setTimeout(() => {
+                        try {
+                            moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
+                        } catch(e) {
+                            console.log('No se pudo forzar reproducción automática');
+                        }
+                    }, 1000);
+                }
+
                 // Exit series fullscreen
                 function exitSeriesFullscreen() {
                     restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
@@ -2499,10 +2771,23 @@
                     }
                 }
 
+                // Exit movies fullscreen
+                function exitMoviesFullscreen() {
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
+                    moviesFullscreenPlayer.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    moviesIframe.src = '';
+                    
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    }
+                }
+
                 // Initialize the mobile app
                 setupEventListeners();
                 renderChannels();
                 renderSeries();
+                renderMovies();
                 showSection('home');
                 setupAutoFullscreen();
             }
@@ -2521,10 +2806,13 @@
                 const channelsGrid = document.getElementById('tv-channels-grid');
                 const allChannelsGrid = document.getElementById('tv-all-channels-grid');
                 const seriesGrid = document.getElementById('tv-series-grid');
+                const moviesGrid = document.getElementById('tv-movies-grid');
                 const fullscreenPlayer = document.getElementById('fullscreen-player');
                 const seriesFullscreenPlayer = document.getElementById('series-fullscreen-player');
+                const moviesFullscreenPlayer = document.getElementById('movies-fullscreen-player');
                 const fullscreenIframeContainer = document.getElementById('fullscreen-iframe-container');
                 const seriesIframe = document.getElementById('series-iframe');
+                const moviesIframe = document.getElementById('movies-iframe');
                 const seriesSelectionModal = document.getElementById('series-selection-modal');
                 const closeSeriesModalBtn = document.getElementById('close-series-modal');
                 const episodesGrid = document.getElementById('episodes-grid');
@@ -2540,7 +2828,7 @@
                 let currentFocus = {
                     section: 'home',
                     elementIndex: 0,
-                    type: 'channel' // 'channel', 'series', 'nav', 'episode'
+                    type: 'channel' // 'channel', 'series', 'movie', 'nav', 'episode'
                 };
 
                 // Setup event listeners
@@ -2560,6 +2848,8 @@
                                 setFocus(section, 0, 'channel');
                             } else if (section === 'series') {
                                 setFocus('series', 0, 'series');
+                            } else if (section === 'movies') {
+                                setFocus('movies', 0, 'movie');
                             }
                         });
                     });
@@ -2569,6 +2859,9 @@
                     
                     // Series fullscreen close on click
                     seriesFullscreenPlayer.addEventListener('click', exitSeriesFullscreen);
+                    
+                    // Movies fullscreen close on click
+                    moviesFullscreenPlayer.addEventListener('click', exitMoviesFullscreen);
                     
                     // Close series selection modal when clicking outside
                     seriesSelectionModal.addEventListener('click', function(e) {
@@ -2588,7 +2881,7 @@
                 // Setup TV Navigation
                 function setupTVNavigation() {
                     // Add selection indicators to all focusable elements
-                    document.querySelectorAll('.tv-layout .channel-card, .tv-layout .series-card, .tv-layout .nav-btn, .tv-layout .episode-card, .tv-layout .close-modal, .tv-layout .btn-primary').forEach(el => {
+                    document.querySelectorAll('.tv-layout .channel-card, .tv-layout .series-card, .tv-layout .movie-card, .tv-layout .nav-btn, .tv-layout .episode-card, .tv-layout .close-modal, .tv-layout .btn-primary').forEach(el => {
                         const indicator = document.createElement('div');
                         indicator.className = 'selection-indicator';
                         el.appendChild(indicator);
@@ -2619,6 +2912,9 @@
                         case 'series':
                             element = seriesGrid.children[index];
                             break;
+                        case 'movie':
+                            element = moviesGrid.children[index];
+                            break;
                         case 'nav':
                             element = navBtns[index];
                             break;
@@ -2641,7 +2937,7 @@
 
                 // Handle TV Remote Navigation
                 function handleTVNavigation(direction) {
-                    if (isFullscreen || seriesFullscreenPlayer.classList.contains('active')) {
+                    if (isFullscreen || seriesFullscreenPlayer.classList.contains('active') || moviesFullscreenPlayer.classList.contains('active')) {
                         // Navigation in fullscreen mode
                         if (direction === 'left') {
                             changeChannel(-1);
@@ -2650,6 +2946,8 @@
                         } else if (direction === 'back') {
                             if (seriesFullscreenPlayer.classList.contains('active')) {
                                 exitSeriesFullscreen();
+                            } else if (moviesFullscreenPlayer.classList.contains('active')) {
+                                exitMoviesFullscreen();
                             } else {
                                 exitFullscreen();
                             }
@@ -2670,6 +2968,9 @@
                             break;
                         case 'series':
                             handleSeriesNavigation(direction);
+                            break;
+                        case 'movie':
+                            handleMovieNavigation(direction);
                             break;
                         case 'nav':
                             handleNavNavigation(direction);
@@ -2748,6 +3049,37 @@
                     }
                 }
 
+                // Handle movie navigation
+                function handleMovieNavigation(direction) {
+                    const itemsPerRow = Math.floor(moviesGrid.offsetWidth / 220); // Approximate items per row
+                    const totalItems = moviesGrid.children.length;
+
+                    let newIndex = currentFocus.elementIndex;
+
+                    switch(direction) {
+                        case 'up':
+                            newIndex = Math.max(0, newIndex - itemsPerRow);
+                            break;
+                        case 'down':
+                            newIndex = Math.min(totalItems - 1, newIndex + itemsPerRow);
+                            break;
+                        case 'left':
+                            newIndex = Math.max(0, newIndex - 1);
+                            break;
+                        case 'right':
+                            newIndex = Math.min(totalItems - 1, newIndex + 1);
+                            break;
+                        case 'select':
+                            const movie = movies[newIndex];
+                            playMovieFullscreen(movie);
+                            break;
+                    }
+
+                    if (newIndex !== currentFocus.elementIndex) {
+                        setFocus('movies', newIndex, 'movie');
+                    }
+                }
+
                 // Handle nav navigation
                 function handleNavNavigation(direction) {
                     let newIndex = currentFocus.elementIndex;
@@ -2777,6 +3109,8 @@
                                 setFocus(section, 0, 'channel');
                             } else if (section === 'series') {
                                 setFocus('series', 0, 'series');
+                            } else if (section === 'movies') {
+                                setFocus('movies', 0, 'movie');
                             }
                             return;
                     }
@@ -2827,13 +3161,15 @@
                 // Handle keyboard
                 function handleKeyboard(e) {
                     if (isFullscreen || seriesFullscreenPlayer.classList.contains('active') || 
-                        seriesSelectionModal.classList.contains('active')) {
+                        moviesFullscreenPlayer.classList.contains('active') || seriesSelectionModal.classList.contains('active')) {
                         // Navigation in fullscreen or modal modes
                         switch(e.key) {
                             case 'Escape':
                             case 'Backspace':
                                 if (seriesFullscreenPlayer.classList.contains('active')) {
                                     exitSeriesFullscreen();
+                                } else if (moviesFullscreenPlayer.classList.contains('active')) {
+                                    exitMoviesFullscreen();
                                 } else if (isFullscreen) {
                                     exitFullscreen();
                                 } else if (seriesSelectionModal.classList.contains('active')) {
@@ -3161,6 +3497,36 @@
                     return card;
                 }
 
+                // Render movies to the grid
+                function renderMovies() {
+                    moviesGrid.innerHTML = '';
+                    
+                    movies.forEach((movie, index) => {
+                        const movieCard = createMovieCard(movie, index);
+                        moviesGrid.appendChild(movieCard);
+                    });
+                }
+
+                // Create movie card element
+                function createMovieCard(movie, index) {
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.dataset.id = movie.id;
+                    
+                    card.innerHTML = `
+                        <div class="movie-thumbnail">
+                            <img src="${movie.thumbnail}" alt="${movie.title}" loading="lazy">
+                        </div>
+                        <div class="movie-title">${movie.title}</div>
+                    `;
+                    
+                    card.addEventListener('click', function() {
+                        playMovieFullscreen(movie);
+                    });
+                    
+                    return card;
+                }
+
                 // Open series selection modal
                 function openSeriesSelection(serie) {
                     currentSeries = serie;
@@ -3239,6 +3605,30 @@
                     }, 1000);
                 }
 
+                // Play movie in fullscreen
+                function playMovieFullscreen(movie) {
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
+                    moviesIframe.src = movie.videoUrl;
+                    moviesFullscreenPlayer.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Entrar automáticamente en pantalla completa
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            console.log('Fullscreen error:', err);
+                        });
+                    }
+                    
+                    // Forzar el sonido (esto depende de las políticas del navegador)
+                    setTimeout(() => {
+                        try {
+                            moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
+                        } catch(e) {
+                            console.log('No se pudo forzar reproducción automática');
+                        }
+                    }, 1000);
+                }
+
                 // Exit series fullscreen
                 function exitSeriesFullscreen() {
                     restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
@@ -3251,10 +3641,23 @@
                     }
                 }
 
+                // Exit movies fullscreen
+                function exitMoviesFullscreen() {
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
+                    moviesFullscreenPlayer.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    moviesIframe.src = '';
+                    
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    }
+                }
+
                 // Initialize the TV app
                 setupEventListeners();
                 renderChannels();
                 renderSeries();
+                renderMovies();
                 showSection('home');
                 setupAutoFullscreen();
                 setupTVNavigation();

@@ -1416,6 +1416,7 @@
       transition: var(--transition);
       border: 1px solid rgba(255, 255, 255, 0.05);
       aspect-ratio: 16/9;
+      position: relative;
     }
 
     .episode-card:hover, .episode-card.focused {
@@ -1455,6 +1456,24 @@
     .episode-duration {
       color: var(--text-muted);
       font-size: 12px;
+    }
+
+    /* Episodio número badge - NUEVO ESTILO AÑADIDO */
+    .episode-number-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 12px;
+      z-index: 2;
     }
 
     /* Responsive */
@@ -1515,6 +1534,12 @@
       .episodes-grid {
         grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       }
+
+      .episode-number-badge {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1561,6 +1586,12 @@
       .episodes-grid {
         grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
       }
+
+      .episode-number-badge {
+        width: 22px;
+        height: 22px;
+        font-size: 10px;
+      }
     }
 
     /* TV Box specific styles */
@@ -1588,6 +1619,11 @@
       .tv-layout .nav-btn span {
         font-size: 14px;
       }
+    }
+
+    /* Back button handling */
+    .back-button-handler {
+      display: none;
     }
   </style>
 </head>
@@ -2251,7 +2287,7 @@
                 }
             ];
 
-            // Movies data
+            // Movies data - AÑADIDAS LAS NUEVAS PELÍCULAS
             const movies = [
                 {
                     id: 1,
@@ -2288,6 +2324,126 @@
                     title: "Lilo & Stitch",
                     thumbnail: "https://cdn.bolivia.com/cine/2025/5/lilo-stitch-44922-1.jpg",
                     videoUrl: "https://vimeos.net/embed-ph8dhp41s8sp.html?autoplay=1"
+                },
+                {
+                    id: 7,
+                    title: "Conjuro los últimos ritos",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BM2VmMzRkYzgtMzg2ZC00OTFkLTkwMTYtNTMxNjM2YzI1MjgyXkEyXkFqcGc@._V1_.jpg",
+                    videoUrl: "https://vimeos.net/embed-pazypz5yf1vk.html?autoplay=1"
+                },
+                {
+                    id: 8,
+                    title: "IT Capítulo 2",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BYTJlNjlkZTktNjEwOS00NzI5LTlkNDAtZmEwZDFmYmM2MjU2XkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://vimeos.net/embed-rnuv57supb0c.html?autoplay=1"
+                },
+                {
+                    id: 9,
+                    title: "Jurassic World: Renace",
+                    thumbnail: "https://play-lh.googleusercontent.com/C-NoJBT8ZEZ0MJJ0XYiyG_ndIB6ML0j4Db1uAap3nBsLlQ6x8o7x8lC0hywKDDOQmj8aswcUUH1fEIjPqadc",
+                    videoUrl: "https://vimeos.net/embed-r5xuubxljw1k.html?autoplay=1"
+                },
+                {
+                    id: 10,
+                    title: "El rey león",
+                    thumbnail: "https://images.justwatch.com/poster/216939227/s718/el-rey-leon-2019.jpg",
+                    videoUrl: "https://vimeos.net/embed-hlhjvf7dqrlm.html?autoplay=1"
+                },
+                {
+                    id: 11,
+                    title: "La era de hielo 3",
+                    thumbnail: "https://play-lh.googleusercontent.com/q2VcIaw7wp_dqWXoBJ2YUoVpJzAFDLPW825poUAkrLCJYLt4wIDzAMWmFZYU33gHxI1Oof351IcA9n8E3A",
+                    videoUrl: "https://vimeos.net/embed-zvdiseyr8cmn.html?autoplay=1"
+                },
+                {
+                    id: 12,
+                    title: "Dragon Ball Z: La Batalla de los Dioses",
+                    thumbnail: "https://es.web.img3.acsta.net/pictures/14/03/13/09/32/445665.jpg",
+                    videoUrl: "https://vimeos.net/embed-5jns0lh0vtvn.html?autoplay=1"
+                },
+                {
+                    id: 13,
+                    title: "Home",
+                    thumbnail: "https://m.media-amazon.com/images/S/pv-target-images/0c2b46241fcbc4ec5d9ed797509e2d9290bf44a538c08ab33ac7addb70bcb444.jpg",
+                    videoUrl: "https://vimeos.net/embed-ifjmc7q23yma.html?autoplay=1"
+                },
+                {
+                    id: 14,
+                    title: "Dragon Ball Super: Broly",
+                    thumbnail: "https://play-lh.googleusercontent.com/EtlRs463VNW5xUAWAkSc9Tl_fSczDBfCZDvRgkNtGUU-S1LdJuaHRBcQrPcF5_whMyD9",
+                    videoUrl: "https://vimeos.net/embed-4pkxjoigiw3o.html?autoplay=1"
+                },
+                {
+                    id: 15,
+                    title: "Mufasa: El rey león",
+                    thumbnail: "https://lumiere-a.akamaihd.net/v1/images/image_956cb480.jpeg",
+                    videoUrl: "https://vimeos.net/embed-as79zsodqldc.html?autoplay=1"
+                },
+                {
+                    id: 16,
+                    title: "IntensaMente 2",
+                    thumbnail: "https://m.media-amazon.com/images/I/61PRJC2fyFL._AC_UF894,1000_QL80_.jpg",
+                    videoUrl: "https://vimeos.net/embed-ygqbs42hctbc.html?autoplay=1"
+                },
+                {
+                    id: 17,
+                    title: "Mulán",
+                    thumbnail: "https://images.justwatch.com/poster/160494160/s718/mulan.jpg",
+                    videoUrl: "https://vimeos.net/embed-fq7uuv7e3v1b.html?autoplay=1"
+                },
+                {
+                    id: 18,
+                    title: "Kung Fu Panda 3",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMTUyNzgxNjg2M15BMl5BanBnXkFtZTgwMTY1NDI1NjE@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://vimeos.net/embed-lr3dbb6qkaus.html?autoplay=1"
+                },
+                {
+                    id: 19,
+                    title: "Travesuras de una Sirena",
+                    thumbnail: "https://media.themoviedb.org/t/p/w500/eS8OzNBjzzQ3939zkAuyOvaUa9I.jpg",
+                    videoUrl: "https://vimeos.net/embed-qoecdif7v94a.html?autoplay=1"
+                },
+                {
+                    id: 20,
+                    title: "No manches, Frida",
+                    thumbnail: "https://images.justwatch.com/poster/178024449/s718/no-manches-frida.jpg",
+                    videoUrl: "https://vimeos.net/embed-w1tvsup2nlib.html?autoplay=1"
+                },
+                {
+                    id: 21,
+                    title: "No manches, Frida 2",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMzYzNjEyMTUtOGI2Ny00MzM4LWIxNGYtMmIzNzA0Y2ZkMjkwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://vimeos.net/embed-6rtb5tel8gba.html?autoplay=1"
+                },
+                {
+                    id: 22,
+                    title: "Culpa nuestra",
+                    thumbnail: "https://preview.redd.it/our-fault-honestly-whose-fault-is-this-movie-v0-yf9g2npsfjvf1.jpeg?auto=webp&s=5cf10f8e3f6ac8bf33c24071f09fc08a4d6efc48",
+                    videoUrl: "https://vimeos.net/embed-dhvfk41hw7n1.html?autoplay=1"
+                },
+                {
+                    id: 23,
+                    title: "Crepúsculo: Amanecer 2",
+                    thumbnail: "https://es.web.img2.acsta.net/img/f2/5b/f25bd4625eaac9e94e6e277eb57879b2.jpg",
+                    videoUrl: "https://vimeos.net/embed-d8pblodfnu18.html?autoplay=1"
+                },
+                {
+                    id: 24,
+                    title: "Escuadrón Suicida",
+                    thumbnail: "https://play-lh.googleusercontent.com/kCE9Fu7Jxgy3Jd_64GHj6Nxvknk2mKInixiA2aFB0ynrqw87UN-mV4Uz1-c0CMxTyOlP-idh7zSqjy4_3PU",
+                    videoUrl: "https://vimeos.net/embed-r4ceg4sehyz7.html?autoplay=1"
+                },
+                {
+                    id: 25,
+                    title: "Rápidos y furiosos 9",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMjI0NmFkYzEtNzU2YS00NTg5LWIwYmMtNmQ1MTU0OGJjOTMxXkEyXkFqcGdeQXVyMjMxOTE0ODA@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://vimeos.net/embed-cmslrswu6amy.html?autoplay=1"
+                },
+                {
+                    id: 26,
+                    title: "Avengers: Infinity War",
+                    thumbnail: "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_FMjpg_UX1000_.jpg",
+                    videoUrl: "https://vimeos.net/embed-8tnt1gibf2r7.html?autoplay=1"
                 }
             ];
             
@@ -2322,6 +2478,7 @@
                 let isFullscreen = false;
                 let currentChannelIndex = 0;
                 let currentSeries = null;
+                let isInSeriesModal = false;
 
                 // Setup event listeners
                 function setupEventListeners() {
@@ -2360,6 +2517,9 @@
                             closeSettings();
                         }
                     });
+                    
+                    // Handle browser back button
+                    window.addEventListener('popstate', handleBackButton);
                 }
 
                 // Touch controls para cambiar canales
@@ -2467,6 +2627,9 @@
                     isFullscreen = true;
                     currentChannelIndex = channels.findIndex(ch => ch.id === currentChannel.id);
                     
+                    // Push state to handle back button
+                    window.history.pushState({ page: 'fullscreen' }, '', '#fullscreen');
+                    
                     if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
@@ -2529,18 +2692,27 @@
                     }
                     
                     fullscreenPlayer.removeEventListener('touchstart', showTVControls);
+                    
+                    // Update history state
+                    if (window.history.state && window.history.state.page === 'fullscreen') {
+                        window.history.back();
+                    }
                 }
 
                 // Open settings modal
                 function openSettings() {
                     settingsModal.classList.add('active');
                     document.body.style.overflow = 'hidden';
+                    window.history.pushState({ page: 'settings' }, '', '#settings');
                 }
 
                 // Close settings modal
                 function closeSettings() {
                     settingsModal.classList.remove('active');
                     document.body.style.overflow = 'auto';
+                    if (window.history.state && window.history.state.page === 'settings') {
+                        window.history.back();
+                    }
                 }
 
                 // Show selected section
@@ -2550,6 +2722,9 @@
                     });
                     
                     document.getElementById(`${sectionId}-section`).classList.add('active');
+                    
+                    // Update URL hash
+                    window.history.pushState({ page: sectionId }, '', `#${sectionId}`);
                 }
 
                 // Set active footer navigation
@@ -2667,6 +2842,7 @@
                 // Open series selection modal
                 function openSeriesSelection(serie) {
                     currentSeries = serie;
+                    isInSeriesModal = true;
                     seriesModalTitle.textContent = serie.title;
                     episodesGrid.innerHTML = '';
                     
@@ -2677,9 +2853,12 @@
                     
                     seriesSelectionModal.classList.add('active');
                     document.body.style.overflow = 'hidden';
+                    
+                    // Push state to handle back button
+                    window.history.pushState({ page: 'series-modal' }, '', '#series-modal');
                 }
 
-                // Create episode card element
+                // Create episode card element - AHORA INCLUYE NÚMERO DE EPISODIO SIEMPRE VISIBLE
                 function createEpisodeCard(episode, index) {
                     const card = document.createElement('div');
                     card.className = 'episode-card';
@@ -2688,6 +2867,7 @@
                     card.innerHTML = `
                         <div class="episode-thumbnail">
                             <img src="${episode.thumbnail}" alt="${episode.title}" loading="lazy">
+                            <div class="episode-number-badge">${index + 1}</div>
                         </div>
                         <div class="episode-info">
                             <div class="episode-title">${episode.title}</div>
@@ -2709,6 +2889,12 @@
                 function closeSeriesSelection() {
                     seriesSelectionModal.classList.remove('active');
                     document.body.style.overflow = 'auto';
+                    isInSeriesModal = false;
+                    
+                    // Update history state
+                    if (window.history.state && window.history.state.page === 'series-modal') {
+                        window.history.back();
+                    }
                 }
 
                 // Play series in fullscreen
@@ -2717,6 +2903,9 @@
                     seriesIframe.src = videoUrl;
                     seriesFullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
+                    
+                    // Push state to handle back button
+                    window.history.pushState({ page: 'series-fullscreen' }, '', '#series-fullscreen');
                     
                     // Entrar automáticamente en pantalla completa
                     if (!document.fullscreenElement) {
@@ -2741,6 +2930,9 @@
                     moviesIframe.src = movie.videoUrl;
                     moviesFullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
+                    
+                    // Push state to handle back button
+                    window.history.pushState({ page: 'movie-fullscreen' }, '', '#movie-fullscreen');
                     
                     // Entrar automáticamente en pantalla completa
                     if (!document.fullscreenElement) {
@@ -2769,6 +2961,11 @@
                     if (document.fullscreenElement) {
                         document.exitFullscreen();
                     }
+                    
+                    // Update history state
+                    if (window.history.state && window.history.state.page === 'series-fullscreen') {
+                        window.history.back();
+                    }
                 }
 
                 // Exit movies fullscreen
@@ -2781,6 +2978,40 @@
                     if (document.fullscreenElement) {
                         document.exitFullscreen();
                     }
+                    
+                    // Update history state
+                    if (window.history.state && window.history.state.page === 'movie-fullscreen') {
+                        window.history.back();
+                    }
+                }
+
+                // Handle browser back button
+                function handleBackButton(event) {
+                    if (seriesFullscreenPlayer.classList.contains('active')) {
+                        exitSeriesFullscreen();
+                        event.preventDefault();
+                        return false;
+                    } else if (moviesFullscreenPlayer.classList.contains('active')) {
+                        exitMoviesFullscreen();
+                        event.preventDefault();
+                        return false;
+                    } else if (isFullscreen) {
+                        exitFullscreen();
+                        event.preventDefault();
+                        return false;
+                    } else if (seriesSelectionModal.classList.contains('active')) {
+                        closeSeriesSelection();
+                        event.preventDefault();
+                        return false;
+                    } else if (settingsModal.classList.contains('active')) {
+                        closeSettings();
+                        event.preventDefault();
+                        return false;
+                    } else {
+                        // Default back behavior - show home section
+                        showSection('home');
+                        setActiveFooterNav(document.querySelector('.mobile-layout .footer-nav-btn[data-section="home"]'));
+                    }
                 }
 
                 // Initialize the mobile app
@@ -2790,6 +3021,9 @@
                 renderMovies();
                 showSection('home');
                 setupAutoFullscreen();
+                
+                // Initialize history state
+                window.history.replaceState({ page: 'home' }, '', '#home');
             }
 
             // ========== APLICACIÓN TV ==========
@@ -3545,7 +3779,7 @@
                     setFocus('series-modal', 0, 'episode');
                 }
 
-                // Create episode card element
+                // Create episode card element - AHORA INCLUYE NÚMERO DE EPISODIO SIEMPRE VISIBLE
                 function createEpisodeCard(episode, index) {
                     const card = document.createElement('div');
                     card.className = 'episode-card';
@@ -3554,6 +3788,7 @@
                     card.innerHTML = `
                         <div class="episode-thumbnail">
                             <img src="${episode.thumbnail}" alt="${episode.title}" loading="lazy">
+                            <div class="episode-number-badge">${index + 1}</div>
                         </div>
                         <div class="episode-info">
                             <div class="episode-title">${episode.title}</div>

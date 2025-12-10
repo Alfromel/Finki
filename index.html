@@ -27,9 +27,6 @@
       --primary-dark: #0052cc;
       --primary-light: #3385ff;
       --accent-color: #00ccff;
-      --success-color: #00ff88;
-      --warning-color: #ffaa00;
-      --danger-color: #ff3366;
       --bg-dark: #000000;
       --bg-darker: #0a0a0a;
       --bg-card: #1a1a1a;
@@ -39,9 +36,8 @@
       --text-muted: #888888;
       --shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
       --shadow-light: 0 2px 8px rgba(0, 102, 255, 0.2);
-      --border-radius: 12px;
+      --border-radius: 8px;
       --transition: all 0.3s ease;
-      --glow: 0 0 15px rgba(0, 102, 255, 0.5);
     }
 
     * {
@@ -138,13 +134,6 @@
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
       letter-spacing: 3px;
-      text-shadow: var(--glow);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
     }
 
     .splash-subtitle {
@@ -226,12 +215,6 @@
       font-weight: bold;
       font-size: 18px;
       box-shadow: var(--shadow);
-      animation: rotate 10s linear infinite;
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
     }
 
     .mobile-layout .logo-text {
@@ -243,7 +226,6 @@
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
       letter-spacing: 1px;
-      text-shadow: var(--glow);
     }
 
     .mobile-layout .header-right {
@@ -258,7 +240,7 @@
     }
 
     .mobile-layout .settings-btn {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      background: rgba(26, 26, 26, 0.8);
       border: none;
       width: 44px;
       height: 44px;
@@ -266,32 +248,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: var(--text-gray);
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .mobile-layout .settings-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: 0.5s;
-    }
-
-    .mobile-layout .settings-btn:hover::before {
-      left: 100%;
+      box-shadow: var(--shadow-light);
     }
 
     .mobile-layout .settings-btn:hover {
-      transform: scale(1.1) rotate(90deg);
-      box-shadow: var(--glow);
+      color: var(--primary-color);
+      background: rgba(0, 102, 255, 0.1);
+      transform: rotate(90deg);
     }
 
     /* Main Content */
@@ -306,8 +272,8 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .mobile-layout .content-section.active {
@@ -325,13 +291,12 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       position: relative;
-      padding-bottom: 10px;
     }
 
     .mobile-layout .section-title::after {
       content: '';
       position: absolute;
-      bottom: 0;
+      bottom: -8px;
       left: 0;
       width: 60px;
       height: 3px;
@@ -349,40 +314,23 @@
     }
 
     .mobile-layout .channel-card {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       overflow: hidden;
       cursor: pointer;
       transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
       aspect-ratio: 16/9;
     }
 
-    .mobile-layout .channel-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      z-index: 1;
-      opacity: 0;
-      transition: var(--transition);
-    }
-
     .mobile-layout .channel-card:hover, .mobile-layout .channel-card:active {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: var(--glow);
-      border-color: var(--primary-color);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
       z-index: 10;
-    }
-
-    .mobile-layout .channel-card:hover::before, 
-    .mobile-layout .channel-card:active::before {
-      opacity: 1;
     }
 
     .mobile-layout .channel-thumbnail {
@@ -393,7 +341,6 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 2;
     }
 
     .mobile-layout .channel-thumbnail img {
@@ -405,7 +352,7 @@
 
     .mobile-layout .channel-card:hover .channel-thumbnail img, 
     .mobile-layout .channel-card:active .channel-thumbnail img {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .mobile-layout .channel-live-badge {
@@ -421,15 +368,13 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       box-shadow: var(--shadow-light);
-      z-index: 3;
-      animation: pulse 2s infinite;
     }
 
     .mobile-layout .channel-number {
       position: absolute;
       top: 8px;
       left: 8px;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.7);
       color: white;
       width: 24px;
       height: 24px;
@@ -439,8 +384,6 @@
       justify-content: center;
       font-weight: bold;
       font-size: 12px;
-      z-index: 3;
-      border: 1px solid var(--primary-color);
     }
 
     .mobile-layout .channel-title {
@@ -452,9 +395,8 @@
       font-weight: 500;
       text-align: center;
       font-size: 14px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
       color: white;
-      z-index: 3;
     }
 
     /* Series Grid */
@@ -467,40 +409,23 @@
     }
 
     .mobile-layout .series-card {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       overflow: hidden;
       cursor: pointer;
       transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
       aspect-ratio: 2/3;
     }
 
-    .mobile-layout .series-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      z-index: 1;
-      opacity: 0;
-      transition: var(--transition);
-    }
-
     .mobile-layout .series-card:hover, .mobile-layout .series-card:active {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: var(--glow);
-      border-color: var(--primary-color);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
       z-index: 10;
-    }
-
-    .mobile-layout .series-card:hover::before, 
-    .mobile-layout .series-card:active::before {
-      opacity: 1;
     }
 
     .mobile-layout .series-thumbnail {
@@ -511,7 +436,6 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 2;
     }
 
     .mobile-layout .series-thumbnail img {
@@ -523,7 +447,7 @@
 
     .mobile-layout .series-card:hover .series-thumbnail img, 
     .mobile-layout .series-card:active .series-thumbnail img {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .mobile-layout .series-title {
@@ -535,9 +459,8 @@
       font-weight: 500;
       text-align: center;
       font-size: 14px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
       color: white;
-      z-index: 3;
     }
 
     /* Movies Grid */
@@ -550,40 +473,23 @@
     }
 
     .mobile-layout .movie-card {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       overflow: hidden;
       cursor: pointer;
       transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
       aspect-ratio: 2/3;
     }
 
-    .mobile-layout .movie-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      z-index: 1;
-      opacity: 0;
-      transition: var(--transition);
-    }
-
     .mobile-layout .movie-card:hover, .mobile-layout .movie-card:active {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: var(--glow);
-      border-color: var(--primary-color);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
       z-index: 10;
-    }
-
-    .mobile-layout .movie-card:hover::before, 
-    .mobile-layout .movie-card:active::before {
-      opacity: 1;
     }
 
     .mobile-layout .movie-thumbnail {
@@ -594,7 +500,6 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 2;
     }
 
     .mobile-layout .movie-thumbnail img {
@@ -606,7 +511,7 @@
 
     .mobile-layout .movie-card:hover .movie-thumbnail img, 
     .mobile-layout .movie-card:active .movie-thumbnail img {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .mobile-layout .movie-title {
@@ -618,9 +523,8 @@
       font-weight: 500;
       text-align: center;
       font-size: 14px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
       color: white;
-      z-index: 3;
     }
 
     /* Coming Soon Sections */
@@ -635,10 +539,9 @@
       text-align: center;
       max-width: 500px;
       padding: 40px;
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .mobile-layout .coming-full-content i {
@@ -647,12 +550,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 20px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
     }
 
     .mobile-layout .coming-full-content h2 {
@@ -677,7 +574,6 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       box-shadow: var(--shadow-light);
-      animation: pulse 2s infinite;
     }
 
     /* Footer */
@@ -711,35 +607,17 @@
       border-radius: 10px;
       transition: var(--transition);
       min-width: 70px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .mobile-layout .footer-nav-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      opacity: 0;
-      transition: var(--transition);
     }
 
     .mobile-layout .footer-nav-btn i {
       font-size: 20px;
       transition: var(--transition);
-      z-index: 1;
-      position: relative;
     }
 
     .mobile-layout .footer-nav-btn span {
       font-size: 12px;
       font-weight: 500;
       transition: var(--transition);
-      z-index: 1;
-      position: relative;
     }
 
     .mobile-layout .footer-nav-btn.active {
@@ -747,23 +625,13 @@
       background: rgba(0, 102, 255, 0.1);
     }
 
-    .mobile-layout .footer-nav-btn.active::before {
-      opacity: 1;
-    }
-
     .mobile-layout .footer-nav-btn.active i {
       transform: translateY(-2px);
-      color: var(--accent-color);
     }
 
     .mobile-layout .footer-nav-btn:hover, .mobile-layout .footer-nav-btn:active {
       background: rgba(0, 102, 255, 0.1);
       color: var(--primary-color);
-    }
-
-    .mobile-layout .footer-nav-btn:hover::before, 
-    .mobile-layout .footer-nav-btn:active::before {
-      opacity: 1;
     }
 
     /* ========== DISEÑO TV ========== */
@@ -809,35 +677,17 @@
       padding: 20px 10px;
       transition: var(--transition);
       width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tv-layout .nav-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      opacity: 0;
-      transition: var(--transition);
     }
 
     .tv-layout .nav-btn i {
       font-size: 24px;
       transition: var(--transition);
-      z-index: 1;
-      position: relative;
     }
 
     .tv-layout .nav-btn span {
       font-size: 14px;
       font-weight: 500;
       transition: var(--transition);
-      z-index: 1;
-      position: relative;
     }
 
     .tv-layout .nav-btn.active, .tv-layout .nav-btn.focused {
@@ -845,23 +695,13 @@
       background: rgba(0, 102, 255, 0.1);
     }
 
-    .tv-layout .nav-btn.active::before, 
-    .tv-layout .nav-btn.focused::before {
-      opacity: 1;
-    }
-
     .tv-layout .nav-btn.active i, .tv-layout .nav-btn.focused i {
       transform: translateY(-2px);
-      color: var(--accent-color);
     }
 
     .tv-layout .nav-btn:hover {
       background: rgba(0, 102, 255, 0.1);
       color: var(--primary-color);
-    }
-
-    .tv-layout .nav-btn:hover::before {
-      opacity: 1;
     }
 
     /* Main Content Area */
@@ -908,7 +748,6 @@
       font-weight: bold;
       font-size: 18px;
       box-shadow: var(--shadow);
-      animation: rotate 10s linear infinite;
     }
 
     .tv-layout .logo-text {
@@ -920,7 +759,6 @@
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
       letter-spacing: 1px;
-      text-shadow: var(--glow);
     }
 
     .tv-layout .header-right {
@@ -935,7 +773,7 @@
     }
 
     .tv-layout .settings-btn {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      background: rgba(26, 26, 26, 0.8);
       border: none;
       width: 44px;
       height: 44px;
@@ -943,33 +781,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: var(--text-gray);
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tv-layout .settings-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: 0.5s;
-    }
-
-    .tv-layout .settings-btn:hover::before, 
-    .tv-layout .settings-btn.focused::before {
-      left: 100%;
+      box-shadow: var(--shadow-light);
     }
 
     .tv-layout .settings-btn:hover, .tv-layout .settings-btn.focused {
-      transform: scale(1.1) rotate(90deg);
-      box-shadow: var(--glow);
+      color: var(--primary-color);
+      background: rgba(0, 102, 255, 0.1);
+      transform: rotate(90deg);
     }
 
     /* Main Content */
@@ -1001,13 +822,12 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       position: relative;
-      padding-bottom: 15px;
     }
 
     .tv-layout .section-title::after {
       content: '';
       position: absolute;
-      bottom: 0;
+      bottom: -12px;
       left: 0;
       width: 80px;
       height: 4px;
@@ -1025,40 +845,23 @@
     }
 
     .tv-layout .channel-card {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       overflow: hidden;
       cursor: pointer;
       transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
       aspect-ratio: 16/9;
     }
 
-    .tv-layout .channel-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      z-index: 1;
-      opacity: 0;
-      transition: var(--transition);
-    }
-
     .tv-layout .channel-card:hover, .tv-layout .channel-card.focused {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: var(--glow);
-      border-color: var(--primary-color);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
       z-index: 10;
-    }
-
-    .tv-layout .channel-card:hover::before, 
-    .tv-layout .channel-card.focused::before {
-      opacity: 1;
     }
 
     .tv-layout .channel-thumbnail {
@@ -1069,7 +872,6 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 2;
     }
 
     .tv-layout .channel-thumbnail img {
@@ -1081,7 +883,7 @@
 
     .tv-layout .channel-card:hover .channel-thumbnail img, 
     .tv-layout .channel-card.focused .channel-thumbnail img {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .tv-layout .channel-live-badge {
@@ -1097,15 +899,13 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       box-shadow: var(--shadow-light);
-      z-index: 3;
-      animation: pulse 2s infinite;
     }
 
     .tv-layout .channel-number {
       position: absolute;
       top: 10px;
       left: 10px;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.7);
       color: white;
       width: 30px;
       height: 30px;
@@ -1115,8 +915,6 @@
       justify-content: center;
       font-weight: bold;
       font-size: 14px;
-      z-index: 3;
-      border: 1px solid var(--primary-color);
     }
 
     .tv-layout .channel-title {
@@ -1128,9 +926,8 @@
       font-weight: 500;
       text-align: center;
       font-size: 16px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
       color: white;
-      z-index: 3;
     }
 
     /* Series Grid */
@@ -1143,40 +940,23 @@
     }
 
     .tv-layout .series-card {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       overflow: hidden;
       cursor: pointer;
       transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
       aspect-ratio: 2/3;
     }
 
-    .tv-layout .series-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      z-index: 1;
-      opacity: 0;
-      transition: var(--transition);
-    }
-
     .tv-layout .series-card:hover, .tv-layout .series-card.focused {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: var(--glow);
-      border-color: var(--primary-color);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
       z-index: 10;
-    }
-
-    .tv-layout .series-card:hover::before, 
-    .tv-layout .series-card.focused::before {
-      opacity: 1;
     }
 
     .tv-layout .series-thumbnail {
@@ -1187,7 +967,6 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 2;
     }
 
     .tv-layout .series-thumbnail img {
@@ -1199,7 +978,7 @@
 
     .tv-layout .series-card:hover .series-thumbnail img, 
     .tv-layout .series-card.focused .series-thumbnail img {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .tv-layout .series-title {
@@ -1211,9 +990,8 @@
       font-weight: 500;
       text-align: center;
       font-size: 16px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
       color: white;
-      z-index: 3;
     }
 
     /* Movies Grid */
@@ -1226,40 +1004,23 @@
     }
 
     .tv-layout .movie-card {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       overflow: hidden;
       cursor: pointer;
       transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       box-shadow: var(--shadow-light);
       aspect-ratio: 2/3;
     }
 
-    .tv-layout .movie-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      z-index: 1;
-      opacity: 0;
-      transition: var(--transition);
-    }
-
     .tv-layout .movie-card:hover, .tv-layout .movie-card.focused {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: var(--glow);
-      border-color: var(--primary-color);
+      box-shadow: var(--shadow);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 102, 255, 0.3);
       z-index: 10;
-    }
-
-    .tv-layout .movie-card:hover::before, 
-    .tv-layout .movie-card.focused::before {
-      opacity: 1;
     }
 
     .tv-layout .movie-thumbnail {
@@ -1270,7 +1031,6 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 2;
     }
 
     .tv-layout .movie-thumbnail img {
@@ -1282,7 +1042,7 @@
 
     .tv-layout .movie-card:hover .movie-thumbnail img, 
     .tv-layout .movie-card.focused .movie-thumbnail img {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .tv-layout .movie-title {
@@ -1294,9 +1054,8 @@
       font-weight: 500;
       text-align: center;
       font-size: 16px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
       color: white;
-      z-index: 3;
     }
 
     /* Coming Soon Sections */
@@ -1311,10 +1070,9 @@
       text-align: center;
       max-width: 600px;
       padding: 50px;
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .tv-layout .coming-full-content i {
@@ -1323,7 +1081,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 30px;
-      animation: float 3s ease-in-out infinite;
     }
 
     .tv-layout .coming-full-content h2 {
@@ -1350,7 +1107,6 @@
       letter-spacing: 1px;
       font-size: 16px;
       box-shadow: var(--shadow-light);
-      animation: pulse 2s infinite;
     }
 
     /* Focus styles for TV navigation */
@@ -1376,7 +1132,6 @@
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.2s ease;
-      box-shadow: var(--glow);
     }
 
     .tv-layout .channel-card.focused .selection-indicator,
@@ -1458,7 +1213,7 @@
       border: none;
     }
 
-    /* MODAL DE AJUSTES MEJORADO */
+    /* Modal */
     .tv-modal {
       display: none;
       position: fixed;
@@ -1466,11 +1221,10 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(0, 0, 0, 0.9);
       z-index: 1000;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(10px);
     }
 
     .tv-modal.active {
@@ -1478,26 +1232,14 @@
     }
 
     .modal-content {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: 15px;
       width: 90%;
-      max-width: 500px;
+      max-width: 400px;
       padding: 30px;
-      box-shadow: var(--glow);
+      box-shadow: var(--shadow);
       border: 1px solid rgba(0, 102, 255, 0.3);
       text-align: center;
-      animation: modalSlideIn 0.3s ease-out;
-    }
-
-    @keyframes modalSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
     }
 
     .modal-content h2 {
@@ -1509,208 +1251,27 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      font-size: 28px;
     }
 
-    .settings-section {
-      text-align: left;
-      margin-bottom: 25px;
-    }
-
-    .settings-section h3 {
-      color: var(--primary-color);
-      margin-bottom: 15px;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .settings-section h3 i {
-      color: var(--accent-color);
-    }
-
-    .settings-group {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-
-    .setting-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .setting-item:last-child {
-      border-bottom: none;
-    }
-
-    .setting-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-gray);
-      font-weight: 500;
-    }
-
-    .setting-label i {
-      color: var(--accent-color);
-      width: 20px;
-      text-align: center;
-    }
-
-    /* Switch Toggle */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 26px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #333;
-      transition: .4s;
-      border-radius: 34px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(24px);
-    }
-
-    /* Social Media Buttons */
-    .social-buttons {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    .social-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-radius: 10px;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: var(--transition);
-      box-shadow: var(--shadow-light);
-      min-width: 140px;
-    }
-
-    .social-btn i {
-      font-size: 18px;
-    }
-
-    .social-btn.facebook {
-      background: linear-gradient(135deg, #1877F2 0%, #0D5FD9 100%);
-    }
-
-    .social-btn.tiktok {
-      background: linear-gradient(135deg, #000000 0%, #333333 100%);
-    }
-
-    .social-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-    }
-
-    .social-btn:active {
-      transform: translateY(-1px);
-    }
-
-    /* Modal Actions */
     .modal-actions {
       margin-top: 25px;
-      display: flex;
-      gap: 15px;
-      justify-content: center;
     }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       padding: 12px 30px;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
       box-shadow: var(--shadow-light);
-      font-size: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: 0.5s;
-    }
-
-    .btn-primary:hover::before {
-      left: 100%;
     }
 
     .btn-primary:hover, .btn-primary.focused {
       transform: translateY(-2px);
       box-shadow: var(--shadow);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text-gray);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      padding: 12px 30px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 16px;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
     }
 
     /* TV Controls Overlay */
@@ -1728,7 +1289,6 @@
       text-align: center;
       transition: opacity 0.3s ease;
       backdrop-filter: blur(5px);
-      border: 1px solid rgba(0, 102, 255, 0.3);
     }
 
     .current-channel {
@@ -1760,8 +1320,6 @@
       align-items: center;
       gap: 15px;
       backdrop-filter: blur(5px);
-      border: 1px solid rgba(0, 102, 255, 0.3);
-      box-shadow: var(--glow);
     }
 
     .notification-content {
@@ -1780,7 +1338,6 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      box-shadow: var(--shadow-light);
     }
 
     /* Series Selection Modal */
@@ -1795,7 +1352,6 @@
       z-index: 1500;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(10px);
     }
 
     .series-selection-modal.active {
@@ -1803,7 +1359,7 @@
     }
 
     .series-modal-content {
-      background: linear-gradient(135deg, var(--bg-card) 0%, #222 100%);
+      background: var(--bg-card);
       border-radius: 15px;
       width: 90%;
       max-width: 800px;
@@ -1811,7 +1367,6 @@
       overflow-y: auto;
       box-shadow: var(--shadow);
       border: 1px solid rgba(0, 102, 255, 0.3);
-      animation: modalSlideIn 0.3s ease-out;
     }
 
     .series-modal-header {
@@ -1820,7 +1375,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0, 0, 0, 0.3);
     }
 
     .series-modal-title {
@@ -1832,21 +1386,16 @@
     }
 
     .close-modal {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      background: none;
       border: none;
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      font-size: 16px;
+      color: var(--text-gray);
+      font-size: 20px;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: var(--shadow-light);
     }
 
     .close-modal:hover, .close-modal.focused {
-      transform: scale(1.1);
-      box-shadow: var(--glow);
+      color: var(--primary-color);
     }
 
     .series-modal-body {
@@ -1860,7 +1409,7 @@
     }
 
     .episode-card {
-      background: linear-gradient(135deg, var(--bg-darker) 0%, #1a1a1a 100%);
+      background: var(--bg-darker);
       border-radius: 10px;
       overflow: hidden;
       cursor: pointer;
@@ -1870,27 +1419,10 @@
       position: relative;
     }
 
-    .episode-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent 30%, rgba(0, 102, 255, 0.1) 100%);
-      opacity: 0;
-      transition: var(--transition);
-    }
-
     .episode-card:hover, .episode-card.focused {
       transform: translateY(-5px);
       box-shadow: var(--shadow-light);
       border-color: rgba(0, 102, 255, 0.3);
-    }
-
-    .episode-card:hover::before, 
-    .episode-card.focused::before {
-      opacity: 1;
     }
 
     .episode-thumbnail {
@@ -1926,7 +1458,7 @@
       font-size: 12px;
     }
 
-    /* Episodio número badge */
+    /* Episodio número badge - NUEVO ESTILO AÑADIDO */
     .episode-number-badge {
       position: absolute;
       top: 8px;
@@ -1942,7 +1474,6 @@
       font-weight: bold;
       font-size: 12px;
       z-index: 2;
-      border: 1px solid var(--primary-color);
     }
 
     /* Responsive */
@@ -2009,24 +1540,6 @@
         height: 24px;
         font-size: 11px;
       }
-
-      .social-buttons {
-        flex-direction: column;
-      }
-
-      .social-btn {
-        min-width: 100%;
-      }
-
-      .modal-content {
-        padding: 20px;
-      }
-
-      .setting-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -2078,11 +1591,6 @@
         width: 22px;
         height: 22px;
         font-size: 10px;
-      }
-
-      .modal-content {
-        width: 95%;
-        padding: 15px;
       }
     }
 
@@ -2353,141 +1861,12 @@
         </div>
     </div>
 
-    <!-- Settings Modal - NUEVO Y MEJORADO -->
+    <!-- Settings Modal -->
     <div class="tv-modal" id="settings-modal">
         <div class="modal-content">
-            <h2><i class="fas fa-cog"></i> AJUSTES PREMIUM</h2>
-            
-            <div class="settings-section">
-                <h3><i class="fas fa-palette"></i> APARIENCIA</h3>
-                <div class="settings-group">
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-moon"></i>
-                            <span>Modo Oscuro</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="dark-mode-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-snowflake"></i>
-                            <span>Efectos de Nieve</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="snow-effects-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-arrows-alt"></i>
-                            <span>Auto Pantalla Completa</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="auto-fullscreen-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <h3><i class="fas fa-tv"></i> REPRODUCCIÓN</h3>
-                <div class="settings-group">
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-volume-up"></i>
-                            <span>Sonido Automático</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="auto-sound-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-eye"></i>
-                            <span>Calidad HD Automática</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="auto-hd-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-bolt"></i>
-                            <span>Reproducción Rápida</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="fast-play-toggle">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <h3><i class="fas fa-heart"></i> PREFERENCIAS</h3>
-                <div class="settings-group">
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-bell"></i>
-                            <span>Notificaciones</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="notifications-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-history"></i>
-                            <span>Historial de Visto</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="history-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">
-                            <i class="fas fa-star"></i>
-                            <span>Favoritos Rápidos</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="favorites-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Redes Sociales -->
-            <div class="settings-section">
-                <h3><i class="fas fa-share-alt"></i> CONÉCTATE CON NOSOTROS</h3>
-                <div class="social-buttons">
-                    <a href="https://www.facebook.com/share/19VRk5WSX3/" target="_blank" class="social-btn facebook">
-                        <i class="fab fa-facebook-f"></i>
-                        Facebook
-                    </a>
-                    <a href="https://www.tiktok.com/@finkitv?_r=1&_t=ZM-920VxWDA7M8" target="_blank" class="social-btn tiktok">
-                        <i class="fab fa-tiktok"></i>
-                        TikTok
-                    </a>
-                </div>
-            </div>
-
+            <h2><i class="fas fa-cog"></i> AJUSTES</h2>
             <div class="modal-actions">
-                <button class="btn-secondary" id="reset-settings">
-                    <i class="fas fa-undo"></i> Restablecer
-                </button>
-                <button class="btn-primary" id="close-settings">
-                    <i class="fas fa-check"></i> Aplicar
-                </button>
+                <button class="btn-primary" id="close-settings">Cerrar</button>
             </div>
         </div>
     </div>
@@ -3217,7 +2596,6 @@
                 const settingsBtn = document.getElementById('settings-btn');
                 const settingsModal = document.getElementById('settings-modal');
                 const closeSettingsBtn = document.getElementById('close-settings');
-                const resetSettingsBtn = document.getElementById('reset-settings');
                 const footerNavBtns = document.querySelectorAll('.mobile-layout .footer-nav-btn');
                 const contentSections = document.querySelectorAll('.mobile-layout .content-section');
                 const channelsGrid = document.getElementById('channels-grid');
@@ -3235,17 +2613,6 @@
                 const episodesGrid = document.getElementById('episodes-grid');
                 const seriesModalTitle = document.getElementById('series-modal-title');
                 
-                // Settings toggles
-                const darkModeToggle = document.getElementById('dark-mode-toggle');
-                const snowEffectsToggle = document.getElementById('snow-effects-toggle');
-                const autoFullscreenToggle = document.getElementById('auto-fullscreen-toggle');
-                const autoSoundToggle = document.getElementById('auto-sound-toggle');
-                const autoHDToggle = document.getElementById('auto-hd-toggle');
-                const fastPlayToggle = document.getElementById('fast-play-toggle');
-                const notificationsToggle = document.getElementById('notifications-toggle');
-                const historyToggle = document.getElementById('history-toggle');
-                const favoritesToggle = document.getElementById('favorites-toggle');
-                
                 // Current playing channel
                 let currentChannel = null;
                 let isFullscreen = false;
@@ -3253,127 +2620,11 @@
                 let currentSeries = null;
                 let isInSeriesModal = false;
 
-                // Settings state
-                const settingsState = {
-                    darkMode: true,
-                    snowEffects: true,
-                    autoFullscreen: true,
-                    autoSound: true,
-                    autoHD: true,
-                    fastPlay: false,
-                    notifications: true,
-                    history: true,
-                    favorites: true
-                };
-
-                // Cargar configuración desde localStorage
-                function loadSettings() {
-                    const savedSettings = localStorage.getItem('finkiTvSettings');
-                    if (savedSettings) {
-                        Object.assign(settingsState, JSON.parse(savedSettings));
-                    }
-                    
-                    // Aplicar configuración a los toggles
-                    darkModeToggle.checked = settingsState.darkMode;
-                    snowEffectsToggle.checked = settingsState.snowEffects;
-                    autoFullscreenToggle.checked = settingsState.autoFullscreen;
-                    autoSoundToggle.checked = settingsState.autoSound;
-                    autoHDToggle.checked = settingsState.autoHD;
-                    fastPlayToggle.checked = settingsState.fastPlay;
-                    notificationsToggle.checked = settingsState.notifications;
-                    historyToggle.checked = settingsState.history;
-                    favoritesToggle.checked = settingsState.favorites;
-                    
-                    // Aplicar modo oscuro
-                    applyDarkMode();
-                    // Aplicar efectos de nieve
-                    applySnowEffects();
-                }
-
-                // Guardar configuración en localStorage
-                function saveSettings() {
-                    localStorage.setItem('finkiTvSettings', JSON.stringify(settingsState));
-                }
-
-                // Aplicar modo oscuro
-                function applyDarkMode() {
-                    if (settingsState.darkMode) {
-                        document.documentElement.style.setProperty('--bg-dark', '#000000');
-                        document.documentElement.style.setProperty('--bg-darker', '#0a0a0a');
-                        document.documentElement.style.setProperty('--bg-card', '#1a1a1a');
-                    } else {
-                        document.documentElement.style.setProperty('--bg-dark', '#f0f0f0');
-                        document.documentElement.style.setProperty('--bg-darker', '#e0e0e0');
-                        document.documentElement.style.setProperty('--bg-card', '#ffffff');
-                    }
-                }
-
-                // Aplicar efectos de nieve
-                function applySnowEffects() {
-                    const snowflakesContainer = document.getElementById('snowflakes');
-                    if (settingsState.snowEffects) {
-                        if (snowflakesContainer.children.length === 0 && !isFullscreen) {
-                            createSnowflakes();
-                        }
-                    } else {
-                        snowflakesContainer.innerHTML = '';
-                    }
-                }
-
                 // Setup event listeners
                 function setupEventListeners() {
                     settingsBtn.addEventListener('click', openSettings);
                     closeSettingsBtn.addEventListener('click', closeSettings);
-                    resetSettingsBtn.addEventListener('click', resetSettings);
                     closeSeriesModalBtn.addEventListener('click', closeSeriesSelection);
-                    
-                    // Settings toggles event listeners
-                    darkModeToggle.addEventListener('change', function() {
-                        settingsState.darkMode = this.checked;
-                        applyDarkMode();
-                        saveSettings();
-                    });
-                    
-                    snowEffectsToggle.addEventListener('change', function() {
-                        settingsState.snowEffects = this.checked;
-                        applySnowEffects();
-                        saveSettings();
-                    });
-                    
-                    autoFullscreenToggle.addEventListener('change', function() {
-                        settingsState.autoFullscreen = this.checked;
-                        saveSettings();
-                    });
-                    
-                    autoSoundToggle.addEventListener('change', function() {
-                        settingsState.autoSound = this.checked;
-                        saveSettings();
-                    });
-                    
-                    autoHDToggle.addEventListener('change', function() {
-                        settingsState.autoHD = this.checked;
-                        saveSettings();
-                    });
-                    
-                    fastPlayToggle.addEventListener('change', function() {
-                        settingsState.fastPlay = this.checked;
-                        saveSettings();
-                    });
-                    
-                    notificationsToggle.addEventListener('change', function() {
-                        settingsState.notifications = this.checked;
-                        saveSettings();
-                    });
-                    
-                    historyToggle.addEventListener('change', function() {
-                        settingsState.history = this.checked;
-                        saveSettings();
-                    });
-                    
-                    favoritesToggle.addEventListener('change', function() {
-                        settingsState.favorites = this.checked;
-                        saveSettings();
-                    });
                     
                     footerNavBtns.forEach(btn => {
                         btn.addEventListener('click', function() {
@@ -3469,8 +2720,6 @@
 
                 // Mostrar notificación de cambio de canal
                 function showChannelChangeNotification(channelName) {
-                    if (!settingsState.notifications) return;
-                    
                     const existingNotification = document.querySelector('.channel-change-notification');
                     if (existingNotification) {
                         existingNotification.remove();
@@ -3501,7 +2750,7 @@
                 function setupAutoFullscreen() {
                     const observer = new MutationObserver(function(mutations) {
                         mutations.forEach(function(mutation) {
-                            if (mutation.type === 'childList' && fullscreenIframeContainer.children.length > 0 && settingsState.autoFullscreen) {
+                            if (mutation.type === 'childList' && fullscreenIframeContainer.children.length > 0) {
                                 enterFullscreen();
                             }
                         });
@@ -3512,9 +2761,7 @@
 
                 // Enter fullscreen mode
                 function enterFullscreen() {
-                    if (!settingsState.snowEffects) {
-                        removeSnowflakes();
-                    }
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
                     fullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     isFullscreen = true;
@@ -3523,7 +2770,7 @@
                     // Push state to handle back button
                     window.history.pushState({ page: 'fullscreen' }, '', '#fullscreen');
                     
-                    if (settingsState.autoFullscreen && !document.fullscreenElement) {
+                    if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
                         });
@@ -3568,9 +2815,7 @@
 
                 // Exit fullscreen mode
                 function exitFullscreen() {
-                    if (settingsState.snowEffects) {
-                        restoreSnowflakes();
-                    }
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                     fullscreenPlayer.classList.remove('active');
                     document.body.style.overflow = 'auto';
                     isFullscreen = false;
@@ -3608,63 +2853,6 @@
                     if (window.history.state && window.history.state.page === 'settings') {
                         window.history.back();
                     }
-                }
-
-                // Reset settings to default
-                function resetSettings() {
-                    // Reset state
-                    settingsState.darkMode = true;
-                    settingsState.snowEffects = true;
-                    settingsState.autoFullscreen = true;
-                    settingsState.autoSound = true;
-                    settingsState.autoHD = true;
-                    settingsState.fastPlay = false;
-                    settingsState.notifications = true;
-                    settingsState.history = true;
-                    settingsState.favorites = true;
-                    
-                    // Update toggles
-                    darkModeToggle.checked = true;
-                    snowEffectsToggle.checked = true;
-                    autoFullscreenToggle.checked = true;
-                    autoSoundToggle.checked = true;
-                    autoHDToggle.checked = true;
-                    fastPlayToggle.checked = false;
-                    notificationsToggle.checked = true;
-                    historyToggle.checked = true;
-                    favoritesToggle.checked = true;
-                    
-                    // Apply settings
-                    applyDarkMode();
-                    applySnowEffects();
-                    
-                    // Save to localStorage
-                    saveSettings();
-                    
-                    // Show confirmation
-                    showNotification('Ajustes restablecidos correctamente');
-                }
-
-                // Show notification
-                function showNotification(message) {
-                    const notification = document.createElement('div');
-                    notification.className = 'channel-change-notification';
-                    notification.innerHTML = `
-                        <div class="notification-content">
-                            <span>${message}</span>
-                        </div>
-                    `;
-                    
-                    document.body.appendChild(notification);
-                    
-                    setTimeout(() => {
-                        notification.style.opacity = '0';
-                        setTimeout(() => {
-                            if (notification.parentNode) {
-                                notification.remove();
-                            }
-                        }, 300);
-                    }, 2000);
                 }
 
                 // Show selected section
@@ -3851,9 +3039,7 @@
 
                 // Play series in fullscreen
                 function playSeriesFullscreen(videoUrl) {
-                    if (!settingsState.snowEffects) {
-                        removeSnowflakes();
-                    }
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
                     seriesIframe.src = videoUrl;
                     seriesFullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -3861,30 +3047,26 @@
                     // Push state to handle back button
                     window.history.pushState({ page: 'series-fullscreen' }, '', '#series-fullscreen');
                     
-                    // Entrar automáticamente en pantalla completa si está activado
-                    if (settingsState.autoFullscreen && !document.fullscreenElement) {
+                    // Entrar automáticamente en pantalla completa
+                    if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
                         });
                     }
                     
-                    // Forzar el sonido si está activado
-                    if (settingsState.autoSound) {
-                        setTimeout(() => {
-                            try {
-                                seriesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
-                            } catch(e) {
-                                console.log('No se pudo forzar reproducción automática');
-                            }
-                        }, 1000);
-                    }
+                    // Forzar el sonido (esto depende de las políticas del navegador)
+                    setTimeout(() => {
+                        try {
+                            seriesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
+                        } catch(e) {
+                            console.log('No se pudo forzar reproducción automática');
+                        }
+                    }, 1000);
                 }
 
                 // Play movie in fullscreen
                 function playMovieFullscreen(movie) {
-                    if (!settingsState.snowEffects) {
-                        removeSnowflakes();
-                    }
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
                     moviesIframe.src = movie.videoUrl;
                     moviesFullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -3892,30 +3074,26 @@
                     // Push state to handle back button
                     window.history.pushState({ page: 'movie-fullscreen' }, '', '#movie-fullscreen');
                     
-                    // Entrar automáticamente en pantalla completa si está activado
-                    if (settingsState.autoFullscreen && !document.fullscreenElement) {
+                    // Entrar automáticamente en pantalla completa
+                    if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
                         });
                     }
                     
-                    // Forzar el sonido si está activado
-                    if (settingsState.autoSound) {
-                        setTimeout(() => {
-                            try {
-                                moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
-                            } catch(e) {
-                                console.log('No se pudo forzar reproducción automática');
-                            }
-                        }, 1000);
-                    }
+                    // Forzar el sonido (esto depende de las políticas del navegador)
+                    setTimeout(() => {
+                        try {
+                            moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
+                        } catch(e) {
+                            console.log('No se pudo forzar reproducción automática');
+                        }
+                    }, 1000);
                 }
 
                 // Exit series fullscreen
                 function exitSeriesFullscreen() {
-                    if (settingsState.snowEffects) {
-                        restoreSnowflakes();
-                    }
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                     seriesFullscreenPlayer.classList.remove('active');
                     document.body.style.overflow = 'auto';
                     seriesIframe.src = '';
@@ -3932,9 +3110,7 @@
 
                 // Exit movies fullscreen
                 function exitMoviesFullscreen() {
-                    if (settingsState.snowEffects) {
-                        restoreSnowflakes();
-                    }
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                     moviesFullscreenPlayer.classList.remove('active');
                     document.body.style.overflow = 'auto';
                     moviesIframe.src = '';
@@ -3979,7 +3155,6 @@
                 }
 
                 // Initialize the mobile app
-                loadSettings();
                 setupEventListeners();
                 renderChannels();
                 renderSeries();
@@ -4000,7 +3175,6 @@
                 const settingsBtn = document.getElementById('tv-settings-btn');
                 const settingsModal = document.getElementById('settings-modal');
                 const closeSettingsBtn = document.getElementById('close-settings');
-                const resetSettingsBtn = document.getElementById('reset-settings');
                 const navBtns = document.querySelectorAll('.tv-layout .nav-btn');
                 const contentSections = document.querySelectorAll('.tv-layout .content-section');
                 const channelsGrid = document.getElementById('tv-channels-grid');
@@ -4018,35 +3192,11 @@
                 const episodesGrid = document.getElementById('episodes-grid');
                 const seriesModalTitle = document.getElementById('series-modal-title');
                 
-                // Settings toggles
-                const darkModeToggle = document.getElementById('dark-mode-toggle');
-                const snowEffectsToggle = document.getElementById('snow-effects-toggle');
-                const autoFullscreenToggle = document.getElementById('auto-fullscreen-toggle');
-                const autoSoundToggle = document.getElementById('auto-sound-toggle');
-                const autoHDToggle = document.getElementById('auto-hd-toggle');
-                const fastPlayToggle = document.getElementById('fast-play-toggle');
-                const notificationsToggle = document.getElementById('notifications-toggle');
-                const historyToggle = document.getElementById('history-toggle');
-                const favoritesToggle = document.getElementById('favorites-toggle');
-                
                 // Current playing channel
                 let currentChannel = null;
                 let isFullscreen = false;
                 let currentChannelIndex = 0;
                 let currentSeries = null;
-
-                // Settings state
-                const settingsState = {
-                    darkMode: true,
-                    snowEffects: true,
-                    autoFullscreen: true,
-                    autoSound: true,
-                    autoHD: true,
-                    fastPlay: false,
-                    notifications: true,
-                    history: true,
-                    favorites: true
-                };
 
                 // TV Remote Navigation Variables
                 let currentFocus = {
@@ -4055,114 +3205,11 @@
                     type: 'channel' // 'channel', 'series', 'movie', 'nav', 'episode'
                 };
 
-                // Cargar configuración desde localStorage
-                function loadSettings() {
-                    const savedSettings = localStorage.getItem('finkiTvSettings');
-                    if (savedSettings) {
-                        Object.assign(settingsState, JSON.parse(savedSettings));
-                    }
-                    
-                    // Aplicar configuración a los toggles
-                    darkModeToggle.checked = settingsState.darkMode;
-                    snowEffectsToggle.checked = settingsState.snowEffects;
-                    autoFullscreenToggle.checked = settingsState.autoFullscreen;
-                    autoSoundToggle.checked = settingsState.autoSound;
-                    autoHDToggle.checked = settingsState.autoHD;
-                    fastPlayToggle.checked = settingsState.fastPlay;
-                    notificationsToggle.checked = settingsState.notifications;
-                    historyToggle.checked = settingsState.history;
-                    favoritesToggle.checked = settingsState.favorites;
-                    
-                    // Aplicar modo oscuro
-                    applyDarkMode();
-                    // Aplicar efectos de nieve
-                    applySnowEffects();
-                }
-
-                // Guardar configuración en localStorage
-                function saveSettings() {
-                    localStorage.setItem('finkiTvSettings', JSON.stringify(settingsState));
-                }
-
-                // Aplicar modo oscuro
-                function applyDarkMode() {
-                    if (settingsState.darkMode) {
-                        document.documentElement.style.setProperty('--bg-dark', '#000000');
-                        document.documentElement.style.setProperty('--bg-darker', '#0a0a0a');
-                        document.documentElement.style.setProperty('--bg-card', '#1a1a1a');
-                    } else {
-                        document.documentElement.style.setProperty('--bg-dark', '#f0f0f0');
-                        document.documentElement.style.setProperty('--bg-darker', '#e0e0e0');
-                        document.documentElement.style.setProperty('--bg-card', '#ffffff');
-                    }
-                }
-
-                // Aplicar efectos de nieve
-                function applySnowEffects() {
-                    const snowflakesContainer = document.getElementById('snowflakes');
-                    if (settingsState.snowEffects) {
-                        if (snowflakesContainer.children.length === 0 && !isFullscreen) {
-                            createSnowflakes();
-                        }
-                    } else {
-                        snowflakesContainer.innerHTML = '';
-                    }
-                }
-
                 // Setup event listeners
                 function setupEventListeners() {
                     settingsBtn.addEventListener('click', openSettings);
                     closeSettingsBtn.addEventListener('click', closeSettings);
-                    resetSettingsBtn.addEventListener('click', resetSettings);
                     closeSeriesModalBtn.addEventListener('click', closeSeriesSelection);
-                    
-                    // Settings toggles event listeners
-                    darkModeToggle.addEventListener('change', function() {
-                        settingsState.darkMode = this.checked;
-                        applyDarkMode();
-                        saveSettings();
-                    });
-                    
-                    snowEffectsToggle.addEventListener('change', function() {
-                        settingsState.snowEffects = this.checked;
-                        applySnowEffects();
-                        saveSettings();
-                    });
-                    
-                    autoFullscreenToggle.addEventListener('change', function() {
-                        settingsState.autoFullscreen = this.checked;
-                        saveSettings();
-                    });
-                    
-                    autoSoundToggle.addEventListener('change', function() {
-                        settingsState.autoSound = this.checked;
-                        saveSettings();
-                    });
-                    
-                    autoHDToggle.addEventListener('change', function() {
-                        settingsState.autoHD = this.checked;
-                        saveSettings();
-                    });
-                    
-                    fastPlayToggle.addEventListener('change', function() {
-                        settingsState.fastPlay = this.checked;
-                        saveSettings();
-                    });
-                    
-                    notificationsToggle.addEventListener('change', function() {
-                        settingsState.notifications = this.checked;
-                        saveSettings();
-                    });
-                    
-                    historyToggle.addEventListener('change', function() {
-                        settingsState.history = this.checked;
-                        saveSettings();
-                    });
-                    
-                    favoritesToggle.addEventListener('change', function() {
-                        settingsState.favorites = this.checked;
-                        saveSettings();
-                    });
                     
                     navBtns.forEach((btn, index) => {
                         btn.addEventListener('click', function() {
@@ -4208,7 +3255,7 @@
                 // Setup TV Navigation
                 function setupTVNavigation() {
                     // Add selection indicators to all focusable elements
-                    document.querySelectorAll('.tv-layout .channel-card, .tv-layout .series-card, .tv-layout .movie-card, .tv-layout .nav-btn, .tv-layout .episode-card, .tv-layout .close-modal, .tv-layout .btn-primary, .tv-layout .btn-secondary').forEach(el => {
+                    document.querySelectorAll('.tv-layout .channel-card, .tv-layout .series-card, .tv-layout .movie-card, .tv-layout .nav-btn, .tv-layout .episode-card, .tv-layout .close-modal, .tv-layout .btn-primary').forEach(el => {
                         const indicator = document.createElement('div');
                         indicator.className = 'selection-indicator';
                         el.appendChild(indicator);
@@ -4606,8 +3653,6 @@
 
                 // Mostrar notificación de cambio de canal
                 function showChannelChangeNotification(channelName) {
-                    if (!settingsState.notifications) return;
-                    
                     const existingNotification = document.querySelector('.channel-change-notification');
                     if (existingNotification) {
                         existingNotification.remove();
@@ -4638,7 +3683,7 @@
                 function setupAutoFullscreen() {
                     const observer = new MutationObserver(function(mutations) {
                         mutations.forEach(function(mutation) {
-                            if (mutation.type === 'childList' && fullscreenIframeContainer.children.length > 0 && settingsState.autoFullscreen) {
+                            if (mutation.type === 'childList' && fullscreenIframeContainer.children.length > 0) {
                                 enterFullscreen();
                             }
                         });
@@ -4649,15 +3694,13 @@
 
                 // Enter fullscreen mode
                 function enterFullscreen() {
-                    if (!settingsState.snowEffects) {
-                        removeSnowflakes();
-                    }
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
                     fullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     isFullscreen = true;
                     currentChannelIndex = channels.findIndex(ch => ch.id === currentChannel.id);
                     
-                    if (settingsState.autoFullscreen && !document.fullscreenElement) {
+                    if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
                         });
@@ -4702,9 +3745,7 @@
 
                 // Exit fullscreen mode
                 function exitFullscreen() {
-                    if (settingsState.snowEffects) {
-                        restoreSnowflakes();
-                    }
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                     fullscreenPlayer.classList.remove('active');
                     document.body.style.overflow = 'auto';
                     isFullscreen = false;
@@ -4737,63 +3778,6 @@
                 function closeSettings() {
                     settingsModal.classList.remove('active');
                     document.body.style.overflow = 'auto';
-                }
-
-                // Reset settings to default
-                function resetSettings() {
-                    // Reset state
-                    settingsState.darkMode = true;
-                    settingsState.snowEffects = true;
-                    settingsState.autoFullscreen = true;
-                    settingsState.autoSound = true;
-                    settingsState.autoHD = true;
-                    settingsState.fastPlay = false;
-                    settingsState.notifications = true;
-                    settingsState.history = true;
-                    settingsState.favorites = true;
-                    
-                    // Update toggles
-                    darkModeToggle.checked = true;
-                    snowEffectsToggle.checked = true;
-                    autoFullscreenToggle.checked = true;
-                    autoSoundToggle.checked = true;
-                    autoHDToggle.checked = true;
-                    fastPlayToggle.checked = false;
-                    notificationsToggle.checked = true;
-                    historyToggle.checked = true;
-                    favoritesToggle.checked = true;
-                    
-                    // Apply settings
-                    applyDarkMode();
-                    applySnowEffects();
-                    
-                    // Save to localStorage
-                    saveSettings();
-                    
-                    // Show notification
-                    showNotification('Ajustes restablecidos correctamente');
-                }
-
-                // Show notification
-                function showNotification(message) {
-                    const notification = document.createElement('div');
-                    notification.className = 'channel-change-notification';
-                    notification.innerHTML = `
-                        <div class="notification-content">
-                            <span>${message}</span>
-                        </div>
-                    `;
-                    
-                    document.body.appendChild(notification);
-                    
-                    setTimeout(() => {
-                        notification.style.opacity = '0';
-                        setTimeout(() => {
-                            if (notification.parentNode) {
-                                notification.remove();
-                            }
-                        }, 300);
-                    }, 2000);
                 }
 
                 // Show selected section
@@ -4974,65 +3958,55 @@
 
                 // Play series in fullscreen
                 function playSeriesFullscreen(videoUrl) {
-                    if (!settingsState.snowEffects) {
-                        removeSnowflakes();
-                    }
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
                     seriesIframe.src = videoUrl;
                     seriesFullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     
-                    // Entrar automáticamente en pantalla completa si está activado
-                    if (settingsState.autoFullscreen && !document.fullscreenElement) {
+                    // Entrar automáticamente en pantalla completa
+                    if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
                         });
                     }
                     
-                    // Forzar el sonido si está activado
-                    if (settingsState.autoSound) {
-                        setTimeout(() => {
-                            try {
-                                seriesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
-                            } catch(e) {
-                                console.log('No se pudo forzar reproducción automática');
-                            }
-                        }, 1000);
-                    }
+                    // Forzar el sonido (esto depende de las políticas del navegador)
+                    setTimeout(() => {
+                        try {
+                            seriesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
+                        } catch(e) {
+                            console.log('No se pudo forzar reproducción automática');
+                        }
+                    }, 1000);
                 }
 
                 // Play movie in fullscreen
                 function playMovieFullscreen(movie) {
-                    if (!settingsState.snowEffects) {
-                        removeSnowflakes();
-                    }
+                    removeSnowflakes(); // Remove snowflakes in fullscreen
                     moviesIframe.src = movie.videoUrl;
                     moviesFullscreenPlayer.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     
-                    // Entrar automáticamente en pantalla completa si está activado
-                    if (settingsState.autoFullscreen && !document.fullscreenElement) {
+                    // Entrar automáticamente en pantalla completa
+                    if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
                         });
                     }
                     
-                    // Forzar el sonido si está activado
-                    if (settingsState.autoSound) {
-                        setTimeout(() => {
-                            try {
-                                moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
-                            } catch(e) {
-                                console.log('No se pudo forzar reproducción automática');
-                            }
-                        }, 1000);
-                    }
+                    // Forzar el sonido (esto depende de las políticas del navegador)
+                    setTimeout(() => {
+                        try {
+                            moviesIframe.contentWindow.postMessage('{"func":"playVideo"}', '*');
+                        } catch(e) {
+                            console.log('No se pudo forzar reproducción automática');
+                        }
+                    }, 1000);
                 }
 
                 // Exit series fullscreen
                 function exitSeriesFullscreen() {
-                    if (settingsState.snowEffects) {
-                        restoreSnowflakes();
-                    }
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                     seriesFullscreenPlayer.classList.remove('active');
                     document.body.style.overflow = 'auto';
                     seriesIframe.src = '';
@@ -5044,9 +4018,7 @@
 
                 // Exit movies fullscreen
                 function exitMoviesFullscreen() {
-                    if (settingsState.snowEffects) {
-                        restoreSnowflakes();
-                    }
+                    restoreSnowflakes(); // Restore snowflakes when exiting fullscreen
                     moviesFullscreenPlayer.classList.remove('active');
                     document.body.style.overflow = 'auto';
                     moviesIframe.src = '';
@@ -5057,7 +4029,6 @@
                 }
 
                 // Initialize the TV app
-                loadSettings();
                 setupEventListeners();
                 renderChannels();
                 renderSeries();

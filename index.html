@@ -362,52 +362,10 @@
             color: var(--danger);
         }
         
-        /* BARRA DE NAVEGACIÓN INFERIOR */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            z-index: 1001;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.8rem;
-            gap: 5px;
-            transition: all 0.3s ease;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .nav-item i {
-            font-size: 1.4rem;
-        }
-        
-        .nav-item.active {
-            color: var(--primary);
-        }
-        
-        .nav-item:active {
-            transform: scale(0.95);
-        }
-        
         /* Contenedor Principal - Estilo Mobile Nativo */
         .main-container {
-            height: calc(100vh - 120px);
+            height: calc(100vh - 70px);
             margin-top: 70px;
-            margin-bottom: 50px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
@@ -415,11 +373,6 @@
         /* Secciones separadas - Estilo Mobile Nativo */
         .content-category {
             padding: 25px 20px;
-            display: none;
-        }
-        
-        .content-category.active {
-            display: block;
         }
         
         .category-header {
@@ -561,225 +514,49 @@
             transform: scale(0.95);
         }
         
-        /* PANTALLAS DE SECCIONES DEL PERFIL */
-        .profile-screen {
+        /* Reproductor Modal - Estilo Fullscreen Nativo */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--dark);
-            z-index: 2500;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
+            background: #000;
+            z-index: 3000;
+            display: none;
         }
         
-        .profile-screen.active {
-            transform: translateX(0);
+        .modal-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
         
-        .profile-screen-header {
-            position: sticky;
-            top: 0;
-            background: rgba(0, 0, 0, 0.95);
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            z-index: 10;
-        }
-        
-        .profile-back-button {
-            background: transparent;
+        #videoFrame {
+            width: 100%;
+            height: 100%;
             border: none;
-            color: var(--text);
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
         }
         
-        .profile-back-button:active {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .profile-screen-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .profile-screen-content {
-            padding: 20px;
-        }
-        
-        /* Estilos para Mi Lista */
-        .my-list-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--lighter-dark);
-            border-radius: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .my-list-item:active {
-            background: var(--light-dark);
-            transform: scale(0.99);
-        }
-        
-        .my-list-img {
-            width: 60px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
-        .my-list-info {
-            flex: 1;
-        }
-        
-        .my-list-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .my-list-category {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-        
-        .remove-from-list {
-            background: var(--danger);
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
-            border-radius: 6px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        
-        /* Estilos para Historial */
-        .history-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--lighter-dark);
-            border-radius: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .history-icon {
             width: 50px;
             height: 50px;
-            background: var(--primary);
             border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 3001;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
         }
         
-        .history-info {
-            flex: 1;
-        }
-        
-        .history-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .history-date {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-        
-        /* Estilos para Ajustes */
-        .settings-section {
-            margin-bottom: 30px;
-        }
-        
-        .settings-title {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        
-        .settings-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .settings-label {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .settings-label i {
-            color: var(--primary);
-            width: 24px;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 26px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--lighter-dark);
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .toggle-slider {
-            background-color: var(--primary);
-        }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(24px);
-        }
-        
-        /* Pantallas de Categorías */
+        /* Pantallas específicas para cada categoría */
         .category-screen {
             position: fixed;
             top: 0;
@@ -838,48 +615,6 @@
             padding: 20px;
         }
         
-        /* Reproductor Modal - Estilo Fullscreen Nativo */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 3000;
-            display: none;
-        }
-        
-        .modal-content {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
-        #videoFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.8rem;
-            cursor: pointer;
-            z-index: 3001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
         /* Loading Spinner */
         .loading-spinner {
             display: none;
@@ -917,18 +652,6 @@
             
             .hero-banner {
                 height: 350px;
-            }
-            
-            .bottom-nav {
-                padding: 10px 0;
-            }
-            
-            .nav-item {
-                font-size: 0.7rem;
-            }
-            
-            .nav-item i {
-                font-size: 1.2rem;
             }
         }
         
@@ -970,10 +693,6 @@
             
             .main-container {
                 padding-bottom: env(safe-area-inset-bottom);
-            }
-            
-            .bottom-nav {
-                padding-bottom: max(12px, env(safe-area-inset-bottom));
             }
         }
     </style>
@@ -1095,234 +814,94 @@
             </div>
         </div>
 
-        <!-- PANTALLAS DEL PERFIL -->
-        <!-- Pantalla Mi Lista -->
-        <div class="profile-screen" id="myListScreen">
-            <div class="profile-screen-header">
-                <button class="profile-back-button" onclick="closeProfileScreen('myList')">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <h2 class="profile-screen-title">Mi Lista</h2>
-            </div>
-            <div class="profile-screen-content" id="myListContent">
-                <!-- Los elementos de mi lista se cargarán aquí -->
-                <p class="empty-message" style="text-align: center; color: var(--text-secondary); padding: 40px 20px;">
-                    Tu lista está vacía. Agrega contenido desde las secciones de películas o series.
-                </p>
-            </div>
-        </div>
-
-        <!-- Pantalla Historial -->
-        <div class="profile-screen" id="historyScreen">
-            <div class="profile-screen-header">
-                <button class="profile-back-button" onclick="closeProfileScreen('history')">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <h2 class="profile-screen-title">Historial</h2>
-            </div>
-            <div class="profile-screen-content" id="historyContent">
-                <!-- Los elementos del historial se cargarán aquí -->
-                <p class="empty-message" style="text-align: center; color: var(--text-secondary); padding: 40px 20px;">
-                    Aún no has visto ningún contenido.
-                </p>
-            </div>
-        </div>
-
-        <!-- Pantalla Ajustes -->
-        <div class="profile-screen" id="settingsScreen">
-            <div class="profile-screen-header">
-                <button class="profile-back-button" onclick="closeProfileScreen('settings')">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <h2 class="profile-screen-title">Ajustes</h2>
-            </div>
-            <div class="profile-screen-content">
-                <div class="settings-section">
-                    <h3 class="settings-title">Reproducción</h3>
-                    <div class="settings-item">
-                        <div class="settings-label">
-                            <i class="fas fa-play-circle"></i>
-                            <span>Reproducción automática</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="autoPlayToggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-label">
-                            <i class="fas fa-wifi"></i>
-                            <span>Calidad automática (Wi-Fi)</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="autoQualityToggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="settings-section">
-                    <h3 class="settings-title">Notificaciones</h3>
-                    <div class="settings-item">
-                        <div class="settings-label">
-                            <i class="fas fa-bell"></i>
-                            <span>Notificaciones push</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="pushNotificationsToggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-label">
-                            <i class="fas fa-envelope"></i>
-                            <span>Notificaciones por email</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="emailNotificationsToggle">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="settings-section">
-                    <h3 class="settings-title">Privacidad</h3>
-                    <div class="settings-item">
-                        <div class="settings-label">
-                            <i class="fas fa-eye"></i>
-                            <span>Perfil público</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="publicProfileToggle">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-label">
-                            <i class="fas fa-history"></i>
-                            <span>Guardar historial</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="saveHistoryToggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="settings-section">
-                    <h3 class="settings-title">Cuenta</h3>
-                    <button class="btn-auth" style="margin-top: 10px;" onclick="clearLocalData()">
-                        <i class="fas fa-trash"></i> Limpiar Datos Locales
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <!-- Contenido Principal -->
         <div class="main-container">
-            <!-- Sección Inicio (activa por defecto) -->
-            <section class="content-category active" id="homeSection">
-                <!-- Banner Hero -->
-                <div class="hero-banner" id="heroBanner">
-                    <div class="hero-content">
-                        <h1 class="hero-title" id="heroTitle">Películas, series y canales en vivo</h1>
-                        <div class="hero-buttons">
-                            <button class="hero-button primary" onclick="playRandomContent()">
-                                <i class="fas fa-play"></i> Reproducir
-                            </button>
-                            <button class="hero-button secondary" onclick="addToMyListFromBanner()">
-                                <i class="fas fa-plus"></i> Mi Lista
-                            </button>
-                        </div>
+            <!-- Banner Hero -->
+            <div class="hero-banner" id="heroBanner">
+                <div class="hero-content">
+                    <h1 class="hero-title" id="heroTitle">Películas, series y canales en vivo</h1>
+                    <div class="hero-buttons">
+                        <button class="hero-button primary" onclick="playRandomContent()">
+                            <i class="fas fa-play"></i> Reproducir
+                        </button>
+                        <button class="hero-button secondary">
+                            <i class="fas fa-info-circle"></i> Info
+                        </button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Secciones de Contenido en Inicio -->
-                <div class="content-category">
-                    <div class="category-header">
-                        <h2 class="category-title">Destacados</h2>
-                        <a class="view-all" onclick="openCategory('featured')">Ver todo</a>
-                    </div>
-                    <div id="featuredContent" class="content-grid"></div>
+            <!-- Secciones de Contenido -->
+            <section class="content-category">
+                <div class="category-header">
+                    <h2 class="category-title">Destacados</h2>
+                    <a class="view-all" onclick="openCategory('featured')">Ver todo</a>
                 </div>
-
-                <div class="content-category">
-                    <div class="category-header">
-                        <h2 class="category-title">Películas</h2>
-                        <a class="view-all" onclick="openCategory('movies')">Ver todo</a>
-                    </div>
-                    <div id="moviesContent" class="content-grid"></div>
-                </div>
-
-                <div class="content-category">
-                    <div class="category-header">
-                        <h2 class="category-title">Series</h2>
-                        <a class="view-all" onclick="openCategory('series')">Ver todo</a>
-                    </div>
-                    <div id="seriesContent" class="content-grid"></div>
-                </div>
-
-                <div class="content-category">
-                    <div class="category-header">
-                        <h2 class="category-title">Canales en Vivo</h2>
-                        <a class="view-all" onclick="openCategory('live')">Ver todo</a>
-                    </div>
-                    <div id="liveContent" class="content-grid"></div>
-                </div>
+                <div id="featuredContent" class="content-grid"></div>
             </section>
 
-            <!-- Sección Películas -->
-            <section class="content-category" id="moviesSection">
-                <div class="screen-header" style="position: relative; margin-bottom: 20px;">
-                    <h2 class="screen-title">Películas</h2>
+            <section class="content-category">
+                <div class="category-header">
+                    <h2 class="category-title">Películas</h2>
+                    <a class="view-all" onclick="openCategory('movies')">Ver todo</a>
                 </div>
-                <div class="screen-content">
-                    <div id="moviesFullContent" class="content-grid"></div>
-                </div>
+                <div id="moviesContent" class="content-grid"></div>
             </section>
 
-            <!-- Sección Series -->
-            <section class="content-category" id="seriesSection">
-                <div class="screen-header" style="position: relative; margin-bottom: 20px;">
-                    <h2 class="screen-title">Series</h2>
+            <section class="content-category">
+                <div class="category-header">
+                    <h2 class="category-title">Series</h2>
+                    <a class="view-all" onclick="openCategory('series')">Ver todo</a>
                 </div>
-                <div class="screen-content">
-                    <div id="seriesFullContent" class="content-grid"></div>
-                </div>
+                <div id="seriesContent" class="content-grid"></div>
             </section>
 
-            <!-- Sección Canales -->
-            <section class="content-category" id="liveSection">
-                <div class="screen-header" style="position: relative; margin-bottom: 20px;">
-                    <h2 class="screen-title">Canales en Vivo</h2>
+            <section class="content-category">
+                <div class="category-header">
+                    <h2 class="category-title">Canales en Vivo</h2>
+                    <a class="view-all" onclick="openCategory('live')">Ver todo</a>
                 </div>
-                <div class="screen-content">
-                    <div id="liveFullContent" class="content-grid"></div>
-                </div>
+                <div id="liveContent" class="content-grid"></div>
             </section>
         </div>
 
-        <!-- BARRA DE NAVEGACIÓN INFERIOR -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" onclick="showSection('home')">
-                <i class="fas fa-home"></i>
-                <span>Inicio</span>
-            </button>
-            <button class="nav-item" onclick="showSection('movies')">
-                <i class="fas fa-film"></i>
-                <span>Películas</span>
-            </button>
-            <button class="nav-item" onclick="showSection('series')">
-                <i class="fas fa-tv"></i>
-                <span>Series</span>
-            </button>
-            <button class="nav-item" onclick="showSection('live')">
-                <i class="fas fa-satellite-dish"></i>
-                <span>Canales</span>
-            </button>
-        </nav>
+        <!-- Pantallas de Categorías -->
+        <div class="category-screen" id="moviesScreen">
+            <div class="screen-header">
+                <button class="back-button" onclick="closeCategory('movies')">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 class="screen-title">Películas</h2>
+            </div>
+            <div class="screen-content">
+                <div id="moviesFullContent" class="content-grid"></div>
+            </div>
+        </div>
 
-        <!-- Pantallas de Categorías (para Ver Todo) -->
+        <div class="category-screen" id="seriesScreen">
+            <div class="screen-header">
+                <button class="back-button" onclick="closeCategory('series')">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 class="screen-title">Series</h2>
+            </div>
+            <div class="screen-content">
+                <div id="seriesFullContent" class="content-grid"></div>
+            </div>
+        </div>
+
+        <div class="category-screen" id="liveScreen">
+            <div class="screen-header">
+                <button class="back-button" onclick="closeCategory('live')">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 class="screen-title">Canales en Vivo</h2>
+            </div>
+            <div class="screen-content">
+                <div id="liveFullContent" class="content-grid"></div>
+            </div>
+        </div>
+
         <div class="category-screen" id="featuredScreen">
             <div class="screen-header">
                 <button class="back-button" onclick="closeCategory('featured')">
@@ -1358,6 +937,44 @@
             });
         }
 
+        // Función para mantener la pantalla encendida
+        function activateScreenWakeLock() {
+            if ('wakeLock' in navigator) {
+                let wakeLock = null;
+                
+                const requestWakeLock = async () => {
+                    try {
+                        wakeLock = await navigator.wakeLock.request('screen');
+                        console.log('Pantalla siempre encendida activada');
+                        
+                        wakeLock.addEventListener('release', () => {
+                            console.log('Pantalla siempre encendida desactivada');
+                        });
+                    } catch (err) {
+                        console.error('Error al activar pantalla siempre encendida:', err);
+                    }
+                };
+                
+                requestWakeLock();
+                
+                // Reactivar cuando la página vuelva a ser visible
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible' && wakeLock === null) {
+                        requestWakeLock();
+                    }
+                });
+            } else {
+                console.log('API Wake Lock no soportada');
+            }
+        }
+
+        // Activar Wake Lock cuando se inicie la app principal
+        function activateWakeLockOnAppStart() {
+            if (document.getElementById('mainApp').style.display === 'block') {
+                activateScreenWakeLock();
+            }
+        }
+
         // CONFIGURACIÓN SUPABASE
         const SUPABASE_URL = 'https://rojsndimvyjzgstxivqo.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_djOXqhg8VILB9fwLLFkNlg_xjWvBqEh';
@@ -1366,11 +983,6 @@
         
         let currentUser = null;
         let allContent = [];
-        
-        // Datos locales para Mi Lista e Historial
-        let myList = JSON.parse(localStorage.getItem('finki_myList')) || [];
-        let watchHistory = JSON.parse(localStorage.getItem('finki_history')) || [];
-        let currentBannerContent = null;
 
         // Mostrar/ocultar loading
         function showLoading() {
@@ -1385,9 +997,6 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const savedUser = localStorage.getItem('finki_user');
             const savedSession = localStorage.getItem('finki_session');
-            
-            // Cargar datos locales
-            loadLocalData();
             
             if (savedUser && savedSession) {
                 try {
@@ -1411,8 +1020,7 @@
                         document.getElementById('userAvatar').textContent = currentUser.nombre.charAt(0).toUpperCase();
                         await cargarContenido();
                         await actualizarPerfil();
-                        updateMyListDisplay();
-                        updateHistoryDisplay();
+                        activateWakeLockOnAppStart();
                     } else {
                         // Si la sesión no es válida, limpiar storage
                         localStorage.removeItem('finki_user');
@@ -1428,40 +1036,6 @@
             }
         });
 
-        // Cargar datos locales
-        function loadLocalData() {
-            // Cargar ajustes
-            const settings = JSON.parse(localStorage.getItem('finki_settings')) || {
-                autoPlay: true,
-                autoQuality: true,
-                pushNotifications: true,
-                emailNotifications: false,
-                publicProfile: false,
-                saveHistory: true
-            };
-            
-            // Aplicar ajustes a los toggles
-            document.getElementById('autoPlayToggle').checked = settings.autoPlay;
-            document.getElementById('autoQualityToggle').checked = settings.autoQuality;
-            document.getElementById('pushNotificationsToggle').checked = settings.pushNotifications;
-            document.getElementById('emailNotificationsToggle').checked = settings.emailNotifications;
-            document.getElementById('publicProfileToggle').checked = settings.publicProfile;
-            document.getElementById('saveHistoryToggle').checked = settings.saveHistory;
-        }
-
-        // Guardar ajustes
-        function saveSettings() {
-            const settings = {
-                autoPlay: document.getElementById('autoPlayToggle').checked,
-                autoQuality: document.getElementById('autoQualityToggle').checked,
-                pushNotifications: document.getElementById('pushNotificationsToggle').checked,
-                emailNotifications: document.getElementById('emailNotificationsToggle').checked,
-                publicProfile: document.getElementById('publicProfileToggle').checked,
-                saveHistory: document.getElementById('saveHistoryToggle').checked
-            };
-            localStorage.setItem('finki_settings', JSON.stringify(settings));
-        }
-
         // Navegación de Tabs
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1476,34 +1050,6 @@
             }
         }
 
-        // NAVEGACIÓN POR SECCIONES CON BARRA INFERIOR
-        function showSection(section) {
-            // Ocultar todas las secciones
-            document.querySelectorAll('.content-category').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            
-            // Actualizar la barra de navegación
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Mostrar la sección seleccionada
-            document.getElementById(`${section}Section`).classList.add('active');
-            
-            // Activar el botón correspondiente en la barra
-            const navButtons = document.querySelectorAll('.nav-item');
-            switch(section) {
-                case 'home': navButtons[0].classList.add('active'); break;
-                case 'movies': navButtons[1].classList.add('active'); break;
-                case 'series': navButtons[2].classList.add('active'); break;
-                case 'live': navButtons[3].classList.add('active'); break;
-            }
-            
-            // Scroll al inicio
-            document.querySelector('.main-container').scrollTop = 0;
-        }
-
         // Perfil de Usuario
         function openProfile() {
             document.getElementById('profilePanel').classList.add('active');
@@ -1511,32 +1057,6 @@
         
         function closeProfile() {
             document.getElementById('profilePanel').classList.remove('active');
-        }
-        
-        // Funciones para las pantallas del perfil
-        function showMyList() {
-            closeProfile();
-            setTimeout(() => {
-                document.getElementById('myListScreen').classList.add('active');
-            }, 300);
-        }
-        
-        function showHistory() {
-            closeProfile();
-            setTimeout(() => {
-                document.getElementById('historyScreen').classList.add('active');
-            }, 300);
-        }
-        
-        function showSettings() {
-            closeProfile();
-            setTimeout(() => {
-                document.getElementById('settingsScreen').classList.add('active');
-            }, 300);
-        }
-        
-        function closeProfileScreen(screen) {
-            document.getElementById(`${screen}Screen`).classList.remove('active');
         }
         
         async function actualizarPerfil() {
@@ -1556,6 +1076,19 @@
             document.getElementById('moviesCount').textContent = moviesCount;
             document.getElementById('seriesCount').textContent = seriesCount;
             document.getElementById('liveCount').textContent = liveCount;
+        }
+        
+        // Funciones del menú de perfil
+        function showMyList() {
+            alert('Mi Lista - Próximamente');
+        }
+        
+        function showHistory() {
+            alert('Historial - Próximamente');
+        }
+        
+        function showSettings() {
+            alert('Ajustes - Próximamente');
         }
 
         // Validar celular (8 dígitos exactos)
@@ -1658,17 +1191,13 @@
                 
                 await cargarContenido();
                 await actualizarPerfil();
-                updateMyListDisplay();
-                updateHistoryDisplay();
+                activateWakeLockOnAppStart();
                 hideLoading();
             }
         });
 
         // ===== CERRAR SESIÓN =====
         function cerrarSesion() {
-            // Guardar ajustes antes de cerrar
-            saveSettings();
-            
             // Limpiar localStorage
             localStorage.removeItem('finki_user');
             localStorage.removeItem('finki_session');
@@ -1705,12 +1234,12 @@
             // Seleccionar contenido destacado aleatorio para el banner
             if (contenido.length > 0) {
                 const randomIndex = Math.floor(Math.random() * Math.min(contenido.length, 5));
-                currentBannerContent = contenido[randomIndex];
+                const featured = contenido[randomIndex];
                 
                 // Actualizar banner
                 document.getElementById('heroBanner').style.backgroundImage = 
-                    `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url('${currentBannerContent.url_portada}')`;
-                document.getElementById('heroTitle').textContent = currentBannerContent.nombre;
+                    `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url('${featured.url_portada}')`;
+                document.getElementById('heroTitle').textContent = featured.nombre;
             }
             
             // Limpiar contenedores principales
@@ -1759,255 +1288,21 @@
             hideLoading();
         }
         
-        // Crear tarjeta de contenido con botón para agregar a mi lista
+        // Crear tarjeta de contenido
         function crearTarjetaContenido(item) {
             const badge = item.tipo === 'canal' ? '<div class="card-badge">EN VIVO</div>' : 
                          item.tipo === 'serie' ? '<div class="card-badge">SERIE</div>' : 
                          '<div class="card-badge">PELÍCULA</div>';
             
-            // Verificar si ya está en mi lista
-            const isInMyList = myList.some(listItem => listItem.id === item.id);
-            const listButton = isInMyList ? 
-                '<button class="remove-from-list" style="position: absolute; top: 10px; left: 10px; z-index: 2;" onclick="removeFromMyList(event, ' + item.id + ')"><i class="fas fa-check"></i></button>' :
-                '<button class="remove-from-list" style="position: absolute; top: 10px; left: 10px; z-index: 2; background: rgba(0,0,0,0.7);" onclick="addToMyList(event, ' + item.id + ')"><i class="fas fa-plus"></i></button>';
-            
-            return `<div class="content-card">
-                ${listButton}
+            return `<div class="content-card" onclick="playContent('${item.url_contenido}', '${item.nombre}')">
                 ${badge}
                 <img src="${item.url_portada}" alt="${item.nombre}" class="card-img" 
-                     onerror="this.src='https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'"
-                     onclick="playContent('${item.url_contenido}', '${item.nombre}', ${item.id})">
+                     onerror="this.src='https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'">
                 <div class="card-info">
                     <div class="card-title">${item.nombre}</div>
                     <div class="card-subtitle">${item.categorias?.nombre || 'General'}</div>
                 </div>
             </div>`;
-        }
-
-        // ===== MI LISTA (Funcionalidad Local) =====
-        function addToMyList(event, contentId) {
-            event.stopPropagation();
-            
-            const content = allContent.find(item => item.id === contentId);
-            if (!content) return;
-            
-            // Verificar si ya está en la lista
-            if (myList.some(item => item.id === contentId)) {
-                alert('Ya está en tu lista');
-                return;
-            }
-            
-            // Agregar a la lista
-            myList.push({
-                id: content.id,
-                nombre: content.nombre,
-                tipo: content.tipo,
-                url_portada: content.url_portada,
-                categoria: content.categorias?.nombre || 'General',
-                addedDate: new Date().toISOString()
-            });
-            
-            // Guardar en localStorage
-            localStorage.setItem('finki_myList', JSON.stringify(myList));
-            
-            // Actualizar la tarjeta
-            updateCardListButton(contentId, true);
-            
-            // Actualizar la pantalla de Mi Lista si está abierta
-            updateMyListDisplay();
-            
-            // Mostrar confirmación
-            showNotification('Agregado a Mi Lista');
-        }
-        
-        function addToMyListFromBanner() {
-            if (!currentBannerContent) return;
-            addToMyList({stopPropagation: () => {}}, currentBannerContent.id);
-        }
-        
-        function removeFromMyList(event, contentId) {
-            event.stopPropagation();
-            
-            // Remover de la lista
-            myList = myList.filter(item => item.id !== contentId);
-            
-            // Guardar en localStorage
-            localStorage.setItem('finki_myList', JSON.stringify(myList));
-            
-            // Actualizar la tarjeta
-            updateCardListButton(contentId, false);
-            
-            // Actualizar la pantalla de Mi Lista si está abierta
-            updateMyListDisplay();
-            
-            // Mostrar confirmación
-            showNotification('Removido de Mi Lista');
-        }
-        
-        function updateCardListButton(contentId, isInList) {
-            // Buscar todas las tarjetas con este contenido y actualizar el botón
-            const cards = document.querySelectorAll('.content-card');
-            cards.forEach(card => {
-                const img = card.querySelector('img');
-                if (img && img.onclick && img.onclick.toString().includes(contentId.toString())) {
-                    const existingButton = card.querySelector('button[onclick*="addToMyList"], button[onclick*="removeFromMyList"]');
-                    if (existingButton) {
-                        if (isInList) {
-                            existingButton.innerHTML = '<i class="fas fa-check"></i>';
-                            existingButton.onclick = (e) => removeFromMyList(e, contentId);
-                            existingButton.style.background = 'var(--primary)';
-                        } else {
-                            existingButton.innerHTML = '<i class="fas fa-plus"></i>';
-                            existingButton.onclick = (e) => addToMyList(e, contentId);
-                            existingButton.style.background = 'rgba(0,0,0,0.7)';
-                        }
-                    }
-                }
-            });
-        }
-        
-        function updateMyListDisplay() {
-            const myListContent = document.getElementById('myListContent');
-            if (!myListContent) return;
-            
-            if (myList.length === 0) {
-                myListContent.innerHTML = '<p class="empty-message" style="text-align: center; color: var(--text-secondary); padding: 40px 20px;">Tu lista está vacía. Agrega contenido desde las secciones de películas o series.</p>';
-                return;
-            }
-            
-            let html = '';
-            myList.forEach(item => {
-                html += `
-                <div class="my-list-item" onclick="playFromMyList(${item.id})">
-                    <img src="${item.url_portada}" alt="${item.nombre}" class="my-list-img"
-                         onerror="this.src='https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'">
-                    <div class="my-list-info">
-                        <div class="my-list-title">${item.nombre}</div>
-                        <div class="my-list-category">${item.categoria} • ${item.tipo === 'pelicula' ? 'Película' : item.tipo === 'serie' ? 'Serie' : 'Canal'}</div>
-                    </div>
-                    <button class="remove-from-list" onclick="removeFromMyList(event, ${item.id})">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>`;
-            });
-            
-            myListContent.innerHTML = html;
-        }
-        
-        function playFromMyList(contentId) {
-            const content = allContent.find(item => item.id === contentId);
-            if (content) {
-                playContent(content.url_contenido, content.nombre, contentId);
-            }
-        }
-
-        // ===== HISTORIAL (Funcionalidad Local) =====
-        function addToHistory(contentId, contentName) {
-            // Verificar si guardar historial está activado
-            const saveHistory = document.getElementById('saveHistoryToggle').checked;
-            if (!saveHistory) return;
-            
-            // Verificar si ya está en el historial (evitar duplicados recientes)
-            const now = new Date();
-            const recentHistory = watchHistory.filter(item => {
-                const itemDate = new Date(item.watchedDate);
-                const diffMinutes = (now - itemDate) / (1000 * 60);
-                return diffMinutes < 5 && item.id === contentId; // Evitar duplicados en 5 minutos
-            });
-            
-            if (recentHistory.length > 0) return;
-            
-            // Agregar al historial
-            const content = allContent.find(item => item.id === contentId);
-            if (!content) return;
-            
-            watchHistory.unshift({
-                id: content.id,
-                nombre: contentName,
-                tipo: content.tipo,
-                categoria: content.categorias?.nombre || 'General',
-                watchedDate: new Date().toISOString()
-            });
-            
-            // Mantener solo los últimos 50 elementos
-            if (watchHistory.length > 50) {
-                watchHistory.pop();
-            }
-            
-            // Guardar en localStorage
-            localStorage.setItem('finki_history', JSON.stringify(watchHistory));
-            
-            // Actualizar la pantalla de Historial si está abierta
-            updateHistoryDisplay();
-        }
-        
-        function updateHistoryDisplay() {
-            const historyContent = document.getElementById('historyContent');
-            if (!historyContent) return;
-            
-            if (watchHistory.length === 0) {
-                historyContent.innerHTML = '<p class="empty-message" style="text-align: center; color: var(--text-secondary); padding: 40px 20px;">Aún no has visto ningún contenido.</p>';
-                return;
-            }
-            
-            let html = '';
-            watchHistory.forEach(item => {
-                const date = new Date(item.watchedDate);
-                const timeAgo = getTimeAgo(date);
-                
-                html += `
-                <div class="history-item" onclick="playFromHistory(${item.id})">
-                    <div class="history-icon">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="history-info">
-                        <div class="history-title">${item.nombre}</div>
-                        <div class="history-date">${item.categoria} • ${timeAgo}</div>
-                    </div>
-                </div>`;
-            });
-            
-            historyContent.innerHTML = html;
-        }
-        
-        function playFromHistory(contentId) {
-            const content = allContent.find(item => item.id === contentId);
-            if (content) {
-                playContent(content.url_contenido, content.nombre, contentId);
-            }
-        }
-        
-        function getTimeAgo(date) {
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMins = Math.floor(diffMs / 60000);
-            const diffHours = Math.floor(diffMs / 3600000);
-            const diffDays = Math.floor(diffMs / 86400000);
-            
-            if (diffMins < 1) return 'Hace un momento';
-            if (diffMins < 60) return `Hace ${diffMins} minuto${diffMins !== 1 ? 's' : ''}`;
-            if (diffHours < 24) return `Hace ${diffHours} hora${diffHours !== 1 ? 's' : ''}`;
-            if (diffDays < 7) return `Hace ${diffDays} día${diffDays !== 1 ? 's' : ''}`;
-            
-            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-        }
-
-        // ===== AJUSTES =====
-        function clearLocalData() {
-            if (confirm('¿Estás seguro de que quieres limpiar todos los datos locales? Esto borrará tu lista y historial.')) {
-                localStorage.removeItem('finki_myList');
-                localStorage.removeItem('finki_history');
-                localStorage.removeItem('finki_settings');
-                
-                myList = [];
-                watchHistory = [];
-                
-                updateMyListDisplay();
-                updateHistoryDisplay();
-                loadLocalData();
-                
-                showNotification('Datos locales limpiados');
-            }
         }
 
         // ===== NAVEGACIÓN ENTRE PANTALLAS =====
@@ -2025,7 +1320,7 @@
         
         // Cerrar con botón atrás del navegador
         window.addEventListener('popstate', function() {
-            const screens = document.querySelectorAll('.category-screen, .profile-screen');
+            const screens = document.querySelectorAll('.category-screen');
             screens.forEach(screen => {
                 if (screen.classList.contains('active')) {
                     screen.classList.remove('active');
@@ -2035,7 +1330,7 @@
         });
 
         // ===== REPRODUCIR CONTENIDO =====
-        function playContent(url, title, contentId = null) {
+        function playContent(url, title) {
             let finalUrl = url;
             
             // Si la URL es un iframe embed, extraemos el src
@@ -2054,18 +1349,13 @@
             document.getElementById('videoFrame').src = finalUrl;
             document.getElementById('playerModal').style.display = 'block';
             
-            // Registrar en historial local
-            if (contentId) {
-                addToHistory(contentId, title);
-            }
-            
-            // Registrar en historial de Supabase si hay usuario
+            // Registrar en historial
             if (currentUser) {
                 registrarReproduccion(title);
             }
         }
         
-        // Registrar reproducción en historial de Supabase
+        // Registrar reproducción en historial
         async function registrarReproduccion(titulo) {
             try {
                 await supabaseClient
@@ -2085,7 +1375,7 @@
             if (allContent.length > 0) {
                 const randomIndex = Math.floor(Math.random() * allContent.length);
                 const randomContent = allContent[randomIndex];
-                playContent(randomContent.url_contenido, randomContent.nombre, randomContent.id);
+                playContent(randomContent.url_contenido, randomContent.nombre);
             }
         }
 
@@ -2095,73 +1385,23 @@
             document.getElementById('playerModal').style.display = 'none';
         }
         
-        // Mostrar notificación temporal
-        function showNotification(message) {
-            // Crear elemento de notificación
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: var(--primary);
-                color: white;
-                padding: 12px 24px;
-                border-radius: 8px;
-                z-index: 5000;
-                font-weight: 600;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                animation: fadeInOut 3s ease-in-out;
-            `;
-            
-            // Agregar estilo de animación
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fadeInOut {
-                    0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-                    10% { opacity: 1; transform: translateX(-50%) translateY(0); }
-                    90% { opacity: 1; transform: translateX(-50%) translateY(0); }
-                    100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            // Remover después de 3 segundos
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-                if (style.parentNode) {
-                    style.parentNode.removeChild(style);
-                }
-            }, 3000);
-        }
-        
         // Cerrar modal con tecla ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closePlayer();
                 
-                // Cerrar cualquier pantalla activa
-                const activeScreens = document.querySelectorAll('.category-screen.active, .profile-screen.active');
-                activeScreens.forEach(screen => {
-                    screen.classList.remove('active');
+                // Cerrar cualquier pantalla de categoría activa
+                const activeScreen = document.querySelector('.category-screen.active');
+                if (activeScreen) {
+                    activeScreen.classList.remove('active');
                     document.querySelector('.main-container').style.overflow = 'auto';
-                });
+                }
                 
                 // Cerrar perfil si está abierto
                 if (document.getElementById('profilePanel').classList.contains('active')) {
                     closeProfile();
                 }
             }
-        });
-        
-        // Guardar ajustes cuando cambien
-        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
-            toggle.addEventListener('change', saveSettings);
         });
         
         // Cerrar al hacer clic fuera del contenido en pantallas móviles

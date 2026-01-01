@@ -271,6 +271,26 @@
         .user-profile {
             display: flex;
             align-items: center;
+            gap: 10px;
+        }
+        
+        .mobile-search-btn {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .mobile-search-btn:hover {
+            background: rgba(76, 201, 240, 0.1);
         }
         
         .profile-btn {
@@ -305,6 +325,90 @@
             -webkit-overflow-scrolling: touch;
             padding-bottom: 55px;
             margin-top: 50px;
+        }
+        
+        /* Buscador Móvil */
+        .mobile-search-container {
+            display: none;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            background: var(--primary-blue);
+            z-index: 999;
+            padding: 15px 10px;
+            border-bottom: 1px solid rgba(76, 201, 240, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .mobile-search-container.active {
+            display: block;
+        }
+        
+        .mobile-search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(30, 58, 95, 0.7);
+            border-radius: 8px;
+            border: 1px solid var(--metal-blue);
+            overflow: hidden;
+        }
+        
+        .mobile-search-input {
+            flex: 1;
+            padding: 12px 15px;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 0.9rem;
+            outline: none;
+        }
+        
+        .mobile-search-input::placeholder {
+            color: var(--metal-blue);
+        }
+        
+        .mobile-search-clear {
+            background: transparent;
+            border: none;
+            color: var(--metal-blue);
+            padding: 0 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .mobile-filter-container {
+            margin-top: 15px;
+        }
+        
+        .mobile-filter-title {
+            font-size: 0.85rem;
+            color: var(--highlight-blue);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .mobile-filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .mobile-filter-btn {
+            padding: 8px 12px;
+            background: rgba(30, 58, 95, 0.5);
+            border: 1px solid var(--accent-blue);
+            color: var(--text-gray);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-filter-btn.active {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--highlight-blue) 100%);
+            color: var(--white);
+            border-color: var(--highlight-blue);
         }
         
         /* Banner Hero Móvil */
@@ -530,7 +634,8 @@
         body.tv-mode .mobile-header,
         body.tv-mode .mobile-nav,
         body.tv-mode .mobile-container,
-        body.tv-mode .mobile-section {
+        body.tv-mode .mobile-section,
+        body.tv-mode .mobile-search-container {
             display: none !important;
         }
         
@@ -804,52 +909,6 @@
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
-        
-        /* Scroll horizontal para TV */
-        .tv-horizontal-scroll {
-            display: flex;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 0 0 25px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-blue) transparent;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        
-        .tv-horizontal-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        .tv-horizontal-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .tv-horizontal-scroll::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
-            border-radius: 4px;
-        }
-        
-        .tv-horizontal-item {
-            flex: 0 0 auto;
-            width: 320px;
-            margin-right: 20px;
-            border-radius: 12px;
-            overflow: hidden;
-            background: var(--gray-bg);
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-        }
-        
-        .tv-horizontal-item:last-child {
-            margin-right: 0;
-        }
-        
-        .tv-horizontal-item:hover {
-            transform: scale(1.05);
-            box-shadow: var(--card-shadow-hover);
         }
         
         /* ===== ELEMENTOS COMPARTIDOS ===== */
@@ -1146,7 +1205,8 @@
         
         /* Safe Areas */
         @supports (padding: max(0px)) {
-            .mobile-header, .mobile-hero-banner, .mobile-section, .screen-header {
+            .mobile-header, .mobile-hero-banner, .mobile-section, .screen-header,
+            .mobile-search-container {
                 padding-left: max(10px, env(safe-area-inset-left));
                 padding-right: max(10px, env(safe-area-inset-right));
             }
@@ -1292,11 +1352,33 @@
         <header class="mobile-header" id="mobileHeader">
             <div class="mobile-logo">FINKI</div>
             <div class="user-profile">
+                <button class="mobile-search-btn" onclick="toggleMobileSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
                 <button class="profile-btn" onclick="openProfile()">
                     <div class="profile-avatar" id="userAvatar">U</div>
                 </button>
             </div>
         </header>
+
+        <!-- Buscador Móvil -->
+        <div class="mobile-search-container" id="mobileSearchContainer">
+            <div class="mobile-search-box">
+                <input type="text" class="mobile-search-input" id="mobileSearchInput" placeholder="Buscar películas, series, canales..." autocomplete="off">
+                <button class="mobile-search-clear" id="mobileSearchClear" onclick="clearMobileSearch()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mobile-filter-container">
+                <div class="mobile-filter-title">Filtrar por categoría:</div>
+                <div class="mobile-filter-buttons">
+                    <button class="mobile-filter-btn active" onclick="setMobileFilter('all')">Todos</button>
+                    <button class="mobile-filter-btn" onclick="setMobileFilter('pelicula')">Películas</button>
+                    <button class="mobile-filter-btn" onclick="setMobileFilter('serie')">Series</button>
+                    <button class="mobile-filter-btn" onclick="setMobileFilter('canal')">Canales</button>
+                </div>
+            </div>
+        </div>
 
         <!-- Contenedor Principal Móvil -->
         <div class="mobile-container" id="mobileContainer">
@@ -1315,6 +1397,15 @@
                             </button>
                         </div>
                     </div>
+                </div>
+
+                <!-- Resultados de Búsqueda (ocultos por defecto) -->
+                <div id="mobileSearchResults" class="mobile-content-category" style="display: none;">
+                    <div class="mobile-category-header">
+                        <h2 class="mobile-category-title">Resultados de búsqueda</h2>
+                        <span id="mobileSearchCount" style="color: var(--metal-blue); font-size: 0.8rem;">0 resultados</span>
+                    </div>
+                    <div id="mobileSearchResultsContent" class="mobile-content-grid"></div>
                 </div>
 
                 <!-- Contenido Móvil -->
@@ -1696,6 +1787,11 @@
         
         let latestContent = null;
         let isTVMode = false;
+        
+        // Variables para búsqueda y filtrado
+        let mobileSearchActive = false;
+        let mobileSearchQuery = '';
+        let mobileCurrentFilter = 'all';
 
         // Detectar modo TV (horizontal)
         function detectTVMode() {
@@ -1726,7 +1822,6 @@
             if (isNowTVMode && !wasTVMode) {
                 // Cambiar a modo TV
                 document.body.classList.add('tv-mode');
-                console.log('Modo TV activado');
                 
                 // Actualizar navegación TV
                 if (currentUser) {
@@ -1737,7 +1832,6 @@
             } else if (!isNowTVMode && wasTVMode) {
                 // Cambiar a modo móvil
                 document.body.classList.remove('tv-mode');
-                console.log('Modo Móvil activado');
             }
             
             // Renderizar contenido según el modo actual
@@ -1755,8 +1849,218 @@
             }
         }
 
+        // ===== FUNCIONALIDAD DE BÚSQUEDA MÓVIL =====
+        function toggleMobileSearch() {
+            const searchContainer = document.getElementById('mobileSearchContainer');
+            if (searchContainer.classList.contains('active')) {
+                closeMobileSearch();
+            } else {
+                openMobileSearch();
+            }
+        }
+        
+        function openMobileSearch() {
+            const searchContainer = document.getElementById('mobileSearchContainer');
+            searchContainer.classList.add('active');
+            mobileSearchActive = true;
+            
+            // Ajustar margen del contenedor
+            document.getElementById('mobileContainer').style.marginTop = '120px';
+            
+            // Enfocar el input
+            setTimeout(() => {
+                document.getElementById('mobileSearchInput').focus();
+            }, 300);
+        }
+        
+        function closeMobileSearch() {
+            const searchContainer = document.getElementById('mobileSearchContainer');
+            searchContainer.classList.remove('active');
+            mobileSearchActive = false;
+            
+            // Restaurar margen del contenedor
+            document.getElementById('mobileContainer').style.marginTop = '50px';
+            
+            // Limpiar búsqueda
+            clearMobileSearch();
+        }
+        
+        function clearMobileSearch() {
+            document.getElementById('mobileSearchInput').value = '';
+            mobileSearchQuery = '';
+            mobileCurrentFilter = 'all';
+            
+            // Restaurar botones de filtro
+            document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === 'Todos') {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Ocultar resultados
+            document.getElementById('mobileSearchResults').style.display = 'none';
+            
+            // Mostrar contenido normal
+            const sections = document.querySelectorAll('#mobileHomeSection .mobile-content-category');
+            sections.forEach(section => {
+                section.style.display = 'block';
+            });
+        }
+        
+        function setMobileFilter(filterType) {
+            mobileCurrentFilter = filterType;
+            
+            // Actualizar botones de filtro
+            document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Aplicar filtro y búsqueda
+            performMobileSearch();
+        }
+        
+        function performMobileSearch() {
+            const searchInput = document.getElementById('mobileSearchInput');
+            mobileSearchQuery = searchInput.value.toLowerCase().trim();
+            
+            // Si no hay búsqueda, mostrar contenido normal
+            if (!mobileSearchQuery) {
+                document.getElementById('mobileSearchResults').style.display = 'none';
+                const sections = document.querySelectorAll('#mobileHomeSection .mobile-content-category');
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                });
+                return;
+            }
+            
+            // Filtrar contenido
+            let filteredContent = allContent.filter(item => {
+                // Filtrar por nombre
+                const matchesSearch = item.nombre.toLowerCase().includes(mobileSearchQuery);
+                
+                // Filtrar por categoría
+                let matchesFilter = true;
+                if (mobileCurrentFilter !== 'all') {
+                    matchesFilter = item.tipo === mobileCurrentFilter;
+                }
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            // Mostrar resultados
+            const resultsContainer = document.getElementById('mobileSearchResultsContent');
+            const resultsSection = document.getElementById('mobileSearchResults');
+            const searchCount = document.getElementById('mobileSearchCount');
+            
+            resultsContainer.innerHTML = '';
+            
+            if (filteredContent.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron resultados</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px;">Intenta con otras palabras</p>
+                    </div>
+                `;
+            } else {
+                filteredContent.forEach(item => {
+                    const card = crearTarjetaContenido(item, 'mobile');
+                    resultsContainer.innerHTML += card;
+                });
+            }
+            
+            // Actualizar contador
+            searchCount.textContent = `${filteredContent.length} resultado${filteredContent.length !== 1 ? 's' : ''}`;
+            
+            // Ocultar contenido normal y mostrar resultados
+            const sections = document.querySelectorAll('#mobileHomeSection .mobile-content-category');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            resultsSection.style.display = 'block';
+        }
+        
+        // ===== FUNCIONALIDAD DE BÚSQUEDA TV =====
+        function performTVSearch() {
+            const searchInput = document.getElementById('tvSearchInput');
+            const searchQuery = searchInput.value.toLowerCase().trim();
+            
+            // Si no hay búsqueda, mostrar contenido normal
+            if (!searchQuery) {
+                // Ocultar resultados y mostrar contenido normal
+                const sections = document.querySelectorAll('.tv-section.active .tv-content-category');
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                });
+                return;
+            }
+            
+            // Filtrar contenido
+            let filteredContent = allContent.filter(item => {
+                // Filtrar por nombre
+                return item.nombre.toLowerCase().includes(searchQuery);
+            });
+            
+            // Mostrar resultados en la sección activa
+            const activeSection = document.querySelector('.tv-section.active');
+            
+            // Ocultar contenido normal
+            const categories = activeSection.querySelectorAll('.tv-content-category');
+            categories.forEach(category => {
+                category.style.display = 'none';
+            });
+            
+            // Crear o actualizar sección de resultados
+            let resultsSection = activeSection.querySelector('.tv-search-results');
+            if (!resultsSection) {
+                resultsSection = document.createElement('section');
+                resultsSection.className = 'tv-content-category tv-search-results';
+                resultsSection.innerHTML = `
+                    <div class="tv-category-header">
+                        <h2 class="tv-category-title">Resultados de búsqueda</h2>
+                        <span class="tv-search-count" style="color: var(--metal-blue); font-size: 0.9rem;">0 resultados</span>
+                    </div>
+                    <div class="tv-content-grid tv-search-results-content"></div>
+                `;
+                activeSection.prepend(resultsSection);
+            }
+            
+            const resultsContainer = resultsSection.querySelector('.tv-search-results-content');
+            const searchCount = resultsSection.querySelector('.tv-search-count');
+            
+            resultsContainer.innerHTML = '';
+            
+            if (filteredContent.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron resultados</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Intenta con otras palabras</p>
+                    </div>
+                `;
+            } else {
+                filteredContent.forEach(item => {
+                    const card = crearTarjetaContenido(item, 'tv');
+                    resultsContainer.innerHTML += card;
+                });
+            }
+            
+            // Actualizar contador
+            searchCount.textContent = `${filteredContent.length} resultado${filteredContent.length !== 1 ? 's' : ''}`;
+            
+            // Mostrar sección de resultados
+            resultsSection.style.display = 'block';
+        }
+
         // Navegación Móvil
         function switchMobileSection(section) {
+            // Cerrar búsqueda si está abierta
+            if (mobileSearchActive) {
+                closeMobileSearch();
+            }
+            
             // Ocultar todas las secciones
             document.querySelectorAll('.mobile-section').forEach(sec => {
                 sec.classList.remove('active');
@@ -2162,6 +2466,9 @@
                         // Configurar scroll en header móvil
                         setupMobileHeaderScroll();
                         
+                        // Configurar eventos de búsqueda
+                        setupSearchEvents();
+                        
                     } else {
                         localStorage.removeItem('finki_user');
                         localStorage.removeItem('finki_session');
@@ -2173,6 +2480,9 @@
                     localStorage.removeItem('finki_session');
                     hideLoading();
                 }
+            } else {
+                // Configurar eventos de búsqueda para cuando se inicie sesión
+                setupSearchEvents();
             }
             
             // Detectar cambios de tamaño/orientación
@@ -2186,6 +2496,39 @@
                 }, 300);
             });
         });
+
+        // Configurar eventos de búsqueda
+        function setupSearchEvents() {
+            // Búsqueda móvil
+            const mobileSearchInput = document.getElementById('mobileSearchInput');
+            if (mobileSearchInput) {
+                mobileSearchInput.addEventListener('input', function() {
+                    performMobileSearch();
+                });
+                
+                mobileSearchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        performMobileSearch();
+                    }
+                });
+            }
+            
+            // Búsqueda TV
+            const tvSearchInput = document.getElementById('tvSearchInput');
+            if (tvSearchInput) {
+                tvSearchInput.addEventListener('input', function() {
+                    performTVSearch();
+                });
+                
+                tvSearchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        performTVSearch();
+                    }
+                });
+            }
+        }
 
         // Efecto de scroll en header móvil
         function setupMobileHeaderScroll() {
@@ -2253,25 +2596,30 @@
 
             if (!nombre || !edad || !celular || !password) {
                 errorEl.textContent = 'Todos los campos son obligatorios.';
-                errorEl.style.display = 'block'; return;
+                errorEl.style.display = 'block'; 
+                return;
             }
             if (edad < 1 || edad > 120) {
                 errorEl.textContent = 'Edad debe ser entre 1 y 120 años.';
-                errorEl.style.display = 'block'; return;
+                errorEl.style.display = 'block'; 
+                return;
             }
             if (!validarCelular(celular)) {
                 errorEl.textContent = 'El celular debe tener 8 dígitos exactos.';
-                errorEl.style.display = 'block'; return;
+                errorEl.style.display = 'block'; 
+                return;
             }
             if (password.length < 4) {
                 errorEl.textContent = 'Contraseña muy corta.';
-                errorEl.style.display = 'block'; return;
+                errorEl.style.display = 'block'; 
+                return;
             }
 
             const { data: existing } = await supabaseClient.from('users').select('celular').eq('celular', celular).single();
             if (existing) {
                 errorEl.textContent = 'Este número de celular ya está registrado.';
-                errorEl.style.display = 'block'; return;
+                errorEl.style.display = 'block'; 
+                return;
             }
 
             showLoading();
@@ -2298,7 +2646,8 @@
 
             if (!validarCelular(celular)) {
                 errorEl.textContent = 'Celular debe ser 8 dígitos.';
-                errorEl.style.display = 'block'; return;
+                errorEl.style.display = 'block'; 
+                return;
             }
 
             showLoading();
@@ -2340,6 +2689,9 @@
                 
                 // Configurar scroll en header móvil
                 setupMobileHeaderScroll();
+                
+                // Configurar eventos de búsqueda
+                setupSearchEvents();
                 
                 hideLoading();
             }
@@ -2704,6 +3056,11 @@
             if (e.key === 'Escape') {
                 closePlayer();
                 
+                // Cerrar búsqueda móvil si está abierta
+                if (mobileSearchActive) {
+                    closeMobileSearch();
+                }
+                
                 const activeScreens = ['myListScreen', 'historyScreen', 'settingsScreen'];
                 activeScreens.forEach(screen => {
                     if (document.getElementById(screen).classList.contains('active')) {
@@ -2738,6 +3095,16 @@
             document.addEventListener('touchmove', function(e) {
             }, { passive: true });
         }
+        
+        // Cerrar búsqueda al hacer scroll en móvil
+        document.addEventListener('scroll', function(e) {
+            if (mobileSearchActive && !e.target.closest('.mobile-search-container')) {
+                const searchContainer = document.getElementById('mobileSearchContainer');
+                if (searchContainer.getBoundingClientRect().top < 0) {
+                    closeMobileSearch();
+                }
+            }
+        });
     </script>
 </body>
 </html>

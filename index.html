@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        /* ESTILOS NETFLIX AZUL - ULTRA OPTIMIZADO Y CORREGIDO */
+        /* ESTILOS NETFLIX AZUL - ULTRA OPTIMIZADO */
         
         :root {
             --primary-blue: #0c1c32;
@@ -57,25 +57,17 @@
             font-size: 14px;
             line-height: 1.4;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            position: fixed;
-            width: 100%;
-            height: 100%;
         }
         
         /* ===== SECCIÓN DE AUTENTICACIÓN ===== */
         #authSection {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            min-height: 100vh;
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.9) 100%), 
                         url('https://assets.nflxext.com/ffe/siteui/vlv3/5ea364b1-8e59-4693-8ad8-f0eaee32d1bf/9b8f8c87-30a8-4a2f-b8c6-bf17d7c4a1f6/PE-es-20220530-popsignuptwoweeks-perspective_alpha_website_large.jpg') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 10px;
-            z-index: 10000;
         }
         
         .auth-box {
@@ -189,11 +181,9 @@
         /* ===== APLICACIÓN PRINCIPAL ===== */
         #mainApp {
             display: none;
-            width: 100%;
-            height: 100%;
+            height: 100vh;
             overflow: hidden;
             background: var(--dark-bg);
-            position: relative;
         }
         
         /* Loading Spinner */
@@ -328,17 +318,13 @@
         
         /* Contenedor Principal Móvil */
         .mobile-container {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            height: calc(100% - 125px);
+            height: 100vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             padding-bottom: 65px;
+            margin-top: 60px;
             scroll-behavior: smooth;
             will-change: transform;
-            overflow-x: hidden;
         }
         
         /* Buscador Móvil - OPTIMIZADO */
@@ -498,7 +484,6 @@
         .mobile-section {
             display: none;
             padding: 0 16px;
-            width: 100%;
         }
         
         .mobile-section.active {
@@ -507,7 +492,6 @@
         
         .mobile-content-category {
             margin-bottom: 20px;
-            width: 100%;
         }
         
         .mobile-category-header {
@@ -515,7 +499,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
         }
         
         .mobile-category-title {
@@ -531,7 +514,6 @@
             gap: 6px;
             margin-bottom: 16px;
             will-change: transform;
-            width: 100%;
         }
         
         /* Tarjetas Móvil - OPTIMIZADO */
@@ -545,7 +527,6 @@
             box-shadow: var(--card-shadow);
             transform: translateZ(0);
             backface-visibility: hidden;
-            width: 100%;
         }
         
         .mobile-content-card:active {
@@ -556,7 +537,6 @@
             position: relative;
             aspect-ratio: 2/3;
             overflow: hidden;
-            width: 100%;
         }
         
         .card-img {
@@ -570,7 +550,6 @@
         .mobile-card-info {
             padding: 8px;
             background: var(--card-bg);
-            width: 100%;
         }
         
         .mobile-card-title {
@@ -583,7 +562,6 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            width: 100%;
         }
         
         .mobile-card-subtitle {
@@ -593,7 +571,6 @@
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            width: 100%;
         }
         
         .card-badge {
@@ -668,14 +645,6 @@
         /* ============================= */
         /* ===== MODO TV (TV MODE) ===== */
         /* ============================= */
-        
-        /* Estilos TV activos */
-        body.tv-mode {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
         
         body.tv-mode .mobile-header,
         body.tv-mode .mobile-nav,
@@ -764,13 +733,12 @@
             top: 80px;
             left: 0;
             width: 90px;
-            height: calc(100% - 80px);
+            height: calc(100vh - 80px);
             background: rgba(0, 0, 0, 0.95);
             border-right: 1px solid #333;
             padding-top: 40px;
             z-index: 999;
             flex-direction: column;
-            overflow-y: auto;
         }
         
         .tv-nav-item {
@@ -812,7 +780,7 @@
             top: 80px;
             left: 90px;
             width: calc(100% - 90px);
-            height: calc(100% - 80px);
+            height: calc(100vh - 80px);
             overflow-y: auto;
             background: var(--dark-bg);
             padding: 0;
@@ -925,7 +893,6 @@
             overflow: hidden;
             background: var(--card-bg);
             box-shadow: var(--card-shadow);
-            width: 100%;
         }
         
         .tv-content-card:hover {
@@ -938,13 +905,11 @@
             position: relative;
             aspect-ratio: 16/9;
             overflow: hidden;
-            width: 100%;
         }
         
         .tv-card-info {
             padding: 16px;
             background: var(--card-bg);
-            width: 100%;
         }
         
         .tv-card-title {
@@ -957,7 +922,6 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            width: 100%;
         }
         
         .tv-card-subtitle {
@@ -967,27 +931,22 @@
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            width: 100%;
         }
         
         /* ===== ELEMENTOS COMPARTIDOS OPTIMIZADOS ===== */
         
-        /* Panel de Perfil - CORREGIDO PARA TV */
+        /* Panel de Perfil */
         .profile-panel {
             position: fixed;
             top: 0;
             right: -100%;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             background: rgba(0, 0, 0, 0.98);
             z-index: 200;
             transition: right 0.3s ease;
             overflow-y: auto;
             border-left: 1px solid #333;
-        }
-        
-        body.tv-mode .profile-panel {
-            width: 320px;
         }
         
         .profile-panel.active {
@@ -998,7 +957,6 @@
             padding: 45px 20px 20px;
             background: linear-gradient(135deg, var(--action-blue) 0%, var(--primary-blue) 100%);
             position: relative;
-            width: 100%;
         }
         
         .close-profile {
@@ -1281,28 +1239,12 @@
             }
             
             .mobile-container {
-                top: calc(60px + env(safe-area-inset-top));
-                height: calc(100% - (125px + env(safe-area-inset-top)));
+                margin-top: calc(60px + env(safe-area-inset-top));
             }
             
             .mobile-nav {
                 padding-bottom: max(0px, env(safe-area-inset-bottom));
                 height: calc(65px + env(safe-area-inset-bottom));
-            }
-            
-            .tv-header {
-                padding-top: max(0px, env(safe-area-inset-top));
-                height: calc(80px + env(safe-area-inset-top));
-            }
-            
-            .tv-sidebar {
-                top: calc(80px + env(safe-area-inset-top));
-                height: calc(100% - (80px + env(safe-area-inset-top)));
-            }
-            
-            .tv-container {
-                top: calc(80px + env(safe-area-inset-top));
-                height: calc(100% - (80px + env(safe-area-inset-top)));
             }
         }
         
@@ -1332,15 +1274,6 @@
             }
         }
         
-        /* Media Query específica para TV Mode */
-        @media (min-width: 769px) and (min-aspect-ratio: 1/1) {
-            body:not(.tv-mode) .mobile-container {
-                position: relative;
-                top: 60px;
-                height: calc(100vh - 125px);
-            }
-        }
-        
         /* Deshabilitar animaciones en dispositivos lentos */
         @media (prefers-reduced-motion: reduce) {
             * {
@@ -1359,7 +1292,7 @@
         }
         
         /* Evitar flashes en scroll */
-        .mobile-container, .tv-container {
+        .mobile-container {
             -webkit-overflow-scrolling: touch;
             overflow-scrolling: touch;
         }
@@ -1368,19 +1301,6 @@
         .card-img {
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
-        }
-        
-        /* Corregir orientación en móviles */
-        @media screen and (orientation: landscape) and (max-height: 500px) {
-            .mobile-container {
-                height: calc(100% - 65px);
-                top: 60px;
-            }
-            
-            .mobile-hero-banner {
-                height: 80vh;
-                min-height: 300px;
-            }
         }
     </style>
 </head>
@@ -1706,7 +1626,7 @@
 
         <!-- ===== ELEMENTOS COMPARTIDOS ===== -->
         
-        <!-- Panel de Perfil - CORREGIDO -->
+        <!-- Panel de Perfil -->
         <div class="profile-panel" id="profilePanel">
             <div class="profile-header">
                 <button class="close-profile" onclick="closeProfile()">
@@ -1732,8 +1652,8 @@
                         <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 4px;">Historial</div>
                     </div>
                     <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #333;">
-                        <div id="totalCount" style="font-size: 1.6rem; font-weight: 700; color: var(--highlight-blue);">0</div>
-                        <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 4px;">Total</div>
+                        <div id="moviesCount" style="font-size: 1.6rem; font-weight: 700; color: var(--highlight-blue);">0</div>
+                        <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 4px;">Películas</div>
                     </div>
                 </div>
                 
@@ -1870,7 +1790,6 @@
         
         let latestContent = null;
         let isTVMode = false;
-        let isInitialized = false;
         
         // VARIABLES DE BÚSQUEDA ULTRA OPTIMIZADAS
         let mobileSearchActive = false;
@@ -1894,79 +1813,65 @@
             
             if (isLowEndDevice) {
                 console.log('Dispositivo de bajos recursos detectado, activando optimizaciones');
+                // Deshabilitar algunas animaciones
+                document.body.style.setProperty('--card-shadow-hover', 'none');
             }
         }
         
-        // Detectar modo TV MEJORADO
+        // Detectar modo TV
         function detectTVMode() {
             const width = window.innerWidth;
             const height = window.innerHeight;
-            
-            // Detectar si es TV (horizontal) o móvil
-            const isLandscape = width > height;
-            const isLargeScreen = width >= 768;
-            
-            // Modo TV solo si es landscape Y pantalla grande
-            isTVMode = isLandscape && isLargeScreen;
-            
-            // Para tablets en portrait, mantener modo móvil
-            if (width > 768 && height > 1024 && !isLandscape) {
-                isTVMode = false;
-            }
-            
+            isTVMode = width > height && width > 768;
             return isTVMode;
         }
         
-        // Aplicar modo TV o Móvil - CORREGIDO
+        // Aplicar modo TV o Móvil
         function applyTVMode() {
             const wasTVMode = document.body.classList.contains('tv-mode');
             const isNowTVMode = detectTVMode();
             
             if (isNowTVMode && !wasTVMode) {
-                console.log('Activando modo TV');
                 document.body.classList.add('tv-mode');
                 if (currentUser) {
                     const userInitial = currentUser.nombre.charAt(0).toUpperCase();
                     document.getElementById('tvUserAvatar').textContent = userInitial;
                 }
-                // Forzar re-renderizado
-                if (allContent.length > 0 && isInitialized) {
-                    renderTVContent();
-                }
             } else if (!isNowTVMode && wasTVMode) {
-                console.log('Activando modo móvil');
                 document.body.classList.remove('tv-mode');
-                // Forzar re-renderizado
-                if (allContent.length > 0 && isInitialized) {
-                    renderMobileContent();
-                }
+            }
+            
+            if (allContent.length > 0) {
+                renderContentForCurrentMode();
             }
         }
         
         // Renderizar contenido según modo
         function renderContentForCurrentMode() {
             if (document.body.classList.contains('tv-mode')) {
-                console.log('Renderizando contenido TV');
                 renderTVContent();
             } else {
-                console.log('Renderizando contenido móvil');
                 renderMobileContent();
             }
         }
         
         // ===== BÚSQUEDA ULTRA OPTIMIZADA =====
         function performSearchOptimized(query, filter = 'all', mode = 'mobile') {
+            // Cancelar búsqueda anterior si existe
             if (searchTimeout) {
                 clearTimeout(searchTimeout);
                 searchTimeout = null;
             }
             
+            // Si ya hay una búsqueda en curso, ignorar
             if (isSearching) {
                 return;
             }
             
+            // Para dispositivos lentos, aumentar el debounce
             const debounceTime = isLowEndDevice ? 500 : 300;
             
+            // Usar requestIdleCallback para mejor rendimiento
             if ('requestIdleCallback' in window) {
                 searchTimeout = requestIdleCallback(() => {
                     performSearch(query, filter, mode);
@@ -1980,13 +1885,15 @@
         
         function performSearch(query, filter, mode) {
             const now = Date.now();
-            if (now - lastSearchTime < 100) return;
+            if (now - lastSearchTime < 100) return; // Limitar a 10 búsquedas por segundo
             lastSearchTime = now;
             
             isSearching = true;
             
+            // Crear clave de caché
             const cacheKey = `${query}_${filter}_${mode}`;
             
+            // Verificar caché
             if (searchCache.has(cacheKey)) {
                 const cachedResults = searchCache.get(cacheKey);
                 displaySearchResults(cachedResults, query, filter, mode);
@@ -1994,28 +1901,35 @@
                 return;
             }
             
+            // Filtrar contenido de manera eficiente
             let filteredContent = [];
             const queryLower = query.toLowerCase();
             
+            // Optimización: pre-filtrar por tipo si hay filtro
             let contentToSearch = allContent;
             if (filter !== 'all') {
                 contentToSearch = allContent.filter(item => item.tipo === filter);
             }
             
+            // Búsqueda optimizada
             if (query === '') {
                 filteredContent = [];
             } else {
+                // Usar un bucle simple para mejor rendimiento
                 for (let i = 0; i < contentToSearch.length; i++) {
                     const item = contentToSearch[i];
                     if (item.nombre.toLowerCase().includes(queryLower)) {
                         filteredContent.push(item);
+                        // Limitar resultados para mejor rendimiento
                         if (filteredContent.length >= 50) break;
                     }
                 }
             }
             
+            // Guardar en caché (solo si hay resultados)
             if (filteredContent.length > 0) {
                 searchCache.set(cacheKey, filteredContent);
+                // Limitar tamaño de caché
                 if (searchCache.size > 20) {
                     const firstKey = searchCache.keys().next().value;
                     searchCache.delete(firstKey);
@@ -2034,16 +1948,20 @@
                 const searchCount = document.getElementById('mobileSearchCount');
                 
                 if (query === '') {
+                    // Mostrar contenido normal
                     resultsSection.classList.remove('active');
-                    if (normalContent) normalContent.style.display = 'block';
+                    normalContent.style.display = 'block';
                     return;
                 }
                 
+                // Mostrar resultados
                 resultsSection.classList.add('active');
-                if (normalContent) normalContent.style.display = 'none';
+                normalContent.style.display = 'none';
                 
+                // Actualizar contador
                 searchCount.textContent = `${results.length} resultado${results.length !== 1 ? 's' : ''}`;
                 
+                // Renderizar resultados de manera eficiente
                 if (results.length === 0) {
                     resultsContainer.innerHTML = `
                         <div class="empty-state">
@@ -2052,8 +1970,9 @@
                         </div>
                     `;
                 } else {
+                    // Usar innerHTML en lugar de fragments para mejor rendimiento en móviles
                     let html = '';
-                    const limit = Math.min(results.length, 30);
+                    const limit = Math.min(results.length, 30); // Limitar para mejor rendimiento
                     
                     for (let i = 0; i < limit; i++) {
                         const item = results[i];
@@ -2063,6 +1982,7 @@
                     resultsContainer.innerHTML = html;
                 }
             } else {
+                // Búsqueda TV
                 const tvSearchInput = document.getElementById('tvSearchInput');
                 if (!tvSearchInput) return;
                 
@@ -2193,10 +2113,12 @@
             searchContainer.classList.add('active');
             mobileSearchActive = true;
             
+            // Enfocar el input
             setTimeout(() => {
                 const searchInput = document.getElementById('mobileSearchInput');
                 if (searchInput) {
                     searchInput.focus();
+                    // Mover cursor al final
                     searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
                 }
             }, 50);
@@ -2207,6 +2129,7 @@
             searchContainer.classList.remove('active');
             mobileSearchActive = false;
             
+            // Limpiar búsqueda
             clearMobileSearch();
         }
         
@@ -2217,6 +2140,7 @@
                 mobileSearchQuery = '';
                 mobileCurrentFilter = 'all';
                 
+                // Restaurar botones de filtro
                 document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
                     btn.classList.remove('active');
                     if (btn.textContent === 'Todos') {
@@ -2224,6 +2148,7 @@
                     }
                 });
                 
+                // Ocultar resultados y mostrar contenido normal
                 const resultsSection = document.getElementById('mobileSearchResults');
                 const normalContent = document.getElementById('mobileNormalContent');
                 
@@ -2231,41 +2156,50 @@
                 if (normalContent) normalContent.style.display = 'block';
             }
             
+            // Limpiar caché de búsqueda
             searchCache.clear();
         }
         
         function setMobileFilter(filterType) {
             mobileCurrentFilter = filterType;
             
+            // Actualizar botones de filtro
             document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
+            // Aplicar filtro y búsqueda
             performSearchOptimized(mobileSearchQuery, filterType, 'mobile');
         }
         
         // ===== NAVEGACIÓN OPTIMIZADA =====
         function switchMobileSection(section) {
+            // Cerrar búsqueda si está abierta
             if (mobileSearchActive) {
                 closeMobileSearch();
             }
             
+            // Limpiar caché de búsqueda
             searchCache.clear();
             
+            // Ocultar todas las secciones
             document.querySelectorAll('.mobile-section').forEach(sec => {
                 sec.classList.remove('active');
             });
             
+            // Quitar activo de todos los botones
             document.querySelectorAll('.mobile-nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
+            // Activar sección correspondiente
             const sectionId = `mobile${capitalizeFirstLetter(section)}Section`;
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
                 
+                // Activar botón correspondiente
                 const navItems = document.querySelectorAll('.mobile-nav-item');
                 for (let i = 0; i < navItems.length; i++) {
                     if ((section === 'home' && i === 0) ||
@@ -2277,6 +2211,7 @@
                     }
                 }
                 
+                // Si es Mi Lista, renderizar contenido
                 if (section === 'myList') {
                     setTimeout(() => renderMobileMyList(), 50);
                 }
@@ -2284,6 +2219,7 @@
         }
         
         function switchTVSection(section) {
+            // Limpiar búsqueda TV
             const tvSearchInput = document.getElementById('tvSearchInput');
             if (tvSearchInput) {
                 tvSearchInput.value = '';
@@ -2296,21 +2232,26 @@
                 if (normalContent) normalContent.style.display = 'block';
             }
             
+            // Limpiar caché
             searchCache.clear();
             
+            // Ocultar todas las secciones
             document.querySelectorAll('.tv-section').forEach(sec => {
                 sec.classList.remove('active');
             });
             
+            // Quitar activo de todos los botones
             document.querySelectorAll('.tv-nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
+            // Activar sección correspondiente
             const sectionId = `tv${capitalizeFirstLetter(section)}Section`;
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
                 
+                // Activar botón correspondiente
                 const navItems = document.querySelectorAll('.tv-nav-item');
                 for (let i = 0; i < navItems.length; i++) {
                     if ((section === 'home' && i === 0) ||
@@ -2323,6 +2264,7 @@
                     }
                 }
                 
+                // Si es Mi Lista, renderizar contenido
                 if (section === 'myList') {
                     setTimeout(() => renderTVMyList(), 50);
                 }
@@ -2366,6 +2308,7 @@
                     updateProfileCounters();
                 } catch (e) {
                     console.error('Error cargando datos del usuario:', e);
+                    // Inicializar con valores por defecto
                     userSettings = { wifiOnly: false, autoPlay: true };
                     userLists = { myList: [], history: [] };
                 }
@@ -2446,6 +2389,7 @@
             
             const userKey = `finki_user_${currentUser.id}`;
             
+            // Eliminar duplicados recientes
             const oneHourAgo = Date.now() - 3600000;
             userLists.history = userLists.history.filter(item => 
                 !(item.id === contentItem.id && 
@@ -2461,6 +2405,7 @@
                 fecha_reproduccion: new Date().toISOString()
             });
             
+            // Limitar historial a 50 elementos para ahorrar memoria
             if (userLists.history.length > 50) {
                 userLists.history = userLists.history.slice(0, 50);
             }
@@ -2495,16 +2440,15 @@
             }
         }
         
-        // Actualizar contadores del perfil - CORREGIDO
+        // Actualizar contadores del perfil
         function updateProfileCounters() {
             if (!currentUser) return;
             
-            // Contar correctamente TODAS las películas
-            const totalMovies = allContent.filter(item => item.tipo === 'pelicula').length;
-            
             document.getElementById('myListCount').textContent = userLists.myList.length;
             document.getElementById('historyCount').textContent = userLists.history.length;
-            document.getElementById('totalCount').textContent = totalMovies;
+            
+            const moviesCount = allContent.filter(item => item.tipo === 'pelicula').length;
+            document.getElementById('moviesCount').textContent = moviesCount;
         }
         
         // Renderizar Mi Lista Móvil optimizado
@@ -2653,8 +2597,10 @@
         
         // Inicializar aplicación
         document.addEventListener('DOMContentLoaded', async () => {
+            // Detectar rendimiento del dispositivo
             detectDevicePerformance();
             
+            // Verificar sesión guardada
             const savedUser = localStorage.getItem('finki_user');
             const savedSession = localStorage.getItem('finki_session');
             
@@ -2664,6 +2610,7 @@
                     const user = JSON.parse(savedUser);
                     const sessionData = JSON.parse(savedSession);
                     
+                    // Verificar si la sesión ha expirado (30 días)
                     if (sessionData.expires < Date.now()) {
                         throw new Error('Sesión expirada');
                     }
@@ -2690,8 +2637,8 @@
                         
                         // Aplicar modo inicial
                         applyTVMode();
-                        isInitialized = true;
                         
+                        // Configurar eventos optimizados
                         setupOptimizedEvents();
                         
                     } else {
@@ -2706,9 +2653,11 @@
                     hideLoading();
                 }
             } else {
+                // Configurar eventos para cuando se inicie sesión
                 setupOptimizedEvents();
             }
             
+            // Configurar detección de cambios de tamaño
             let resizeTimeout;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimeout);
@@ -2722,17 +2671,11 @@
                     applyTVMode();
                 }, 300);
             });
-            
-            // Prevenir comportamiento por defecto en móviles
-            document.addEventListener('touchmove', function(e) {
-                if (e.scale !== 1) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
         });
         
         // Configurar eventos optimizados
         function setupOptimizedEvents() {
+            // Búsqueda móvil optimizada
             const mobileSearchInput = document.getElementById('mobileSearchInput');
             if (mobileSearchInput) {
                 mobileSearchInput.addEventListener('input', function() {
@@ -2741,6 +2684,7 @@
                 });
             }
             
+            // Búsqueda TV optimizada
             const tvSearchInput = document.getElementById('tvSearchInput');
             if (tvSearchInput) {
                 tvSearchInput.addEventListener('input', function() {
@@ -2749,6 +2693,7 @@
                 });
             }
             
+            // Scroll optimizado para header móvil
             const container = document.querySelector('.mobile-container');
             if (container) {
                 let scrollTimer;
@@ -2816,6 +2761,7 @@
             const password = document.getElementById('regPassword').value;
             const errorEl = document.getElementById('registerError');
             
+            // Validaciones básicas
             if (!nombre || !edad || !celular || !password) {
                 errorEl.textContent = 'Todos los campos son obligatorios.';
                 errorEl.style.display = 'block'; 
@@ -2914,7 +2860,6 @@
                 actualizarPerfil();
                 
                 applyTVMode();
-                isInitialized = true;
                 setupOptimizedEvents();
                 
                 showNotification('Bienvenido ' + currentUser.nombre);
@@ -2934,7 +2879,6 @@
             userLists = { myList: [], history: [] };
             userSettings = {};
             searchCache.clear();
-            isInitialized = false;
             
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('authSection').style.display = 'flex';
@@ -2948,34 +2892,20 @@
         async function cargarContenido() {
             showLoading();
             try {
-                // Primero obtener el conteo total
-                const { count: totalCount, error: countError } = await supabaseClient
-                    .from('contenido')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('tipo', 'pelicula');
-                
-                if (!countError && totalCount !== null) {
-                    console.log(`Total de películas en la base de datos: ${totalCount}`);
-                }
-                
-                // Obtener TODO el contenido, no solo 100
                 const { data: contenido, error } = await supabaseClient
                     .from('contenido')
                     .select('*, categorias(nombre)')
-                    .order('fecha_agregado', { ascending: false });
+                    .order('fecha_agregado', { ascending: false })
+                    .limit(100); // Limitar a 100 resultados para mejor rendimiento
                 
                 if (error) throw error;
                 
                 allContent = contenido || [];
-                console.log(`Contenido cargado: ${allContent.length} items`);
-                
-                // Contar películas reales
-                const peliculasCount = allContent.filter(item => item.tipo === 'pelicula').length;
-                console.log(`Películas reales contadas: ${peliculasCount}`);
                 
                 if (allContent.length > 0) {
                     latestContent = allContent[0];
                     
+                    // Actualizar banners
                     if (latestContent.url_portada) {
                         document.getElementById('mobileHeroBanner').style.backgroundImage = 
                             `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
@@ -2993,8 +2923,6 @@
                 }
                 
                 renderContentForCurrentMode();
-                updateProfileCounters();
-                
             } catch (error) {
                 console.error('Error cargando contenido:', error);
                 showNotification('Error cargando contenido');
@@ -3004,6 +2932,7 @@
         
         // Renderizar contenido Móvil optimizado
         function renderMobileContent() {
+            // Separar por categorías de manera eficiente
             const movies = [];
             const series = [];
             const channels = [];
@@ -3015,8 +2944,7 @@
                 else if (item.tipo === 'canal') channels.push(item);
             }
             
-            console.log(`Renderizando móvil: ${movies.length} películas, ${series.length} series, ${channels.length} canales`);
-            
+            // Función para renderizar sección
             function renderSection(containerId, items, limit = 8) {
                 const container = document.getElementById(containerId);
                 if (!container) return;
@@ -3031,33 +2959,24 @@
                 container.innerHTML = html;
             }
             
+            // Renderizar secciones principales
             renderSection('mobileFeaturedContent', allContent, 8);
             renderSection('mobileMoviesContent', movies, 8);
             renderSection('mobileSeriesContent', series, 8);
             renderSection('mobileLiveContent', channels, 8);
             
-            // Para páginas completas, mostrar todo
-            function renderFullSection(containerId, items) {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-                
-                let html = '';
-                for (let i = 0; i < items.length; i++) {
-                    html += crearTarjetaContenidoSimple(items[i], 'mobile');
-                }
-                
-                container.innerHTML = html;
-            }
+            // Renderizar páginas completas
+            renderSection('mobileMoviesFullContent', movies, 50);
+            renderSection('mobileSeriesFullContent', series, 50);
+            renderSection('mobileChannelsFullContent', channels, 50);
             
-            renderFullSection('mobileMoviesFullContent', movies);
-            renderFullSection('mobileSeriesFullContent', series);
-            renderFullSection('mobileChannelsFullContent', channels);
-            
+            // Renderizar Mi Lista
             renderMobileMyList();
         }
         
         // Renderizar contenido TV optimizado
         function renderTVContent() {
+            // Separar por categorías
             const movies = [];
             const series = [];
             const channels = [];
@@ -3069,8 +2988,7 @@
                 else if (item.tipo === 'canal') channels.push(item);
             }
             
-            console.log(`Renderizando TV: ${movies.length} películas, ${series.length} series, ${channels.length} canales`);
-            
+            // Función para renderizar sección TV
             function renderSection(containerId, items, limit = 12) {
                 const container = document.getElementById(containerId);
                 if (!container) return;
@@ -3085,28 +3003,18 @@
                 container.innerHTML = html;
             }
             
+            // Renderizar secciones
             renderSection('tvFeaturedContent', allContent, 12);
             renderSection('tvMoviesContent', movies, 10);
             renderSection('tvSeriesContent', series, 10);
             renderSection('tvLiveContent', channels, 10);
             
-            // Para páginas completas, mostrar todo
-            function renderFullSection(containerId, items) {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-                
-                let html = '';
-                for (let i = 0; i < items.length; i++) {
-                    html += crearTarjetaContenidoSimple(items[i], 'tv');
-                }
-                
-                container.innerHTML = html;
-            }
+            // Renderizar páginas completas
+            renderSection('tvMoviesFullContent', movies, 50);
+            renderSection('tvSeriesFullContent', series, 50);
+            renderSection('tvChannelsFullContent', channels, 50);
             
-            renderFullSection('tvMoviesFullContent', movies);
-            renderFullSection('tvSeriesFullContent', series);
-            renderFullSection('tvChannelsFullContent', channels);
-            
+            // Renderizar Mi Lista TV
             renderTVMyList();
         }
         
@@ -3116,6 +3024,7 @@
             if (!contentItem) return;
             
             if (addToMyList(contentItem)) {
+                // Encontrar y actualizar el botón de manera eficiente
                 const eventTarget = event.target;
                 const btn = eventTarget.closest('.list-btn');
                 if (btn) {
@@ -3253,10 +3162,13 @@
             }
         });
         
-        // Prevenir zoom en móviles
+        // Optimizaciones para táctil
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        
+        // Prevenir zoom de dos dedos
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
     </script>
 </body>
-</html> 
+</html>

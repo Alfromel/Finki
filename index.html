@@ -18,14 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        /* ESTILOS NETFLIX PREMIUM - AZUL METÁLICO MODERNO */
+        /* ESTILOS NETFLIX AZUL - ULTRA OPTIMIZADO */
         
         :root {
             --primary-blue: #0c1c32;
             --secondary-blue: #1a2b44;
             --accent-blue: #2a3d5f;
             --highlight-blue: #4cc9f0;
-            --netflix-red: #e50914;
+            --action-blue: #2d8cff;
             --dark-bg: #0a0f1a;
             --darker-bg: #050a14;
             --card-bg: #1a2536;
@@ -34,32 +34,32 @@
             --text-light: #f0f4ff;
             --text-gray: #b8c7e0;
             --gradient-dark: linear-gradient(to top, #0a0f1a 0%, transparent 60%);
-            --gradient-red: linear-gradient(180deg, rgba(229,9,20,0.8) 0%, rgba(229,9,20,0.4) 100%);
-            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-            --card-shadow-hover: 0 12px 28px rgba(76, 201, 240, 0.25);
-            --netflix-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            --gradient-blue: linear-gradient(180deg, rgba(76,201,240,0.8) 0%, rgba(76,201,240,0.4) 100%);
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            --card-shadow-hover: 0 12px 24px rgba(76, 201, 240, 0.2);
+            --nav-shadow: 0 2px 10px rgba(0,0,0,0.7);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
             -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
         }
         
         body {
             background-color: var(--dark-bg);
             color: var(--white);
             overflow-x: hidden;
-            touch-action: pan-y;
             -webkit-font-smoothing: antialiased;
             font-size: 14px;
             line-height: 1.4;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
         
-        /* ===== SECCIÓN DE AUTENTICACIÓN ESTILO NETFLIX ===== */
+        /* ===== SECCIÓN DE AUTENTICACIÓN ===== */
         #authSection {
             min-height: 100vh;
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.9) 100%), 
@@ -68,36 +68,30 @@
             align-items: center;
             justify-content: center;
             padding: 10px;
-            position: relative;
         }
         
         .auth-box {
             background: rgba(0, 0, 0, 0.85);
-            padding: 2.5rem 3rem;
+            padding: 2rem;
             border-radius: 8px;
             width: 100%;
-            max-width: 450px;
+            max-width: 400px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
             border: 1px solid #333;
         }
         
         .logo-auth {
-            color: var(--netflix-red);
-            font-size: 3.2rem;
+            color: var(--highlight-blue);
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: left;
-            letter-spacing: -2px;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            letter-spacing: -1px;
         }
         
         .tabs {
             display: flex;
             margin-bottom: 1.5rem;
-            background: transparent;
-            border-radius: 4px;
-            overflow: hidden;
             border-bottom: 2px solid #333;
         }
         
@@ -127,7 +121,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: var(--netflix-red);
+            background: var(--highlight-blue);
         }
         
         .input-group {
@@ -136,7 +130,7 @@
         
         .input-group input {
             width: 100%;
-            padding: 16px 20px;
+            padding: 14px 16px;
             background: rgba(35, 35, 35, 0.8);
             border: 1px solid #333;
             border-radius: 4px;
@@ -149,7 +143,6 @@
             outline: none;
             border-color: var(--white);
             background: rgba(50, 50, 50, 0.9);
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
         }
         
         .input-group input::placeholder {
@@ -159,8 +152,8 @@
         
         .btn-auth {
             width: 100%;
-            padding: 16px;
-            background: var(--netflix-red);
+            padding: 14px;
+            background: var(--action-blue);
             color: var(--white);
             border: none;
             border-radius: 4px;
@@ -169,11 +162,10 @@
             cursor: pointer;
             margin-top: 1.5rem;
             transition: all 0.2s ease;
-            letter-spacing: 0.5px;
         }
         
         .btn-auth:hover {
-            background: #f6121d;
+            background: #3a9bff;
         }
         
         .error-message {
@@ -194,35 +186,34 @@
             background: var(--dark-bg);
         }
         
-        /* Loading Spinner Netflix */
+        /* Loading Spinner */
         .loading-spinner {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(229,9,20,0.3);
-            border-top-color: var(--netflix-red);
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(76, 201, 240, 0.3);
+            border-top-color: var(--highlight-blue);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             z-index: 4000;
-            box-shadow: 0 4px 15px rgba(229,9,20,0.3);
         }
         
         @keyframes spin {
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
-        /* Notification Netflix */
+        /* Notification */
         .notification {
             position: fixed;
             top: 70px;
             right: 20px;
-            background: var(--netflix-red);
+            background: var(--action-blue);
             color: white;
-            padding: 12px 20px;
+            padding: 10px 16px;
             border-radius: 4px;
             z-index: 5000;
             animation: slideIn 0.3s ease;
@@ -230,8 +221,6 @@
             font-size: 0.9rem;
             max-width: 300px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(229,9,20,0.3);
         }
         
         @keyframes slideIn {
@@ -251,23 +240,22 @@
         }
         
         /* ================================= */
-        /* ===== MODO MÓVIL (DEFAULT) ===== */
+        /* ===== MODO MÓVIL (OPTIMIZADO) ===== */
         /* ================================= */
         
-        /* Header Móvil Netflix */
+        /* Header Móvil */
         .mobile-header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 0 20px;
+            padding: 0 16px;
             background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            height: 68px;
+            z-index: 100;
+            height: 60px;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
         
         .mobile-header.scrolled {
@@ -276,17 +264,16 @@
         }
         
         .mobile-logo {
-            color: var(--netflix-red);
-            font-size: 1.8rem;
+            color: var(--highlight-blue);
+            font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
         
         .mobile-search-btn {
@@ -301,11 +288,7 @@
             height: 36px;
             border-radius: 50%;
             transition: all 0.3s ease;
-            font-size: 1.1rem;
-        }
-        
-        .mobile-search-btn:hover {
-            background: rgba(255,255,255,0.1);
+            font-size: 1rem;
         }
         
         .profile-btn {
@@ -315,14 +298,14 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-size: 0.8rem;
         }
         
         .profile-avatar {
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, var(--netflix-red) 0%, #b81d24 100%);
+            background: linear-gradient(135deg, var(--action-blue) 0%, var(--highlight-blue) 100%);
             border-radius: 4px;
             display: flex;
             align-items: center;
@@ -338,24 +321,23 @@
             height: 100vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 70px;
-            margin-top: 68px;
+            padding-bottom: 65px;
+            margin-top: 60px;
             scroll-behavior: smooth;
+            will-change: transform;
         }
         
-        /* Buscador Móvil Netflix */
+        /* Buscador Móvil - OPTIMIZADO */
         .mobile-search-container {
             display: none;
             position: fixed;
-            top: 68px;
+            top: 60px;
             left: 0;
             width: 100%;
             background: rgba(0, 0, 0, 0.98);
-            z-index: 999;
-            padding: 15px 20px;
+            z-index: 99;
+            padding: 12px 16px;
             border-bottom: 1px solid #333;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
         }
         
         .mobile-search-container.active {
@@ -373,12 +355,13 @@
         
         .mobile-search-input {
             flex: 1;
-            padding: 14px 18px;
+            padding: 12px 16px;
             background: transparent;
             border: none;
             color: var(--white);
             font-size: 1rem;
             outline: none;
+            min-width: 0;
         }
         
         .mobile-search-input::placeholder {
@@ -389,126 +372,118 @@
             background: transparent;
             border: none;
             color: #8c8c8c;
-            padding: 0 15px;
+            padding: 0 12px;
             cursor: pointer;
             font-size: 1rem;
+            flex-shrink: 0;
         }
         
         .mobile-filter-container {
-            margin-top: 15px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .mobile-search-container.active .mobile-filter-container {
+            display: block;
         }
         
         .mobile-filter-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-gray);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         
         .mobile-filter-buttons {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
         
         .mobile-filter-btn {
-            padding: 8px 16px;
+            padding: 6px 12px;
             background: rgba(35, 35, 35, 0.8);
             border: 1px solid #444;
             color: var(--text-gray);
-            border-radius: 20px;
-            font-size: 0.85rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
         
         .mobile-filter-btn.active {
-            background: var(--netflix-red);
+            background: var(--action-blue);
             color: var(--white);
-            border-color: var(--netflix-red);
+            border-color: var(--action-blue);
         }
         
-        /* Banner Hero Móvil Netflix */
+        /* Banner Hero Móvil */
         .mobile-hero-banner {
             position: relative;
-            height: 70vh;
-            min-height: 400px;
-            max-height: 500px;
+            height: 65vh;
+            min-height: 350px;
+            max-height: 450px;
             background: var(--gradient-dark),
                         var(--gradient-dark),
-                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+                        var(--gradient-dark),
+                        url('') center/cover no-repeat;
             display: flex;
             align-items: flex-end;
-            padding: 0 20px 40px;
+            padding: 0 16px 30px;
             margin-bottom: 20px;
-            border-bottom: 1px solid #333;
         }
         
         .mobile-hero-content {
             width: 100%;
-            padding: 0 5px;
         }
         
         .mobile-hero-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.9);
             line-height: 1.2;
             color: var(--white);
-            max-width: 90%;
         }
         
         .mobile-hero-buttons {
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .mobile-hero-button {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 4px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             border: none;
             transition: all 0.2s ease;
-            min-width: 140px;
-            height: 44px;
+            min-width: 120px;
+            height: 40px;
             flex: none;
         }
         
         .mobile-hero-button.primary {
             background: var(--white);
             color: #000;
-            box-shadow: var(--netflix-shadow);
         }
         
         .mobile-hero-button.secondary {
             background: rgba(109, 109, 110, 0.7);
             color: var(--white);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .mobile-hero-button.primary:hover {
-            background: rgba(255,255,255,0.9);
-        }
-        
-        .mobile-hero-button.secondary:hover {
-            background: rgba(109, 109, 110, 0.9);
-        }
-        
-        /* Secciones de Contenido Móvil Netflix */
+        /* Secciones de Contenido Móvil */
         .mobile-section {
             display: none;
-            padding: 0 20px;
+            padding: 0 16px;
         }
         
         .mobile-section.active {
@@ -516,62 +491,46 @@
         }
         
         .mobile-content-category {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .mobile-category-header {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .mobile-category-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--white);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
-        .mobile-category-link {
-            color: var(--highlight-blue);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .mobile-category-link:hover {
-            color: var(--white);
-        }
-        
-        /* Grid de Contenido Móvil Netflix */
+        /* Grid de Contenido Móvil - OPTIMIZADO */
         .mobile-content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 8px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 6px;
+            margin-bottom: 16px;
+            will-change: transform;
         }
         
-        /* Tarjetas Móvil Netflix */
+        /* Tarjetas Móvil - OPTIMIZADO */
         .mobile-content-card {
             position: relative;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s ease;
             border-radius: 4px;
             overflow: hidden;
             background: var(--card-bg);
             box-shadow: var(--card-shadow);
-        }
-        
-        .mobile-content-card:hover {
-            transform: scale(1.05);
-            z-index: 10;
-            box-shadow: var(--card-shadow-hover);
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
         
         .mobile-content-card:active {
-            transform: scale(0.98);
+            transform: scale(0.95);
         }
         
         .mobile-card-img-container {
@@ -585,35 +544,19 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.5s ease;
-        }
-        
-        .mobile-content-card:hover .card-img {
-            transform: scale(1.1);
+            background: var(--card-bg);
         }
         
         .mobile-card-info {
-            padding: 10px 8px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .mobile-content-card:hover .mobile-card-info {
-            opacity: 1;
-            transform: translateY(0);
+            padding: 8px;
+            background: var(--card-bg);
         }
         
         .mobile-card-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--white);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             line-height: 1.2;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -622,7 +565,7 @@
         }
         
         .mobile-card-subtitle {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-gray);
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -632,35 +575,32 @@
         
         .card-badge {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            background: var(--netflix-red);
+            top: 6px;
+            right: 6px;
+            background: var(--action-blue);
             color: white;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 2px;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
             z-index: 2;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         
-        /* Barra de Navegación Inferior Móvil Netflix */
+        /* Barra de Navegación Inferior Móvil */
         .mobile-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 70px;
+            height: 65px;
             background: rgba(0, 0, 0, 0.98);
             border-top: 1px solid #333;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            z-index: 1000;
+            z-index: 100;
             padding-bottom: env(safe-area-inset-bottom);
-            backdrop-filter: blur(20px);
         }
         
         .mobile-nav-item {
@@ -669,7 +609,7 @@
             align-items: center;
             justify-content: center;
             color: var(--text-gray);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             width: 20%;
             height: 100%;
             transition: all 0.3s ease;
@@ -677,7 +617,7 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            padding: 8px 0;
+            padding: 6px 0;
             position: relative;
         }
         
@@ -693,20 +633,19 @@
             transform: translateX(-50%);
             width: 30px;
             height: 3px;
-            background: var(--netflix-red);
+            background: var(--highlight-blue);
             border-radius: 0 0 2px 2px;
         }
         
         .mobile-nav-item i {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
         }
         
         /* ============================= */
         /* ===== MODO TV (TV MODE) ===== */
         /* ============================= */
         
-        /* Cuando se activa el modo TV */
         body.tv-mode .mobile-header,
         body.tv-mode .mobile-nav,
         body.tv-mode .mobile-container,
@@ -721,7 +660,7 @@
             display: flex !important;
         }
         
-        /* Header TV Netflix */
+        /* Header TV */
         .tv-header {
             display: none;
             position: fixed;
@@ -734,15 +673,13 @@
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
-            backdrop-filter: blur(20px);
             border-bottom: 1px solid #333;
         }
         
         .tv-logo {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            color: var(--netflix-red);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            color: var(--highlight-blue);
             letter-spacing: -1px;
         }
         
@@ -755,7 +692,7 @@
         
         .tv-search-input {
             width: 100%;
-            padding: 14px 20px 14px 50px;
+            padding: 12px 20px 12px 45px;
             background: rgba(35, 35, 35, 0.9);
             border: 1px solid #444;
             border-radius: 4px;
@@ -768,7 +705,6 @@
         .tv-search-input:focus {
             border-color: var(--white);
             background: rgba(50, 50, 50, 0.95);
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
         }
         
         .tv-search::before {
@@ -790,7 +726,7 @@
             gap: 25px;
         }
         
-        /* Sidebar TV Netflix */
+        /* Sidebar TV */
         .tv-sidebar {
             display: none;
             position: fixed;
@@ -801,7 +737,6 @@
             background: rgba(0, 0, 0, 0.95);
             border-right: 1px solid #333;
             padding-top: 40px;
-            backdrop-filter: blur(20px);
             z-index: 999;
             flex-direction: column;
         }
@@ -810,7 +745,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 22px 0;
+            padding: 20px 0;
             width: 100%;
             color: var(--text-gray);
             text-decoration: none;
@@ -825,16 +760,16 @@
         .tv-nav-item.active {
             color: var(--white);
             background: rgba(255,255,255,0.05);
-            border-left: 4px solid var(--netflix-red);
+            border-left: 4px solid var(--highlight-blue);
         }
         
         .tv-nav-item i {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
         }
         
         .tv-nav-item span {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
         }
         
@@ -851,14 +786,14 @@
             padding: 0;
         }
         
-        /* Banner Hero TV Netflix */
+        /* Banner Hero TV */
         .tv-hero-banner {
             position: relative;
             height: 70vh;
             min-height: 500px;
             background: var(--gradient-dark),
                         linear-gradient(to right, rgba(0,0,0,0.9) 0%, transparent 50%),
-                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+                        url('') center/cover no-repeat;
             display: flex;
             align-items: flex-end;
             padding: 0 60px 80px;
@@ -867,17 +802,15 @@
         
         .tv-hero-content {
             max-width: 50%;
-            padding: 0;
         }
         
         .tv-hero-title {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 800;
             margin-bottom: 30px;
             text-shadow: 3px 3px 10px rgba(0,0,0,0.9);
             line-height: 1.1;
             color: var(--white);
-            max-width: 80%;
         }
         
         .tv-hero-buttons {
@@ -886,45 +819,33 @@
         }
         
         .tv-hero-button {
-            padding: 18px 32px;
+            padding: 16px 28px;
             border-radius: 4px;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             border: none;
             transition: all 0.3s ease;
-            min-width: 200px;
-            height: 56px;
+            min-width: 180px;
+            height: 52px;
         }
         
         .tv-hero-button.primary {
             background: var(--white);
             color: #000;
-            box-shadow: var(--netflix-shadow);
         }
         
         .tv-hero-button.secondary {
             background: rgba(109, 109, 110, 0.7);
             color: var(--white);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .tv-hero-button.primary:hover {
-            background: rgba(255,255,255,0.9);
-            transform: translateY(-2px);
-        }
-        
-        .tv-hero-button.secondary:hover {
-            background: rgba(109, 109, 110, 0.9);
-            transform: translateY(-2px);
-        }
-        
-        /* Secciones de Contenido TV Netflix */
+        /* Secciones de Contenido TV */
         .tv-section {
             display: none;
             padding: 0 60px;
@@ -936,12 +857,12 @@
         }
         
         .tv-content-category {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             width: 100%;
         }
         
         .tv-category-header {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -949,38 +870,25 @@
         }
         
         .tv-category-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--white);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         
-        .tv-category-link {
-            color: var(--highlight-blue);
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .tv-category-link:hover {
-            color: var(--white);
-        }
-        
-        /* Grid de Contenido TV Netflix */
+        /* Grid de Contenido TV */
         .tv-content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
             width: 100%;
         }
         
-        /* Tarjetas TV Netflix */
+        /* Tarjetas TV */
         .tv-content-card {
             position: relative;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             border-radius: 4px;
             overflow: hidden;
             background: var(--card-bg);
@@ -988,7 +896,7 @@
         }
         
         .tv-content-card:hover {
-            transform: translateY(-10px) scale(1.05);
+            transform: translateY(-8px) scale(1.05);
             z-index: 10;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
@@ -999,32 +907,16 @@
             overflow: hidden;
         }
         
-        .tv-content-card:hover .card-img {
-            transform: scale(1.1);
-        }
-        
         .tv-card-info {
-            padding: 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-        
-        .tv-content-card:hover .tv-card-info {
-            opacity: 1;
-            transform: translateY(0);
+            padding: 16px;
+            background: var(--card-bg);
         }
         
         .tv-card-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--white);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             line-height: 1.3;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -1033,30 +925,28 @@
         }
         
         .tv-card-subtitle {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-gray);
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
         
-        /* ===== ELEMENTOS COMPARTIDOS NETFLIX ===== */
+        /* ===== ELEMENTOS COMPARTIDOS OPTIMIZADOS ===== */
         
-        /* Panel de Perfil Netflix */
+        /* Panel de Perfil */
         .profile-panel {
             position: fixed;
             top: 0;
             right: -100%;
-            width: 320px;
+            width: 100%;
             height: 100vh;
             background: rgba(0, 0, 0, 0.98);
-            z-index: 2000;
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 200;
+            transition: right 0.3s ease;
             overflow-y: auto;
-            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.8);
             border-left: 1px solid #333;
-            backdrop-filter: blur(20px);
         }
         
         .profile-panel.active {
@@ -1064,91 +954,78 @@
         }
         
         .profile-header {
-            padding: 50px 20px 30px;
-            background: linear-gradient(135deg, var(--netflix-red) 0%, #b81d24 100%);
+            padding: 45px 20px 20px;
+            background: linear-gradient(135deg, var(--action-blue) 0%, var(--primary-blue) 100%);
             position: relative;
         }
         
         .close-profile {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 12px;
+            right: 12px;
             background: rgba(0, 0, 0, 0.3);
             border: none;
             color: white;
-            font-size: 1.2rem;
-            width: 36px;
-            height: 36px;
+            font-size: 1rem;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s ease;
         }
         
-        .close-profile:hover {
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        /* Botón de lista en tarjeta Netflix */
+        /* Botón de lista en tarjeta */
         .list-btn {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.8);
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
             color: var(--white);
             border: 1px solid rgba(255,255,255,0.3);
-            width: 36px;
-            height: 36px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
             z-index: 2;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
         
         .list-btn:hover {
-            background: rgba(229,9,20,0.9);
+            background: var(--action-blue);
             transform: scale(1.1);
-            border-color: var(--netflix-red);
         }
         
         .list-btn.in-list {
-            background: var(--netflix-red);
-            border-color: var(--netflix-red);
+            background: var(--action-blue);
+            border-color: var(--action-blue);
         }
         
-        /* Botón de eliminar Netflix */
+        /* Botón de eliminar */
         .remove-btn {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--netflix-red);
+            top: 8px;
+            left: 8px;
+            background: #ff4757;
             color: white;
             border: none;
-            width: 36px;
-            height: 36px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
             z-index: 2;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(229,9,20,0.4);
-            transition: transform 0.3s ease;
         }
         
-        .remove-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        /* Pantallas de Listas Netflix */
+        /* Pantallas de Listas */
         .list-screen {
             position: fixed;
             top: 0;
@@ -1156,9 +1033,9 @@
             width: 100%;
             height: 100%;
             background: var(--dark-bg);
-            z-index: 2000;
+            z-index: 200;
             transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease;
             overflow-y: auto;
         }
         
@@ -1170,23 +1047,22 @@
             position: sticky;
             top: 0;
             background: rgba(0, 0, 0, 0.98);
-            padding: 20px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 10;
             border-bottom: 1px solid #333;
-            backdrop-filter: blur(20px);
         }
         
         .back-button {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             color: var(--white);
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1194,31 +1070,26 @@
             transition: all 0.3s ease;
         }
         
-        .back-button:hover {
-            background: rgba(229,9,20,0.9);
-            border-color: var(--netflix-red);
-        }
-        
         .screen-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--white);
         }
         
         .screen-content {
-            padding: 30px 20px;
+            padding: 20px 16px;
         }
         
-        /* Settings Netflix */
+        /* Settings */
         .settings-section {
-            padding: 20px;
+            padding: 20px 16px;
         }
         
         .settings-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 0;
+            padding: 16px 0;
             border-bottom: 1px solid #333;
         }
         
@@ -1229,8 +1100,8 @@
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 26px;
+            width: 46px;
+            height: 24px;
         }
         
         .toggle-switch input {
@@ -1255,26 +1126,25 @@
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 16px;
+            width: 16px;
             left: 4px;
             bottom: 3px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         input:checked + .toggle-slider {
-            background: var(--netflix-red);
-            border-color: var(--netflix-red);
+            background: var(--action-blue);
+            border-color: var(--action-blue);
         }
         
         input:checked + .toggle-slider:before {
-            transform: translateX(22px);
+            transform: translateX(20px);
         }
         
-        /* Reproductor Modal Netflix */
+        /* Reproductor Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1282,7 +1152,7 @@
             width: 100%;
             height: 100%;
             background: #000;
-            z-index: 3000;
+            z-index: 300;
             display: none;
         }
         
@@ -1300,257 +1170,137 @@
         
         .close-modal {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 16px;
+            right: 16px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
             border: none;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            z-index: 3001;
+            z-index: 301;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
         }
         
-        .close-modal:hover {
-            background: var(--netflix-red);
-            border-color: var(--netflix-red);
-            transform: scale(1.1);
-        }
-        
-        /* Empty State Netflix */
+        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 50px 16px;
             color: var(--text-gray);
         }
         
         .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
             color: #666;
-            opacity: 0.7;
         }
         
         .empty-state p {
             font-size: 1rem;
-            margin-bottom: 10px;
-        }
-        
-        .empty-state .subtext {
-            font-size: 0.9rem;
-            color: #888;
-        }
-        
-        /* Settings buttons Netflix */
-        .settings-btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .settings-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .settings-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .settings-btn.danger {
-            background: rgba(229,9,20,0.2);
-            border-color: rgba(229,9,20,0.4);
-        }
-        
-        .settings-btn.danger:hover {
-            background: rgba(229,9,20,0.4);
+            margin-bottom: 8px;
         }
         
         /* Grid para pantallas de lista */
         .list-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        
+        /* Clases de utilidad para búsqueda */
+        .search-results-container {
+            display: none;
+        }
+        
+        .search-results-container.active {
+            display: block;
+        }
+        
+        .content-hidden {
+            display: none !important;
         }
         
         /* Safe Areas */
         @supports (padding: max(0px)) {
             .mobile-header, .mobile-hero-banner, .mobile-section, .screen-header,
             .mobile-search-container {
-                padding-left: max(20px, env(safe-area-inset-left));
-                padding-right: max(20px, env(safe-area-inset-right));
+                padding-left: max(16px, env(safe-area-inset-left));
+                padding-right: max(16px, env(safe-area-inset-right));
             }
             
             .mobile-header {
                 padding-top: max(0px, env(safe-area-inset-top));
-                height: calc(68px + env(safe-area-inset-top));
+                height: calc(60px + env(safe-area-inset-top));
             }
             
             .mobile-container {
-                margin-top: calc(68px + env(safe-area-inset-top));
+                margin-top: calc(60px + env(safe-area-inset-top));
             }
             
             .mobile-nav {
                 padding-bottom: max(0px, env(safe-area-inset-bottom));
-                height: calc(70px + env(safe-area-inset-bottom));
-            }
-            
-            .tv-header {
-                padding-top: max(0px, env(safe-area-inset-top));
-                height: calc(80px + env(safe-area-inset-top));
-            }
-            
-            .tv-sidebar {
-                top: calc(80px + env(safe-area-inset-top));
-                height: calc(100vh - (80px + env(safe-area-inset-top)));
-            }
-            
-            .tv-container {
-                top: calc(80px + env(safe-area-inset-top));
-                height: calc(100vh - (80px + env(safe-area-inset-top)));
-            }
-            
-            .profile-panel {
-                padding-top: max(0px, env(safe-area-inset-top));
+                height: calc(65px + env(safe-area-inset-bottom));
             }
         }
         
-        /* Scrollbar personalizado */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--netflix-red);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #f6121d;
-        }
-        
-        /* Media Queries para ajustes específicos */
-        @media (max-width: 400px) {
+        /* Media Queries para optimización */
+        @media (max-width: 360px) {
             .mobile-content-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 6px;
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+                gap: 5px;
             }
             
             .mobile-hero-title {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
             
             .mobile-hero-button {
-                min-width: 120px;
-                padding: 10px 18px;
-                font-size: 0.9rem;
-                height: 40px;
-            }
-            
-            .auth-box {
-                padding: 2rem 1.5rem;
-            }
-            
-            .logo-auth {
-                font-size: 2.5rem;
+                min-width: 110px;
+                padding: 8px 16px;
+                font-size: 0.85rem;
+                height: 36px;
             }
         }
         
-        @media (max-height: 650px) {
+        @media (max-height: 600px) {
             .mobile-hero-banner {
-                height: 60vh;
-                min-height: 350px;
+                height: 55vh;
+                min-height: 300px;
             }
         }
         
-        @media (max-width: 768px) and (orientation: landscape) {
-            .mobile-hero-banner {
-                height: 90vh;
-            }
-            
-            .mobile-hero-title {
-                font-size: 1.8rem;
-            }
-        }
-        
-        @media (max-width: 1200px) and (min-aspect-ratio: 1/1) {
-            .tv-content-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 15px;
-            }
-            
-            .tv-hero-title {
-                font-size: 2.8rem;
-            }
-            
-            .tv-hero-button {
-                min-width: 180px;
-                padding: 16px 28px;
-                font-size: 1.1rem;
+        /* Deshabilitar animaciones en dispositivos lentos */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
         
-        @media (max-width: 768px) and (min-aspect-ratio: 1/1) {
-            body.tv-mode .tv-sidebar {
-                width: 80px;
-            }
-            
-            body.tv-mode .tv-container {
-                left: 80px;
-                width: calc(100% - 80px);
-            }
-            
-            .tv-content-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 12px;
-            }
-            
-            .tv-hero-content {
-                max-width: 70%;
-            }
+        /* Optimizaciones para Android de baja RAM */
+        .performance-optimized {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000;
+            will-change: transform;
         }
         
-        /* Animaciones Netflix */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Evitar flashes en scroll */
+        .mobile-container {
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
         }
         
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-        
-        .fade-in-delay-1 {
-            animation: fadeIn 0.5s ease 0.1s forwards;
-            opacity: 0;
-        }
-        
-        .fade-in-delay-2 {
-            animation: fadeIn 0.5s ease 0.2s forwards;
-            opacity: 0;
-        }
-        
-        /* Clase para ocultar resultados de búsqueda rápidos */
-        .search-hidden {
-            display: none !important;
+        /* Optimizar imágenes */
+        .card-img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
     </style>
 </head>
@@ -1652,47 +1402,47 @@
                     </div>
                 </div>
 
-                <!-- Resultados de Búsqueda (ocultos por defecto) -->
-                <div id="mobileSearchResults" class="mobile-content-category search-hidden">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Resultados de búsqueda</h2>
-                        <span id="mobileSearchCount" style="color: var(--text-gray); font-size: 0.9rem;">0 resultados</span>
-                    </div>
-                    <div id="mobileSearchResultsContent" class="mobile-content-grid"></div>
+                <!-- Contenido normal (visible por defecto) -->
+                <div id="mobileNormalContent">
+                    <section class="mobile-content-category">
+                        <div class="mobile-category-header">
+                            <h2 class="mobile-category-title">Destacados</h2>
+                        </div>
+                        <div id="mobileFeaturedContent" class="mobile-content-grid"></div>
+                    </section>
+
+                    <section class="mobile-content-category">
+                        <div class="mobile-category-header">
+                            <h2 class="mobile-category-title">Películas</h2>
+                        </div>
+                        <div id="mobileMoviesContent" class="mobile-content-grid"></div>
+                    </section>
+
+                    <section class="mobile-content-category">
+                        <div class="mobile-category-header">
+                            <h2 class="mobile-category-title">Series</h2>
+                        </div>
+                        <div id="mobileSeriesContent" class="mobile-content-grid"></div>
+                    </section>
+
+                    <section class="mobile-content-category">
+                        <div class="mobile-category-header">
+                            <h2 class="mobile-category-title">Canales en vivo</h2>
+                        </div>
+                        <div id="mobileLiveContent" class="mobile-content-grid"></div>
+                    </section>
                 </div>
 
-                <!-- Contenido Móvil -->
-                <section class="mobile-content-category fade-in">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Destacados</h2>
-                        <a href="javascript:void(0)" class="mobile-category-link" onclick="switchMobileSection('movies')">Ver más</a>
+                <!-- Resultados de Búsqueda (oculto por defecto) -->
+                <div id="mobileSearchResults" class="search-results-container">
+                    <div class="mobile-content-category">
+                        <div class="mobile-category-header">
+                            <h2 class="mobile-category-title">Resultados de búsqueda</h2>
+                            <span id="mobileSearchCount" style="color: var(--text-gray); font-size: 0.85rem;">0 resultados</span>
+                        </div>
+                        <div id="mobileSearchResultsContent" class="mobile-content-grid"></div>
                     </div>
-                    <div id="mobileFeaturedContent" class="mobile-content-grid"></div>
-                </section>
-
-                <section class="mobile-content-category fade-in-delay-1">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Películas</h2>
-                        <a href="javascript:void(0)" class="mobile-category-link" onclick="switchMobileSection('movies')">Ver todas</a>
-                    </div>
-                    <div id="mobileMoviesContent" class="mobile-content-grid"></div>
-                </section>
-
-                <section class="mobile-content-category fade-in-delay-2">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Series</h2>
-                        <a href="javascript:void(0)" class="mobile-category-link" onclick="switchMobileSection('series')">Ver todas</a>
-                    </div>
-                    <div id="mobileSeriesContent" class="mobile-content-grid"></div>
-                </section>
-
-                <section class="mobile-content-category fade-in-delay-2">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Canales en vivo</h2>
-                        <a href="javascript:void(0)" class="mobile-category-link" onclick="switchMobileSection('channels')">Ver todos</a>
-                    </div>
-                    <div id="mobileLiveContent" class="mobile-content-grid"></div>
-                </section>
+                </div>
             </section>
 
             <!-- Sección Películas Móvil -->
@@ -1806,38 +1556,39 @@
                     </div>
                 </div>
 
-                <!-- Contenido TV -->
-                <section class="tv-content-category fade-in">
-                    <div class="tv-category-header">
-                        <h2 class="tv-category-title">Destacados</h2>
-                        <a href="javascript:void(0)" class="tv-category-link" onclick="switchTVSection('movies')">Ver más</a>
-                    </div>
-                    <div id="tvFeaturedContent" class="tv-content-grid"></div>
-                </section>
+                <!-- Contenido normal TV -->
+                <div id="tvNormalContent">
+                    <section class="tv-content-category">
+                        <div class="tv-category-header">
+                            <h2 class="tv-category-title">Destacados</h2>
+                        </div>
+                        <div id="tvFeaturedContent" class="tv-content-grid"></div>
+                    </section>
 
-                <section class="tv-content-category fade-in-delay-1">
-                    <div class="tv-category-header">
-                        <h2 class="tv-category-title">Películas Populares</h2>
-                        <a href="javascript:void(0)" class="tv-category-link" onclick="switchTVSection('movies')">Ver todas</a>
-                    </div>
-                    <div id="tvMoviesContent" class="tv-content-grid"></div>
-                </section>
+                    <section class="tv-content-category">
+                        <div class="tv-category-header">
+                            <h2 class="tv-category-title">Películas Populares</h2>
+                        </div>
+                        <div id="tvMoviesContent" class="tv-content-grid"></div>
+                    </section>
 
-                <section class="tv-content-category fade-in-delay-2">
-                    <div class="tv-category-header">
-                        <h2 class="tv-category-title">Series en Tendencia</h2>
-                        <a href="javascript:void(0)" class="tv-category-link" onclick="switchTVSection('series')">Ver todas</a>
-                    </div>
-                    <div id="tvSeriesContent" class="tv-content-grid"></div>
-                </section>
+                    <section class="tv-content-category">
+                        <div class="tv-category-header">
+                            <h2 class="tv-category-title">Series en Tendencia</h2>
+                        </div>
+                        <div id="tvSeriesContent" class="tv-content-grid"></div>
+                    </section>
 
-                <section class="tv-content-category fade-in-delay-2">
-                    <div class="tv-category-header">
-                        <h2 class="tv-category-title">Canales en vivo</h2>
-                        <a href="javascript:void(0)" class="tv-category-link" onclick="switchTVSection('channels')">Ver todos</a>
-                    </div>
-                    <div id="tvLiveContent" class="tv-content-grid"></div>
-                </section>
+                    <section class="tv-content-category">
+                        <div class="tv-category-header">
+                            <h2 class="tv-category-title">Canales en vivo</h2>
+                        </div>
+                        <div id="tvLiveContent" class="tv-content-grid"></div>
+                    </section>
+                </div>
+
+                <!-- Resultados de búsqueda TV (oculto) -->
+                <div id="tvSearchResults" class="search-results-container"></div>
             </section>
 
             <!-- Sección Películas TV -->
@@ -1881,49 +1632,49 @@
                 <button class="close-profile" onclick="closeProfile()">
                     <i class="fas fa-times"></i>
                 </button>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div class="profile-avatar" style="width: 60px; height: 60px; font-size: 1.5rem; border: 3px solid rgba(255,255,255,0.3);" id="profileAvatarLarge">U</div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div class="profile-avatar" style="width: 50px; height: 50px; font-size: 1.3rem; border: 3px solid rgba(255,255,255,0.3);" id="profileAvatarLarge">U</div>
                     <div>
-                        <h2 id="profileName" style="font-size: 1.4rem; margin-bottom: 8px; color: var(--white);">Usuario</h2>
-                        <p id="profilePhone" style="color: rgba(255,255,255,0.7); font-size: 0.95rem;">Celular: ---</p>
+                        <h2 id="profileName" style="font-size: 1.3rem; margin-bottom: 6px; color: var(--white);">Usuario</h2>
+                        <p id="profilePhone" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Celular: ---</p>
                     </div>
                 </div>
             </div>
             
-            <div style="padding: 25px;">
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
-                    <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border: 1px solid #333; backdrop-filter: blur(10px);">
-                        <div id="myListCount" style="font-size: 1.8rem; font-weight: 700; color: var(--netflix-red);">0</div>
-                        <div style="font-size: 0.85rem; color: var(--text-gray); margin-top: 5px;">Mi Lista</div>
+            <div style="padding: 20px;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;">
+                    <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #333;">
+                        <div id="myListCount" style="font-size: 1.6rem; font-weight: 700; color: var(--highlight-blue);">0</div>
+                        <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 4px;">Mi Lista</div>
                     </div>
-                    <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border: 1px solid #333; backdrop-filter: blur(10px);">
-                        <div id="historyCount" style="font-size: 1.8rem; font-weight: 700; color: var(--netflix-red);">0</div>
-                        <div style="font-size: 0.85rem; color: var(--text-gray); margin-top: 5px;">Historial</div>
+                    <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #333;">
+                        <div id="historyCount" style="font-size: 1.6rem; font-weight: 700; color: var(--highlight-blue);">0</div>
+                        <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 4px;">Historial</div>
                     </div>
-                    <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border: 1px solid #333; backdrop-filter: blur(10px);">
-                        <div id="moviesCount" style="font-size: 1.8rem; font-weight: 700; color: var(--netflix-red);">0</div>
-                        <div style="font-size: 0.85rem; color: var(--text-gray); margin-top: 5px;">Películas</div>
+                    <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid #333;">
+                        <div id="moviesCount" style="font-size: 1.6rem; font-weight: 700; color: var(--highlight-blue);">0</div>
+                        <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 4px;">Películas</div>
                     </div>
                 </div>
                 
-                <div style="border-top: 1px solid #333; padding-top: 20px;">
-                    <button onclick="openMyListScreen()" style="display: flex; align-items: center; width: 100%; padding: 15px 0; background: transparent; border: none; color: var(--white); font-size: 1rem; cursor: pointer; border-bottom: 1px solid #333; transition: background 0.3s ease;">
-                        <i class="fas fa-bookmark" style="margin-right: 15px; color: var(--netflix-red); width: 20px;"></i>
+                <div style="border-top: 1px solid #333; padding-top: 16px;">
+                    <button onclick="openMyListScreen()" style="display: flex; align-items: center; width: 100%; padding: 14px 0; background: transparent; border: none; color: var(--white); font-size: 1rem; cursor: pointer; border-bottom: 1px solid #333;">
+                        <i class="fas fa-bookmark" style="margin-right: 12px; color: var(--highlight-blue); width: 20px;"></i>
                         <span>Mi Lista</span>
                         <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
                     </button>
-                    <button onclick="openHistoryScreen()" style="display: flex; align-items: center; width: 100%; padding: 15px 0; background: transparent; border: none; color: var(--white); font-size: 1rem; cursor: pointer; border-bottom: 1px solid #333; transition: background 0.3s ease;">
-                        <i class="fas fa-history" style="margin-right: 15px; color: var(--netflix-red); width: 20px;"></i>
+                    <button onclick="openHistoryScreen()" style="display: flex; align-items: center; width: 100%; padding: 14px 0; background: transparent; border: none; color: var(--white); font-size: 1rem; cursor: pointer; border-bottom: 1px solid #333;">
+                        <i class="fas fa-history" style="margin-right: 12px; color: var(--highlight-blue); width: 20px;"></i>
                         <span>Historial</span>
                         <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
                     </button>
-                    <button onclick="openSettingsScreen()" style="display: flex; align-items: center; width: 100%; padding: 15px 0; background: transparent; border: none; color: var(--white); font-size: 1rem; cursor: pointer; border-bottom: 1px solid #333; transition: background 0.3s ease;">
-                        <i class="fas fa-cog" style="margin-right: 15px; color: var(--netflix-red); width: 20px;"></i>
+                    <button onclick="openSettingsScreen()" style="display: flex; align-items: center; width: 100%; padding: 14px 0; background: transparent; border: none; color: var(--white); font-size: 1rem; cursor: pointer; border-bottom: 1px solid #333;">
+                        <i class="fas fa-cog" style="margin-right: 12px; color: var(--highlight-blue); width: 20px;"></i>
                         <span>Ajustes</span>
                         <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
                     </button>
-                    <button onclick="cerrarSesion()" style="display: flex; align-items: center; width: 100%; padding: 15px 0; background: transparent; border: none; color: var(--netflix-red); font-size: 1rem; cursor: pointer; transition: background 0.3s ease;">
-                        <i class="fas fa-sign-out-alt" style="margin-right: 15px; width: 20px;"></i>
+                    <button onclick="cerrarSesion()" style="display: flex; align-items: center; width: 100%; padding: 14px 0; background: transparent; border: none; color: #ff6b6b; font-size: 1rem; cursor: pointer;">
+                        <i class="fas fa-sign-out-alt" style="margin-right: 12px; width: 20px;"></i>
                         <span>Cerrar Sesión</span>
                     </button>
                 </div>
@@ -1967,10 +1718,10 @@
             <div class="screen-content">
                 <div class="settings-section">
                     <div class="settings-item">
-                        <div style="display: flex; align-items: center; gap: 20px;">
-                            <i class="fas fa-wifi" style="color: var(--netflix-red);"></i>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <i class="fas fa-wifi" style="color: var(--highlight-blue);"></i>
                             <div>
-                                <h3 style="font-size: 1.1rem; color: var(--white); margin-bottom: 5px;">Solo Wi-Fi</h3>
+                                <h3 style="font-size: 1.1rem; color: var(--white); margin-bottom: 4px;">Solo Wi-Fi</h3>
                                 <p style="font-size: 0.9rem; color: var(--text-gray);">Reproducir solo con Wi-Fi</p>
                             </div>
                         </div>
@@ -1981,10 +1732,10 @@
                     </div>
                     
                     <div class="settings-item">
-                        <div style="display: flex; align-items: center; gap: 20px;">
-                            <i class="fas fa-play-circle" style="color: var(--netflix-red);"></i>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <i class="fas fa-play-circle" style="color: var(--highlight-blue);"></i>
                             <div>
-                                <h3 style="font-size: 1.1rem; color: var(--white); margin-bottom: 5px;">Auto-play</h3>
+                                <h3 style="font-size: 1.1rem; color: var(--white); margin-bottom: 4px;">Auto-play</h3>
                                 <p style="font-size: 0.9rem; color: var(--text-gray);">Reproducir automáticamente</p>
                             </div>
                         </div>
@@ -1995,27 +1746,14 @@
                     </div>
                     
                     <div class="settings-item">
-                        <div style="display: flex; align-items: center; gap: 20px;">
-                            <i class="fas fa-trash-alt" style="color: var(--netflix-red);"></i>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <i class="fas fa-trash-alt" style="color: var(--highlight-blue);"></i>
                             <div>
-                                <h3 style="font-size: 1.1rem; color: var(--white); margin-bottom: 5px;">Limpiar Historial</h3>
+                                <h3 style="font-size: 1.1rem; color: var(--white); margin-bottom: 4px;">Limpiar Historial</h3>
                                 <p style="font-size: 0.9rem; color: var(--text-gray);">Eliminar todo el historial</p>
                             </div>
                         </div>
-                        <button onclick="clearHistory()" class="settings-btn danger">
-                            Limpiar
-                        </button>
-                    </div>
-                    
-                    <div class="settings-item">
-                        <div style="display: flex; align-items: center; gap: 20px;">
-                            <i class="fas fa-database" style="color: var(--netflix-red);"></i>
-                            <div>
-                                <h3 style="font-size: 1.1rem; color: var(--white); margin-bottom: 5px;">Limpiar Caché</h3>
-                                <p style="font-size: 0.9rem; color: var(--text-gray);">Liberar espacio de almacenamiento</p>
-                            </div>
-                        </div>
-                        <button onclick="clearCache()" class="settings-btn">
+                        <button onclick="clearHistory()" class="settings-btn danger" style="padding: 8px 16px; background: rgba(255,71,87,0.2); border: 1px solid rgba(255,71,87,0.4); color: #ff6b6b; border-radius: 4px; font-size: 0.9rem; cursor: pointer;">
                             Limpiar
                         </button>
                     </div>
@@ -2041,6 +1779,7 @@
         const { createClient } = supabase;
         const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
+        // VARIABLES GLOBALES OPTIMIZADAS
         let currentUser = null;
         let allContent = [];
         let userSettings = {};
@@ -2052,61 +1791,62 @@
         let latestContent = null;
         let isTVMode = false;
         
-        // Variables para búsqueda optimizada
+        // VARIABLES DE BÚSQUEDA ULTRA OPTIMIZADAS
         let mobileSearchActive = false;
         let mobileSearchQuery = '';
         let mobileCurrentFilter = 'all';
         let searchTimeout = null;
-        let cachedSearchResults = {};
+        let searchCache = new Map();
+        let isSearching = false;
+        let lastSearchTime = 0;
         
-        // Detectar modo TV (horizontal)
+        // DETECCIÓN DE DISPOSITIVO LENTO
+        let isLowEndDevice = false;
+        
+        // Inicializar detección de dispositivo
+        function detectDevicePerformance() {
+            const memory = navigator.deviceMemory || 4;
+            const cores = navigator.hardwareConcurrency || 4;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            isLowEndDevice = (memory <= 2 || cores <= 2) && isMobile;
+            
+            if (isLowEndDevice) {
+                console.log('Dispositivo de bajos recursos detectado, activando optimizaciones');
+                // Deshabilitar algunas animaciones
+                document.body.style.setProperty('--card-shadow-hover', 'none');
+            }
+        }
+        
+        // Detectar modo TV
         function detectTVMode() {
             const width = window.innerWidth;
             const height = window.innerHeight;
-            
-            // Si el ancho es mayor que el alto = MODO TV
-            isTVMode = width > height;
-            
-            // Para tablets grandes en portrait, mantener modo móvil
-            if (width > 768 && height > 1024) {
-                isTVMode = false;
-            }
-            
-            // También considerar si el usuario está en un dispositivo con pantalla grande
-            if (width > 1024) {
-                isTVMode = true;
-            }
-            
+            isTVMode = width > height && width > 768;
             return isTVMode;
         }
-
+        
         // Aplicar modo TV o Móvil
         function applyTVMode() {
             const wasTVMode = document.body.classList.contains('tv-mode');
             const isNowTVMode = detectTVMode();
             
             if (isNowTVMode && !wasTVMode) {
-                // Cambiar a modo TV
                 document.body.classList.add('tv-mode');
-                
-                // Actualizar navegación TV
                 if (currentUser) {
                     const userInitial = currentUser.nombre.charAt(0).toUpperCase();
                     document.getElementById('tvUserAvatar').textContent = userInitial;
                 }
-                
             } else if (!isNowTVMode && wasTVMode) {
-                // Cambiar a modo móvil
                 document.body.classList.remove('tv-mode');
             }
             
-            // Renderizar contenido según el modo actual
             if (allContent.length > 0) {
                 renderContentForCurrentMode();
             }
         }
-
-        // Renderizar contenido según el modo actual
+        
+        // Renderizar contenido según modo
         function renderContentForCurrentMode() {
             if (document.body.classList.contains('tv-mode')) {
                 renderTVContent();
@@ -2114,1085 +1854,205 @@
                 renderMobileContent();
             }
         }
-
-        // ===== BÚSQUEDA OPTIMIZADA =====
-        function performSearchOptimized(query, filter = 'all', mode = 'mobile') {
-            clearTimeout(searchTimeout);
-            
-            searchTimeout = setTimeout(() => {
-                const startTime = performance.now();
-                performSearch(query, filter, mode);
-                const endTime = performance.now();
-                console.log(`Búsqueda realizada en ${endTime - startTime}ms`);
-            }, 300); // Debounce de 300ms
-        }
         
-        function performSearch(query, filter, mode) {
-            const cacheKey = `${query}_${filter}`;
+        // ===== BÚSQUEDA ULTRA OPTIMIZADA =====
+        function performSearchOptimized(query, filter = 'all', mode = 'mobile') {
+            // Cancelar búsqueda anterior si existe
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+                searchTimeout = null;
+            }
             
-            // Usar caché si existe
-            if (cachedSearchResults[cacheKey] && query.length > 0) {
-                displaySearchResults(cachedSearchResults[cacheKey], query, filter, mode);
+            // Si ya hay una búsqueda en curso, ignorar
+            if (isSearching) {
                 return;
             }
             
-            let filteredContent = allContent.filter(item => {
-                // Filtrar por nombre
-                const matchesSearch = query === '' || 
-                    item.nombre.toLowerCase().includes(query.toLowerCase()) ||
-                    (item.categorias?.nombre && item.categorias.nombre.toLowerCase().includes(query.toLowerCase()));
-                
-                // Filtrar por categoría
-                let matchesFilter = true;
-                if (filter !== 'all') {
-                    matchesFilter = item.tipo === filter;
-                }
-                
-                return matchesSearch && matchesFilter;
-            });
+            // Para dispositivos lentos, aumentar el debounce
+            const debounceTime = isLowEndDevice ? 500 : 300;
             
-            // Guardar en caché
-            if (query.length > 0) {
-                cachedSearchResults[cacheKey] = filteredContent;
+            // Usar requestIdleCallback para mejor rendimiento
+            if ('requestIdleCallback' in window) {
+                searchTimeout = requestIdleCallback(() => {
+                    performSearch(query, filter, mode);
+                }, { timeout: debounceTime });
+            } else {
+                searchTimeout = setTimeout(() => {
+                    performSearch(query, filter, mode);
+                }, debounceTime);
+            }
+        }
+        
+        function performSearch(query, filter, mode) {
+            const now = Date.now();
+            if (now - lastSearchTime < 100) return; // Limitar a 10 búsquedas por segundo
+            lastSearchTime = now;
+            
+            isSearching = true;
+            
+            // Crear clave de caché
+            const cacheKey = `${query}_${filter}_${mode}`;
+            
+            // Verificar caché
+            if (searchCache.has(cacheKey)) {
+                const cachedResults = searchCache.get(cacheKey);
+                displaySearchResults(cachedResults, query, filter, mode);
+                isSearching = false;
+                return;
+            }
+            
+            // Filtrar contenido de manera eficiente
+            let filteredContent = [];
+            const queryLower = query.toLowerCase();
+            
+            // Optimización: pre-filtrar por tipo si hay filtro
+            let contentToSearch = allContent;
+            if (filter !== 'all') {
+                contentToSearch = allContent.filter(item => item.tipo === filter);
+            }
+            
+            // Búsqueda optimizada
+            if (query === '') {
+                filteredContent = [];
+            } else {
+                // Usar un bucle simple para mejor rendimiento
+                for (let i = 0; i < contentToSearch.length; i++) {
+                    const item = contentToSearch[i];
+                    if (item.nombre.toLowerCase().includes(queryLower)) {
+                        filteredContent.push(item);
+                        // Limitar resultados para mejor rendimiento
+                        if (filteredContent.length >= 50) break;
+                    }
+                }
+            }
+            
+            // Guardar en caché (solo si hay resultados)
+            if (filteredContent.length > 0) {
+                searchCache.set(cacheKey, filteredContent);
+                // Limitar tamaño de caché
+                if (searchCache.size > 20) {
+                    const firstKey = searchCache.keys().next().value;
+                    searchCache.delete(firstKey);
+                }
             }
             
             displaySearchResults(filteredContent, query, filter, mode);
+            isSearching = false;
         }
         
         function displaySearchResults(results, query, filter, mode) {
             if (mode === 'mobile') {
                 const resultsContainer = document.getElementById('mobileSearchResultsContent');
                 const resultsSection = document.getElementById('mobileSearchResults');
+                const normalContent = document.getElementById('mobileNormalContent');
                 const searchCount = document.getElementById('mobileSearchCount');
                 
                 if (query === '') {
-                    resultsSection.classList.add('search-hidden');
-                    const sections = document.querySelectorAll('#mobileHomeSection .mobile-content-category');
-                    sections.forEach(section => {
-                        section.classList.remove('search-hidden');
-                    });
+                    // Mostrar contenido normal
+                    resultsSection.classList.remove('active');
+                    normalContent.style.display = 'block';
                     return;
                 }
                 
-                // Mostrar sección de resultados
-                resultsSection.classList.remove('search-hidden');
-                const sections = document.querySelectorAll('#mobileHomeSection .mobile-content-category:not(#mobileSearchResults)');
-                sections.forEach(section => {
-                    section.classList.add('search-hidden');
-                });
+                // Mostrar resultados
+                resultsSection.classList.add('active');
+                normalContent.style.display = 'none';
                 
-                // Renderizar resultados
+                // Actualizar contador
+                searchCount.textContent = `${results.length} resultado${results.length !== 1 ? 's' : ''}`;
+                
+                // Renderizar resultados de manera eficiente
                 if (results.length === 0) {
                     resultsContainer.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-search"></i>
                             <p>No se encontraron resultados</p>
-                            <p class="subtext">Intenta con otras palabras</p>
                         </div>
                     `;
                 } else {
-                    // Usar document fragment para mejor rendimiento
-                    const fragment = document.createDocumentFragment();
-                    results.slice(0, 50).forEach(item => {
-                        const card = crearTarjetaContenido(item, 'mobile');
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = card;
-                        fragment.appendChild(tempDiv.firstChild);
-                    });
+                    // Usar innerHTML en lugar de fragments para mejor rendimiento en móviles
+                    let html = '';
+                    const limit = Math.min(results.length, 30); // Limitar para mejor rendimiento
                     
-                    resultsContainer.innerHTML = '';
-                    resultsContainer.appendChild(fragment);
+                    for (let i = 0; i < limit; i++) {
+                        const item = results[i];
+                        html += crearTarjetaContenidoSimple(item, 'mobile');
+                    }
+                    
+                    resultsContainer.innerHTML = html;
                 }
-                
-                searchCount.textContent = `${results.length} resultado${results.length !== 1 ? 's' : ''}`;
             } else {
                 // Búsqueda TV
-                const activeSection = document.querySelector('.tv-section.active');
-                let resultsSection = activeSection.querySelector('.tv-search-results');
+                const tvSearchInput = document.getElementById('tvSearchInput');
+                if (!tvSearchInput) return;
+                
+                const query = tvSearchInput.value.trim();
                 
                 if (query === '') {
+                    const resultsSection = document.getElementById('tvSearchResults');
                     if (resultsSection) {
-                        resultsSection.remove();
+                        resultsSection.innerHTML = '';
+                        resultsSection.classList.remove('active');
                     }
-                    const categories = activeSection.querySelectorAll('.tv-content-category');
-                    categories.forEach(category => {
-                        category.style.display = 'block';
-                    });
+                    const normalContent = document.getElementById('tvNormalContent');
+                    if (normalContent) normalContent.style.display = 'block';
                     return;
                 }
                 
+                let resultsSection = document.getElementById('tvSearchResults');
                 if (!resultsSection) {
-                    resultsSection = document.createElement('section');
-                    resultsSection.className = 'tv-content-category tv-search-results';
-                    resultsSection.innerHTML = `
-                        <div class="tv-category-header">
-                            <h2 class="tv-category-title">Resultados de búsqueda</h2>
-                            <span class="tv-search-count" style="color: var(--text-gray); font-size: 1rem;">0 resultados</span>
-                        </div>
-                        <div class="tv-content-grid tv-search-results-content"></div>
-                    `;
-                    activeSection.prepend(resultsSection);
+                    resultsSection = document.createElement('div');
+                    resultsSection.id = 'tvSearchResults';
+                    resultsSection.className = 'search-results-container';
+                    document.getElementById('tvHomeSection').appendChild(resultsSection);
                 }
                 
-                const resultsContainer = resultsSection.querySelector('.tv-search-results-content');
-                const searchCount = resultsSection.querySelector('.tv-search-count');
+                const normalContent = document.getElementById('tvNormalContent');
+                if (normalContent) normalContent.style.display = 'none';
                 
-                // Ocultar contenido normal
-                const categories = activeSection.querySelectorAll('.tv-content-category:not(.tv-search-results)');
-                categories.forEach(category => {
-                    category.style.display = 'none';
-                });
+                resultsSection.classList.add('active');
                 
-                // Renderizar resultados
                 if (results.length === 0) {
-                    resultsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-search"></i>
-                            <p>No se encontraron resultados</p>
-                            <p class="subtext">Intenta con otras palabras</p>
+                    resultsSection.innerHTML = `
+                        <div class="tv-content-category">
+                            <div class="tv-category-header">
+                                <h2 class="tv-category-title">Resultados de búsqueda</h2>
+                                <span style="color: var(--text-gray); font-size: 1rem;">0 resultados</span>
+                            </div>
+                            <div class="empty-state">
+                                <i class="fas fa-search"></i>
+                                <p>No se encontraron resultados</p>
+                            </div>
                         </div>
                     `;
                 } else {
-                    const fragment = document.createDocumentFragment();
-                    results.slice(0, 50).forEach(item => {
-                        const card = crearTarjetaContenido(item, 'tv');
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = card;
-                        fragment.appendChild(tempDiv.firstChild);
-                    });
+                    let html = `
+                        <div class="tv-content-category">
+                            <div class="tv-category-header">
+                                <h2 class="tv-category-title">Resultados de búsqueda</h2>
+                                <span style="color: var(--text-gray); font-size: 1rem;">${results.length} resultado${results.length !== 1 ? 's' : ''}</span>
+                            </div>
+                            <div class="tv-content-grid">
+                    `;
                     
-                    resultsContainer.innerHTML = '';
-                    resultsContainer.appendChild(fragment);
-                }
-                
-                searchCount.textContent = `${results.length} resultado${results.length !== 1 ? 's' : ''}`;
-                resultsSection.style.display = 'block';
-            }
-        }
-
-        // ===== FUNCIONALIDAD DE BÚSQUEDA MÓVIL OPTIMIZADA =====
-        function toggleMobileSearch() {
-            const searchContainer = document.getElementById('mobileSearchContainer');
-            if (searchContainer.classList.contains('active')) {
-                closeMobileSearch();
-            } else {
-                openMobileSearch();
-            }
-        }
-        
-        function openMobileSearch() {
-            const searchContainer = document.getElementById('mobileSearchContainer');
-            searchContainer.classList.add('active');
-            mobileSearchActive = true;
-            
-            // Ajustar margen del contenedor
-            document.getElementById('mobileContainer').style.marginTop = '120px';
-            
-            // Enfocar el input
-            setTimeout(() => {
-                document.getElementById('mobileSearchInput').focus();
-            }, 100);
-        }
-        
-        function closeMobileSearch() {
-            const searchContainer = document.getElementById('mobileSearchContainer');
-            searchContainer.classList.remove('active');
-            mobileSearchActive = false;
-            
-            // Restaurar margen del contenedor
-            document.getElementById('mobileContainer').style.marginTop = '68px';
-            
-            // Limpiar búsqueda
-            clearMobileSearch();
-        }
-        
-        function clearMobileSearch() {
-            const searchInput = document.getElementById('mobileSearchInput');
-            searchInput.value = '';
-            mobileSearchQuery = '';
-            mobileCurrentFilter = 'all';
-            
-            // Restaurar botones de filtro
-            document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent === 'Todos') {
-                    btn.classList.add('active');
-                }
-            });
-            
-            // Ocultar resultados y mostrar contenido normal
-            document.getElementById('mobileSearchResults').classList.add('search-hidden');
-            const sections = document.querySelectorAll('#mobileHomeSection .mobile-content-category');
-            sections.forEach(section => {
-                section.classList.remove('search-hidden');
-            });
-            
-            // Limpiar caché de búsqueda
-            cachedSearchResults = {};
-        }
-        
-        function setMobileFilter(filterType) {
-            mobileCurrentFilter = filterType;
-            
-            // Actualizar botones de filtro
-            document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Aplicar filtro y búsqueda
-            performSearchOptimized(mobileSearchQuery, filterType, 'mobile');
-        }
-
-        // ===== NAVEGACIÓN =====
-        function switchMobileSection(section) {
-            // Cerrar búsqueda si está abierta
-            if (mobileSearchActive) {
-                closeMobileSearch();
-            }
-            
-            // Ocultar todas las secciones
-            document.querySelectorAll('.mobile-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            
-            // Quitar activo de todos los botones
-            document.querySelectorAll('.mobile-nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Activar sección correspondiente
-            document.getElementById(`mobile${capitalizeFirstLetter(section)}Section`).classList.add('active');
-            
-            // Activar botón correspondiente
-            document.querySelectorAll('.mobile-nav-item').forEach((item, index) => {
-                if (section === 'home' && index === 0) {
-                    item.classList.add('active');
-                } else if (section === 'movies' && index === 1) {
-                    item.classList.add('active');
-                } else if (section === 'series' && index === 2) {
-                    item.classList.add('active');
-                } else if (section === 'channels' && index === 3) {
-                    item.classList.add('active');
-                }
-            });
-            
-            // Si es Mi Lista, renderizar contenido
-            if (section === 'myList') {
-                renderMobileMyList();
-            }
-            
-            // Limpiar caché de búsqueda
-            cachedSearchResults = {};
-        }
-
-        function switchTVSection(section) {
-            // Limpiar búsqueda TV
-            const tvSearchInput = document.getElementById('tvSearchInput');
-            if (tvSearchInput) {
-                tvSearchInput.value = '';
-                const activeSection = document.querySelector('.tv-section.active');
-                if (activeSection) {
-                    const resultsSection = activeSection.querySelector('.tv-search-results');
-                    if (resultsSection) {
-                        resultsSection.remove();
+                    const limit = Math.min(results.length, 40);
+                    for (let i = 0; i < limit; i++) {
+                        const item = results[i];
+                        html += crearTarjetaContenidoSimple(item, 'tv');
                     }
-                    const categories = activeSection.querySelectorAll('.tv-content-category');
-                    categories.forEach(category => {
-                        category.style.display = 'block';
-                    });
-                }
-            }
-            
-            // Ocultar todas las secciones
-            document.querySelectorAll('.tv-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            
-            // Quitar activo de todos los botones
-            document.querySelectorAll('.tv-nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Activar sección correspondiente
-            document.getElementById(`tv${capitalizeFirstLetter(section)}Section`).classList.add('active');
-            
-            // Activar botón correspondiente
-            document.querySelectorAll('.tv-nav-item').forEach((item, index) => {
-                if (section === 'home' && index === 0) {
-                    item.classList.add('active');
-                } else if (section === 'movies' && index === 1) {
-                    item.classList.add('active');
-                } else if (section === 'series' && index === 2) {
-                    item.classList.add('active');
-                } else if (section === 'channels' && index === 3) {
-                    item.classList.add('active');
-                } else if (section === 'myList' && index === 4) {
-                    item.classList.add('active');
-                }
-            });
-            
-            // Si es Mi Lista, renderizar contenido
-            if (section === 'myList') {
-                renderTVMyList();
-            }
-            
-            // Limpiar caché de búsqueda
-            cachedSearchResults = {};
-        }
-
-        // Helper para capitalizar primera letra
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        // Mostrar/ocultar loading
-        function showLoading() {
-            document.getElementById('loadingSpinner').style.display = 'block';
-        }
-        
-        function hideLoading() {
-            document.getElementById('loadingSpinner').style.display = 'none';
-        }
-
-        // Inicializar datos del usuario
-        function initializeUserData() {
-            if (currentUser) {
-                const userKey = `finki_user_${currentUser.id}`;
-                
-                const savedSettings = localStorage.getItem(`${userKey}_settings`);
-                userSettings = savedSettings ? JSON.parse(savedSettings) : {
-                    wifiOnly: false,
-                    autoPlay: true
-                };
-                
-                const savedMyList = localStorage.getItem(`${userKey}_myList`);
-                userLists.myList = savedMyList ? JSON.parse(savedMyList) : [];
-                
-                const savedHistory = localStorage.getItem(`${userKey}_history`);
-                userLists.history = savedHistory ? JSON.parse(savedHistory) : [];
-                
-                document.getElementById('wifiOnly').checked = userSettings.wifiOnly;
-                document.getElementById('autoPlay').checked = userSettings.autoPlay;
-                
-                updateProfileCounters();
-            }
-        }
-
-        // Guardar ajuste
-        function saveSetting(key, value) {
-            if (!currentUser) return;
-            
-            userSettings[key] = value;
-            const userKey = `finki_user_${currentUser.id}`;
-            localStorage.setItem(`${userKey}_settings`, JSON.stringify(userSettings));
-        }
-
-        // Agregar a Mi Lista
-        function addToMyList(contentItem) {
-            if (!currentUser) return false;
-            
-            const userKey = `finki_user_${currentUser.id}`;
-            const existingIndex = userLists.myList.findIndex(item => item.id === contentItem.id);
-            
-            if (existingIndex === -1) {
-                userLists.myList.push({
-                    id: contentItem.id,
-                    nombre: contentItem.nombre,
-                    url_contenido: contentItem.url_contenido,
-                    url_portada: contentItem.url_portada,
-                    tipo: contentItem.tipo,
-                    fecha_agregado: new Date().toISOString()
-                });
-                
-                localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
-                updateProfileCounters();
-                renderMobileMyList();
-                renderTVMyList();
-                return true;
-            }
-            return false;
-        }
-
-        // Eliminar de Mi Lista
-        function removeFromMyList(contentId) {
-            if (!currentUser) return false;
-            
-            const userKey = `finki_user_${currentUser.id}`;
-            const existingIndex = userLists.myList.findIndex(item => item.id === contentId);
-            
-            if (existingIndex !== -1) {
-                userLists.myList.splice(existingIndex, 1);
-                localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
-                updateProfileCounters();
-                renderMobileMyList();
-                renderTVMyList();
-                renderFullMyList();
-                return true;
-            }
-            return false;
-        }
-
-        // Agregar al Historial
-        function addToHistory(contentItem) {
-            if (!currentUser) return false;
-            
-            const userKey = `finki_user_${currentUser.id}`;
-            
-            // Eliminar duplicados recientes
-            userLists.history = userLists.history.filter(item => 
-                !(item.id === contentItem.id && 
-                (Date.now() - new Date(item.fecha_reproduccion).getTime()) < 3600000)
-            );
-            
-            userLists.history.unshift({
-                id: contentItem.id,
-                nombre: contentItem.nombre,
-                url_contenido: contentItem.url_contenido,
-                url_portada: contentItem.url_portada,
-                tipo: contentItem.tipo,
-                fecha_reproduccion: new Date().toISOString()
-            });
-            
-            // Limitar historial a 100 elementos
-            if (userLists.history.length > 100) {
-                userLists.history = userLists.history.slice(0, 100);
-            }
-            
-            localStorage.setItem(`${userKey}_history`, JSON.stringify(userLists.history));
-            updateProfileCounters();
-            renderFullHistory();
-            return true;
-        }
-
-        // Limpiar Historial
-        function clearHistory() {
-            if (!currentUser) return;
-            
-            if (confirm('¿Estás seguro de que quieres eliminar todo tu historial?')) {
-                const userKey = `finki_user_${currentUser.id}`;
-                userLists.history = [];
-                localStorage.setItem(`${userKey}_history`, JSON.stringify([]));
-                updateProfileCounters();
-                renderFullHistory();
-                showNotification('Historial eliminado');
-            }
-        }
-
-        // Limpiar Caché
-        function clearCache() {
-            if (confirm('¿Estás seguro de que quieres limpiar la caché? Esto no afectará tu lista ni historial.')) {
-                if ('caches' in window) {
-                    caches.keys().then(function(names) {
-                        for (let name of names) {
-                            caches.delete(name);
-                        }
-                    });
-                }
-                // Limpiar caché de búsqueda
-                cachedSearchResults = {};
-                showNotification('Caché limpiada');
-            }
-        }
-
-        // Actualizar contadores del perfil
-        function updateProfileCounters() {
-            if (!currentUser) return;
-            
-            document.getElementById('myListCount').textContent = userLists.myList.length;
-            document.getElementById('historyCount').textContent = userLists.history.length;
-            
-            const moviesCount = allContent.filter(item => item.tipo === 'pelicula').length;
-            document.getElementById('moviesCount').textContent = moviesCount;
-        }
-
-        // Renderizar Mi Lista Móvil
-        function renderMobileMyList() {
-            const container = document.getElementById('mobileMyListContent');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (userLists.myList.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-bookmark"></i>
-                        <p>Tu lista está vacía</p>
-                        <p class="subtext">Agrega contenido desde el botón "+"</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Usar fragment para mejor rendimiento
-            const fragment = document.createDocumentFragment();
-            userLists.myList.slice(0, 20).forEach(item => {
-                const card = crearTarjetaLista(item, 'myList', 'mobile');
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = card;
-                fragment.appendChild(tempDiv.firstChild);
-            });
-            
-            container.appendChild(fragment);
-        }
-
-        // Renderizar Mi Lista TV
-        function renderTVMyList() {
-            const container = document.getElementById('tvMyListContent');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (userLists.myList.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-bookmark"></i>
-                        <p>Tu lista está vacía</p>
-                        <p class="subtext">Agrega contenido desde el botón "+"</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const fragment = document.createDocumentFragment();
-            userLists.myList.slice(0, 20).forEach(item => {
-                const card = crearTarjetaLista(item, 'myList', 'tv');
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = card;
-                fragment.appendChild(tempDiv.firstChild);
-            });
-            
-            container.appendChild(fragment);
-        }
-
-        // Renderizar Mi Lista Completa
-        function renderFullMyList() {
-            const container = document.getElementById('myListFullContent');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (userLists.myList.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-bookmark"></i>
-                        <p>Tu lista está vacía</p>
-                        <p class="subtext">Agrega contenido desde el botón "+"</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const fragment = document.createDocumentFragment();
-            userLists.myList.forEach(item => {
-                const card = crearTarjetaLista(item, 'myList', 'mobile');
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = card;
-                fragment.appendChild(tempDiv.firstChild);
-            });
-            
-            container.appendChild(fragment);
-        }
-
-        // Renderizar Historial Completo
-        function renderFullHistory() {
-            const container = document.getElementById('historyFullContent');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (userLists.history.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-history"></i>
-                        <p>No hay historial</p>
-                        <p class="subtext">Ve contenido para verlo aquí</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const fragment = document.createDocumentFragment();
-            userLists.history.slice(0, 50).forEach(item => {
-                const card = crearTarjetaLista(item, 'history', 'mobile');
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = card;
-                fragment.appendChild(tempDiv.firstChild);
-            });
-            
-            container.appendChild(fragment);
-        }
-
-        // Crear tarjeta para listas
-        function crearTarjetaLista(item, listType, mode) {
-            const badge = item.tipo === 'canal' ? '<div class="card-badge">EN VIVO</div>' : 
-                         item.tipo === 'serie' ? '<div class="card-badge">SERIE</div>' : 
-                         '<div class="card-badge">PELÍCULA</div>';
-            
-            const removeBtn = listType === 'myList' ? 
-                `<button class="remove-btn" onclick="event.stopPropagation(); removeFromMyList('${item.id}')" title="Eliminar de Mi Lista">
-                    <i class="fas fa-times"></i>
-                </button>` : '';
-            
-            if (mode === 'tv') {
-                return `<div class="tv-content-card" onclick="playListContent('${item.url_contenido}', '${item.nombre}', '${item.id}')">
-                    ${badge}
-                    ${removeBtn}
-                    <div class="tv-card-img-container">
-                        <img src="${item.url_portada}" alt="${item.nombre}" class="card-img" loading="lazy"
-                             onerror="this.src='https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60'">
-                    </div>
-                    <div class="tv-card-info">
-                        <div class="tv-card-title">${item.nombre}</div>
-                        <div class="tv-card-subtitle">${listType === 'history' ? 'Visto recientemente' : 'En mi lista'}</div>
-                    </div>
-                </div>`;
-            } else {
-                return `<div class="mobile-content-card" onclick="playListContent('${item.url_contenido}', '${item.nombre}', '${item.id}')">
-                    ${badge}
-                    ${removeBtn}
-                    <div class="mobile-card-img-container">
-                        <img src="${item.url_portada}" alt="${item.nombre}" class="card-img" loading="lazy"
-                             onerror="this.src='https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60'">
-                    </div>
-                    <div class="mobile-card-info">
-                        <div class="mobile-card-title">${item.nombre}</div>
-                        <div class="mobile-card-subtitle">${listType === 'history' ? 'Visto recientemente' : 'En mi lista'}</div>
-                    </div>
-                </div>`;
-            }
-        }
-
-        // Verificar sesión al cargar la página
-        document.addEventListener('DOMContentLoaded', async () => {
-            const savedUser = localStorage.getItem('finki_user');
-            const savedSession = localStorage.getItem('finki_session');
-            
-            if (savedUser && savedSession) {
-                try {
-                    showLoading();
-                    const user = JSON.parse(savedUser);
-                    const sessionData = JSON.parse(savedSession);
                     
-                    const { data, error } = await supabaseClient
-                        .from('users')
-                        .select('*')
-                        .eq('celular', user.celular)
-                        .eq('password', user.password)
-                        .single();
+                    html += `
+                            </div>
+                        </div>
+                    `;
                     
-                    if (data && !error) {
-                        currentUser = data;
-                        document.getElementById('authSection').style.display = 'none';
-                        document.getElementById('mainApp').style.display = 'block';
-                        
-                        const userInitial = currentUser.nombre.charAt(0).toUpperCase();
-                        document.getElementById('userAvatar').textContent = userInitial;
-                        document.getElementById('tvUserAvatar').textContent = userInitial;
-                        
-                        initializeUserData();
-                        await cargarContenido();
-                        actualizarPerfil();
-                        
-                        // Aplicar modo inicial
-                        applyTVMode();
-                        
-                        // Configurar scroll en header móvil
-                        setupMobileHeaderScroll();
-                        
-                        // Configurar eventos de búsqueda optimizados
-                        setupSearchEvents();
-                        
-                    } else {
-                        localStorage.removeItem('finki_user');
-                        localStorage.removeItem('finki_session');
-                    }
-                    hideLoading();
-                } catch (e) {
-                    console.error('Error al restaurar sesión:', e);
-                    localStorage.removeItem('finki_user');
-                    localStorage.removeItem('finki_session');
-                    hideLoading();
+                    resultsSection.innerHTML = html;
                 }
-            } else {
-                // Configurar eventos de búsqueda para cuando se inicie sesión
-                setupSearchEvents();
             }
-            
-            // Detectar cambios de tamaño/orientación
-            window.addEventListener('resize', function() {
-                applyTVMode();
-            });
-            
-            window.addEventListener('orientationchange', function() {
-                setTimeout(function() {
-                    applyTVMode();
-                }, 300);
-            });
-        });
-
-        // Configurar eventos de búsqueda optimizados
-        function setupSearchEvents() {
-            // Búsqueda móvil optimizada
-            const mobileSearchInput = document.getElementById('mobileSearchInput');
-            if (mobileSearchInput) {
-                mobileSearchInput.addEventListener('input', function() {
-                    mobileSearchQuery = this.value;
-                    performSearchOptimized(mobileSearchQuery, mobileCurrentFilter, 'mobile');
-                });
-                
-                mobileSearchInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        performSearchOptimized(mobileSearchQuery, mobileCurrentFilter, 'mobile');
-                    }
-                });
-            }
-            
-            // Búsqueda TV optimizada
-            const tvSearchInput = document.getElementById('tvSearchInput');
-            if (tvSearchInput) {
-                tvSearchInput.addEventListener('input', function() {
-                    const query = this.value;
-                    performSearchOptimized(query, 'all', 'tv');
-                });
-                
-                tvSearchInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        const query = tvSearchInput.value;
-                        performSearchOptimized(query, 'all', 'tv');
-                    }
-                });
-            }
-        }
-
-        // Efecto de scroll en header móvil
-        function setupMobileHeaderScroll() {
-            const header = document.querySelector('.mobile-header');
-            const container = document.querySelector('.mobile-container');
-            
-            if (container) {
-                let scrollTimer;
-                container.addEventListener('scroll', function() {
-                    clearTimeout(scrollTimer);
-                    scrollTimer = setTimeout(() => {
-                        if (this.scrollTop > 50) {
-                            header.classList.add('scrolled');
-                        } else {
-                            header.classList.remove('scrolled');
-                        }
-                    }, 100);
-                });
-            }
-        }
-
-        // Navegación de Tabs (auth)
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            if (tabName === 'login') {
-                document.querySelectorAll('.tab')[0].classList.add('active');
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('registerForm').style.display = 'none';
-            } else {
-                document.querySelectorAll('.tab')[1].classList.add('active');
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('registerForm').style.display = 'block';
-            }
-        }
-
-        // Perfil de Usuario
-        function openProfile() {
-            document.getElementById('profilePanel').classList.add('active');
         }
         
-        function closeProfile() {
-            document.getElementById('profilePanel').classList.remove('active');
-        }
-        
-        function actualizarPerfil() {
-            if (!currentUser) return;
-            
-            document.getElementById('profileName').textContent = currentUser.nombre;
-            document.getElementById('profilePhone').textContent = `Celular: ${currentUser.celular}`;
-            const userInitial = currentUser.nombre.charAt(0).toUpperCase();
-            document.getElementById('profileAvatarLarge').textContent = userInitial;
-            
-            updateProfileCounters();
-        }
-        
-        // Validar celular (8 dígitos exactos)
-        function validarCelular(num) {
-            const regex = /^\d{8}$/;
-            return regex.test(num);
-        }
-
-        // ===== REGISTRO DE USUARIO =====
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const nombre = document.getElementById('regNombre').value.trim();
-            const edad = parseInt(document.getElementById('regEdad').value);
-            const celular = document.getElementById('regCelular').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const errorEl = document.getElementById('registerError');
-
-            if (!nombre || !edad || !celular || !password) {
-                errorEl.textContent = 'Todos los campos son obligatorios.';
-                errorEl.style.display = 'block'; 
-                return;
-            }
-            if (edad < 1 || edad > 120) {
-                errorEl.textContent = 'Edad debe ser entre 1 y 120 años.';
-                errorEl.style.display = 'block'; 
-                return;
-            }
-            if (!validarCelular(celular)) {
-                errorEl.textContent = 'El celular debe tener 8 dígitos exactos.';
-                errorEl.style.display = 'block'; 
-                return;
-            }
-            if (password.length < 4) {
-                errorEl.textContent = 'Contraseña muy corta.';
-                errorEl.style.display = 'block'; 
-                return;
-            }
-
-            const { data: existing } = await supabaseClient.from('users').select('celular').eq('celular', celular).single();
-            if (existing) {
-                errorEl.textContent = 'Este número de celular ya está registrado.';
-                errorEl.style.display = 'block'; 
-                return;
-            }
-
-            showLoading();
-            const { data, error } = await supabaseClient.from('users').insert([{ nombre, edad, celular, password }]).select();
-            hideLoading();
-            
-            if (error) {
-                errorEl.textContent = 'Error al registrar: ' + error.message;
-                errorEl.style.display = 'block';
-            } else {
-                showNotification('Registro exitoso');
-                switchTab('login');
-                document.getElementById('registerForm').reset();
-                errorEl.style.display = 'none';
-            }
-        });
-
-        // ===== INICIO DE SESIÓN =====
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const celular = document.getElementById('loginCelular').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const errorEl = document.getElementById('loginError');
-
-            if (!validarCelular(celular)) {
-                errorEl.textContent = 'Celular debe ser 8 dígitos.';
-                errorEl.style.display = 'block'; 
-                return;
-            }
-
-            showLoading();
-            const { data, error } = await supabaseClient.from('users').select('*').eq('celular', celular).eq('password', password).single();
-            
-            if (error || !data) {
-                errorEl.textContent = 'Celular o contraseña incorrectos.';
-                errorEl.style.display = 'block';
-                hideLoading();
-            } else {
-                currentUser = data;
-                
-                localStorage.setItem('finki_user', JSON.stringify({
-                    id: currentUser.id,
-                    nombre: currentUser.nombre,
-                    celular: currentUser.celular,
-                    password: currentUser.password,
-                    edad: currentUser.edad
-                }));
-                
-                localStorage.setItem('finki_session', JSON.stringify({
-                    timestamp: Date.now(),
-                    expires: Date.now() + (30 * 24 * 60 * 60 * 1000)
-                }));
-                
-                document.getElementById('authSection').style.display = 'none';
-                document.getElementById('mainApp').style.display = 'block';
-                
-                const userInitial = currentUser.nombre.charAt(0).toUpperCase();
-                document.getElementById('userAvatar').textContent = userInitial;
-                document.getElementById('tvUserAvatar').textContent = userInitial;
-                
-                initializeUserData();
-                await cargarContenido();
-                actualizarPerfil();
-                
-                // Aplicar modo inicial
-                applyTVMode();
-                
-                // Configurar scroll en header móvil
-                setupMobileHeaderScroll();
-                
-                // Configurar eventos de búsqueda
-                setupSearchEvents();
-                
-                hideLoading();
-            }
-        });
-
-        // ===== CERRAR SESIÓN =====
-        function cerrarSesion() {
-            if (currentUser) {
-                const userKey = `finki_user_${currentUser.id}`;
-            }
-            
-            localStorage.removeItem('finki_user');
-            localStorage.removeItem('finki_session');
-            
-            currentUser = null;
-            userLists = { myList: [], history: [] };
-            userSettings = {};
-            cachedSearchResults = {};
-            
-            document.getElementById('mainApp').style.display = 'none';
-            document.getElementById('authSection').style.display = 'flex';
-            document.getElementById('loginForm').reset();
-            
-            closeProfile();
-            switchTab('login');
-        }
-
-        // ===== CARGAR CONTENIDO =====
-        async function cargarContenido() {
-            showLoading();
-            const { data: contenido, error } = await supabaseClient
-                .from('contenido')
-                .select('*, categorias(nombre)')
-                .order('fecha_agregado', { ascending: false });
-            
-            if (error) { 
-                console.error('Error cargando contenido:', error); 
-                hideLoading();
-                return; 
-            }
-            
-            allContent = contenido || [];
-            
-            if (allContent.length > 0) {
-                latestContent = allContent[0];
-                
-                // Actualizar banners
-                if (latestContent.url_portada) {
-                    document.getElementById('mobileHeroBanner').style.backgroundImage = 
-                        `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
-                         linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
-                         url('${latestContent.url_portada}')`;
-                    
-                    document.getElementById('tvHeroBanner').style.backgroundImage = 
-                        `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
-                         linear-gradient(to right, rgba(0,0,0,0.9) 0%, transparent 50%),
-                         url('${latestContent.url_portada}')`;
-                }
-                
-                document.getElementById('mobileHeroTitle').textContent = latestContent.nombre;
-                document.getElementById('tvHeroTitle').textContent = latestContent.nombre;
-            }
-            
-            // Renderizar contenido según el modo actual
-            renderContentForCurrentMode();
-            
-            hideLoading();
-        }
-        
-        // Renderizar contenido Móvil optimizado
-        function renderMobileContent() {
-            // Limpiar contenedores
-            ['mobileFeaturedContent', 'mobileMoviesContent', 'mobileSeriesContent', 'mobileLiveContent', 
-             'mobileMoviesFullContent', 'mobileSeriesFullContent', 'mobileChannelsFullContent'].forEach(id => {
-                const container = document.getElementById(id);
-                if (container) container.innerHTML = '';
-            });
-            
-            // Separar por categorías
-            const movies = allContent.filter(item => item.tipo === 'pelicula');
-            const series = allContent.filter(item => item.tipo === 'serie');
-            const channels = allContent.filter(item => item.tipo === 'canal');
-            
-            // Función para renderizar contenido con fragment
-            function renderToContainer(containerId, items, count = 8) {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-                
-                const fragment = document.createDocumentFragment();
-                items.slice(0, count).forEach(item => {
-                    const card = crearTarjetaContenido(item, 'mobile');
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = card;
-                    fragment.appendChild(tempDiv.firstChild);
-                });
-                container.appendChild(fragment);
-            }
-            
-            // Renderizar secciones
-            renderToContainer('mobileFeaturedContent', allContent, 8);
-            renderToContainer('mobileMoviesContent', movies, 8);
-            renderToContainer('mobileSeriesContent', series, 8);
-            renderToContainer('mobileLiveContent', channels, 8);
-            
-            // Renderizar páginas completas
-            renderToContainer('mobileMoviesFullContent', movies, 100);
-            renderToContainer('mobileSeriesFullContent', series, 100);
-            renderToContainer('mobileChannelsFullContent', channels, 100);
-            
-            // Renderizar Mi Lista móvil
-            renderMobileMyList();
-        }
-        
-        // Renderizar contenido TV optimizado
-        function renderTVContent() {
-            // Limpiar contenedores
-            ['tvFeaturedContent', 'tvMoviesContent', 'tvSeriesContent', 'tvLiveContent', 
-             'tvMoviesFullContent', 'tvSeriesFullContent', 'tvChannelsFullContent'].forEach(id => {
-                const container = document.getElementById(id);
-                if (container) container.innerHTML = '';
-            });
-            
-            // Separar por categorías
-            const movies = allContent.filter(item => item.tipo === 'pelicula');
-            const series = allContent.filter(item => item.tipo === 'serie');
-            const channels = allContent.filter(item => item.tipo === 'canal');
-            
-            // Función para renderizar contenido con fragment
-            function renderToContainer(containerId, items, count = 12) {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-                
-                const fragment = document.createDocumentFragment();
-                items.slice(0, count).forEach(item => {
-                    const card = crearTarjetaContenido(item, 'tv');
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = card;
-                    fragment.appendChild(tempDiv.firstChild);
-                });
-                container.appendChild(fragment);
-            }
-            
-            // Renderizar secciones
-            renderToContainer('tvFeaturedContent', allContent, 12);
-            renderToContainer('tvMoviesContent', movies, 10);
-            renderToContainer('tvSeriesContent', series, 10);
-            renderToContainer('tvLiveContent', channels, 10);
-            
-            // Renderizar páginas completas
-            renderToContainer('tvMoviesFullContent', movies, 100);
-            renderToContainer('tvSeriesFullContent', series, 100);
-            renderToContainer('tvChannelsFullContent', channels, 100);
-            
-            // Renderizar Mi Lista TV
-            renderTVMyList();
-        }
-
-        // Crear tarjeta de contenido optimizada
-        function crearTarjetaContenido(item, mode) {
+        // Función optimizada para crear tarjetas
+        function crearTarjetaContenidoSimple(item, mode) {
             const badge = item.tipo === 'canal' ? '<div class="card-badge">EN VIVO</div>' : 
                          item.tipo === 'serie' ? '<div class="card-badge">SERIE</div>' : 
                          '<div class="card-badge">PELÍCULA</div>';
@@ -3200,17 +2060,16 @@
             const inMyList = currentUser && userLists.myList.some(listItem => listItem.id === item.id);
             const listBtnClass = inMyList ? 'list-btn in-list' : 'list-btn';
             const listBtnIcon = inMyList ? 'fas fa-check' : 'fas fa-plus';
-            const listBtnTitle = inMyList ? 'En Mi Lista' : 'Agregar a Mi Lista';
             const listBtnAction = inMyList ? 
                 `removeFromMyList('${item.id}')` : 
                 `addToListAndConfirm('${item.id}')`;
             
             const listButton = currentUser ? 
-                `<button class="${listBtnClass}" onclick="event.stopPropagation(); ${listBtnAction}" title="${listBtnTitle}">
+                `<button class="${listBtnClass}" onclick="event.stopPropagation(); ${listBtnAction}" title="${inMyList ? 'En Mi Lista' : 'Agregar a Mi Lista'}">
                     <i class="${listBtnIcon}"></i>
                 </button>` : '';
             
-            const imageUrl = item.url_portada || 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60';
+            const imageUrl = item.url_portada || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450"><rect width="300" height="450" fill="%231a2536"/></svg>';
             
             if (mode === 'tv') {
                 return `<div class="tv-content-card" onclick="playContent('${item.url_contenido}', '${item.nombre}', '${item.id}')">
@@ -3238,33 +2097,950 @@
                 </div>`;
             }
         }
-
-        // Agregar a lista con confirmación
+        
+        // ===== FUNCIONALIDAD DE BÚSQUEDA MÓVIL OPTIMIZADA =====
+        function toggleMobileSearch() {
+            const searchContainer = document.getElementById('mobileSearchContainer');
+            if (searchContainer.classList.contains('active')) {
+                closeMobileSearch();
+            } else {
+                openMobileSearch();
+            }
+        }
+        
+        function openMobileSearch() {
+            const searchContainer = document.getElementById('mobileSearchContainer');
+            searchContainer.classList.add('active');
+            mobileSearchActive = true;
+            
+            // Enfocar el input
+            setTimeout(() => {
+                const searchInput = document.getElementById('mobileSearchInput');
+                if (searchInput) {
+                    searchInput.focus();
+                    // Mover cursor al final
+                    searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+                }
+            }, 50);
+        }
+        
+        function closeMobileSearch() {
+            const searchContainer = document.getElementById('mobileSearchContainer');
+            searchContainer.classList.remove('active');
+            mobileSearchActive = false;
+            
+            // Limpiar búsqueda
+            clearMobileSearch();
+        }
+        
+        function clearMobileSearch() {
+            const searchInput = document.getElementById('mobileSearchInput');
+            if (searchInput) {
+                searchInput.value = '';
+                mobileSearchQuery = '';
+                mobileCurrentFilter = 'all';
+                
+                // Restaurar botones de filtro
+                document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.textContent === 'Todos') {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Ocultar resultados y mostrar contenido normal
+                const resultsSection = document.getElementById('mobileSearchResults');
+                const normalContent = document.getElementById('mobileNormalContent');
+                
+                if (resultsSection) resultsSection.classList.remove('active');
+                if (normalContent) normalContent.style.display = 'block';
+            }
+            
+            // Limpiar caché de búsqueda
+            searchCache.clear();
+        }
+        
+        function setMobileFilter(filterType) {
+            mobileCurrentFilter = filterType;
+            
+            // Actualizar botones de filtro
+            document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Aplicar filtro y búsqueda
+            performSearchOptimized(mobileSearchQuery, filterType, 'mobile');
+        }
+        
+        // ===== NAVEGACIÓN OPTIMIZADA =====
+        function switchMobileSection(section) {
+            // Cerrar búsqueda si está abierta
+            if (mobileSearchActive) {
+                closeMobileSearch();
+            }
+            
+            // Limpiar caché de búsqueda
+            searchCache.clear();
+            
+            // Ocultar todas las secciones
+            document.querySelectorAll('.mobile-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            
+            // Quitar activo de todos los botones
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Activar sección correspondiente
+            const sectionId = `mobile${capitalizeFirstLetter(section)}Section`;
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // Activar botón correspondiente
+                const navItems = document.querySelectorAll('.mobile-nav-item');
+                for (let i = 0; i < navItems.length; i++) {
+                    if ((section === 'home' && i === 0) ||
+                        (section === 'movies' && i === 1) ||
+                        (section === 'series' && i === 2) ||
+                        (section === 'channels' && i === 3)) {
+                        navItems[i].classList.add('active');
+                        break;
+                    }
+                }
+                
+                // Si es Mi Lista, renderizar contenido
+                if (section === 'myList') {
+                    setTimeout(() => renderMobileMyList(), 50);
+                }
+            }
+        }
+        
+        function switchTVSection(section) {
+            // Limpiar búsqueda TV
+            const tvSearchInput = document.getElementById('tvSearchInput');
+            if (tvSearchInput) {
+                tvSearchInput.value = '';
+                const resultsSection = document.getElementById('tvSearchResults');
+                if (resultsSection) {
+                    resultsSection.innerHTML = '';
+                    resultsSection.classList.remove('active');
+                }
+                const normalContent = document.getElementById('tvNormalContent');
+                if (normalContent) normalContent.style.display = 'block';
+            }
+            
+            // Limpiar caché
+            searchCache.clear();
+            
+            // Ocultar todas las secciones
+            document.querySelectorAll('.tv-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            
+            // Quitar activo de todos los botones
+            document.querySelectorAll('.tv-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Activar sección correspondiente
+            const sectionId = `tv${capitalizeFirstLetter(section)}Section`;
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // Activar botón correspondiente
+                const navItems = document.querySelectorAll('.tv-nav-item');
+                for (let i = 0; i < navItems.length; i++) {
+                    if ((section === 'home' && i === 0) ||
+                        (section === 'movies' && i === 1) ||
+                        (section === 'series' && i === 2) ||
+                        (section === 'channels' && i === 3) ||
+                        (section === 'myList' && i === 4)) {
+                        navItems[i].classList.add('active');
+                        break;
+                    }
+                }
+                
+                // Si es Mi Lista, renderizar contenido
+                if (section === 'myList') {
+                    setTimeout(() => renderTVMyList(), 50);
+                }
+            }
+        }
+        
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // Mostrar/ocultar loading
+        function showLoading() {
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+        
+        // Inicializar datos del usuario
+        function initializeUserData() {
+            if (currentUser) {
+                const userKey = `finki_user_${currentUser.id}`;
+                
+                try {
+                    const savedSettings = localStorage.getItem(`${userKey}_settings`);
+                    userSettings = savedSettings ? JSON.parse(savedSettings) : {
+                        wifiOnly: false,
+                        autoPlay: true
+                    };
+                    
+                    const savedMyList = localStorage.getItem(`${userKey}_myList`);
+                    userLists.myList = savedMyList ? JSON.parse(savedMyList) : [];
+                    
+                    const savedHistory = localStorage.getItem(`${userKey}_history`);
+                    userLists.history = savedHistory ? JSON.parse(savedHistory) : [];
+                    
+                    document.getElementById('wifiOnly').checked = userSettings.wifiOnly;
+                    document.getElementById('autoPlay').checked = userSettings.autoPlay;
+                    
+                    updateProfileCounters();
+                } catch (e) {
+                    console.error('Error cargando datos del usuario:', e);
+                    // Inicializar con valores por defecto
+                    userSettings = { wifiOnly: false, autoPlay: true };
+                    userLists = { myList: [], history: [] };
+                }
+            }
+        }
+        
+        // Guardar ajuste
+        function saveSetting(key, value) {
+            if (!currentUser) return;
+            
+            userSettings[key] = value;
+            const userKey = `finki_user_${currentUser.id}`;
+            try {
+                localStorage.setItem(`${userKey}_settings`, JSON.stringify(userSettings));
+            } catch (e) {
+                console.error('Error guardando ajuste:', e);
+            }
+        }
+        
+        // Agregar a Mi Lista
+        function addToMyList(contentItem) {
+            if (!currentUser) return false;
+            
+            const userKey = `finki_user_${currentUser.id}`;
+            const existingIndex = userLists.myList.findIndex(item => item.id === contentItem.id);
+            
+            if (existingIndex === -1) {
+                userLists.myList.push({
+                    id: contentItem.id,
+                    nombre: contentItem.nombre,
+                    url_contenido: contentItem.url_contenido,
+                    url_portada: contentItem.url_portada,
+                    tipo: contentItem.tipo,
+                    fecha_agregado: new Date().toISOString()
+                });
+                
+                try {
+                    localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
+                    updateProfileCounters();
+                    renderMobileMyList();
+                    renderTVMyList();
+                    return true;
+                } catch (e) {
+                    console.error('Error guardando en Mi Lista:', e);
+                    return false;
+                }
+            }
+            return false;
+        }
+        
+        // Eliminar de Mi Lista
+        function removeFromMyList(contentId) {
+            if (!currentUser) return false;
+            
+            const userKey = `finki_user_${currentUser.id}`;
+            const existingIndex = userLists.myList.findIndex(item => item.id === contentId);
+            
+            if (existingIndex !== -1) {
+                userLists.myList.splice(existingIndex, 1);
+                try {
+                    localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
+                    updateProfileCounters();
+                    renderMobileMyList();
+                    renderTVMyList();
+                    renderFullMyList();
+                    return true;
+                } catch (e) {
+                    console.error('Error eliminando de Mi Lista:', e);
+                    return false;
+                }
+            }
+            return false;
+        }
+        
+        // Agregar al Historial
+        function addToHistory(contentItem) {
+            if (!currentUser) return false;
+            
+            const userKey = `finki_user_${currentUser.id}`;
+            
+            // Eliminar duplicados recientes
+            const oneHourAgo = Date.now() - 3600000;
+            userLists.history = userLists.history.filter(item => 
+                !(item.id === contentItem.id && 
+                new Date(item.fecha_reproduccion).getTime() > oneHourAgo)
+            );
+            
+            userLists.history.unshift({
+                id: contentItem.id,
+                nombre: contentItem.nombre,
+                url_contenido: contentItem.url_contenido,
+                url_portada: contentItem.url_portada,
+                tipo: contentItem.tipo,
+                fecha_reproduccion: new Date().toISOString()
+            });
+            
+            // Limitar historial a 50 elementos para ahorrar memoria
+            if (userLists.history.length > 50) {
+                userLists.history = userLists.history.slice(0, 50);
+            }
+            
+            try {
+                localStorage.setItem(`${userKey}_history`, JSON.stringify(userLists.history));
+                updateProfileCounters();
+                renderFullHistory();
+                return true;
+            } catch (e) {
+                console.error('Error guardando historial:', e);
+                return false;
+            }
+        }
+        
+        // Limpiar Historial
+        function clearHistory() {
+            if (!currentUser) return;
+            
+            if (confirm('¿Estás seguro de que quieres eliminar todo tu historial?')) {
+                const userKey = `finki_user_${currentUser.id}`;
+                userLists.history = [];
+                try {
+                    localStorage.setItem(`${userKey}_history`, JSON.stringify([]));
+                    updateProfileCounters();
+                    renderFullHistory();
+                    showNotification('Historial eliminado');
+                } catch (e) {
+                    console.error('Error limpiando historial:', e);
+                    showNotification('Error al limpiar historial');
+                }
+            }
+        }
+        
+        // Actualizar contadores del perfil
+        function updateProfileCounters() {
+            if (!currentUser) return;
+            
+            document.getElementById('myListCount').textContent = userLists.myList.length;
+            document.getElementById('historyCount').textContent = userLists.history.length;
+            
+            const moviesCount = allContent.filter(item => item.tipo === 'pelicula').length;
+            document.getElementById('moviesCount').textContent = moviesCount;
+        }
+        
+        // Renderizar Mi Lista Móvil optimizado
+        function renderMobileMyList() {
+            const container = document.getElementById('mobileMyListContent');
+            if (!container) return;
+            
+            if (userLists.myList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bookmark"></i>
+                        <p>Tu lista está vacía</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            const limit = Math.min(userLists.myList.length, 20);
+            
+            for (let i = 0; i < limit; i++) {
+                const item = userLists.myList[i];
+                html += crearTarjetaListaSimple(item, 'myList', 'mobile');
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Renderizar Mi Lista TV optimizado
+        function renderTVMyList() {
+            const container = document.getElementById('tvMyListContent');
+            if (!container) return;
+            
+            if (userLists.myList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bookmark"></i>
+                        <p>Tu lista está vacía</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            const limit = Math.min(userLists.myList.length, 20);
+            
+            for (let i = 0; i < limit; i++) {
+                const item = userLists.myList[i];
+                html += crearTarjetaListaSimple(item, 'myList', 'tv');
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Renderizar Mi Lista Completa optimizado
+        function renderFullMyList() {
+            const container = document.getElementById('myListFullContent');
+            if (!container) return;
+            
+            if (userLists.myList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bookmark"></i>
+                        <p>Tu lista está vacía</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            const limit = Math.min(userLists.myList.length, 50);
+            
+            for (let i = 0; i < limit; i++) {
+                const item = userLists.myList[i];
+                html += crearTarjetaListaSimple(item, 'myList', 'mobile');
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Renderizar Historial Completo optimizado
+        function renderFullHistory() {
+            const container = document.getElementById('historyFullContent');
+            if (!container) return;
+            
+            if (userLists.history.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>No hay historial</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            const limit = Math.min(userLists.history.length, 30);
+            
+            for (let i = 0; i < limit; i++) {
+                const item = userLists.history[i];
+                html += crearTarjetaListaSimple(item, 'history', 'mobile');
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Crear tarjeta para listas optimizada
+        function crearTarjetaListaSimple(item, listType, mode) {
+            const badge = item.tipo === 'canal' ? '<div class="card-badge">EN VIVO</div>' : 
+                         item.tipo === 'serie' ? '<div class="card-badge">SERIE</div>' : 
+                         '<div class="card-badge">PELÍCULA</div>';
+            
+            const removeBtn = listType === 'myList' ? 
+                `<button class="remove-btn" onclick="event.stopPropagation(); removeFromMyList('${item.id}')" title="Eliminar de Mi Lista">
+                    <i class="fas fa-times"></i>
+                </button>` : '';
+            
+            const imageUrl = item.url_portada || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450"><rect width="300" height="450" fill="%231a2536"/></svg>';
+            
+            if (mode === 'tv') {
+                return `<div class="tv-content-card" onclick="playListContent('${item.url_contenido}', '${item.nombre}', '${item.id}')">
+                    ${badge}
+                    ${removeBtn}
+                    <div class="tv-card-img-container">
+                        <img src="${imageUrl}" alt="${item.nombre}" class="card-img" loading="lazy">
+                    </div>
+                    <div class="tv-card-info">
+                        <div class="tv-card-title">${item.nombre}</div>
+                        <div class="tv-card-subtitle">${listType === 'history' ? 'Visto recientemente' : 'En mi lista'}</div>
+                    </div>
+                </div>`;
+            } else {
+                return `<div class="mobile-content-card" onclick="playListContent('${item.url_contenido}', '${item.nombre}', '${item.id}')">
+                    ${badge}
+                    ${removeBtn}
+                    <div class="mobile-card-img-container">
+                        <img src="${imageUrl}" alt="${item.nombre}" class="card-img" loading="lazy">
+                    </div>
+                    <div class="mobile-card-info">
+                        <div class="mobile-card-title">${item.nombre}</div>
+                        <div class="mobile-card-subtitle">${listType === 'history' ? 'Visto recientemente' : 'En mi lista'}</div>
+                    </div>
+                </div>`;
+            }
+        }
+        
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Detectar rendimiento del dispositivo
+            detectDevicePerformance();
+            
+            // Verificar sesión guardada
+            const savedUser = localStorage.getItem('finki_user');
+            const savedSession = localStorage.getItem('finki_session');
+            
+            if (savedUser && savedSession) {
+                try {
+                    showLoading();
+                    const user = JSON.parse(savedUser);
+                    const sessionData = JSON.parse(savedSession);
+                    
+                    // Verificar si la sesión ha expirado (30 días)
+                    if (sessionData.expires < Date.now()) {
+                        throw new Error('Sesión expirada');
+                    }
+                    
+                    const { data, error } = await supabaseClient
+                        .from('users')
+                        .select('*')
+                        .eq('celular', user.celular)
+                        .eq('password', user.password)
+                        .single();
+                    
+                    if (data && !error) {
+                        currentUser = data;
+                        document.getElementById('authSection').style.display = 'none';
+                        document.getElementById('mainApp').style.display = 'block';
+                        
+                        const userInitial = currentUser.nombre.charAt(0).toUpperCase();
+                        document.getElementById('userAvatar').textContent = userInitial;
+                        document.getElementById('tvUserAvatar').textContent = userInitial;
+                        
+                        initializeUserData();
+                        await cargarContenido();
+                        actualizarPerfil();
+                        
+                        // Aplicar modo inicial
+                        applyTVMode();
+                        
+                        // Configurar eventos optimizados
+                        setupOptimizedEvents();
+                        
+                    } else {
+                        localStorage.removeItem('finki_user');
+                        localStorage.removeItem('finki_session');
+                    }
+                    hideLoading();
+                } catch (e) {
+                    console.error('Error al restaurar sesión:', e);
+                    localStorage.removeItem('finki_user');
+                    localStorage.removeItem('finki_session');
+                    hideLoading();
+                }
+            } else {
+                // Configurar eventos para cuando se inicie sesión
+                setupOptimizedEvents();
+            }
+            
+            // Configurar detección de cambios de tamaño
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    applyTVMode();
+                }, 250);
+            });
+            
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    applyTVMode();
+                }, 300);
+            });
+        });
+        
+        // Configurar eventos optimizados
+        function setupOptimizedEvents() {
+            // Búsqueda móvil optimizada
+            const mobileSearchInput = document.getElementById('mobileSearchInput');
+            if (mobileSearchInput) {
+                mobileSearchInput.addEventListener('input', function() {
+                    mobileSearchQuery = this.value;
+                    performSearchOptimized(mobileSearchQuery, mobileCurrentFilter, 'mobile');
+                });
+            }
+            
+            // Búsqueda TV optimizada
+            const tvSearchInput = document.getElementById('tvSearchInput');
+            if (tvSearchInput) {
+                tvSearchInput.addEventListener('input', function() {
+                    const query = this.value;
+                    performSearchOptimized(query, 'all', 'tv');
+                });
+            }
+            
+            // Scroll optimizado para header móvil
+            const container = document.querySelector('.mobile-container');
+            if (container) {
+                let scrollTimer;
+                container.addEventListener('scroll', function() {
+                    clearTimeout(scrollTimer);
+                    scrollTimer = setTimeout(() => {
+                        const header = document.querySelector('.mobile-header');
+                        if (header) {
+                            if (this.scrollTop > 30) {
+                                header.classList.add('scrolled');
+                            } else {
+                                header.classList.remove('scrolled');
+                            }
+                        }
+                    }, 50);
+                });
+            }
+        }
+        
+        // Navegación de Tabs (auth)
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if (tabName === 'login') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('registerForm').style.display = 'block';
+            }
+        }
+        
+        // Perfil de Usuario
+        function openProfile() {
+            document.getElementById('profilePanel').classList.add('active');
+        }
+        
+        function closeProfile() {
+            document.getElementById('profilePanel').classList.remove('active');
+        }
+        
+        function actualizarPerfil() {
+            if (!currentUser) return;
+            
+            document.getElementById('profileName').textContent = currentUser.nombre;
+            document.getElementById('profilePhone').textContent = `Celular: ${currentUser.celular}`;
+            const userInitial = currentUser.nombre.charAt(0).toUpperCase();
+            document.getElementById('profileAvatarLarge').textContent = userInitial;
+            
+            updateProfileCounters();
+        }
+        
+        // Validar celular
+        function validarCelular(num) {
+            return /^\d{8}$/.test(num);
+        }
+        
+        // ===== REGISTRO DE USUARIO =====
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('regNombre').value.trim();
+            const edad = parseInt(document.getElementById('regEdad').value);
+            const celular = document.getElementById('regCelular').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const errorEl = document.getElementById('registerError');
+            
+            // Validaciones básicas
+            if (!nombre || !edad || !celular || !password) {
+                errorEl.textContent = 'Todos los campos son obligatorios.';
+                errorEl.style.display = 'block'; 
+                return;
+            }
+            
+            if (!validarCelular(celular)) {
+                errorEl.textContent = 'El celular debe tener 8 dígitos.';
+                errorEl.style.display = 'block'; 
+                return;
+            }
+            
+            showLoading();
+            try {
+                const { data: existing } = await supabaseClient
+                    .from('users')
+                    .select('celular')
+                    .eq('celular', celular)
+                    .single();
+                
+                if (existing) {
+                    errorEl.textContent = 'Este número ya está registrado.';
+                    errorEl.style.display = 'block';
+                    hideLoading();
+                    return;
+                }
+                
+                const { data, error } = await supabaseClient
+                    .from('users')
+                    .insert([{ nombre, edad, celular, password }])
+                    .select();
+                
+                if (error) throw error;
+                
+                showNotification('Registro exitoso');
+                switchTab('login');
+                document.getElementById('registerForm').reset();
+                errorEl.style.display = 'none';
+            } catch (error) {
+                errorEl.textContent = 'Error al registrar: ' + error.message;
+                errorEl.style.display = 'block';
+            }
+            hideLoading();
+        });
+        
+        // ===== INICIO DE SESIÓN =====
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const celular = document.getElementById('loginCelular').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+            
+            if (!validarCelular(celular)) {
+                errorEl.textContent = 'Celular debe ser 8 dígitos.';
+                errorEl.style.display = 'block'; 
+                return;
+            }
+            
+            showLoading();
+            try {
+                const { data, error } = await supabaseClient
+                    .from('users')
+                    .select('*')
+                    .eq('celular', celular)
+                    .eq('password', password)
+                    .single();
+                
+                if (error || !data) {
+                    throw new Error('Credenciales incorrectas');
+                }
+                
+                currentUser = data;
+                
+                localStorage.setItem('finki_user', JSON.stringify({
+                    id: currentUser.id,
+                    nombre: currentUser.nombre,
+                    celular: currentUser.celular,
+                    password: currentUser.password,
+                    edad: currentUser.edad
+                }));
+                
+                localStorage.setItem('finki_session', JSON.stringify({
+                    timestamp: Date.now(),
+                    expires: Date.now() + (30 * 24 * 60 * 60 * 1000)
+                }));
+                
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                
+                const userInitial = currentUser.nombre.charAt(0).toUpperCase();
+                document.getElementById('userAvatar').textContent = userInitial;
+                document.getElementById('tvUserAvatar').textContent = userInitial;
+                
+                initializeUserData();
+                await cargarContenido();
+                actualizarPerfil();
+                
+                applyTVMode();
+                setupOptimizedEvents();
+                
+                showNotification('Bienvenido ' + currentUser.nombre);
+            } catch (error) {
+                errorEl.textContent = 'Celular o contraseña incorrectos.';
+                errorEl.style.display = 'block';
+            }
+            hideLoading();
+        });
+        
+        // ===== CERRAR SESIÓN =====
+        function cerrarSesion() {
+            localStorage.removeItem('finki_user');
+            localStorage.removeItem('finki_session');
+            
+            currentUser = null;
+            userLists = { myList: [], history: [] };
+            userSettings = {};
+            searchCache.clear();
+            
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('authSection').style.display = 'flex';
+            document.getElementById('loginForm').reset();
+            
+            closeProfile();
+            switchTab('login');
+        }
+        
+        // ===== CARGAR CONTENIDO OPTIMIZADO =====
+        async function cargarContenido() {
+            showLoading();
+            try {
+                const { data: contenido, error } = await supabaseClient
+                    .from('contenido')
+                    .select('*, categorias(nombre)')
+                    .order('fecha_agregado', { ascending: false })
+                    .limit(100); // Limitar a 100 resultados para mejor rendimiento
+                
+                if (error) throw error;
+                
+                allContent = contenido || [];
+                
+                if (allContent.length > 0) {
+                    latestContent = allContent[0];
+                    
+                    // Actualizar banners
+                    if (latestContent.url_portada) {
+                        document.getElementById('mobileHeroBanner').style.backgroundImage = 
+                            `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
+                             linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
+                             url('${latestContent.url_portada}')`;
+                        
+                        document.getElementById('tvHeroBanner').style.backgroundImage = 
+                            `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
+                             linear-gradient(to right, rgba(0,0,0,0.9) 0%, transparent 50%),
+                             url('${latestContent.url_portada}')`;
+                    }
+                    
+                    document.getElementById('mobileHeroTitle').textContent = latestContent.nombre;
+                    document.getElementById('tvHeroTitle').textContent = latestContent.nombre;
+                }
+                
+                renderContentForCurrentMode();
+            } catch (error) {
+                console.error('Error cargando contenido:', error);
+                showNotification('Error cargando contenido');
+            }
+            hideLoading();
+        }
+        
+        // Renderizar contenido Móvil optimizado
+        function renderMobileContent() {
+            // Separar por categorías de manera eficiente
+            const movies = [];
+            const series = [];
+            const channels = [];
+            
+            for (let i = 0; i < allContent.length; i++) {
+                const item = allContent[i];
+                if (item.tipo === 'pelicula') movies.push(item);
+                else if (item.tipo === 'serie') series.push(item);
+                else if (item.tipo === 'canal') channels.push(item);
+            }
+            
+            // Función para renderizar sección
+            function renderSection(containerId, items, limit = 8) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                let html = '';
+                const count = Math.min(items.length, limit);
+                
+                for (let i = 0; i < count; i++) {
+                    html += crearTarjetaContenidoSimple(items[i], 'mobile');
+                }
+                
+                container.innerHTML = html;
+            }
+            
+            // Renderizar secciones principales
+            renderSection('mobileFeaturedContent', allContent, 8);
+            renderSection('mobileMoviesContent', movies, 8);
+            renderSection('mobileSeriesContent', series, 8);
+            renderSection('mobileLiveContent', channels, 8);
+            
+            // Renderizar páginas completas
+            renderSection('mobileMoviesFullContent', movies, 50);
+            renderSection('mobileSeriesFullContent', series, 50);
+            renderSection('mobileChannelsFullContent', channels, 50);
+            
+            // Renderizar Mi Lista
+            renderMobileMyList();
+        }
+        
+        // Renderizar contenido TV optimizado
+        function renderTVContent() {
+            // Separar por categorías
+            const movies = [];
+            const series = [];
+            const channels = [];
+            
+            for (let i = 0; i < allContent.length; i++) {
+                const item = allContent[i];
+                if (item.tipo === 'pelicula') movies.push(item);
+                else if (item.tipo === 'serie') series.push(item);
+                else if (item.tipo === 'canal') channels.push(item);
+            }
+            
+            // Función para renderizar sección TV
+            function renderSection(containerId, items, limit = 12) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                let html = '';
+                const count = Math.min(items.length, limit);
+                
+                for (let i = 0; i < count; i++) {
+                    html += crearTarjetaContenidoSimple(items[i], 'tv');
+                }
+                
+                container.innerHTML = html;
+            }
+            
+            // Renderizar secciones
+            renderSection('tvFeaturedContent', allContent, 12);
+            renderSection('tvMoviesContent', movies, 10);
+            renderSection('tvSeriesContent', series, 10);
+            renderSection('tvLiveContent', channels, 10);
+            
+            // Renderizar páginas completas
+            renderSection('tvMoviesFullContent', movies, 50);
+            renderSection('tvSeriesFullContent', series, 50);
+            renderSection('tvChannelsFullContent', channels, 50);
+            
+            // Renderizar Mi Lista TV
+            renderTVMyList();
+        }
+        
+        // Agregar a lista con confirmación optimizada
         function addToListAndConfirm(contentId) {
             const contentItem = allContent.find(item => item.id === contentId);
             if (!contentItem) return;
             
             if (addToMyList(contentItem)) {
-                // Actualizar botón en la tarjeta
+                // Encontrar y actualizar el botón de manera eficiente
                 const eventTarget = event.target;
-                const card = eventTarget.closest('.mobile-content-card') || eventTarget.closest('.tv-content-card');
-                if (card) {
-                    const btn = card.querySelector('.list-btn');
-                    if (btn) {
-                        btn.innerHTML = '<i class="fas fa-check"></i>';
-                        btn.title = 'En Mi Lista';
-                        btn.classList.add('in-list');
-                        btn.onclick = function(e) {
-                            e.stopPropagation();
-                            removeFromMyList(contentId);
-                        };
-                    }
+                const btn = eventTarget.closest('.list-btn');
+                if (btn) {
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    btn.classList.add('in-list');
+                    btn.title = 'En Mi Lista';
+                    btn.onclick = function(e) {
+                        e.stopPropagation();
+                        removeFromMyList(contentId);
+                    };
                 }
                 
                 showNotification('Agregado a Mi Lista');
             }
         }
-
+        
         // Función para agregar el contenido del banner a Mi Lista
         function addBannerToList() {
             if (latestContent) {
@@ -3273,7 +3049,7 @@
                 showNotification('No hay contenido disponible');
             }
         }
-
+        
         // Función para reproducir el último contenido agregado
         function playLatestContent() {
             if (latestContent) {
@@ -3282,8 +3058,8 @@
                 showNotification('No hay contenido disponible');
             }
         }
-
-        // Mostrar notificación Netflix
+        
+        // Mostrar notificación optimizada
         function showNotification(message) {
             const existingNotification = document.querySelector('.notification');
             if (existingNotification) {
@@ -3303,10 +3079,10 @@
                         notification.parentNode.removeChild(notification);
                     }
                 }, 300);
-            }, 3000);
+            }, 2000);
         }
-
-        // ===== NAVEGACIÓN ENTRE PANTALLAS DE LISTAS =====
+        
+        // ===== NAVEGACIÓN ENTRE PANTALLAS =====
         function openMyListScreen() {
             document.getElementById('myListScreen').classList.add('active');
             closeProfile();
@@ -3327,7 +3103,7 @@
         function closeListScreen(screen) {
             document.getElementById(`${screen}Screen`).classList.remove('active');
         }
-
+        
         // ===== REPRODUCIR CONTENIDO =====
         function playContent(url, title, contentId) {
             let finalUrl = url;
@@ -3354,23 +3130,21 @@
             }
         }
         
-        // Reproducir contenido desde lista
         function playListContent(url, title, contentId) {
             playContent(url, title, contentId);
         }
-
+        
         // Cerrar reproductor
         function closePlayer() {
             document.getElementById('videoFrame').src = '';
             document.getElementById('playerModal').style.display = 'none';
         }
         
-        // Cerrar con tecla ESC
+        // Manejo de teclas
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closePlayer();
                 
-                // Cerrar búsqueda móvil si está abierta
                 if (mobileSearchActive) {
                     closeMobileSearch();
                 }
@@ -3388,36 +3162,12 @@
             }
         });
         
-        // Prevenir zoom en iOS pero permitir scroll
-        document.addEventListener('touchstart', function(e) {
-            if (e.touches.length === 2) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        document.addEventListener('touchmove', function(e) {
-            if (e.touches.length === 2) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        // Mejorar experiencia táctil
+        // Optimizaciones para táctil
         document.addEventListener('touchstart', function() {}, { passive: true });
         
-        // Forzar scroll suave en iOS
-        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            document.addEventListener('touchmove', function(e) {
-            }, { passive: true });
-        }
-        
-        // Cerrar búsqueda al hacer scroll en móvil
-        document.addEventListener('scroll', function(e) {
-            if (mobileSearchActive && !e.target.closest('.mobile-search-container')) {
-                const searchContainer = document.getElementById('mobileSearchContainer');
-                if (searchContainer.getBoundingClientRect().top < 0) {
-                    closeMobileSearch();
-                }
-            }
+        // Prevenir zoom de dos dedos
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
         });
     </script>
 </body>

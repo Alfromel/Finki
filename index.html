@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0c1c32">
+    <meta name="description" content="Finki Streaming - Tu plataforma de entretenimiento">
     <link rel="manifest" href="/manifest.json">
     <title>Finki - Stream</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        /* ESTILOS NETFLIX PREMIUM OPTIMIZADOS PARA BAJA RAM */
+        /* ESTILOS NETFLIX PREMIUM OPTIMIZADOS PARA TV Y MÓVIL */
         
         :root {
             --primary-blue: #0c1c32;
@@ -26,9 +27,11 @@
             --accent-blue: #2a3d5f;
             --highlight-blue: #4cc9f0;
             --netflix-red: #e50914;
+            --netflix-red-dark: #b81d24;
             --dark-bg: #0a0f1a;
             --darker-bg: #050a14;
             --card-bg: #1a2536;
+            --card-bg-hover: #2a3546;
             --light-gray: #5a6b8a;
             --white: #ffffff;
             --text-light: #f0f4ff;
@@ -246,7 +249,7 @@
         /* ===== MODO MÓVIL (DEFAULT) ===== */
         /* ================================= */
         
-        /* Header Móvil Netflix - OPTIMIZADO */
+        /* Header Móvil Netflix - SIN BOTÓN DE BÚSQUEDA */
         .mobile-header {
             position: fixed;
             top: 0;
@@ -274,22 +277,6 @@
             gap: 10px;
         }
         
-        .mobile-search-btn {
-            background: transparent;
-            border: none;
-            color: var(--white);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            margin-right: 5px;
-        }
-        
         .profile-btn {
             background: transparent;
             border: none;
@@ -315,7 +302,7 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
         
-        /* Contenedor Principal Móvil - OPTIMIZADO PARA BAJA RAM */
+        /* Contenedor Principal Móvil */
         .mobile-container {
             height: calc(100vh - 60px);
             overflow-y: auto;
@@ -325,122 +312,58 @@
             background: var(--dark-bg);
         }
         
-        /* Buscador Móvil Netflix - RESTAURADO OPTIMIZADO */
-        .mobile-search-container {
-            display: none;
-            position: fixed;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.98);
-            z-index: 999;
-            padding: 10px 15px;
-            border-bottom: 1px solid #333;
-        }
-        
-        .mobile-search-container.active {
-            display: block;
-        }
-        
-        .mobile-search-box {
+        /* Banner Hero Móvil - MEJORADO */
+        .mobile-hero-banner {
+            position: relative;
+            height: 45vh;
+            min-height: 280px;
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.9) 100%),
+                        linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 70%),
+                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
             display: flex;
-            align-items: center;
-            background: rgba(35, 35, 35, 0.9);
-            border-radius: 4px;
-            border: 1px solid #444;
+            align-items: flex-end;
+            padding: 0 15px 25px;
+            margin-bottom: 20px;
             overflow: hidden;
         }
         
-        .mobile-search-input {
-            flex: 1;
-            padding: 12px 15px;
-            background: transparent;
-            border: none;
-            color: var(--white);
-            font-size: 1rem;
-            outline: none;
-        }
-        
-        .mobile-search-input::placeholder {
-            color: #8c8c8c;
-        }
-        
-        .mobile-search-clear {
-            background: transparent;
-            border: none;
-            color: #8c8c8c;
-            padding: 0 15px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .mobile-filter-container {
-            margin-top: 10px;
-            display: none;
-        }
-        
-        .mobile-filter-container.active {
-            display: block;
-        }
-        
-        .mobile-filter-title {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-            margin-bottom: 8px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .mobile-filter-buttons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        
-        .mobile-filter-btn {
-            padding: 6px 12px;
-            background: rgba(35, 35, 35, 0.8);
-            border: 1px solid #444;
-            color: var(--text-gray);
-            border-radius: 15px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .mobile-filter-btn.active {
-            background: var(--netflix-red);
-            color: var(--white);
-            border-color: var(--netflix-red);
-        }
-        
-        /* Banner Hero Móvil Netflix - OPTIMIZADO */
-        .mobile-hero-banner {
-            position: relative;
-            height: 40vh;
-            min-height: 250px;
-            background: var(--gradient-dark),
-                        var(--gradient-dark),
-                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=40') center/cover no-repeat;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 15px 20px;
-            margin-bottom: 15px;
+        .mobile-hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.9) 70%);
+            pointer-events: none;
         }
         
         .mobile-hero-content {
             width: 100%;
+            position: relative;
+            z-index: 2;
         }
         
         .mobile-hero-title {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 800;
             margin-bottom: 15px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.9);
+            text-shadow: 3px 3px 15px rgba(0,0,0,0.9);
             line-height: 1.2;
             color: var(--white);
             max-width: 90%;
+            background: linear-gradient(to right, #fff 0%, var(--highlight-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .mobile-hero-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            max-width: 80%;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
         }
         
         .mobile-hero-buttons {
@@ -467,18 +390,28 @@
         }
         
         .mobile-hero-button.primary {
-            background: var(--white);
-            color: #000;
-            box-shadow: var(--netflix-shadow);
+            background: var(--netflix-red);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(229,9,20,0.4);
+        }
+        
+        .mobile-hero-button.primary:hover {
+            background: var(--netflix-red-dark);
+            transform: translateY(-2px);
         }
         
         .mobile-hero-button.secondary {
-            background: rgba(109, 109, 110, 0.7);
+            background: rgba(255, 255, 255, 0.1);
             color: var(--white);
             border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
         }
         
-        /* Secciones de Contenido Móvil Netflix - OPTIMIZADAS */
+        .mobile-hero-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Sección de Inicio Móvil - SOLO 8 DESTACADOS CON DISEÑO ESPECIAL */
         .mobile-section {
             display: none;
             padding: 0 15px;
@@ -488,44 +421,243 @@
             display: block;
         }
         
-        .mobile-content-category {
-            margin-bottom: 20px;
+        .mobile-section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--white);
+            margin: 20px 0 15px;
+            padding-left: 5px;
+            position: relative;
         }
         
-        .mobile-category-header {
-            margin-bottom: 12px;
+        .mobile-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 5px;
+            width: 50px;
+            height: 3px;
+            background: var(--netflix-red);
+            border-radius: 2px;
+        }
+        
+        /* Grid de 8 Destacados - DISEÑO ESPECIAL */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .featured-card {
+            position: relative;
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--card-bg);
+            box-shadow: var(--card-shadow);
+            transform: scale(1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+        
+        .featured-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            border-color: var(--netflix-red);
+        }
+        
+        .featured-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--netflix-red);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            z-index: 2;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
         }
         
-        .mobile-category-title {
-            font-size: 1.1rem;
+        .featured-img-container {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a2536 0%, #2a3546 100%);
+        }
+        
+        .featured-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .featured-card:hover .featured-img {
+            transform: scale(1.1);
+        }
+        
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            padding: 15px 10px 10px;
+        }
+        
+        .featured-title {
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--white);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            margin-bottom: 4px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
         
-        .mobile-category-link {
+        .featured-category {
+            font-size: 0.75rem;
             color: var(--highlight-blue);
-            font-size: 0.8rem;
             font-weight: 500;
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
         
-        /* Grid de Contenido Móvil Netflix - OPTIMIZADO PARA BAJA RAM */
-        .mobile-content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 8px;
+        .featured-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--netflix-red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+        
+        /* Sección de Búsqueda Móvil */
+        .mobile-search-section {
+            padding: 15px;
+        }
+        
+        .search-header {
             margin-bottom: 20px;
         }
         
-        /* Tarjetas Móvil Netflix - OPTIMIZADAS */
+        .search-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .search-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--netflix-red);
+            border-radius: 2px;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(35, 35, 35, 0.9);
+            border-radius: 8px;
+            border: 1px solid #444;
+            overflow: hidden;
+            padding: 0 15px;
+            margin-bottom: 15px;
+        }
+        
+        .search-box i {
+            color: var(--text-gray);
+            margin-right: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 14px 0;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-input::placeholder {
+            color: #8c8c8c;
+            font-size: 1rem;
+        }
+        
+        .search-clear {
+            background: transparent;
+            border: none;
+            color: #8c8c8c;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        
+        .search-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-filter {
+            padding: 8px 16px;
+            background: rgba(35, 35, 35, 0.8);
+            border: 1px solid #444;
+            color: var(--text-gray);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-filter.active {
+            background: var(--netflix-red);
+            color: var(--white);
+            border-color: var(--netflix-red);
+        }
+        
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        /* Contenido normal para otras secciones */
+        .mobile-content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+        }
+        
         .mobile-content-card {
             position: relative;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
             background: var(--card-bg);
             box-shadow: var(--card-shadow);
@@ -597,7 +729,7 @@
             letter-spacing: 0.5px;
         }
         
-        /* Barra de Navegación Inferior Móvil Netflix - OPTIMIZADA */
+        /* Barra de Navegación Inferior Móvil - CON BÚSQUEDA */
         .mobile-nav {
             position: fixed;
             bottom: 0;
@@ -656,12 +788,16 @@
         /* ===== MODO TV (TV MODE) ===== */
         /* ============================= */
         
-        /* Cuando se activa el modo TV - OPTIMIZADO */
+        /* Mejoras para compatibilidad con Smart TV */
+        body.tv-mode {
+            overflow: hidden;
+        }
+        
         body.tv-mode .mobile-header,
         body.tv-mode .mobile-nav,
         body.tv-mode .mobile-container,
         body.tv-mode .mobile-section,
-        body.tv-mode .mobile-search-container {
+        body.tv-mode .mobile-search-section {
             display: none !important;
         }
         
@@ -671,16 +807,16 @@
             display: flex !important;
         }
         
-        /* Header TV Netflix - OPTIMIZADO */
+        /* Header TV - COMPATIBLE CON SMART TV */
         .tv-header {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 60px;
-            background: rgba(0, 0, 0, 0.95);
-            padding: 0 15px;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.98);
+            padding: 0 30px;
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
@@ -688,70 +824,40 @@
         }
         
         .tv-logo {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
             color: var(--netflix-red);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 4px 8px rgba(0,0,0,0.7);
             letter-spacing: -1px;
-        }
-        
-        .tv-search {
-            flex: 1;
-            max-width: 400px;
-            margin: 0 20px;
-            position: relative;
-        }
-        
-        .tv-search-input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            background: rgba(35, 35, 35, 0.9);
-            border: 1px solid #444;
-            border-radius: 4px;
-            color: var(--white);
-            font-size: 0.9rem;
-            outline: none;
-        }
-        
-        .tv-search::before {
-            content: '\f002';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #8c8c8c;
-            font-size: 0.9rem;
-            z-index: 1;
         }
         
         .tv-user-menu {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
         
-        /* Sidebar TV Netflix - OPTIMIZADO */
+        /* Sidebar TV - MEJORADO PARA TV */
         .tv-sidebar {
             display: none;
             position: fixed;
-            top: 60px;
+            top: 70px;
             left: 0;
-            width: 80px;
-            height: calc(100vh - 60px);
-            background: rgba(0, 0, 0, 0.95);
+            width: 100px;
+            height: calc(100vh - 70px);
+            background: rgba(0, 0, 0, 0.97);
             border-right: 1px solid #333;
-            padding-top: 20px;
+            padding-top: 30px;
             z-index: 999;
             flex-direction: column;
+            align-items: center;
         }
         
         .tv-nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px 0;
+            padding: 20px 0;
             width: 100%;
             color: var(--text-gray);
             text-decoration: none;
@@ -759,101 +865,141 @@
             background: transparent;
             cursor: pointer;
             position: relative;
-            border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
         }
         
         .tv-nav-item.active {
             color: var(--white);
             background: rgba(255,255,255,0.05);
-            border-left: 3px solid var(--netflix-red);
+            border-left: 4px solid var(--netflix-red);
         }
         
         .tv-nav-item i {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
         }
         
         .tv-nav-item span {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             font-weight: 500;
         }
         
-        /* Contenedor Principal TV - OPTIMIZADO */
+        /* Contenedor Principal TV - MEJORADO */
         .tv-container {
             display: none;
             position: fixed;
-            top: 60px;
-            left: 80px;
-            width: calc(100% - 80px);
-            height: calc(100vh - 60px);
+            top: 70px;
+            left: 100px;
+            width: calc(100% - 100px);
+            height: calc(100vh - 70px);
             overflow-y: auto;
             background: var(--dark-bg);
             scroll-behavior: smooth;
         }
         
-        /* Banner Hero TV Netflix - OPTIMIZADO */
+        /* Banner Hero TV - DISEÑO MEJORADO */
         .tv-hero-banner {
             display: none;
             position: relative;
-            height: 40vh;
-            min-height: 300px;
-            background: var(--gradient-dark),
-                        linear-gradient(to right, rgba(0,0,0,0.9) 0%, transparent 50%),
-                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=40') center/cover no-repeat;
+            height: 50vh;
+            min-height: 400px;
+            background: linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.95) 100%),
+                        linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
+                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
             align-items: flex-end;
-            padding: 0 30px 30px;
-            margin-bottom: 20px;
+            padding: 0 50px 40px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .tv-hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(ellipse at 70% 50%, transparent 20%, rgba(0,0,0,0.9) 60%);
+            pointer-events: none;
         }
         
         .tv-hero-content {
             max-width: 50%;
+            position: relative;
+            z-index: 2;
         }
         
         .tv-hero-title {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 20px;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.9);
+            text-shadow: 4px 4px 20px rgba(0,0,0,0.9);
             line-height: 1.1;
             color: var(--white);
+            background: linear-gradient(to right, #fff 0%, var(--highlight-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tv-hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            max-width: 80%;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
         
         .tv-hero-buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
         
         .tv-hero-button {
-            padding: 12px 20px;
+            padding: 14px 25px;
             border-radius: 4px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             border: none;
-            min-width: 150px;
-            height: 45px;
+            min-width: 180px;
+            height: 50px;
+            transition: all 0.3s ease;
         }
         
         .tv-hero-button.primary {
-            background: var(--white);
-            color: #000;
-            box-shadow: var(--netflix-shadow);
+            background: var(--netflix-red);
+            color: var(--white);
+            box-shadow: 0 6px 20px rgba(229,9,20,0.4);
+        }
+        
+        .tv-hero-button.primary:hover {
+            background: var(--netflix-red-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(229,9,20,0.6);
         }
         
         .tv-hero-button.secondary {
-            background: rgba(109, 109, 110, 0.7);
+            background: rgba(255, 255, 255, 0.1);
             color: var(--white);
             border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
         }
         
-        /* Secciones de Contenido TV Netflix - OPTIMIZADAS */
+        .tv-hero-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Secciones de Contenido TV */
         .tv-section {
             display: none;
-            padding: 0 30px;
+            padding: 0 40px;
             width: 100%;
         }
         
@@ -861,47 +1007,246 @@
             display: block;
         }
         
-        .tv-content-category {
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        
-        .tv-category-header {
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-        
-        .tv-category-title {
-            font-size: 1.3rem;
+        .tv-section-title {
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--white);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            margin: 30px 0 20px;
+            padding-left: 10px;
+            position: relative;
         }
         
-        .tv-category-link {
-            color: var(--highlight-blue);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-decoration: none;
+        .tv-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 10px;
+            width: 60px;
+            height: 4px;
+            background: var(--netflix-red);
+            border-radius: 2px;
         }
         
-        /* Grid de Contenido TV Netflix - OPTIMIZADO */
-        .tv-content-grid {
+        /* Grid de 8 Destacados TV - DISEÑO ESPECIAL */
+        .tv-featured-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .tv-featured-card {
+            position: relative;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--card-bg);
+            box-shadow: var(--card-shadow);
+            transform: scale(1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid transparent;
+        }
+        
+        .tv-featured-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+            border-color: var(--netflix-red);
+        }
+        
+        .tv-featured-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--netflix-red);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        }
+        
+        .tv-featured-img-container {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a2536 0%, #2a3546 100%);
+        }
+        
+        .tv-featured-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .tv-featured-card:hover .tv-featured-img {
+            transform: scale(1.1);
+        }
+        
+        .tv-featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%);
+            padding: 20px 15px 15px;
+        }
+        
+        .tv-featured-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 6px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+        }
+        
+        .tv-featured-category {
+            font-size: 0.9rem;
+            color: var(--highlight-blue);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .tv-featured-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--netflix-red);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+        
+        /* Sección de Búsqueda TV */
+        .tv-search-section {
+            padding: 30px;
+        }
+        
+        .tv-search-header {
+            margin-bottom: 30px;
+        }
+        
+        .tv-search-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .tv-search-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: var(--netflix-red);
+            border-radius: 2px;
+        }
+        
+        .tv-search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(35, 35, 35, 0.9);
+            border-radius: 10px;
+            border: 1px solid #444;
+            overflow: hidden;
+            padding: 0 20px;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+        
+        .tv-search-box i {
+            color: var(--text-gray);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .tv-search-input {
+            flex: 1;
+            padding: 18px 0;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1.1rem;
+            outline: none;
+        }
+        
+        .tv-search-input::placeholder {
+            color: #8c8c8c;
+            font-size: 1.1rem;
+        }
+        
+        .tv-search-clear {
+            background: transparent;
+            border: none;
+            color: #8c8c8c;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .tv-search-filters {
+            display: flex;
             gap: 15px;
             margin-bottom: 30px;
-            width: 100%;
+            flex-wrap: wrap;
         }
         
-        /* Tarjetas TV Netflix - OPTIMIZADAS */
+        .tv-search-filter {
+            padding: 12px 24px;
+            background: rgba(35, 35, 35, 0.8);
+            border: 1px solid #444;
+            color: var(--text-gray);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tv-search-filter.active {
+            background: var(--netflix-red);
+            color: var(--white);
+            border-color: var(--netflix-red);
+        }
+        
+        .tv-search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        
+        /* Contenido normal TV */
+        .tv-content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+        }
+        
         .tv-content-card {
             position: relative;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
             background: var(--card-bg);
             box-shadow: var(--card-shadow);
@@ -950,9 +1295,9 @@
             overflow: hidden;
         }
         
-        /* ===== ELEMENTOS COMPARTIDOS NETFLIX - OPTIMIZADOS ===== */
+        /* ===== ELEMENTOS COMPARTIDOS NETFLIX ===== */
         
-        /* Panel de Perfil Netflix - OPTIMIZADO */
+        /* Panel de Perfil */
         .profile-panel {
             position: fixed;
             top: 0;
@@ -994,7 +1339,7 @@
             transition: background 0.3s ease;
         }
         
-        /* Botón de lista en tarjeta Netflix - OPTIMIZADO */
+        /* Botón de lista en tarjeta */
         .list-btn {
             position: absolute;
             top: 8px;
@@ -1018,7 +1363,7 @@
             border-color: var(--netflix-red);
         }
         
-        /* Botón de eliminar Netflix - OPTIMIZADO */
+        /* Botón de eliminar */
         .remove-btn {
             position: absolute;
             top: 8px;
@@ -1038,7 +1383,7 @@
             box-shadow: 0 2px 6px rgba(229,9,20,0.4);
         }
         
-        /* Pantallas de Listas Netflix - OPTIMIZADAS */
+        /* Pantallas de Listas */
         .list-screen {
             position: fixed;
             top: 0;
@@ -1093,7 +1438,7 @@
             padding: 20px 15px;
         }
         
-        /* Settings Section - NUEVO */
+        /* Settings Section */
         .settings-section {
             padding: 15px;
         }
@@ -1130,7 +1475,7 @@
             background: rgba(229,9,20,0.4);
         }
         
-        /* Toggle Switch - NUEVO */
+        /* Toggle Switch */
         .toggle-switch {
             position: relative;
             display: inline-block;
@@ -1178,7 +1523,7 @@
             transform: translateX(24px);
         }
         
-        /* Reproductor Modal Netflix - OPTIMIZADO */
+        /* Reproductor Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1221,7 +1566,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
         
-        /* Empty State Netflix - OPTIMIZADO */
+        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 40px 15px;
@@ -1245,7 +1590,7 @@
             color: #888;
         }
         
-        /* Grid para pantallas de lista - OPTIMIZADO */
+        /* Grid para pantallas de lista */
         .list-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -1255,7 +1600,7 @@
         /* Safe Areas para iPhone X+ */
         @supports (padding: max(0px)) {
             .mobile-header, .mobile-hero-banner, .mobile-section, .screen-header,
-            .mobile-search-container {
+            .mobile-search-section {
                 padding-left: max(15px, env(safe-area-inset-left));
                 padding-right: max(15px, env(safe-area-inset-right));
             }
@@ -1277,24 +1622,26 @@
             
             .tv-header {
                 padding-top: max(0px, env(safe-area-inset-top));
-                height: calc(60px + env(safe-area-inset-top));
+                height: calc(70px + env(safe-area-inset-top));
             }
             
             .tv-sidebar {
-                top: calc(60px + env(safe-area-inset-top));
-                height: calc(100vh - (60px + env(safe-area-inset-top)));
+                top: calc(70px + env(safe-area-inset-top));
+                height: calc(100vh - (70px + env(safe-area-inset-top)));
             }
             
             .tv-container {
-                top: calc(60px + env(safe-area-inset-top));
-                height: calc(100vh - (60px + env(safe-area-inset-top)));
+                top: calc(70px + env(safe-area-inset-top));
+                left: 100px;
+                height: calc(100vh - (70px + env(safe-area-inset-top)));
+                width: calc(100% - 100px);
             }
         }
         
-        /* Scrollbar personalizado - OPTIMIZADO */
+        /* Scrollbar personalizado */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
         
         ::-webkit-scrollbar-track {
@@ -1303,7 +1650,7 @@
         
         ::-webkit-scrollbar-thumb {
             background: var(--netflix-red);
-            border-radius: 3px;
+            border-radius: 4px;
         }
         
         /* Clase para ocultar resultados de búsqueda */
@@ -1311,9 +1658,79 @@
             display: none !important;
         }
         
-        /* Media Queries específicas para baja RAM */
+        /* Optimizaciones específicas para Smart TV */
+        @media (min-width: 1280px) {
+            .tv-header {
+                height: 80px;
+                padding: 0 40px;
+            }
+            
+            .tv-logo {
+                font-size: 2.5rem;
+            }
+            
+            .tv-sidebar {
+                top: 80px;
+                width: 120px;
+                height: calc(100vh - 80px);
+            }
+            
+            .tv-container {
+                top: 80px;
+                left: 120px;
+                width: calc(100% - 120px);
+                height: calc(100vh - 80px);
+            }
+            
+            .tv-hero-banner {
+                height: 60vh;
+                min-height: 500px;
+                padding: 0 60px 50px;
+            }
+            
+            .tv-hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .tv-hero-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .tv-section {
+                padding: 0 50px;
+            }
+            
+            .tv-section-title {
+                font-size: 2rem;
+            }
+            
+            .tv-featured-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 25px;
+            }
+            
+            .tv-content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 25px;
+            }
+            
+            .tv-nav-item {
+                padding: 25px 0;
+            }
+            
+            .tv-nav-item i {
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+            }
+            
+            .tv-nav-item span {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Media Queries para baja RAM */
         @media (max-width: 350px) {
-            .mobile-content-grid, .tv-content-grid, .list-grid {
+            .featured-grid, .mobile-content-grid, .tv-content-grid, .list-grid {
                 grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
                 gap: 6px;
             }
@@ -1339,9 +1756,14 @@
             }
         }
         
-        @media (min-width: 768px) and (orientation: landscape) {
-            .tv-content-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        /* Detección de TV mejorada */
+        @media (min-width: 768px) and (min-height: 400px) and (orientation: landscape) {
+            .tv-hero-banner {
+                height: 70vh;
+            }
+            
+            .tv-featured-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
         
@@ -1352,6 +1774,25 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
+        }
+        
+        /* Botones más grandes para control remoto TV */
+        .tv-nav-item:focus,
+        .tv-hero-button:focus,
+        .mobile-nav-item:focus,
+        .mobile-hero-button:focus {
+            outline: 3px solid var(--netflix-red);
+            outline-offset: 2px;
+        }
+        
+        /* Mejorar visibilidad para TV */
+        body.tv-mode {
+            font-size: 16px;
+        }
+        
+        body.tv-mode button,
+        body.tv-mode input {
+            font-size: 16px;
         }
     </style>
 </head>
@@ -1400,48 +1841,27 @@
 
     <!-- Aplicación Principal OPTIMIZADA -->
     <div id="mainApp">
-        <!-- ===== MODO MÓVIL OPTIMIZADO ===== -->
+        <!-- ===== MODO MÓVIL ===== -->
         
-        <!-- Header Móvil -->
+        <!-- Header Móvil (SIN BOTÓN DE BÚSQUEDA) -->
         <header class="mobile-header" id="mobileHeader">
             <div class="mobile-logo">FINKI</div>
             <div class="user-profile">
-                <button class="mobile-search-btn" onclick="toggleMobileSearch()">
-                    <i class="fas fa-search"></i>
-                </button>
                 <button class="profile-btn" onclick="openProfile()">
                     <div class="profile-avatar" id="userAvatar">U</div>
                 </button>
             </div>
         </header>
 
-        <!-- Buscador Móvil RESTAURADO OPTIMIZADO -->
-        <div class="mobile-search-container" id="mobileSearchContainer">
-            <div class="mobile-search-box">
-                <input type="text" class="mobile-search-input" id="mobileSearchInput" placeholder="Buscar películas, series, canales..." autocomplete="off">
-                <button class="mobile-search-clear" id="mobileSearchClear" onclick="clearMobileSearch()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="mobile-filter-container" id="mobileFilterContainer">
-                <div class="mobile-filter-title">Filtrar por categoría:</div>
-                <div class="mobile-filter-buttons">
-                    <button class="mobile-filter-btn active" onclick="setMobileFilter('all')">Todos</button>
-                    <button class="mobile-filter-btn" onclick="setMobileFilter('pelicula')">Películas</button>
-                    <button class="mobile-filter-btn" onclick="setMobileFilter('serie')">Series</button>
-                    <button class="mobile-filter-btn" onclick="setMobileFilter('canal')">Canales</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contenedor Principal Móvil OPTIMIZADO -->
+        <!-- Contenedor Principal Móvil -->
         <div class="mobile-container" id="mobileContainer">
-            <!-- Sección Inicio -->
+            <!-- Sección Inicio - SOLO 8 DESTACADOS -->
             <section id="mobileHomeSection" class="mobile-section active">
                 <!-- Banner Hero Móvil -->
                 <div class="mobile-hero-banner" id="mobileHeroBanner">
                     <div class="mobile-hero-content">
-                        <h1 class="mobile-hero-title" id="mobileHeroTitle">Finki Streaming</h1>
+                        <h1 class="mobile-hero-title" id="mobileHeroTitle">Finki Streaming Premium</h1>
+                        <p class="mobile-hero-subtitle" id="mobileHeroSubtitle">Disfruta del mejor contenido en alta calidad</p>
                         <div class="mobile-hero-buttons">
                             <button class="mobile-hero-button primary" onclick="playLatestContent()">
                                 <i class="fas fa-play"></i> Reproducir
@@ -1453,65 +1873,56 @@
                     </div>
                 </div>
 
-                <!-- Resultados de Búsqueda (ocultos por defecto) -->
-                <div id="mobileSearchResults" class="mobile-content-category search-hidden">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Resultados de búsqueda</h2>
-                        <span id="mobileSearchCount" style="color: var(--text-gray); font-size: 0.8rem;">0 resultados</span>
+                <!-- SECCIÓN: 8 CONTENIDOS DESTACADOS (ÚLTIMOS 8) -->
+                <h2 class="mobile-section-title">Destacados de la Semana</h2>
+                <div id="mobileFeaturedContent" class="featured-grid"></div>
+            </section>
+
+            <!-- Sección Búsqueda (NUEVA) -->
+            <section id="mobileSearchSection" class="mobile-section mobile-search-section">
+                <div class="search-header">
+                    <h1 class="search-title">Buscar Contenido</h1>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" id="mobileSearchInput" placeholder="Buscar películas, series, canales..." autocomplete="off">
+                        <button class="search-clear" id="mobileSearchClear" onclick="clearMobileSearch()">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <div id="mobileSearchResultsContent" class="mobile-content-grid"></div>
+                    <div class="search-filters">
+                        <button class="search-filter active" onclick="setMobileFilter('all')">Todos</button>
+                        <button class="search-filter" onclick="setMobileFilter('pelicula')">Películas</button>
+                        <button class="search-filter" onclick="setMobileFilter('serie')">Series</button>
+                        <button class="search-filter" onclick="setMobileFilter('canal')">Canales</button>
+                    </div>
                 </div>
-
-                <!-- SECCIÓN: 5 CONTENIDOS DESTACADOS (ÚLTIMOS 5) -->
-                <section class="mobile-content-category">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Destacados Recientes</h2>
-                        <span id="featuredCount" style="color: var(--text-gray); font-size: 0.8rem;">5 destacados</span>
-                    </div>
-                    <div id="mobileFeaturedContent" class="mobile-content-grid"></div>
-                </section>
-
-                <!-- SECCIÓN: TODO el Contenido -->
-                <section class="mobile-content-category">
-                    <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">Todo el Contenido</h2>
-                        <span id="totalContentCount" style="color: var(--text-gray); font-size: 0.8rem;">Cargando...</span>
-                    </div>
-                    <div id="mobileAllContent" class="mobile-content-grid"></div>
-                </section>
+                
+                <div id="mobileSearchResultsContent" class="search-results-grid"></div>
             </section>
 
             <!-- Otras secciones -->
             <section id="mobileMoviesSection" class="mobile-section">
-                <div style="padding: 15px 0;">
-                    <h2 class="mobile-category-title" style="margin-bottom: 15px;">Películas</h2>
-                    <div id="mobileMoviesFullContent" class="mobile-content-grid"></div>
-                </div>
+                <h2 class="mobile-section-title">Películas</h2>
+                <div id="mobileMoviesFullContent" class="mobile-content-grid"></div>
             </section>
 
             <section id="mobileSeriesSection" class="mobile-section">
-                <div style="padding: 15px 0;">
-                    <h2 class="mobile-category-title" style="margin-bottom: 15px;">Series</h2>
-                    <div id="mobileSeriesFullContent" class="mobile-content-grid"></div>
-                </div>
+                <h2 class="mobile-section-title">Series</h2>
+                <div id="mobileSeriesFullContent" class="mobile-content-grid"></div>
             </section>
 
             <section id="mobileChannelsSection" class="mobile-section">
-                <div style="padding: 15px 0;">
-                    <h2 class="mobile-category-title" style="margin-bottom: 15px;">Canales</h2>
-                    <div id="mobileChannelsFullContent" class="mobile-content-grid"></div>
-                </div>
+                <h2 class="mobile-section-title">Canales</h2>
+                <div id="mobileChannelsFullContent" class="mobile-content-grid"></div>
             </section>
 
             <section id="mobileMyListSection" class="mobile-section">
-                <div style="padding: 15px 0;">
-                    <h2 class="mobile-category-title" style="margin-bottom: 15px;">Mi Lista</h2>
-                    <div id="mobileMyListContent" class="mobile-content-grid"></div>
-                </div>
+                <h2 class="mobile-section-title">Mi Lista</h2>
+                <div id="mobileMyListContent" class="mobile-content-grid"></div>
             </section>
         </div>
 
-        <!-- Navegación Móvil optimizada -->
+        <!-- Navegación Móvil con BÚSQUEDA -->
         <nav class="mobile-nav" id="mobileNav">
             <button class="mobile-nav-item active" onclick="switchMobileSection('home')">
                 <i class="fas fa-home"></i>
@@ -1529,20 +1940,17 @@
                 <i class="fas fa-satellite-dish"></i>
                 <span>Canales</span>
             </button>
-            <button class="mobile-nav-item" onclick="switchMobileSection('myList')">
-                <i class="fas fa-bookmark"></i>
-                <span>Mi Lista</span>
+            <button class="mobile-nav-item" onclick="switchMobileSection('search')">
+                <i class="fas fa-search"></i>
+                <span>Búsqueda</span>
             </button>
         </nav>
 
-        <!-- ===== MODO TV OPTIMIZADO ===== -->
+        <!-- ===== MODO TV ===== -->
         
         <!-- Header TV -->
         <header class="tv-header" id="tvHeader">
             <div class="tv-logo">FINKI</div>
-            <div class="tv-search">
-                <input type="text" class="tv-search-input" placeholder="Buscar contenido..." id="tvSearchInput">
-            </div>
             <div class="tv-user-menu">
                 <button class="profile-btn" onclick="openProfile()">
                     <div class="profile-avatar" id="tvUserAvatar">U</div>
@@ -1568,20 +1976,21 @@
                 <i class="fas fa-satellite-dish"></i>
                 <span>Canales</span>
             </button>
-            <button class="tv-nav-item" onclick="switchTVSection('myList')">
-                <i class="fas fa-bookmark"></i>
-                <span>Mi Lista</span>
+            <button class="tv-nav-item" onclick="switchTVSection('search')">
+                <i class="fas fa-search"></i>
+                <span>Búsqueda</span>
             </button>
         </nav>
 
         <!-- Contenedor TV -->
         <div class="tv-container" id="tvContainer">
-            <!-- Sección Inicio TV -->
+            <!-- Sección Inicio TV - SOLO 8 DESTACADOS -->
             <section id="tvHomeSection" class="tv-section active">
                 <!-- Banner Hero TV -->
                 <div class="tv-hero-banner" id="tvHeroBanner">
                     <div class="tv-hero-content">
-                        <h1 class="tv-hero-title" id="tvHeroTitle">Finki Streaming</h1>
+                        <h1 class="tv-hero-title" id="tvHeroTitle">Finki Streaming Premium</h1>
+                        <p class="tv-hero-subtitle" id="tvHeroSubtitle">La mejor experiencia de streaming en tu televisor</p>
                         <div class="tv-hero-buttons">
                             <button class="tv-hero-button primary" onclick="playLatestContent()">
                                 <i class="fas fa-play"></i> Reproducir
@@ -1593,56 +2002,56 @@
                     </div>
                 </div>
 
-                <!-- SECCIÓN: 5 CONTENIDOS DESTACADOS TV -->
-                <section class="tv-content-category">
-                    <div class="tv-category-header">
-                        <h2 class="tv-category-title">Destacados Recientes</h2>
-                        <span id="tvFeaturedCount" style="color: var(--text-gray); font-size: 0.9rem;">5 destacados</span>
-                    </div>
-                    <div id="tvFeaturedContent" class="tv-content-grid"></div>
-                </section>
+                <!-- SECCIÓN: 8 CONTENIDOS DESTACADOS TV -->
+                <h2 class="tv-section-title">Destacados de la Semana</h2>
+                <div id="tvFeaturedContent" class="tv-featured-grid"></div>
+            </section>
 
-                <!-- SECCIÓN: TODO el Contenido TV -->
-                <section class="tv-content-category">
-                    <div class="tv-category-header">
-                        <h2 class="tv-category-title">Todo el Contenido</h2>
-                        <span id="tvTotalContentCount" style="color: var(--text-gray); font-size: 0.9rem;">Cargando...</span>
+            <!-- Sección Búsqueda TV (NUEVA) -->
+            <section id="tvSearchSection" class="tv-section tv-search-section">
+                <div class="tv-search-header">
+                    <h1 class="tv-search-title">Buscar Contenido</h1>
+                    <div class="tv-search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="tv-search-input" id="tvSearchInput" placeholder="Buscar películas, series, canales..." autocomplete="off">
+                        <button class="tv-search-clear" id="tvSearchClear" onclick="clearTVSearch()">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <div id="tvAllContent" class="tv-content-grid"></div>
-                </section>
+                    <div class="tv-search-filters">
+                        <button class="tv-search-filter active" onclick="setTVFilter('all')">Todos</button>
+                        <button class="tv-search-filter" onclick="setTVFilter('pelicula')">Películas</button>
+                        <button class="tv-search-filter" onclick="setTVFilter('serie')">Series</button>
+                        <button class="tv-search-filter" onclick="setTVFilter('canal')">Canales</button>
+                    </div>
+                </div>
+                
+                <div id="tvSearchResultsContent" class="tv-search-results-grid"></div>
             </section>
 
             <!-- Otras secciones TV -->
             <section id="tvMoviesSection" class="tv-section">
-                <div style="padding: 20px 0;">
-                    <h2 class="tv-category-title" style="margin-bottom: 20px;">Películas</h2>
-                    <div id="tvMoviesFullContent" class="tv-content-grid"></div>
-                </div>
+                <h2 class="tv-section-title">Películas</h2>
+                <div id="tvMoviesFullContent" class="tv-content-grid"></div>
             </section>
 
             <section id="tvSeriesSection" class="tv-section">
-                <div style="padding: 20px 0;">
-                    <h2 class="tv-category-title" style="margin-bottom: 20px;">Series</h2>
-                    <div id="tvSeriesFullContent" class="tv-content-grid"></div>
-                </div>
+                <h2 class="tv-section-title">Series</h2>
+                <div id="tvSeriesFullContent" class="tv-content-grid"></div>
             </section>
 
             <section id="tvChannelsSection" class="tv-section">
-                <div style="padding: 20px 0;">
-                    <h2 class="tv-category-title" style="margin-bottom: 20px;">Canales</h2>
-                    <div id="tvChannelsFullContent" class="tv-content-grid"></div>
-                </div>
+                <h2 class="tv-section-title">Canales</h2>
+                <div id="tvChannelsFullContent" class="tv-content-grid"></div>
             </section>
 
             <section id="tvMyListSection" class="tv-section">
-                <div style="padding: 20px 0;">
-                    <h2 class="tv-category-title" style="margin-bottom: 20px;">Mi Lista</h2>
-                    <div id="tvMyListContent" class="tv-content-grid"></div>
-                </div>
+                <h2 class="tv-section-title">Mi Lista</h2>
+                <div id="tvMyListContent" class="tv-content-grid"></div>
             </section>
         </div>
 
-        <!-- ===== ELEMENTOS COMPARTIDOS OPTIMIZADOS ===== -->
+        <!-- ===== ELEMENTOS COMPARTIDOS ===== -->
         
         <!-- Panel de Perfil -->
         <div class="profile-panel" id="profilePanel">
@@ -1687,7 +2096,6 @@
                         <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
                     </button>
                     
-                    <!-- NUEVO: Botón de Ajustes en el perfil -->
                     <button onclick="openSettingsScreen()" style="display: flex; align-items: center; width: 100%; padding: 12px 0; background: transparent; border: none; color: var(--white); font-size: 0.9rem; cursor: pointer; border-bottom: 1px solid #333;">
                         <i class="fas fa-cog" style="margin-right: 12px; color: var(--netflix-red); width: 20px;"></i>
                         <span>Ajustes</span>
@@ -1728,7 +2136,7 @@
             </div>
         </div>
 
-        <!-- NUEVO: Pantalla de Ajustes -->
+        <!-- Pantalla de Ajustes -->
         <div class="list-screen" id="settingsScreen">
             <div class="screen-header">
                 <button class="back-button" onclick="closeListScreen('settings')">
@@ -1738,7 +2146,6 @@
             </div>
             <div class="screen-content">
                 <div class="settings-section">
-                    <!-- Configuración de Reproducción -->
                     <div class="settings-item">
                         <div style="display: flex; align-items: center; gap: 15px;">
                             <i class="fas fa-wifi" style="color: var(--netflix-red);"></i>
@@ -1781,7 +2188,6 @@
                         </label>
                     </div>
                     
-                    <!-- Botones de Acción -->
                     <div class="settings-item">
                         <div style="display: flex; align-items: center; gap: 15px;">
                             <i class="fas fa-trash-alt" style="color: var(--netflix-red);"></i>
@@ -1853,28 +2259,53 @@
         let latestContent = null;
         let isTVMode = false;
         
-        // Variables para búsqueda optimizada
-        let mobileSearchActive = false;
+        // Variables para búsqueda
         let mobileSearchQuery = '';
         let mobileCurrentFilter = 'all';
+        let tvSearchQuery = '';
+        let tvCurrentFilter = 'all';
         let searchTimeout = null;
         
-        // Detectar modo TV (horizontal)
+        // Detectar modo TV (mejorado para Smart TV)
         function detectTVMode() {
             const width = window.innerWidth;
             const height = window.innerHeight;
+            const aspectRatio = width / height;
+            const userAgent = navigator.userAgent.toLowerCase();
             
-            isTVMode = width > height;
+            // Detectar navegadores de Smart TV
+            const isSmartTV = 
+                userAgent.includes('smart-tv') ||
+                userAgent.includes('smarttv') ||
+                userAgent.includes('appletv') ||
+                userAgent.includes('tv') ||
+                userAgent.includes('crkey') ||
+                userAgent.includes('googlecast') ||
+                userAgent.includes('xbox') ||
+                userAgent.includes('playstation');
             
-            if (width > 768 && height > 1024) {
-                isTVMode = false;
+            // Modo TV si:
+            // 1. Es un Smart TV
+            // 2. Pantalla muy ancha (landscape extremo)
+            // 3. Pantalla grande (> 1024px)
+            if (isSmartTV) {
+                return true;
             }
             
-            if (width > 1024) {
-                isTVMode = true;
+            if (width > 1024 && aspectRatio > 1.3) {
+                return true;
             }
             
-            return isTVMode;
+            if (width > 1200) {
+                return true;
+            }
+            
+            // Para pantallas muy grandes (TV)
+            if (width > 1600) {
+                return true;
+            }
+            
+            return false;
         }
 
         // Aplicar modo TV o Móvil
@@ -1890,8 +2321,18 @@
                     document.getElementById('tvUserAvatar').textContent = userInitial;
                 }
                 
+                // Inicializar sección de búsqueda TV
+                setTimeout(() => {
+                    setupTVSearchEvents();
+                }, 100);
+                
             } else if (!isNowTVMode && wasTVMode) {
                 document.body.classList.remove('tv-mode');
+                
+                // Inicializar sección de búsqueda móvil
+                setTimeout(() => {
+                    setupMobileSearchEvents();
+                }, 100);
             }
             
             if (allContent.length > 0) {
@@ -1937,22 +2378,24 @@
         function displaySearchResults(results, query, filter, mode) {
             if (mode === 'mobile') {
                 const resultsContainer = document.getElementById('mobileSearchResultsContent');
-                const resultsSection = document.getElementById('mobileSearchResults');
-                const searchCount = document.getElementById('mobileSearchCount');
                 
-                if (query === '') {
-                    resultsSection.classList.add('search-hidden');
+                if (query === '' && filter === 'all') {
+                    resultsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <p>Busca contenido por nombre o categoría</p>
+                            <p class="subtext">Usa los filtros para refinar tu búsqueda</p>
+                        </div>
+                    `;
                     return;
                 }
-                
-                resultsSection.classList.remove('search-hidden');
                 
                 if (results.length === 0) {
                     resultsContainer.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-search"></i>
-                            <p>No se encontraron resultados</p>
-                            <p class="subtext">Intenta con otras palabras</p>
+                            <p>No se encontraron resultados para "${query}"</p>
+                            <p class="subtext">Intenta con otras palabras o cambia el filtro</p>
                         </div>
                     `;
                 } else {
@@ -1967,41 +2410,26 @@
                     resultsContainer.innerHTML = '';
                     resultsContainer.appendChild(fragment);
                 }
-                
-                searchCount.textContent = `${results.length} resultado${results.length !== 1 ? 's' : ''}`;
             } else {
-                const activeSection = document.querySelector('.tv-section.active');
-                let resultsSection = activeSection.querySelector('.tv-search-results');
+                const resultsContainer = document.getElementById('tvSearchResultsContent');
                 
-                if (query === '') {
-                    if (resultsSection) {
-                        resultsSection.remove();
-                    }
+                if (query === '' && filter === 'all') {
+                    resultsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <p>Busca contenido por nombre o categoría</p>
+                            <p class="subtext">Usa los filtros para refinar tu búsqueda</p>
+                        </div>
+                    `;
                     return;
                 }
-                
-                if (!resultsSection) {
-                    resultsSection = document.createElement('section');
-                    resultsSection.className = 'tv-content-category tv-search-results';
-                    resultsSection.innerHTML = `
-                        <div class="tv-category-header">
-                            <h2 class="tv-category-title">Resultados de búsqueda</h2>
-                            <span class="tv-search-count" style="color: var(--text-gray); font-size: 0.9rem;">0 resultados</span>
-                        </div>
-                        <div class="tv-content-grid tv-search-results-content"></div>
-                    `;
-                    activeSection.prepend(resultsSection);
-                }
-                
-                const resultsContainer = resultsSection.querySelector('.tv-search-results-content');
-                const searchCount = resultsSection.querySelector('.tv-search-count');
                 
                 if (results.length === 0) {
                     resultsContainer.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-search"></i>
-                            <p>No se encontraron resultados</p>
-                            <p class="subtext">Intenta con otras palabras</p>
+                            <p>No se encontraron resultados para "${query}"</p>
+                            <p class="subtext">Intenta con otras palabras o cambia el filtro</p>
                         </div>
                     `;
                 } else {
@@ -2016,41 +2444,19 @@
                     resultsContainer.innerHTML = '';
                     resultsContainer.appendChild(fragment);
                 }
-                
-                searchCount.textContent = `${results.length} resultado${results.length !== 1 ? 's' : ''}`;
             }
         }
 
-        // ===== FUNCIONALIDAD DE BÚSQUEDA MÓVIL OPTIMIZADA =====
-        function toggleMobileSearch() {
-            const searchContainer = document.getElementById('mobileSearchContainer');
-            if (searchContainer.classList.contains('active')) {
-                closeMobileSearch();
-            } else {
-                openMobileSearch();
-            }
-        }
-        
-        function openMobileSearch() {
-            const searchContainer = document.getElementById('mobileSearchContainer');
-            const filterContainer = document.getElementById('mobileFilterContainer');
-            searchContainer.classList.add('active');
-            filterContainer.classList.add('active');
-            mobileSearchActive = true;
+        // ===== FUNCIONALIDAD DE BÚSQUEDA MÓVIL =====
+        function setMobileFilter(filterType) {
+            mobileCurrentFilter = filterType;
             
-            setTimeout(() => {
-                document.getElementById('mobileSearchInput').focus();
-            }, 100);
-        }
-        
-        function closeMobileSearch() {
-            const searchContainer = document.getElementById('mobileSearchContainer');
-            const filterContainer = document.getElementById('mobileFilterContainer');
-            searchContainer.classList.remove('active');
-            filterContainer.classList.remove('active');
-            mobileSearchActive = false;
+            document.querySelectorAll('.search-filter').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
             
-            clearMobileSearch();
+            performSearchOptimized(mobileSearchQuery, filterType, 'mobile');
         }
         
         function clearMobileSearch() {
@@ -2059,33 +2465,46 @@
             mobileSearchQuery = '';
             mobileCurrentFilter = 'all';
             
-            document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+            document.querySelectorAll('.search-filter').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.textContent === 'Todos') {
                     btn.classList.add('active');
                 }
             });
             
-            document.getElementById('mobileSearchResults').classList.add('search-hidden');
+            performSearchOptimized('', 'all', 'mobile');
         }
-        
-        function setMobileFilter(filterType) {
-            mobileCurrentFilter = filterType;
+
+        // ===== FUNCIONALIDAD DE BÚSQUEDA TV =====
+        function setTVFilter(filterType) {
+            tvCurrentFilter = filterType;
             
-            document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+            document.querySelectorAll('.tv-search-filter').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            performSearchOptimized(mobileSearchQuery, filterType, 'mobile');
+            performSearchOptimized(tvSearchQuery, filterType, 'tv');
+        }
+        
+        function clearTVSearch() {
+            const searchInput = document.getElementById('tvSearchInput');
+            searchInput.value = '';
+            tvSearchQuery = '';
+            tvCurrentFilter = 'all';
+            
+            document.querySelectorAll('.tv-search-filter').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === 'Todos') {
+                    btn.classList.add('active');
+                }
+            });
+            
+            performSearchOptimized('', 'all', 'tv');
         }
 
         // ===== NAVEGACIÓN =====
         function switchMobileSection(section) {
-            if (mobileSearchActive) {
-                closeMobileSearch();
-            }
-            
             document.querySelectorAll('.mobile-section').forEach(sec => {
                 sec.classList.remove('active');
             });
@@ -2105,7 +2524,7 @@
                     item.classList.add('active');
                 } else if (section === 'channels' && index === 3) {
                     item.classList.add('active');
-                } else if (section === 'myList' && index === 4) {
+                } else if (section === 'search' && index === 4) {
                     item.classList.add('active');
                 }
             });
@@ -2114,24 +2533,18 @@
                 renderMobileMyList();
             }
             
+            if (section === 'search') {
+                setTimeout(() => {
+                    document.getElementById('mobileSearchInput').focus();
+                }, 100);
+            }
+            
             if (section === 'movies' || section === 'series' || section === 'channels') {
                 renderCategoryContent(section, 'mobile');
             }
         }
 
         function switchTVSection(section) {
-            const tvSearchInput = document.getElementById('tvSearchInput');
-            if (tvSearchInput) {
-                tvSearchInput.value = '';
-                const activeSection = document.querySelector('.tv-section.active');
-                if (activeSection) {
-                    const resultsSection = activeSection.querySelector('.tv-search-results');
-                    if (resultsSection) {
-                        resultsSection.remove();
-                    }
-                }
-            }
-            
             document.querySelectorAll('.tv-section').forEach(sec => {
                 sec.classList.remove('active');
             });
@@ -2151,13 +2564,19 @@
                     item.classList.add('active');
                 } else if (section === 'channels' && index === 3) {
                     item.classList.add('active');
-                } else if (section === 'myList' && index === 4) {
+                } else if (section === 'search' && index === 4) {
                     item.classList.add('active');
                 }
             });
             
             if (section === 'myList') {
                 renderTVMyList();
+            }
+            
+            if (section === 'search') {
+                setTimeout(() => {
+                    document.getElementById('tvSearchInput').focus();
+                }, 100);
             }
             
             if (section === 'movies' || section === 'series' || section === 'channels') {
@@ -2190,7 +2609,6 @@
                 const savedHistory = localStorage.getItem(`${userKey}_history`);
                 userLists.history = savedHistory ? JSON.parse(savedHistory) : [];
                 
-                // Cargar ajustes del usuario
                 const savedSettings = localStorage.getItem(`${userKey}_settings`);
                 userSettings = savedSettings ? JSON.parse(savedSettings) : {
                     wifiOnly: false,
@@ -2198,7 +2616,6 @@
                     darkMode: true
                 };
                 
-                // Aplicar ajustes a los toggles
                 document.getElementById('wifiOnly').checked = userSettings.wifiOnly || false;
                 document.getElementById('autoPlay').checked = userSettings.autoPlay !== false;
                 document.getElementById('darkMode').checked = userSettings.darkMode !== false;
@@ -2290,7 +2707,7 @@
             return true;
         }
 
-        // NUEVO: Limpiar Historial
+        // Limpiar Historial
         function clearHistory() {
             if (!currentUser) return;
             
@@ -2304,7 +2721,7 @@
             }
         }
 
-        // NUEVO: Limpiar Caché
+        // Limpiar Caché
         function clearCache() {
             if (confirm('¿Estás seguro de que quieres limpiar la caché? Esto mejorará el rendimiento.')) {
                 if ('caches' in window) {
@@ -2318,7 +2735,7 @@
             }
         }
 
-        // NUEVO: Restablecer todos los datos locales
+        // Restablecer todos los datos locales
         function resetAllData() {
             if (confirm('¿Estás seguro? Esto borrará toda tu información local (Mi Lista, Historial, Ajustes).')) {
                 if (currentUser) {
@@ -2337,7 +2754,6 @@
                 renderFullMyList();
                 renderFullHistory();
                 
-                // Resetear toggles
                 document.getElementById('wifiOnly').checked = false;
                 document.getElementById('autoPlay').checked = true;
                 document.getElementById('darkMode').checked = true;
@@ -2537,7 +2953,8 @@
                         actualizarPerfil();
                         
                         applyTVMode();
-                        setupSearchEvents();
+                        setupMobileSearchEvents();
+                        setupTVSearchEvents();
                         
                     } else {
                         localStorage.removeItem('finki_user');
@@ -2549,11 +2966,14 @@
                     hideLoading();
                 }
             } else {
-                setupSearchEvents();
+                setupMobileSearchEvents();
+                setupTVSearchEvents();
             }
             
             window.addEventListener('resize', function() {
-                applyTVMode();
+                setTimeout(function() {
+                    applyTVMode();
+                }, 100);
             });
             
             window.addEventListener('orientationchange', function() {
@@ -2563,8 +2983,8 @@
             });
         });
 
-        // Configurar eventos de búsqueda optimizados
-        function setupSearchEvents() {
+        // Configurar eventos de búsqueda móvil
+        function setupMobileSearchEvents() {
             const mobileSearchInput = document.getElementById('mobileSearchInput');
             if (mobileSearchInput) {
                 mobileSearchInput.addEventListener('input', function() {
@@ -2572,12 +2992,15 @@
                     performSearchOptimized(mobileSearchQuery, mobileCurrentFilter, 'mobile');
                 });
             }
-            
+        }
+
+        // Configurar eventos de búsqueda TV
+        function setupTVSearchEvents() {
             const tvSearchInput = document.getElementById('tvSearchInput');
             if (tvSearchInput) {
                 tvSearchInput.addEventListener('input', function() {
-                    const query = this.value;
-                    performSearchOptimized(query, 'all', 'tv');
+                    tvSearchQuery = this.value;
+                    performSearchOptimized(tvSearchQuery, tvCurrentFilter, 'tv');
                 });
             }
         }
@@ -2717,7 +3140,8 @@
                 actualizarPerfil();
                 
                 applyTVMode();
-                setupSearchEvents();
+                setupMobileSearchEvents();
+                setupTVSearchEvents();
                 
                 hideLoading();
             }
@@ -2760,51 +3184,51 @@
                 
                 if (latestContent.url_portada) {
                     document.getElementById('mobileHeroBanner').style.backgroundImage = 
-                        `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
-                         linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
+                        `linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.9) 100%),
+                         linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 70%),
                          url('${latestContent.url_portada}')`;
                     
                     document.getElementById('tvHeroBanner').style.backgroundImage = 
-                        `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
-                         linear-gradient(to right, rgba(0,0,0,0.9) 0%, transparent 50%),
+                        `linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.95) 100%),
+                         linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
                          url('${latestContent.url_portada}')`;
                 }
                 
                 document.getElementById('mobileHeroTitle').textContent = latestContent.nombre;
                 document.getElementById('tvHeroTitle').textContent = latestContent.nombre;
+                document.getElementById('mobileHeroSubtitle').textContent = latestContent.categorias?.nombre || 'Contenido exclusivo';
+                document.getElementById('tvHeroSubtitle').textContent = latestContent.categorias?.nombre || 'Contenido exclusivo en alta calidad';
             }
             
             renderContentForCurrentMode();
             
-            document.getElementById('totalContentCount').textContent = `${allContent.length} items`;
-            document.getElementById('tvTotalContentCount').textContent = `${allContent.length} items`;
             document.getElementById('totalCount').textContent = allContent.length;
             
             hideLoading();
         }
         
-        // Renderizar contenido Móvil optimizado
+        // Renderizar contenido Móvil
         function renderMobileContent() {
             // Limpiar contenedores
-            ['mobileFeaturedContent', 'mobileAllContent', 'mobileMoviesFullContent', 'mobileSeriesFullContent', 'mobileChannelsFullContent'].forEach(id => {
+            ['mobileFeaturedContent', 'mobileMoviesFullContent', 'mobileSeriesFullContent', 'mobileChannelsFullContent'].forEach(id => {
                 const container = document.getElementById(id);
                 if (container) container.innerHTML = '';
             });
             
-            // Renderizar 5 CONTENIDOS DESTACADOS (últimos 5)
+            // Renderizar 8 CONTENIDOS DESTACADOS
             renderFeaturedContent('mobile', 'mobileFeaturedContent');
-            
-            // Renderizar TODO el contenido
-            renderAllContent('mobile', 'mobileAllContent');
             
             // Renderizar Mi Lista móvil
             renderMobileMyList();
+            
+            // Inicializar búsqueda
+            performSearchOptimized('', 'all', 'mobile');
         }
         
-        // Renderizar contenido TV optimizado
+        // Renderizar contenido TV
         function renderTVContent() {
             // Limpiar contenedores
-            ['tvFeaturedContent', 'tvAllContent', 'tvMoviesFullContent', 'tvSeriesFullContent', 'tvChannelsFullContent'].forEach(id => {
+            ['tvFeaturedContent', 'tvMoviesFullContent', 'tvSeriesFullContent', 'tvChannelsFullContent'].forEach(id => {
                 const container = document.getElementById(id);
                 if (container) container.innerHTML = '';
             });
@@ -2812,17 +3236,17 @@
             // Mostrar banner TV
             document.getElementById('tvHeroBanner').style.display = 'flex';
             
-            // Renderizar 5 CONTENIDOS DESTACADOS TV
+            // Renderizar 8 CONTENIDOS DESTACADOS TV
             renderFeaturedContent('tv', 'tvFeaturedContent');
-            
-            // Renderizar TODO el contenido TV
-            renderAllContent('tv', 'tvAllContent');
             
             // Renderizar Mi Lista TV
             renderTVMyList();
+            
+            // Inicializar búsqueda
+            performSearchOptimized('', 'all', 'tv');
         }
         
-        // RENDERIZAR 5 CONTENIDOS DESTACADOS (últimos 5)
+        // RENDERIZAR 8 CONTENIDOS DESTACADOS (diseño especial)
         function renderFeaturedContent(mode, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -2839,68 +3263,74 @@
                 return;
             }
             
-            // Tomar los últimos 5 contenidos como destacados
-            const featuredContent = allContent.slice(0, 5);
+            // Tomar los últimos 8 contenidos como destacados
+            const featuredContent = allContent.slice(0, 8);
             
             const fragment = document.createDocumentFragment();
-            featuredContent.forEach(item => {
-                const card = crearTarjetaContenido(item, mode);
+            featuredContent.forEach((item, index) => {
+                const card = crearTarjetaDestacada(item, index + 1, mode);
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = card;
                 fragment.appendChild(tempDiv.firstChild);
             });
             
             container.appendChild(fragment);
-            
-            // Actualizar contador
-            document.getElementById('featuredCount').textContent = `${featuredContent.length} destacados`;
-            if (mode === 'tv') {
-                document.getElementById('tvFeaturedCount').textContent = `${featuredContent.length} destacados`;
-            }
         }
         
-        // RENDERIZAR TODO EL CONTENIDO
-        function renderAllContent(mode, containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
+        // Crear tarjeta destacada (diseño especial)
+        function crearTarjetaDestacada(item, number, mode) {
+            const badge = item.tipo === 'canal' ? '<div class="featured-badge">EN VIVO</div>' : 
+                         item.tipo === 'serie' ? '<div class="featured-badge">SERIE</div>' : 
+                         '<div class="featured-badge">PELÍCULA</div>';
             
-            container.innerHTML = '';
+            const inMyList = currentUser && userLists.myList.some(listItem => listItem.id === item.id);
+            const listBtnClass = inMyList ? 'list-btn in-list' : 'list-btn';
+            const listBtnIcon = inMyList ? 'fas fa-check' : 'fas fa-plus';
+            const listBtnTitle = inMyList ? 'En Mi Lista' : 'Agregar a Mi Lista';
+            const listBtnAction = inMyList ? 
+                `removeFromMyList('${item.id}')` : 
+                `addToListAndConfirm('${item.id}')`;
             
-            if (allContent.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-film"></i>
-                        <p>No hay contenido disponible</p>
+            const listButton = currentUser ? 
+                `<button class="${listBtnClass}" onclick="event.stopPropagation(); ${listBtnAction}" title="${listBtnTitle}">
+                    <i class="${listBtnIcon}"></i>
+                </button>` : '';
+            
+            const imageUrl = item.url_portada || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzFhMjUzNiIvPjwvc3ZnPg==';
+            
+            if (mode === 'tv') {
+                return `<div class="tv-featured-card" onclick="playContent('${item.url_contenido}', '${item.nombre}', '${item.id}')">
+                    <div class="tv-featured-number">${number}</div>
+                    ${badge}
+                    ${listButton}
+                    <div class="tv-featured-img-container">
+                        <img src="${imageUrl}" alt="${item.nombre}" class="tv-featured-img" loading="lazy">
                     </div>
-                `;
-                return;
+                    <div class="tv-featured-overlay">
+                        <div class="tv-featured-title">${item.nombre}</div>
+                        <div class="tv-featured-category">
+                            <i class="fas fa-tag"></i>
+                            <span>${item.categorias?.nombre || 'General'}</span>
+                        </div>
+                    </div>
+                </div>`;
+            } else {
+                return `<div class="featured-card" onclick="playContent('${item.url_contenido}', '${item.nombre}', '${item.id}')">
+                    <div class="featured-number">${number}</div>
+                    ${badge}
+                    ${listButton}
+                    <div class="featured-img-container">
+                        <img src="${imageUrl}" alt="${item.nombre}" class="featured-img" loading="lazy">
+                    </div>
+                    <div class="featured-overlay">
+                        <div class="featured-title">${item.nombre}</div>
+                        <div class="featured-category">
+                            <i class="fas fa-tag"></i>
+                            <span>${item.categorias?.nombre || 'General'}</span>
+                        </div>
+                    </div>
+                </div>`;
             }
-            
-            const batchSize = 20;
-            const totalBatches = Math.ceil(allContent.length / batchSize);
-            
-            function renderBatch(batchIndex) {
-                const start = batchIndex * batchSize;
-                const end = Math.min(start + batchSize, allContent.length);
-                
-                const fragment = document.createDocumentFragment();
-                
-                for (let i = start; i < end; i++) {
-                    const item = allContent[i];
-                    const card = crearTarjetaContenido(item, mode);
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = card;
-                    fragment.appendChild(tempDiv.firstChild);
-                }
-                
-                container.appendChild(fragment);
-                
-                if (batchIndex + 1 < totalBatches) {
-                    setTimeout(() => renderBatch(batchIndex + 1), 50);
-                }
-            }
-            
-            renderBatch(0);
         }
         
         // Renderizar contenido por categoría
@@ -2950,7 +3380,7 @@
             container.appendChild(fragment);
         }
 
-        // Crear tarjeta de contenido OPTIMIZADA
+        // Crear tarjeta de contenido normal
         function crearTarjetaContenido(item, mode) {
             const badge = item.tipo === 'canal' ? '<div class="card-badge">EN VIVO</div>' : 
                          item.tipo === 'serie' ? '<div class="card-badge">SERIE</div>' : 
@@ -3005,7 +3435,8 @@
             
             if (addToMyList(contentItem)) {
                 const eventTarget = event.target;
-                const card = eventTarget.closest('.mobile-content-card') || eventTarget.closest('.tv-content-card');
+                const card = eventTarget.closest('.mobile-content-card') || eventTarget.closest('.tv-content-card') || 
+                            eventTarget.closest('.featured-card') || eventTarget.closest('.tv-featured-card');
                 if (card) {
                     const btn = card.querySelector('.list-btn');
                     if (btn) {
@@ -3041,7 +3472,7 @@
             }
         }
 
-        // Mostrar notificación optimizada
+        // Mostrar notificación
         function showNotification(message) {
             const existingNotification = document.querySelector('.notification');
             if (existingNotification) {
@@ -3074,7 +3505,6 @@
             renderFullHistory();
         }
         
-        // NUEVO: Abrir pantalla de ajustes
         function openSettingsScreen() {
             document.getElementById('settingsScreen').classList.add('active');
             closeProfile();
@@ -3084,7 +3514,7 @@
             document.getElementById(`${screen}Screen`).classList.remove('active');
         }
 
-        // ===== REPRODUCIR CONTENIDO OPTIMIZADO =====
+        // ===== REPRODUCIR CONTENIDO =====
         function playContent(url, title, contentId) {
             let finalUrl = url;
             
@@ -3126,10 +3556,6 @@
             if (e.key === 'Escape') {
                 closePlayer();
                 
-                if (mobileSearchActive) {
-                    closeMobileSearch();
-                }
-                
                 const activeScreens = ['myListScreen', 'historyScreen', 'settingsScreen'];
                 activeScreens.forEach(screen => {
                     if (document.getElementById(screen).classList.contains('active')) {
@@ -3141,47 +3567,49 @@
                     closeProfile();
                 }
             }
-        });
-        
-        // Optimizaciones para móviles con baja RAM
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                const images = document.querySelectorAll('img');
-                images.forEach(img => {
-                    if (img.getBoundingClientRect().top > window.innerHeight * 2) {
-                        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzFhMjUzNiIvPjwvc3ZnPg==';
-                    }
-                });
+            
+            // Navegación con teclado para TV
+            if (document.body.classList.contains('tv-mode')) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || 
+                    e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                }
             }
         });
         
-        document.addEventListener('touchstart', function(e) {
-            if (e.touches.length > 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        let scrollTimer;
-        document.addEventListener('scroll', function() {
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(() => {
-                const images = document.querySelectorAll('img');
-                const viewportTop = window.scrollY;
-                const viewportBottom = viewportTop + window.innerHeight;
+        // Optimizaciones para TV
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mejorar rendimiento en TV
+            if (detectTVMode()) {
+                document.body.classList.add('tv-optimized');
                 
-                images.forEach(img => {
-                    const imgTop = img.getBoundingClientRect().top + window.scrollY;
-                    const imgBottom = imgTop + img.height;
-                    
-                    if (imgBottom > viewportTop && imgTop < viewportBottom) {
-                        const dataSrc = img.getAttribute('data-src');
-                        if (dataSrc && img.src !== dataSrc) {
-                            img.src = dataSrc;
-                        }
-                    }
+                // Prevenir zoom en TV
+                document.addEventListener('gesturestart', function(e) {
+                    e.preventDefault();
                 });
-            }, 100);
-        }, { passive: true });
+                
+                // Optimizar para control remoto
+                let lastFocusTime = 0;
+                document.addEventListener('focus', function(e) {
+                    const now = Date.now();
+                    if (now - lastFocusTime > 100) {
+                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        lastFocusTime = now;
+                    }
+                }, true);
+            }
+        });
+        
+        // Mejorar compatibilidad con Smart TV
+        window.addEventListener('load', function() {
+            // Forzar modo TV en pantallas grandes
+            setTimeout(() => {
+                if (window.innerWidth > 1200) {
+                    document.body.classList.add('tv-mode');
+                    applyTVMode();
+                }
+            }, 500);
+        });
     </script>
 </body>
 </html>

@@ -1093,6 +1093,91 @@
             padding: 20px 15px;
         }
         
+        /* Settings Section - NUEVO */
+        .settings-section {
+            padding: 15px;
+        }
+        
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .settings-btn.danger {
+            background: rgba(229,9,20,0.2);
+            border-color: rgba(229,9,20,0.4);
+        }
+        
+        .settings-btn.danger:hover {
+            background: rgba(229,9,20,0.4);
+        }
+        
+        /* Toggle Switch - NUEVO */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid #444;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background: var(--netflix-red);
+            border-color: var(--netflix-red);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
         /* Reproductor Modal Netflix - OPTIMIZADO */
         .modal-overlay {
             position: fixed;
@@ -1377,13 +1462,21 @@
                     <div id="mobileSearchResultsContent" class="mobile-content-grid"></div>
                 </div>
 
-                <!-- CONTENIDO COMPLETO OPTIMIZADO PARA BAJA RAM -->
+                <!-- SECCIÓN: 5 CONTENIDOS DESTACADOS (ÚLTIMOS 5) -->
                 <section class="mobile-content-category">
                     <div class="mobile-category-header">
-                        <h2 class="mobile-category-title">TODO el Contenido</h2>
+                        <h2 class="mobile-category-title">Destacados Recientes</h2>
+                        <span id="featuredCount" style="color: var(--text-gray); font-size: 0.8rem;">5 destacados</span>
+                    </div>
+                    <div id="mobileFeaturedContent" class="mobile-content-grid"></div>
+                </section>
+
+                <!-- SECCIÓN: TODO el Contenido -->
+                <section class="mobile-content-category">
+                    <div class="mobile-category-header">
+                        <h2 class="mobile-category-title">Todo el Contenido</h2>
                         <span id="totalContentCount" style="color: var(--text-gray); font-size: 0.8rem;">Cargando...</span>
                     </div>
-                    <!-- TODOS LOS CONTENIDOS EN UN SOLO GRID -->
                     <div id="mobileAllContent" class="mobile-content-grid"></div>
                 </section>
             </section>
@@ -1500,10 +1593,19 @@
                     </div>
                 </div>
 
-                <!-- CONTENIDO COMPLETO TV OPTIMIZADO -->
+                <!-- SECCIÓN: 5 CONTENIDOS DESTACADOS TV -->
                 <section class="tv-content-category">
                     <div class="tv-category-header">
-                        <h2 class="tv-category-title">TODO el Contenido</h2>
+                        <h2 class="tv-category-title">Destacados Recientes</h2>
+                        <span id="tvFeaturedCount" style="color: var(--text-gray); font-size: 0.9rem;">5 destacados</span>
+                    </div>
+                    <div id="tvFeaturedContent" class="tv-content-grid"></div>
+                </section>
+
+                <!-- SECCIÓN: TODO el Contenido TV -->
+                <section class="tv-content-category">
+                    <div class="tv-category-header">
+                        <h2 class="tv-category-title">Todo el Contenido</h2>
                         <span id="tvTotalContentCount" style="color: var(--text-gray); font-size: 0.9rem;">Cargando...</span>
                     </div>
                     <div id="tvAllContent" class="tv-content-grid"></div>
@@ -1584,6 +1686,14 @@
                         <span>Historial</span>
                         <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
                     </button>
+                    
+                    <!-- NUEVO: Botón de Ajustes en el perfil -->
+                    <button onclick="openSettingsScreen()" style="display: flex; align-items: center; width: 100%; padding: 12px 0; background: transparent; border: none; color: var(--white); font-size: 0.9rem; cursor: pointer; border-bottom: 1px solid #333;">
+                        <i class="fas fa-cog" style="margin-right: 12px; color: var(--netflix-red); width: 20px;"></i>
+                        <span>Ajustes</span>
+                        <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
+                    </button>
+                    
                     <button onclick="cerrarSesion()" style="display: flex; align-items: center; width: 100%; padding: 12px 0; background: transparent; border: none; color: var(--netflix-red); font-size: 0.9rem; cursor: pointer;">
                         <i class="fas fa-sign-out-alt" style="margin-right: 12px; width: 20px;"></i>
                         <span>Cerrar Sesión</span>
@@ -1618,6 +1728,102 @@
             </div>
         </div>
 
+        <!-- NUEVO: Pantalla de Ajustes -->
+        <div class="list-screen" id="settingsScreen">
+            <div class="screen-header">
+                <button class="back-button" onclick="closeListScreen('settings')">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 class="screen-title">Ajustes</h2>
+            </div>
+            <div class="screen-content">
+                <div class="settings-section">
+                    <!-- Configuración de Reproducción -->
+                    <div class="settings-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-wifi" style="color: var(--netflix-red);"></i>
+                            <div>
+                                <h3 style="font-size: 1rem; color: var(--white); margin-bottom: 3px;">Solo Wi-Fi</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-gray);">Reproducir solo con Wi-Fi</p>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="wifiOnly" onchange="saveSetting('wifiOnly', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-play-circle" style="color: var(--netflix-red);"></i>
+                            <div>
+                                <h3 style="font-size: 1rem; color: var(--white); margin-bottom: 3px;">Auto-reproducir</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-gray);">Siguiente video automático</p>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="autoPlay" onchange="saveSetting('autoPlay', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-moon" style="color: var(--netflix-red);"></i>
+                            <div>
+                                <h3 style="font-size: 1rem; color: var(--white); margin-bottom: 3px;">Modo Oscuro</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-gray);">Tema oscuro siempre</p>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkMode" onchange="saveSetting('darkMode', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <!-- Botones de Acción -->
+                    <div class="settings-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-trash-alt" style="color: var(--netflix-red);"></i>
+                            <div>
+                                <h3 style="font-size: 1rem; color: var(--white); margin-bottom: 3px;">Borrar Historial</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-gray);">Eliminar todo el historial</p>
+                            </div>
+                        </div>
+                        <button onclick="clearHistory()" class="settings-btn danger">
+                            Borrar
+                        </button>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-broom" style="color: var(--netflix-red);"></i>
+                            <div>
+                                <h3 style="font-size: 1rem; color: var(--white); margin-bottom: 3px;">Limpiar Caché</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-gray);">Liberar espacio almacenado</p>
+                            </div>
+                        </div>
+                        <button onclick="clearCache()" class="settings-btn">
+                            Limpiar
+                        </button>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-database" style="color: var(--netflix-red);"></i>
+                            <div>
+                                <h3 style="font-size: 1rem; color: var(--white); margin-bottom: 3px;">Restablecer Datos</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-gray);">Borrar toda la información local</p>
+                            </div>
+                        </div>
+                        <button onclick="resetAllData()" class="settings-btn danger">
+                            Restablecer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Reproductor -->
         <div class="modal-overlay" id="playerModal">
             <div class="modal-content">
@@ -1642,6 +1848,7 @@
             myList: [],
             history: []
         };
+        let userSettings = {};
         
         let latestContent = null;
         let isTVMode = false;
@@ -1657,15 +1864,12 @@
             const width = window.innerWidth;
             const height = window.innerHeight;
             
-            // Si el ancho es mayor que el alto = MODO TV
             isTVMode = width > height;
             
-            // Para tablets grandes en portrait, mantener modo móvil
             if (width > 768 && height > 1024) {
                 isTVMode = false;
             }
             
-            // También considerar si el usuario está en un dispositivo con pantalla grande
             if (width > 1024) {
                 isTVMode = true;
             }
@@ -1679,21 +1883,17 @@
             const isNowTVMode = detectTVMode();
             
             if (isNowTVMode && !wasTVMode) {
-                // Cambiar a modo TV
                 document.body.classList.add('tv-mode');
                 
-                // Actualizar navegación TV
                 if (currentUser) {
                     const userInitial = currentUser.nombre.charAt(0).toUpperCase();
                     document.getElementById('tvUserAvatar').textContent = userInitial;
                 }
                 
             } else if (!isNowTVMode && wasTVMode) {
-                // Cambiar a modo móvil
                 document.body.classList.remove('tv-mode');
             }
             
-            // Renderizar contenido según el modo actual
             if (allContent.length > 0) {
                 renderContentForCurrentMode();
             }
@@ -1719,12 +1919,10 @@
         
         function performSearch(query, filter, mode) {
             let filteredContent = allContent.filter(item => {
-                // Filtrar por nombre
                 const matchesSearch = query === '' || 
                     item.nombre.toLowerCase().includes(query.toLowerCase()) ||
                     (item.categorias?.nombre && item.categorias.nombre.toLowerCase().includes(query.toLowerCase()));
                 
-                // Filtrar por categoría
                 let matchesFilter = true;
                 if (filter !== 'all') {
                     matchesFilter = item.tipo === filter;
@@ -1747,10 +1945,8 @@
                     return;
                 }
                 
-                // Mostrar sección de resultados
                 resultsSection.classList.remove('search-hidden');
                 
-                // Renderizar resultados
                 if (results.length === 0) {
                     resultsContainer.innerHTML = `
                         <div class="empty-state">
@@ -1774,7 +1970,6 @@
                 
                 searchCount.textContent = `${results.length} resultado${results.length !== 1 ? 's' : ''}`;
             } else {
-                // Búsqueda TV
                 const activeSection = document.querySelector('.tv-section.active');
                 let resultsSection = activeSection.querySelector('.tv-search-results');
                 
@@ -1801,7 +1996,6 @@
                 const resultsContainer = resultsSection.querySelector('.tv-search-results-content');
                 const searchCount = resultsSection.querySelector('.tv-search-count');
                 
-                // Renderizar resultados
                 if (results.length === 0) {
                     resultsContainer.innerHTML = `
                         <div class="empty-state">
@@ -1844,7 +2038,6 @@
             filterContainer.classList.add('active');
             mobileSearchActive = true;
             
-            // Enfocar el input
             setTimeout(() => {
                 document.getElementById('mobileSearchInput').focus();
             }, 100);
@@ -1857,7 +2050,6 @@
             filterContainer.classList.remove('active');
             mobileSearchActive = false;
             
-            // Limpiar búsqueda
             clearMobileSearch();
         }
         
@@ -1867,7 +2059,6 @@
             mobileSearchQuery = '';
             mobileCurrentFilter = 'all';
             
-            // Restaurar botones de filtro
             document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.textContent === 'Todos') {
@@ -1875,44 +2066,36 @@
                 }
             });
             
-            // Ocultar resultados
             document.getElementById('mobileSearchResults').classList.add('search-hidden');
         }
         
         function setMobileFilter(filterType) {
             mobileCurrentFilter = filterType;
             
-            // Actualizar botones de filtro
             document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Aplicar filtro y búsqueda
             performSearchOptimized(mobileSearchQuery, filterType, 'mobile');
         }
 
         // ===== NAVEGACIÓN =====
         function switchMobileSection(section) {
-            // Cerrar búsqueda si está abierta
             if (mobileSearchActive) {
                 closeMobileSearch();
             }
             
-            // Ocultar todas las secciones
             document.querySelectorAll('.mobile-section').forEach(sec => {
                 sec.classList.remove('active');
             });
             
-            // Quitar activo de todos los botones
             document.querySelectorAll('.mobile-nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            // Activar sección correspondiente
             document.getElementById(`mobile${capitalizeFirstLetter(section)}Section`).classList.add('active');
             
-            // Activar botón correspondiente
             document.querySelectorAll('.mobile-nav-item').forEach((item, index) => {
                 if (section === 'home' && index === 0) {
                     item.classList.add('active');
@@ -1927,19 +2110,16 @@
                 }
             });
             
-            // Si es Mi Lista, renderizar contenido
             if (section === 'myList') {
                 renderMobileMyList();
             }
             
-            // Si es otra sección, renderizar contenido de esa categoría
             if (section === 'movies' || section === 'series' || section === 'channels') {
                 renderCategoryContent(section, 'mobile');
             }
         }
 
         function switchTVSection(section) {
-            // Limpiar búsqueda TV
             const tvSearchInput = document.getElementById('tvSearchInput');
             if (tvSearchInput) {
                 tvSearchInput.value = '';
@@ -1952,20 +2132,16 @@
                 }
             }
             
-            // Ocultar todas las secciones
             document.querySelectorAll('.tv-section').forEach(sec => {
                 sec.classList.remove('active');
             });
             
-            // Quitar activo de todos los botones
             document.querySelectorAll('.tv-nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            // Activar sección correspondiente
             document.getElementById(`tv${capitalizeFirstLetter(section)}Section`).classList.add('active');
             
-            // Activar botón correspondiente
             document.querySelectorAll('.tv-nav-item').forEach((item, index) => {
                 if (section === 'home' && index === 0) {
                     item.classList.add('active');
@@ -1980,12 +2156,10 @@
                 }
             });
             
-            // Si es Mi Lista, renderizar contenido
             if (section === 'myList') {
                 renderTVMyList();
             }
             
-            // Si es otra sección, renderizar contenido de esa categoría
             if (section === 'movies' || section === 'series' || section === 'channels') {
                 renderCategoryContent(section, 'tv');
             }
@@ -2016,8 +2190,32 @@
                 const savedHistory = localStorage.getItem(`${userKey}_history`);
                 userLists.history = savedHistory ? JSON.parse(savedHistory) : [];
                 
+                // Cargar ajustes del usuario
+                const savedSettings = localStorage.getItem(`${userKey}_settings`);
+                userSettings = savedSettings ? JSON.parse(savedSettings) : {
+                    wifiOnly: false,
+                    autoPlay: true,
+                    darkMode: true
+                };
+                
+                // Aplicar ajustes a los toggles
+                document.getElementById('wifiOnly').checked = userSettings.wifiOnly || false;
+                document.getElementById('autoPlay').checked = userSettings.autoPlay !== false;
+                document.getElementById('darkMode').checked = userSettings.darkMode !== false;
+                
                 updateProfileCounters();
             }
+        }
+
+        // Guardar ajuste
+        function saveSetting(key, value) {
+            if (!currentUser) return;
+            
+            userSettings[key] = value;
+            const userKey = `finki_user_${currentUser.id}`;
+            localStorage.setItem(`${userKey}_settings`, JSON.stringify(userSettings));
+            
+            showNotification('Ajuste guardado');
         }
 
         // Agregar a Mi Lista
@@ -2070,7 +2268,6 @@
             
             const userKey = `finki_user_${currentUser.id}`;
             
-            // Eliminar duplicados recientes
             userLists.history = userLists.history.filter(item => 
                 item.id !== contentItem.id
             );
@@ -2083,7 +2280,6 @@
                 tipo: contentItem.tipo
             });
             
-            // Limitar historial a 50 elementos
             if (userLists.history.length > 50) {
                 userLists.history = userLists.history.slice(0, 50);
             }
@@ -2092,6 +2288,62 @@
             updateProfileCounters();
             renderFullHistory();
             return true;
+        }
+
+        // NUEVO: Limpiar Historial
+        function clearHistory() {
+            if (!currentUser) return;
+            
+            if (confirm('¿Estás seguro de que quieres eliminar todo tu historial?')) {
+                const userKey = `finki_user_${currentUser.id}`;
+                userLists.history = [];
+                localStorage.setItem(`${userKey}_history`, JSON.stringify([]));
+                updateProfileCounters();
+                renderFullHistory();
+                showNotification('Historial eliminado');
+            }
+        }
+
+        // NUEVO: Limpiar Caché
+        function clearCache() {
+            if (confirm('¿Estás seguro de que quieres limpiar la caché? Esto mejorará el rendimiento.')) {
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (let name of names) {
+                            caches.delete(name);
+                        }
+                    });
+                }
+                showNotification('Caché limpiada');
+            }
+        }
+
+        // NUEVO: Restablecer todos los datos locales
+        function resetAllData() {
+            if (confirm('¿Estás seguro? Esto borrará toda tu información local (Mi Lista, Historial, Ajustes).')) {
+                if (currentUser) {
+                    const userKey = `finki_user_${currentUser.id}`;
+                    localStorage.removeItem(`${userKey}_myList`);
+                    localStorage.removeItem(`${userKey}_history`);
+                    localStorage.removeItem(`${userKey}_settings`);
+                }
+                
+                userLists = { myList: [], history: [] };
+                userSettings = {};
+                
+                updateProfileCounters();
+                renderMobileMyList();
+                renderTVMyList();
+                renderFullMyList();
+                renderFullHistory();
+                
+                // Resetear toggles
+                document.getElementById('wifiOnly').checked = false;
+                document.getElementById('autoPlay').checked = true;
+                document.getElementById('darkMode').checked = true;
+                
+                showNotification('Datos restablecidos');
+            }
         }
 
         // Actualizar contadores del perfil
@@ -2284,10 +2536,7 @@
                         await cargarContenidoOptimizado();
                         actualizarPerfil();
                         
-                        // Aplicar modo inicial
                         applyTVMode();
-                        
-                        // Configurar eventos de búsqueda optimizados
                         setupSearchEvents();
                         
                     } else {
@@ -2303,7 +2552,6 @@
                 setupSearchEvents();
             }
             
-            // Detectar cambios de tamaño/orientación
             window.addEventListener('resize', function() {
                 applyTVMode();
             });
@@ -2317,7 +2565,6 @@
 
         // Configurar eventos de búsqueda optimizados
         function setupSearchEvents() {
-            // Búsqueda móvil optimizada
             const mobileSearchInput = document.getElementById('mobileSearchInput');
             if (mobileSearchInput) {
                 mobileSearchInput.addEventListener('input', function() {
@@ -2326,7 +2573,6 @@
                 });
             }
             
-            // Búsqueda TV optimizada
             const tvSearchInput = document.getElementById('tvSearchInput');
             if (tvSearchInput) {
                 tvSearchInput.addEventListener('input', function() {
@@ -2470,10 +2716,7 @@
                 await cargarContenidoOptimizado();
                 actualizarPerfil();
                 
-                // Aplicar modo inicial
                 applyTVMode();
-                
-                // Configurar eventos de búsqueda
                 setupSearchEvents();
                 
                 hideLoading();
@@ -2486,6 +2729,7 @@
             
             currentUser = null;
             userLists = { myList: [], history: [] };
+            userSettings = {};
             
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('authSection').style.display = 'flex';
@@ -2514,7 +2758,6 @@
             if (allContent.length > 0) {
                 latestContent = allContent[0];
                 
-                // Actualizar banners
                 if (latestContent.url_portada) {
                     document.getElementById('mobileHeroBanner').style.backgroundImage = 
                         `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%),
@@ -2531,10 +2774,8 @@
                 document.getElementById('tvHeroTitle').textContent = latestContent.nombre;
             }
             
-            // Renderizar contenido según el modo actual
             renderContentForCurrentMode();
             
-            // Actualizar contador
             document.getElementById('totalContentCount').textContent = `${allContent.length} items`;
             document.getElementById('tvTotalContentCount').textContent = `${allContent.length} items`;
             document.getElementById('totalCount').textContent = allContent.length;
@@ -2545,12 +2786,15 @@
         // Renderizar contenido Móvil optimizado
         function renderMobileContent() {
             // Limpiar contenedores
-            ['mobileAllContent', 'mobileMoviesFullContent', 'mobileSeriesFullContent', 'mobileChannelsFullContent'].forEach(id => {
+            ['mobileFeaturedContent', 'mobileAllContent', 'mobileMoviesFullContent', 'mobileSeriesFullContent', 'mobileChannelsFullContent'].forEach(id => {
                 const container = document.getElementById(id);
                 if (container) container.innerHTML = '';
             });
             
-            // Renderizar TODO el contenido en un solo grid
+            // Renderizar 5 CONTENIDOS DESTACADOS (últimos 5)
+            renderFeaturedContent('mobile', 'mobileFeaturedContent');
+            
+            // Renderizar TODO el contenido
             renderAllContent('mobile', 'mobileAllContent');
             
             // Renderizar Mi Lista móvil
@@ -2560,7 +2804,7 @@
         // Renderizar contenido TV optimizado
         function renderTVContent() {
             // Limpiar contenedores
-            ['tvAllContent', 'tvMoviesFullContent', 'tvSeriesFullContent', 'tvChannelsFullContent'].forEach(id => {
+            ['tvFeaturedContent', 'tvAllContent', 'tvMoviesFullContent', 'tvSeriesFullContent', 'tvChannelsFullContent'].forEach(id => {
                 const container = document.getElementById(id);
                 if (container) container.innerHTML = '';
             });
@@ -2568,14 +2812,54 @@
             // Mostrar banner TV
             document.getElementById('tvHeroBanner').style.display = 'flex';
             
-            // Renderizar TODO el contenido en un solo grid
+            // Renderizar 5 CONTENIDOS DESTACADOS TV
+            renderFeaturedContent('tv', 'tvFeaturedContent');
+            
+            // Renderizar TODO el contenido TV
             renderAllContent('tv', 'tvAllContent');
             
             // Renderizar Mi Lista TV
             renderTVMyList();
         }
         
-        // RENDERIZAR TODO EL CONTENIDO - FUNCIÓN PRINCIPAL OPTIMIZADA
+        // RENDERIZAR 5 CONTENIDOS DESTACADOS (últimos 5)
+        function renderFeaturedContent(mode, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (allContent.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-film"></i>
+                        <p>No hay contenido disponible</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Tomar los últimos 5 contenidos como destacados
+            const featuredContent = allContent.slice(0, 5);
+            
+            const fragment = document.createDocumentFragment();
+            featuredContent.forEach(item => {
+                const card = crearTarjetaContenido(item, mode);
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = card;
+                fragment.appendChild(tempDiv.firstChild);
+            });
+            
+            container.appendChild(fragment);
+            
+            // Actualizar contador
+            document.getElementById('featuredCount').textContent = `${featuredContent.length} destacados`;
+            if (mode === 'tv') {
+                document.getElementById('tvFeaturedCount').textContent = `${featuredContent.length} destacados`;
+            }
+        }
+        
+        // RENDERIZAR TODO EL CONTENIDO
         function renderAllContent(mode, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -2592,7 +2876,6 @@
                 return;
             }
             
-            // OPTIMIZACIÓN PARA BAJA RAM: Renderizar en bloques
             const batchSize = 20;
             const totalBatches = Math.ceil(allContent.length / batchSize);
             
@@ -2612,17 +2895,15 @@
                 
                 container.appendChild(fragment);
                 
-                // Renderizar siguiente batch si hay más
                 if (batchIndex + 1 < totalBatches) {
                     setTimeout(() => renderBatch(batchIndex + 1), 50);
                 }
             }
             
-            // Iniciar renderizado por batches
             renderBatch(0);
         }
         
-        // Renderizar contenido por categoría (para secciones específicas)
+        // Renderizar contenido por categoría
         function renderCategoryContent(category, mode) {
             let containerId, filteredContent;
             
@@ -2688,7 +2969,6 @@
                     <i class="${listBtnIcon}"></i>
                 </button>` : '';
             
-            // Usar imagen placeholder por defecto para ahorrar RAM
             const imageUrl = item.url_portada || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzFhMjUzNiIvPjwvc3ZnPg==';
             
             if (mode === 'tv') {
@@ -2724,7 +3004,6 @@
             if (!contentItem) return;
             
             if (addToMyList(contentItem)) {
-                // Actualizar botón en la tarjeta
                 const eventTarget = event.target;
                 const card = eventTarget.closest('.mobile-content-card') || eventTarget.closest('.tv-content-card');
                 if (card) {
@@ -2782,7 +3061,7 @@
             }, 2000);
         }
 
-        // ===== NAVEGACIÓN ENTRE PANTALLAS DE LISTAS =====
+        // ===== NAVEGACIÓN ENTRE PANTALLAS =====
         function openMyListScreen() {
             document.getElementById('myListScreen').classList.add('active');
             closeProfile();
@@ -2793,6 +3072,12 @@
             document.getElementById('historyScreen').classList.add('active');
             closeProfile();
             renderFullHistory();
+        }
+        
+        // NUEVO: Abrir pantalla de ajustes
+        function openSettingsScreen() {
+            document.getElementById('settingsScreen').classList.add('active');
+            closeProfile();
         }
         
         function closeListScreen(screen) {
@@ -2841,12 +3126,11 @@
             if (e.key === 'Escape') {
                 closePlayer();
                 
-                // Cerrar búsqueda móvil si está abierta
                 if (mobileSearchActive) {
                     closeMobileSearch();
                 }
                 
-                const activeScreens = ['myListScreen', 'historyScreen'];
+                const activeScreens = ['myListScreen', 'historyScreen', 'settingsScreen'];
                 activeScreens.forEach(screen => {
                     if (document.getElementById(screen).classList.contains('active')) {
                         closeListScreen(screen.replace('Screen', ''));
@@ -2860,10 +3144,8 @@
         });
         
         // Optimizaciones para móviles con baja RAM
-        // Liberar memoria cuando la app está en segundo plano
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
-                // Limpiar imágenes fuera de vista cuando la app no está visible
                 const images = document.querySelectorAll('img');
                 images.forEach(img => {
                     if (img.getBoundingClientRect().top > window.innerHeight * 2) {
@@ -2873,19 +3155,16 @@
             }
         });
         
-        // Prevenir comportamiento por defecto en toques largos
         document.addEventListener('touchstart', function(e) {
             if (e.touches.length > 1) {
                 e.preventDefault();
             }
         }, { passive: false });
         
-        // Mejorar rendimiento en scroll
         let scrollTimer;
         document.addEventListener('scroll', function() {
             clearTimeout(scrollTimer);
             scrollTimer = setTimeout(() => {
-                // Recargar imágenes visibles después de scroll
                 const images = document.querySelectorAll('img');
                 const viewportTop = window.scrollY;
                 const viewportBottom = viewportTop + window.innerHeight;

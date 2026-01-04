@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -26,7 +26,7 @@
             --secondary-blue: #1a2b44;
             --accent-blue: #2a3d5f;
             --highlight-blue: #4cc9f0;
-            --finki-blue: #0077ff; /* COLOR AZUL PRINCIPAL */
+            --finki-blue: #0077ff;
             --finki-blue-dark: #0055cc;
             --dark-bg: #0a0f1a;
             --darker-bg: #050a14;
@@ -50,6 +50,11 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             -webkit-tap-highlight-color: transparent;
             -webkit-text-size-adjust: 100%;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        html {
+            height: -webkit-fill-available;
         }
         
         body {
@@ -60,17 +65,20 @@
             -webkit-font-smoothing: antialiased;
             font-size: 14px;
             line-height: 1.4;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
         }
         
         /* ===== SECCIÓN DE AUTENTICACIÓN ESTILO FINKI ===== */
         #authSection {
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.9) 100%), 
                         url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 20px;
             position: relative;
         }
         
@@ -193,6 +201,7 @@
         #mainApp {
             display: none;
             height: 100vh;
+            height: -webkit-fill-available;
             overflow: hidden;
             background: var(--dark-bg);
         }
@@ -249,12 +258,12 @@
         /* ===== MODO MÓVIL (DEFAULT) ===== */
         /* ================================= */
         
-        /* Header Móvil FINKI - SIN BOTÓN DE BÚSQUEDA */
+        /* Header Móvil FINKI - DISEÑO NATIVO MODERNO */
         .mobile-header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 0 15px;
+            padding: 0 16px;
             background: rgba(0, 0, 0, 0.95);
             display: flex;
             justify-content: space-between;
@@ -262,13 +271,16 @@
             z-index: 1000;
             height: 60px;
             border-bottom: 1px solid #333;
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
         }
         
         .mobile-logo {
             color: var(--finki-blue);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
             letter-spacing: -1px;
+            margin-left: -2px;
         }
         
         .user-profile {
@@ -286,56 +298,60 @@
             align-items: center;
             gap: 5px;
             font-size: 0.8rem;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+        
+        .profile-btn:active {
+            background: rgba(255,255,255,0.1);
         }
         
         .profile-avatar {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             background: linear-gradient(135deg, var(--finki-blue) 0%, var(--finki-blue-dark) 100%);
-            border-radius: 4px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
             color: var(--white);
-            font-size: 0.9rem;
+            font-size: 1rem;
             border: 1px solid rgba(255,255,255,0.2);
         }
         
-        /* Contenedor Principal Móvil */
+        /* Contenedor Principal Móvil - FULLSCREEN MODERN */
         .mobile-container {
-            height: calc(100vh - 60px);
+            height: 100vh;
+            height: -webkit-fill-available;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            margin-top: 60px;
-            scroll-behavior: smooth;
             background: var(--dark-bg);
+            scroll-behavior: smooth;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            /* Ocultar scrollbar en navegadores WebKit */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
         
-        /* Banner Hero Móvil - MENOS OSCURO */
+        .mobile-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Banner Hero Móvil - DISEÑO MODERNO */
         .mobile-hero-banner {
             position: relative;
-            height: 45vh;
-            min-height: 280px;
-            background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.7) 100%),
-                        linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 70%),
+            height: 50vh;
+            min-height: 320px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%),
                         url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
             display: flex;
             align-items: flex-end;
-            padding: 0 15px 25px;
-            margin-bottom: 20px;
+            padding: 0 20px 30px;
+            margin-bottom: 5px;
             overflow: hidden;
-        }
-        
-        .mobile-hero-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 80%);
-            pointer-events: none;
         }
         
         .mobile-hero-content {
@@ -345,13 +361,13 @@
         }
         
         .mobile-hero-title {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            margin-bottom: 15px;
-            text-shadow: 3px 3px 15px rgba(0,0,0,0.9);
-            line-height: 1.2;
+            margin-bottom: 12px;
+            line-height: 1.1;
             color: var(--white);
-            max-width: 90%;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            max-width: 95%;
             background: linear-gradient(to right, #fff 0%, var(--highlight-blue) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -359,45 +375,46 @@
         }
         
         .mobile-hero-subtitle {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-light);
-            margin-bottom: 20px;
-            max-width: 80%;
+            margin-bottom: 24px;
+            max-width: 85%;
             text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            opacity: 0.9;
         }
         
         .mobile-hero-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
         
         .mobile-hero-button {
-            padding: 10px 16px;
-            border-radius: 4px;
+            padding: 14px 20px;
+            border-radius: 12px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             border: none;
-            transition: all 0.2s ease;
-            min-width: 120px;
-            height: 40px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 140px;
+            height: 48px;
             flex: none;
         }
         
         .mobile-hero-button.primary {
             background: var(--finki-blue);
             color: var(--white);
-            box-shadow: 0 4px 12px rgba(0,119,255,0.4);
+            box-shadow: 0 6px 16px rgba(0,119,255,0.4);
         }
         
-        .mobile-hero-button.primary:hover {
+        .mobile-hero-button.primary:active {
             background: var(--finki-blue-dark);
-            transform: translateY(-2px);
+            transform: scale(0.98);
         }
         
         .mobile-hero-button.secondary {
@@ -407,14 +424,15 @@
             backdrop-filter: blur(10px);
         }
         
-        .mobile-hero-button.secondary:hover {
+        .mobile-hero-button.secondary:active {
             background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.98);
         }
         
-        /* Sección de Inicio Móvil - SOLO 8 DESTACADOS CON DISEÑO ESPECIAL */
+        /* Sección de Inicio Móvil - DISEÑO MODERNO */
         .mobile-section {
             display: none;
-            padding: 0 15px;
+            padding: 0 20px 30px;
         }
         
         .mobile-section.active {
@@ -422,37 +440,39 @@
         }
         
         .mobile-section-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--white);
-            margin: 20px 0 15px;
+            margin: 20px 0 16px;
             padding-left: 5px;
             position: relative;
+            display: flex;
+            align-items: center;
         }
         
         .mobile-section-title::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -8px;
             left: 5px;
-            width: 50px;
-            height: 3px;
+            width: 40px;
+            height: 4px;
             background: var(--finki-blue);
             border-radius: 2px;
         }
         
-        /* Grid de 8 Destacados - DISEÑO ESPECIAL */
+        /* Grid de 8 Destacados - DISEÑO MODERNO */
         .featured-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 16px;
             margin-bottom: 30px;
         }
         
         .featured-card {
             position: relative;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             background: var(--card-bg);
             box-shadow: var(--card-shadow);
@@ -461,28 +481,26 @@
             border: 2px solid transparent;
         }
         
-        .featured-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
-            border-color: var(--finki-blue);
+        .featured-card:active {
+            transform: scale(0.98);
         }
         
         .featured-number {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 12px;
+            left: 12px;
             background: var(--finki-blue);
             color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             z-index: 2;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
         
         .featured-img-container {
@@ -499,24 +517,20 @@
             transition: transform 0.5s ease;
         }
         
-        .featured-card:hover .featured-img {
-            transform: scale(1.1);
-        }
-        
         .featured-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-            padding: 15px 10px 10px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            padding: 20px 15px 15px;
         }
         
         .featured-title {
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--white);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             line-height: 1.3;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -526,53 +540,54 @@
         }
         
         .featured-category {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--highlight-blue);
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
         
         .featured-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             background: var(--finki-blue);
             color: white;
-            padding: 4px 8px;
-            border-radius: 3px;
-            font-size: 0.6rem;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             z-index: 2;
         }
         
-        /* Sección de Búsqueda Móvil */
+        /* Sección de Búsqueda Móvil - MODERNA */
         .mobile-search-section {
-            padding: 15px;
+            padding: 20px;
+            padding-top: calc(env(safe-area-inset-top) + 20px);
         }
         
         .search-header {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         .search-title {
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--white);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             position: relative;
         }
         
         .search-title::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -8px;
             left: 0;
-            width: 50px;
-            height: 3px;
+            width: 40px;
+            height: 4px;
             background: var(--finki-blue);
             border-radius: 2px;
         }
@@ -581,25 +596,25 @@
             display: flex;
             align-items: center;
             background: rgba(35, 35, 35, 0.9);
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid #444;
             overflow: hidden;
-            padding: 0 15px;
-            margin-bottom: 15px;
+            padding: 0 16px;
+            margin-bottom: 20px;
         }
         
         .search-box i {
             color: var(--text-gray);
-            margin-right: 10px;
+            margin-right: 12px;
         }
         
         .search-input {
             flex: 1;
-            padding: 14px 0;
+            padding: 16px 0;
             background: transparent;
             border: none;
             color: var(--white);
-            font-size: 1rem;
+            font-size: 1.1rem;
             outline: none;
         }
         
@@ -613,46 +628,67 @@
             border: none;
             color: #8c8c8c;
             cursor: pointer;
-            padding: 5px;
-            margin-left: 5px;
+            padding: 8px;
+            margin-left: 8px;
+            border-radius: 50%;
+        }
+        
+        .search-clear:active {
+            background: rgba(255,255,255,0.1);
         }
         
         .search-filters {
             display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .search-filters::-webkit-scrollbar {
+            display: none;
         }
         
         .search-filter {
-            padding: 8px 16px;
+            padding: 10px 20px;
             background: rgba(35, 35, 35, 0.8);
             border: 1px solid #444;
             color: var(--text-gray);
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .search-filter:active {
+            transform: scale(0.95);
         }
         
         .search-filter.active {
             background: var(--finki-blue);
             color: var(--white);
             border-color: var(--finki-blue);
+            box-shadow: 0 4px 12px rgba(0,119,255,0.3);
         }
         
         .search-results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
         }
         
         /* Estado para mostrar que hay búsqueda activa */
         .search-active .search-header {
             position: sticky;
-            top: 0;
+            top: calc(env(safe-area-inset-top) + 10px);
             background: var(--dark-bg);
             padding-top: 10px;
+            padding-bottom: 15px;
             z-index: 10;
             border-bottom: 1px solid #333;
             margin-bottom: 15px;
@@ -661,14 +697,14 @@
         /* Contenido normal para otras secciones */
         .mobile-content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
         }
         
         .mobile-content-card {
             position: relative;
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 10px;
             overflow: hidden;
             background: var(--card-bg);
             box-shadow: var(--card-shadow);
@@ -695,7 +731,7 @@
         }
         
         .mobile-card-info {
-            padding: 8px 6px;
+            padding: 12px 8px;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
             position: absolute;
             bottom: 0;
@@ -704,10 +740,10 @@
         }
         
         .mobile-card-title {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--white);
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             line-height: 1.2;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -716,7 +752,7 @@
         }
         
         .mobile-card-subtitle {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--text-gray);
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -726,13 +762,13 @@
         
         .card-badge {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 8px;
+            right: 8px;
             background: var(--finki-blue);
             color: white;
-            padding: 3px 6px;
-            border-radius: 2px;
-            font-size: 0.6rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
             font-weight: 700;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
             z-index: 2;
@@ -740,13 +776,14 @@
             letter-spacing: 0.5px;
         }
         
-        /* Barra de Navegación Inferior Móvil - CON BÚSQUEDA */
+        /* Barra de Navegación Inferior Móvil - DISEÑO NATIVO MODERNO */
         .mobile-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 60px;
+            height: 80px;
+            height: calc(60px + env(safe-area-inset-bottom));
             background: rgba(0, 0, 0, 0.98);
             border-top: 1px solid #333;
             display: flex;
@@ -754,6 +791,8 @@
             align-items: center;
             z-index: 1000;
             padding-bottom: env(safe-area-inset-bottom);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
         }
         
         .mobile-nav-item {
@@ -762,7 +801,7 @@
             align-items: center;
             justify-content: center;
             color: var(--text-gray);
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             width: 20%;
             height: 100%;
             transition: all 0.3s ease;
@@ -770,7 +809,7 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            padding: 5px 0;
+            padding: 8px 0;
             position: relative;
         }
         
@@ -784,15 +823,15 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 25px;
+            width: 30px;
             height: 3px;
             background: var(--finki-blue);
-            border-radius: 0 0 2px 2px;
+            border-radius: 0 0 4px 4px;
         }
         
         .mobile-nav-item i {
-            font-size: 1rem;
-            margin-bottom: 3px;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
         }
         
         /* ============================= */
@@ -1306,9 +1345,9 @@
             overflow: hidden;
         }
         
-        /* ===== ELEMENTOS COMPARTIDOS FINKI ===== */
+        /* ===== ELEMENTOS COMPARTIDOS FINKI - MODERNOS ===== */
         
-        /* Panel de Perfil */
+        /* Panel de Perfil - MODERNO */
         .profile-panel {
             position: fixed;
             top: 0;
@@ -1327,22 +1366,23 @@
         }
         
         .profile-header {
-            padding: 40px 15px 20px;
+            padding: 50px 20px 30px;
             background: linear-gradient(135deg, var(--finki-blue) 0%, var(--finki-blue-dark) 100%);
             position: relative;
+            padding-top: calc(env(safe-area-inset-top) + 50px);
         }
         
         .close-profile {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: calc(env(safe-area-inset-top) + 20px);
+            right: 20px;
             background: rgba(0, 0, 0, 0.3);
             border: none;
             color: white;
             font-size: 1.2rem;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1350,23 +1390,32 @@
             transition: background 0.3s ease;
         }
         
+        .close-profile:active {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
         /* Botón de lista en tarjeta */
         .list-btn {
             position: absolute;
-            top: 8px;
-            left: 8px;
+            top: 12px;
+            left: 12px;
             background: rgba(0, 0, 0, 0.8);
             color: var(--white);
             border: 1px solid rgba(255,255,255,0.3);
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 1rem;
             z-index: 2;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .list-btn:active {
+            transform: scale(0.9);
         }
         
         .list-btn.in-list {
@@ -1377,24 +1426,29 @@
         /* Botón de eliminar */
         .remove-btn {
             position: absolute;
-            top: 8px;
-            left: 8px;
+            top: 12px;
+            left: 12px;
             background: var(--finki-blue);
             color: white;
             border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 1rem;
             z-index: 2;
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(0,119,255,0.4);
+            transition: all 0.2s ease;
         }
         
-        /* Pantallas de Listas */
+        .remove-btn:active {
+            transform: scale(0.9);
+        }
+        
+        /* Pantallas de Listas - MODERNAS */
         .list-screen {
             position: fixed;
             top: 0;
@@ -1417,12 +1471,13 @@
             position: sticky;
             top: 0;
             background: rgba(0, 0, 0, 0.98);
-            padding: 15px;
+            padding: 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
             z-index: 10;
             border-bottom: 1px solid #333;
+            padding-top: calc(env(safe-area-inset-top) + 20px);
         }
         
         .back-button {
@@ -1431,34 +1486,40 @@
             color: var(--white);
             font-size: 1rem;
             cursor: pointer;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:active {
+            background: rgba(255,255,255,0.2);
+            transform: scale(0.95);
         }
         
         .screen-title {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--white);
         }
         
         .screen-content {
-            padding: 20px 15px;
+            padding: 20px;
         }
         
-        /* Settings Section */
+        /* Settings Section - MODERNA */
         .settings-section {
-            padding: 15px;
+            padding: 20px;
         }
         
         .settings-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px 0;
+            padding: 20px 0;
             border-bottom: 1px solid #333;
         }
         
@@ -1470,28 +1531,34 @@
             background: rgba(255,255,255,0.1);
             color: white;
             border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.9rem;
             cursor: pointer;
             font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .settings-btn:active {
+            transform: scale(0.95);
         }
         
         .settings-btn.danger {
-            background: rgba(0,119,255,0.2);
-            border-color: rgba(0,119,255,0.4);
+            background: rgba(255, 87, 87, 0.2);
+            border-color: rgba(255, 87, 87, 0.4);
+            color: #ff5757;
         }
         
-        .settings-btn.danger:hover {
-            background: rgba(0,119,255,0.4);
+        .settings-btn.danger:active {
+            background: rgba(255, 87, 87, 0.4);
         }
         
         /* Toggle Switch */
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 24px;
+            width: 60px;
+            height: 30px;
         }
         
         .toggle-switch input {
@@ -1516,8 +1583,8 @@
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 16px;
-            width: 16px;
+            height: 22px;
+            width: 22px;
             left: 4px;
             bottom: 3px;
             background-color: white;
@@ -1531,10 +1598,10 @@
         }
         
         input:checked + .toggle-slider:before {
-            transform: translateX(24px);
+            transform: translateX(28px);
         }
         
-        /* Reproductor Modal */
+        /* Reproductor Modal - FULLSCREEN */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1560,14 +1627,14 @@
         
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: calc(env(safe-area-inset-top) + 20px);
+            right: 20px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
             border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
             font-size: 1rem;
             cursor: pointer;
             z-index: 3001;
@@ -1575,45 +1642,53 @@
             align-items: center;
             justify-content: center;
             border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.2s ease;
         }
         
-        /* Empty State */
+        .close-modal:active {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(0.95);
+        }
+        
+        /* Empty State - MODERNO */
         .empty-state {
             text-align: center;
-            padding: 40px 15px;
+            padding: 60px 20px;
             color: var(--text-gray);
         }
         
         .empty-state i {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: #666;
-            opacity: 0.7;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--finki-blue);
+            opacity: 0.5;
         }
         
         .empty-state p {
-            font-size: 0.9rem;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--white);
+            opacity: 0.8;
         }
         
         .empty-state .subtext {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: #888;
         }
         
         /* Grid para pantallas de lista */
         .list-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 16px;
         }
         
         /* Safe Areas para iPhone X+ */
         @supports (padding: max(0px)) {
             .mobile-header, .mobile-hero-banner, .mobile-section, .screen-header,
             .mobile-search-section {
-                padding-left: max(15px, env(safe-area-inset-left));
-                padding-right: max(15px, env(safe-area-inset-right));
+                padding-left: max(16px, env(safe-area-inset-left));
+                padding-right: max(16px, env(safe-area-inset-right));
             }
             
             .mobile-header {
@@ -1623,11 +1698,10 @@
             
             .mobile-container {
                 margin-top: calc(60px + env(safe-area-inset-top));
-                height: calc(100vh - (60px + env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+                padding-bottom: calc(60px + env(safe-area-inset-bottom));
             }
             
             .mobile-nav {
-                padding-bottom: max(0px, env(safe-area-inset-bottom));
                 height: calc(60px + env(safe-area-inset-bottom));
             }
             
@@ -1649,19 +1723,21 @@
             }
         }
         
-        /* Scrollbar personalizado */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.1);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--finki-blue);
-            border-radius: 4px;
+        /* Scrollbar personalizado (solo para navegadores de escritorio) */
+        @media (min-width: 768px) {
+            ::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: rgba(0,0,0,0.1);
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: var(--finki-blue);
+                border-radius: 4px;
+            }
         }
         
         /* Clase para ocultar resultados de búsqueda */
@@ -1739,22 +1815,22 @@
             }
         }
         
-        /* Media Queries para baja RAM */
+        /* Media Queries para móviles pequeños */
         @media (max-width: 350px) {
             .featured-grid, .mobile-content-grid, .tv-content-grid, .list-grid {
-                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-                gap: 6px;
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 10px;
             }
             
-            .mobile-hero-title, .tv-hero-title {
-                font-size: 1.3rem;
+            .mobile-hero-title {
+                font-size: 1.8rem;
             }
             
-            .mobile-hero-button, .tv-hero-button {
-                min-width: 100px;
-                padding: 8px 12px;
-                font-size: 0.8rem;
-                height: 36px;
+            .mobile-hero-button {
+                min-width: 120px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                height: 44px;
             }
             
             .tv-sidebar {
@@ -1805,6 +1881,58 @@
         body.tv-mode input {
             font-size: 16px;
         }
+        
+        /* Clases para ocultar elementos del sistema móvil */
+        .hide-system-ui {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Fullscreen para móvil */
+        .mobile-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Ajustes para navegación por gestos en iOS */
+        .gesture-safe {
+            margin-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Clase para esconder scrollbar siempre en móvil */
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Mejorar apariencia de elementos interactivos en móvil */
+        @media (hover: none) and (pointer: coarse) {
+            .mobile-hero-button,
+            .search-filter,
+            .mobile-nav-item,
+            .back-button,
+            .close-profile,
+            .close-modal,
+            .settings-btn,
+            .list-btn,
+            .remove-btn {
+                -webkit-tap-highlight-color: rgba(0, 119, 255, 0.3);
+            }
+            
+            .mobile-content-card:active,
+            .featured-card:active {
+                opacity: 0.7;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1854,7 +1982,7 @@
     <div id="mainApp">
         <!-- ===== MODO MÓVIL ===== -->
         
-        <!-- Header Móvil (SIN BOTÓN DE BÚSQUEDA) -->
+        <!-- Header Móvil -->
         <header class="mobile-header" id="mobileHeader">
             <div class="mobile-logo">FINKI</div>
             <div class="user-profile">
@@ -1866,9 +1994,9 @@
 
         <!-- Contenedor Principal Móvil -->
         <div class="mobile-container" id="mobileContainer">
-            <!-- Sección Inicio - SOLO 8 DESTACADOS -->
+            <!-- Sección Inicio -->
             <section id="mobileHomeSection" class="mobile-section active">
-                <!-- Banner Hero Móvil - MENOS OSCURO -->
+                <!-- Banner Hero Móvil -->
                 <div class="mobile-hero-banner" id="mobileHeroBanner">
                     <div class="mobile-hero-content">
                         <h1 class="mobile-hero-title" id="mobileHeroTitle">Finki Streaming Premium</h1>
@@ -1884,12 +2012,12 @@
                     </div>
                 </div>
 
-                <!-- SECCIÓN: 8 CONTENIDOS DESTACADOS (ÚLTIMOS 8) -->
+                <!-- SECCIÓN: 8 CONTENIDOS DESTACADOS -->
                 <h2 class="mobile-section-title">Destacados de la Semana</h2>
                 <div id="mobileFeaturedContent" class="featured-grid"></div>
             </section>
 
-            <!-- Sección Búsqueda (NUEVA) -->
+            <!-- Sección Búsqueda -->
             <section id="mobileSearchSection" class="mobile-section mobile-search-section">
                 <div class="search-header">
                     <h1 class="search-title">Buscar Contenido</h1>
@@ -1933,7 +2061,7 @@
             </section>
         </div>
 
-        <!-- Navegación Móvil con BÚSQUEDA -->
+        <!-- Navegación Móvil -->
         <nav class="mobile-nav" id="mobileNav">
             <button class="mobile-nav-item active" onclick="switchMobileSection('home')">
                 <i class="fas fa-home"></i>
@@ -1995,9 +2123,9 @@
 
         <!-- Contenedor TV -->
         <div class="tv-container" id="tvContainer">
-            <!-- Sección Inicio TV - SOLO 8 DESTACADOS -->
+            <!-- Sección Inicio TV -->
             <section id="tvHomeSection" class="tv-section active">
-                <!-- Banner Hero TV - MENOS OSCURO -->
+                <!-- Banner Hero TV -->
                 <div class="tv-hero-banner" id="tvHeroBanner">
                     <div class="tv-hero-content">
                         <h1 class="tv-hero-title" id="tvHeroTitle">Finki Streaming Premium</h1>
@@ -2018,7 +2146,7 @@
                 <div id="tvFeaturedContent" class="tv-featured-grid"></div>
             </section>
 
-            <!-- Sección Búsqueda TV (NUEVA) -->
+            <!-- Sección Búsqueda TV -->
             <section id="tvSearchSection" class="tv-section tv-search-section">
                 <div class="tv-search-header">
                     <h1 class="tv-search-title">Buscar Contenido</h1>
@@ -2270,7 +2398,7 @@
         let latestContent = null;
         let isTVMode = false;
         
-        // Variables para búsqueda - FIJARME: Guardar estado de búsqueda
+        // Variables para búsqueda
         let mobileSearchQuery = '';
         let mobileCurrentFilter = 'all';
         let tvSearchQuery = '';
@@ -3274,8 +3402,7 @@
                 
                 if (latestContent.url_portada) {
                     document.getElementById('mobileHeroBanner').style.backgroundImage = 
-                        `linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.7) 100%),
-                         linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 70%),
+                        `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%),
                          url('${latestContent.url_portada}')`;
                     
                     document.getElementById('tvHeroBanner').style.backgroundImage = 
@@ -3675,26 +3802,21 @@
             }
         });
         
-        // Optimizaciones para TV
+        // Optimizaciones para móvil
         document.addEventListener('DOMContentLoaded', function() {
-            // Mejorar rendimiento en TV
-            if (detectTVMode()) {
-                document.body.classList.add('tv-optimized');
-                
-                // Prevenir zoom en TV
-                document.addEventListener('gesturestart', function(e) {
-                    e.preventDefault();
-                });
-                
-                // Optimizar para control remoto
-                let lastFocusTime = 0;
-                document.addEventListener('focus', function(e) {
-                    const now = Date.now();
-                    if (now - lastFocusTime > 100) {
-                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        lastFocusTime = now;
-                    }
-                }, true);
+            // Prevenir zoom en móvil
+            document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+            });
+            
+            // Mejorar scroll en iOS
+            if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                document.body.style.webkitOverflowScrolling = 'touch';
+            }
+            
+            // Ocultar elementos del sistema móvil
+            if ('standalone' in navigator && !navigator.standalone) {
+                document.documentElement.classList.add('hide-system-ui');
             }
         });
         

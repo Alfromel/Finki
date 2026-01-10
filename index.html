@@ -2408,59 +2408,54 @@
         // Estado para saber si hay búsqueda activa
         let isSearchActive = false;
         
-        // ===== SISTEMA DE COOKIES PARA TV BRO =====
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        }
-        
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for(let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-        
-        function eraseCookie(name) {
-            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        }
-        
-        // ===== DETECCIÓN DE TV BRO =====
+        // Detectar modo TV (mejorado para Smart TV)
         function detectTVMode() {
             const width = window.innerWidth;
             const height = window.innerHeight;
+            const aspectRatio = width / height;
             const userAgent = navigator.userAgent.toLowerCase();
             
-            // TV Bro tiene limitaciones, siempre forzar modo TV si es pantalla grande
-            if (width > 1280 && height > 720) {
+            // Detectar navegadores de Smart TV
+            const isSmartTV = 
+                userAgent.includes('smart-tv') ||
+                userAgent.includes('smarttv') ||
+                userAgent.includes('appletv') ||
+                userAgent.includes('tv') ||
+                userAgent.includes('crkey') ||
+                userAgent.includes('googlecast') ||
+                userAgent.includes('xbox') ||
+                userAgent.includes('playstation');
+            
+            // Modo TV si:
+            // 1. Es un Smart TV
+            // 2. Pantalla muy ancha (landscape extremo)
+            // 3. Pantalla grande (> 1024px)
+            if (isSmartTV) {
                 return true;
             }
             
-            if (userAgent.includes('tv') || userAgent.includes('bro')) {
+            if (width > 1024 && aspectRatio > 1.3) {
                 return true;
             }
             
-            if (width >= 1920 && height >= 1080) {
+            if (width > 1200) {
+                return true;
+            }
+            
+            // Para pantallas muy grandes (TV)
+            if (width > 1600) {
                 return true;
             }
             
             return false;
         }
-        
+
         // Aplicar modo TV o Móvil
         function applyTVMode() {
+            const wasTVMode = document.body.classList.contains('tv-mode');
             const isNowTVMode = detectTVMode();
             
-            if (isNowTVMode) {
+            if (isNowTVMode && !wasTVMode) {
                 document.body.classList.add('tv-mode');
                 
                 if (currentUser) {
@@ -2468,37 +2463,33 @@
                     document.getElementById('tvUserAvatar').textContent = userInitial;
                 }
                 
-                // Mostrar elementos TV
-                document.getElementById('tvHeader').style.display = 'flex';
-                document.getElementById('tvSidebar').style.display = 'flex';
-                document.getElementById('tvContainer').style.display = 'block';
-                document.getElementById('tvHeroBanner').style.display = 'flex';
+                // Inicializar sección de búsqueda TV
+                setTimeout(() => {
+                    setupTVSearchEvents();
+                    // Restaurar búsqueda si existe
+                    if (tvSearchQuery || tvCurrentFilter !== 'all') {
+                        performSearchOptimized(tvSearchQuery, tvCurrentFilter, 'tv');
+                    }
+                }, 100);
                 
-                // Ocultar elementos móviles
-                document.getElementById('mobileHeader').style.display = 'none';
-                document.getElementById('mobileNav').style.display = 'none';
-                document.getElementById('mobileContainer').style.display = 'none';
-                
-            } else {
+            } else if (!isNowTVMode && wasTVMode) {
                 document.body.classList.remove('tv-mode');
                 
-                // Mostrar elementos móviles
-                document.getElementById('mobileHeader').style.display = 'flex';
-                document.getElementById('mobileNav').style.display = 'flex';
-                document.getElementById('mobileContainer').style.display = 'block';
-                
-                // Ocultar elementos TV
-                document.getElementById('tvHeader').style.display = 'none';
-                document.getElementById('tvSidebar').style.display = 'none';
-                document.getElementById('tvContainer').style.display = 'none';
-                document.getElementById('tvHeroBanner').style.display = 'none';
+                // Inicializar sección de búsqueda móvil
+                setTimeout(() => {
+                    setupMobileSearchEvents();
+                    // Restaurar búsqueda si existe
+                    if (mobileSearchQuery || mobileCurrentFilter !== 'all') {
+                        performSearchOptimized(mobileSearchQuery, mobileCurrentFilter, 'mobile');
+                    }
+                }, 100);
             }
             
             if (allContent.length > 0) {
                 renderContentForCurrentMode();
             }
         }
-        
+
         // Renderizar contenido según el modo actual
         function renderContentForCurrentMode() {
             if (document.body.classList.contains('tv-mode')) {
@@ -2507,7 +2498,7 @@
                 renderMobileContent();
             }
         }
-        
+
         // ===== BÚSQUEDA OPTIMIZADA =====
         function performSearchOptimized(query, filter = 'all', mode = 'mobile') {
             clearTimeout(searchTimeout);
@@ -2659,7 +2650,7 @@
                 }
             }
         }
-        
+
         // ===== FUNCIONALIDAD DE BÚSQUEDA MÓVIL =====
         function setMobileFilter(filterType) {
             mobileCurrentFilter = filterType;
@@ -2690,7 +2681,7 @@
             
             performSearchOptimized('', 'all', 'mobile');
         }
-        
+
         // ===== FUNCIONALIDAD DE BÚSQUEDA TV =====
         function setTVFilter(filterType) {
             tvCurrentFilter = filterType;
@@ -2718,7 +2709,7 @@
             
             performSearchOptimized('', 'all', 'tv');
         }
-        
+
         // ===== NAVEGACIÓN =====
         function switchMobileSection(section) {
             document.querySelectorAll('.mobile-section').forEach(sec => {
@@ -2763,7 +2754,7 @@
                 renderCategoryContent(section, 'mobile');
             }
         }
-        
+
         function switchTVSection(section) {
             document.querySelectorAll('.tv-section').forEach(sec => {
                 sec.classList.remove('active');
@@ -2807,12 +2798,12 @@
                 renderCategoryContent(section, 'tv');
             }
         }
-        
+
         // Helper para capitalizar primera letra
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
-        
+
         // Mostrar/ocultar loading
         function showLoading() {
             document.getElementById('loadingSpinner').style.display = 'block';
@@ -2821,64 +2812,49 @@
         function hideLoading() {
             document.getElementById('loadingSpinner').style.display = 'none';
         }
-        
-        // ===== SISTEMA DE SESIÓN SIMPLIFICADO PARA TV BRO =====
+
+        // Inicializar datos del usuario
         function initializeUserData() {
             if (currentUser) {
-                // Para TV Bro, usar cookies siempre
-                try {
-                    // Intentar con cookies primero
-                    const myListCookie = getCookie(`finki_mylist_${currentUser.id}`);
-                    const historyCookie = getCookie(`finki_history_${currentUser.id}`);
-                    const settingsCookie = getCookie(`finki_settings_${currentUser.id}`);
-                    
-                    userLists.myList = myListCookie ? JSON.parse(myListCookie) : [];
-                    userLists.history = historyCookie ? JSON.parse(historyCookie) : [];
-                    userSettings = settingsCookie ? JSON.parse(settingsCookie) : {
-                        wifiOnly: false,
-                        autoPlay: true,
-                        darkMode: true
-                    };
-                    
-                    // Configurar controles
-                    if (document.getElementById('wifiOnly')) {
-                        document.getElementById('wifiOnly').checked = userSettings.wifiOnly || false;
-                        document.getElementById('autoPlay').checked = userSettings.autoPlay !== false;
-                        document.getElementById('darkMode').checked = userSettings.darkMode !== false;
-                    }
-                } catch (e) {
-                    console.log('Usando valores por defecto para TV Bro');
-                    userLists = { myList: [], history: [] };
-                    userSettings = {
-                        wifiOnly: false,
-                        autoPlay: true,
-                        darkMode: true
-                    };
-                }
+                const userKey = `finki_user_${currentUser.id}`;
+                
+                const savedMyList = localStorage.getItem(`${userKey}_myList`);
+                userLists.myList = savedMyList ? JSON.parse(savedMyList) : [];
+                
+                const savedHistory = localStorage.getItem(`${userKey}_history`);
+                userLists.history = savedHistory ? JSON.parse(savedHistory) : [];
+                
+                const savedSettings = localStorage.getItem(`${userKey}_settings`);
+                userSettings = savedSettings ? JSON.parse(savedSettings) : {
+                    wifiOnly: false,
+                    autoPlay: true,
+                    darkMode: true
+                };
+                
+                document.getElementById('wifiOnly').checked = userSettings.wifiOnly || false;
+                document.getElementById('autoPlay').checked = userSettings.autoPlay !== false;
+                document.getElementById('darkMode').checked = userSettings.darkMode !== false;
                 
                 updateProfileCounters();
             }
         }
-        
+
         // Guardar ajuste
         function saveSetting(key, value) {
             if (!currentUser) return;
             
             userSettings[key] = value;
+            const userKey = `finki_user_${currentUser.id}`;
+            localStorage.setItem(`${userKey}_settings`, JSON.stringify(userSettings));
             
-            try {
-                // Guardar en cookie para TV Bro
-                setCookie(`finki_settings_${currentUser.id}`, JSON.stringify(userSettings), 30);
-                showNotification('Ajuste guardado');
-            } catch (e) {
-                console.log('No se pudo guardar ajuste en TV Bro');
-            }
+            showNotification('Ajuste guardado');
         }
-        
+
         // Agregar a Mi Lista
         function addToMyList(contentItem) {
             if (!currentUser) return false;
             
+            const userKey = `finki_user_${currentUser.id}`;
             const existingIndex = userLists.myList.findIndex(item => item.id === contentItem.id);
             
             if (existingIndex === -1) {
@@ -2890,48 +2866,39 @@
                     tipo: contentItem.tipo
                 });
                 
-                try {
-                    // Guardar en cookie para TV Bro
-                    setCookie(`finki_mylist_${currentUser.id}`, JSON.stringify(userLists.myList), 30);
-                    updateProfileCounters();
-                    renderMobileMyList();
-                    renderTVMyList();
-                    return true;
-                } catch (e) {
-                    console.log('No se pudo guardar en TV Bro');
-                    return false;
-                }
+                localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
+                updateProfileCounters();
+                renderMobileMyList();
+                renderTVMyList();
+                return true;
             }
             return false;
         }
-        
+
         // Eliminar de Mi Lista
         function removeFromMyList(contentId) {
             if (!currentUser) return false;
             
+            const userKey = `finki_user_${currentUser.id}`;
             const existingIndex = userLists.myList.findIndex(item => item.id === contentId);
             
             if (existingIndex !== -1) {
                 userLists.myList.splice(existingIndex, 1);
-                try {
-                    // Guardar en cookie para TV Bro
-                    setCookie(`finki_mylist_${currentUser.id}`, JSON.stringify(userLists.myList), 30);
-                    updateProfileCounters();
-                    renderMobileMyList();
-                    renderTVMyList();
-                    renderFullMyList();
-                    return true;
-                } catch (e) {
-                    console.log('No se pudo eliminar en TV Bro');
-                    return false;
-                }
+                localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
+                updateProfileCounters();
+                renderMobileMyList();
+                renderTVMyList();
+                renderFullMyList();
+                return true;
             }
             return false;
         }
-        
+
         // Agregar al Historial
         function addToHistory(contentItem) {
             if (!currentUser) return false;
+            
+            const userKey = `finki_user_${currentUser.id}`;
             
             userLists.history = userLists.history.filter(item => 
                 item.id !== contentItem.id
@@ -2949,51 +2916,52 @@
                 userLists.history = userLists.history.slice(0, 50);
             }
             
-            try {
-                // Guardar en cookie para TV Bro
-                setCookie(`finki_history_${currentUser.id}`, JSON.stringify(userLists.history), 30);
-                updateProfileCounters();
-                renderFullHistory();
-                return true;
-            } catch (e) {
-                console.log('No se pudo guardar historial en TV Bro');
-                return false;
-            }
+            localStorage.setItem(`${userKey}_history`, JSON.stringify(userLists.history));
+            updateProfileCounters();
+            renderFullHistory();
+            return true;
         }
-        
-        // ===== LIMPIAR HISTORIAL =====
+
+        // ===== LIMPIAR HISTORIAL (SIN CONFIRMACIÓN) =====
         function clearHistory() {
             if (!currentUser) return;
             
+            const userKey = `finki_user_${currentUser.id}`;
             userLists.history = [];
-            try {
-                // Limpiar cookie
-                setCookie(`finki_history_${currentUser.id}`, JSON.stringify([]), 30);
-                updateProfileCounters();
-                renderFullHistory();
-                showNotification('Historial eliminado');
-            } catch (e) {
-                console.log('No se pudo limpiar historial en TV Bro');
-            }
+            localStorage.setItem(`${userKey}_history`, JSON.stringify([]));
+            updateProfileCounters();
+            renderFullHistory();
+            showNotification('Historial eliminado');
         }
-        
-        // ===== LIMPIAR CACHÉ =====
+
+        // ===== LIMPIAR CACHÉ (SIN CONFIRMACIÓN) =====
         function clearCache() {
-            // Para TV Bro, no podemos hacer mucho
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+            
+            // También limpiar imágenes en caché del navegador
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (img.src && img.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(img.src);
+                }
+            });
+            
             showNotification('Caché limpiada');
         }
-        
-        // ===== RESTABLECER DATOS =====
+
+        // ===== RESTABLECER DATOS (SIN CONFIRMACIÓN) =====
         function resetAllData() {
             if (currentUser) {
-                try {
-                    // Limpiar cookies
-                    eraseCookie(`finki_mylist_${currentUser.id}`);
-                    eraseCookie(`finki_history_${currentUser.id}`);
-                    eraseCookie(`finki_settings_${currentUser.id}`);
-                } catch (e) {
-                    console.log('No se pudieron limpiar cookies en TV Bro');
-                }
+                const userKey = `finki_user_${currentUser.id}`;
+                localStorage.removeItem(`${userKey}_myList`);
+                localStorage.removeItem(`${userKey}_history`);
+                localStorage.removeItem(`${userKey}_settings`);
             }
             
             userLists = { myList: [], history: [] };
@@ -3005,28 +2973,22 @@
             renderFullMyList();
             renderFullHistory();
             
-            if (document.getElementById('wifiOnly')) {
-                document.getElementById('wifiOnly').checked = false;
-                document.getElementById('autoPlay').checked = true;
-                document.getElementById('darkMode').checked = true;
-            }
+            document.getElementById('wifiOnly').checked = false;
+            document.getElementById('autoPlay').checked = true;
+            document.getElementById('darkMode').checked = true;
             
             showNotification('Datos restablecidos');
         }
-        
+
         // Actualizar contadores del perfil
         function updateProfileCounters() {
             if (!currentUser) return;
             
-            try {
-                document.getElementById('myListCount').textContent = userLists.myList.length;
-                document.getElementById('historyCount').textContent = userLists.history.length;
-                document.getElementById('totalCount').textContent = allContent.length;
-            } catch (e) {
-                console.log('Error actualizando contadores en TV Bro');
-            }
+            document.getElementById('myListCount').textContent = userLists.myList.length;
+            document.getElementById('historyCount').textContent = userLists.history.length;
+            document.getElementById('totalCount').textContent = allContent.length;
         }
-        
+
         // Renderizar Mi Lista Móvil
         function renderMobileMyList() {
             const container = document.getElementById('mobileMyListContent');
@@ -3054,7 +3016,7 @@
             
             container.appendChild(fragment);
         }
-        
+
         // Renderizar Mi Lista TV
         function renderTVMyList() {
             const container = document.getElementById('tvMyListContent');
@@ -3082,7 +3044,7 @@
             
             container.appendChild(fragment);
         }
-        
+
         // Renderizar Mi Lista Completa
         function renderFullMyList() {
             const container = document.getElementById('myListFullContent');
@@ -3110,7 +3072,7 @@
             
             container.appendChild(fragment);
         }
-        
+
         // Renderizar Historial Completo
         function renderFullHistory() {
             const container = document.getElementById('historyFullContent');
@@ -3138,7 +3100,7 @@
             
             container.appendChild(fragment);
         }
-        
+
         // Crear tarjeta para listas
         function crearTarjetaLista(item, listType, mode) {
             const badge = item.tipo === 'canal' ? '<div class="card-badge">EN VIVO</div>' : 
@@ -3178,26 +3140,21 @@
                 </div>`;
             }
         }
-        
-        // ===== INICIALIZACIÓN MEJORADA PARA TV BRO =====
+
+        // Verificar sesión al cargar la página
         document.addEventListener('DOMContentLoaded', async () => {
-            // Forzar modo TV si es pantalla grande
-            applyTVMode();
+            const savedUser = localStorage.getItem('finki_user');
             
-            // Verificar si hay sesión en cookies
-            const sessionCookie = getCookie('finki_session');
-            
-            if (sessionCookie) {
+            if (savedUser) {
                 try {
                     showLoading();
-                    const userData = JSON.parse(sessionCookie);
+                    const user = JSON.parse(savedUser);
                     
-                    // Verificar credenciales con Supabase
                     const { data, error } = await supabaseClient
                         .from('users')
                         .select('*')
-                        .eq('celular', userData.celular)
-                        .eq('password', userData.password)
+                        .eq('celular', user.celular)
+                        .eq('password', user.password)
                         .single();
                     
                     if (data && !error) {
@@ -3213,29 +3170,37 @@
                         await cargarContenidoOptimizado();
                         actualizarPerfil();
                         
-                        // Aplicar modo TV
                         applyTVMode();
+                        setupMobileSearchEvents();
+                        setupTVSearchEvents();
                         
-                        console.log('Sesión restaurada desde cookies');
                     } else {
-                        // Credenciales inválidas
-                        eraseCookie('finki_session');
+                        localStorage.removeItem('finki_user');
                     }
                     hideLoading();
                 } catch (e) {
-                    console.log('Error restaurando sesión:', e);
+                    console.error('Error al restaurar sesión:', e);
+                    localStorage.removeItem('finki_user');
                     hideLoading();
                 }
+            } else {
+                setupMobileSearchEvents();
+                setupTVSearchEvents();
             }
             
-            // Configurar eventos
-            setupMobileSearchEvents();
-            setupTVSearchEvents();
+            window.addEventListener('resize', function() {
+                setTimeout(function() {
+                    applyTVMode();
+                }, 100);
+            });
             
-            // Detectar cambios de tamaño
-            window.addEventListener('resize', applyTVMode);
+            window.addEventListener('orientationchange', function() {
+                setTimeout(function() {
+                    applyTVMode();
+                }, 300);
+            });
         });
-        
+
         // Configurar eventos de búsqueda móvil
         function setupMobileSearchEvents() {
             const mobileSearchInput = document.getElementById('mobileSearchInput');
@@ -3246,7 +3211,7 @@
                 });
             }
         }
-        
+
         // Configurar eventos de búsqueda TV
         function setupTVSearchEvents() {
             const tvSearchInput = document.getElementById('tvSearchInput');
@@ -3257,7 +3222,7 @@
                 });
             }
         }
-        
+
         // Navegación de Tabs (auth)
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -3271,7 +3236,7 @@
                 document.getElementById('registerForm').style.display = 'block';
             }
         }
-        
+
         // Perfil de Usuario
         function openProfile() {
             document.getElementById('profilePanel').classList.add('active');
@@ -3297,7 +3262,7 @@
             const regex = /^\d{8}$/;
             return regex.test(num);
         }
-        
+
         // ===== REGISTRO DE USUARIO =====
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -3306,7 +3271,7 @@
             const celular = document.getElementById('regCelular').value.trim();
             const password = document.getElementById('regPassword').value;
             const errorEl = document.getElementById('registerError');
-            
+
             if (!nombre || !edad || !celular || !password) {
                 errorEl.textContent = 'Todos los campos son obligatorios.';
                 errorEl.style.display = 'block'; 
@@ -3327,14 +3292,14 @@
                 errorEl.style.display = 'block'; 
                 return;
             }
-            
+
             const { data: existing } = await supabaseClient.from('users').select('celular').eq('celular', celular).single();
             if (existing) {
                 errorEl.textContent = 'Este número de celular ya está registrado.';
                 errorEl.style.display = 'block'; 
                 return;
             }
-            
+
             showLoading();
             const { data, error } = await supabaseClient.from('users').insert([{ nombre, edad, celular, password }]).select();
             hideLoading();
@@ -3349,153 +3314,114 @@
                 errorEl.style.display = 'none';
             }
         });
-        
-        // ===== INICIO DE SESIÓN OPTIMIZADO PARA TV BRO =====
+
+        // ===== INICIO DE SESIÓN =====
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const celular = document.getElementById('loginCelular').value.trim();
             const password = document.getElementById('loginPassword').value;
             const errorEl = document.getElementById('loginError');
-            
+
             if (!validarCelular(celular)) {
                 errorEl.textContent = 'Celular debe ser 8 dígitos.';
                 errorEl.style.display = 'block'; 
                 return;
             }
-            
+
             showLoading();
+            const { data, error } = await supabaseClient.from('users').select('*').eq('celular', celular).eq('password', password).single();
             
-            try {
-                const { data, error } = await supabaseClient
-                    .from('users')
-                    .select('*')
-                    .eq('celular', celular)
-                    .eq('password', password)
-                    .single();
-                
-                if (error || !data) {
-                    errorEl.textContent = 'Celular o contraseña incorrectos.';
-                    errorEl.style.display = 'block';
-                    hideLoading();
-                } else {
-                    currentUser = data;
-                    
-                    // Guardar sesión en cookies (método que funciona en TV Bro)
-                    const userSessionData = {
-                        id: currentUser.id,
-                        nombre: currentUser.nombre,
-                        celular: currentUser.celular,
-                        password: currentUser.password,
-                        edad: currentUser.edad
-                    };
-                    
-                    setCookie('finki_session', JSON.stringify(userSessionData), 30);
-                    
-                    // Mostrar aplicación
-                    document.getElementById('authSection').style.display = 'none';
-                    document.getElementById('mainApp').style.display = 'block';
-                    
-                    // Actualizar interfaz
-                    const userInitial = currentUser.nombre.charAt(0).toUpperCase();
-                    document.getElementById('userAvatar').textContent = userInitial;
-                    document.getElementById('tvUserAvatar').textContent = userInitial;
-                    
-                    initializeUserData();
-                    await cargarContenidoOptimizado();
-                    actualizarPerfil();
-                    
-                    // Aplicar modo TV
-                    applyTVMode();
-                    
-                    // Mostrar notificación
-                    showNotification(`Bienvenido ${currentUser.nombre}!`);
-                    
-                    hideLoading();
-                }
-            } catch (e) {
-                console.error('Error en inicio de sesión:', e);
-                errorEl.textContent = 'Error de conexión. Intenta nuevamente.';
+            if (error || !data) {
+                errorEl.textContent = 'Celular o contraseña incorrectos.';
                 errorEl.style.display = 'block';
+                hideLoading();
+            } else {
+                currentUser = data;
+                
+                localStorage.setItem('finki_user', JSON.stringify({
+                    id: currentUser.id,
+                    nombre: currentUser.nombre,
+                    celular: currentUser.celular,
+                    password: currentUser.password,
+                    edad: currentUser.edad
+                }));
+                
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                
+                const userInitial = currentUser.nombre.charAt(0).toUpperCase();
+                document.getElementById('userAvatar').textContent = userInitial;
+                document.getElementById('tvUserAvatar').textContent = userInitial;
+                
+                initializeUserData();
+                await cargarContenidoOptimizado();
+                actualizarPerfil();
+                
+                applyTVMode();
+                setupMobileSearchEvents();
+                setupTVSearchEvents();
+                
                 hideLoading();
             }
         });
-        
+
         // ===== CERRAR SESIÓN =====
         function cerrarSesion() {
-            // Limpiar cookies
-            eraseCookie('finki_session');
+            localStorage.removeItem('finki_user');
             
-            if (currentUser) {
-                eraseCookie(`finki_mylist_${currentUser.id}`);
-                eraseCookie(`finki_history_${currentUser.id}`);
-                eraseCookie(`finki_settings_${currentUser.id}`);
-            }
-            
-            // Resetear variables
             currentUser = null;
             userLists = { myList: [], history: [] };
             userSettings = {};
             
-            // Ocultar aplicación, mostrar login
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('authSection').style.display = 'flex';
             document.getElementById('loginForm').reset();
             
-            // Cerrar paneles abiertos
             closeProfile();
             switchTab('login');
-            
-            // Mostrar notificación
-            showNotification('Sesión cerrada');
         }
-        
+
         // ===== CARGAR CONTENIDO OPTIMIZADO =====
         async function cargarContenidoOptimizado() {
             showLoading();
+            const { data: contenido, error } = await supabaseClient
+                .from('contenido')
+                .select('*, categorias(nombre)')
+                .order('fecha_agregado', { ascending: false });
             
-            try {
-                const { data: contenido, error } = await supabaseClient
-                    .from('contenido')
-                    .select('*, categorias(nombre)')
-                    .order('fecha_agregado', { ascending: false });
-                
-                if (error) { 
-                    console.error('Error cargando contenido:', error); 
-                    hideLoading();
-                    return; 
-                }
-                
-                allContent = contenido || [];
-                
-                if (allContent.length > 0) {
-                    latestContent = allContent[0];
-                    
-                    if (latestContent.url_portada) {
-                        document.getElementById('mobileHeroBanner').style.backgroundImage = 
-                            `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%),
-                             url('${latestContent.url_portada}')`;
-                        
-                        document.getElementById('tvHeroBanner').style.backgroundImage = 
-                            `linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.8) 100%),
-                             linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%),
-                             url('${latestContent.url_portada}')`;
-                    }
-                    
-                    document.getElementById('mobileHeroTitle').textContent = latestContent.nombre;
-                    document.getElementById('tvHeroTitle').textContent = latestContent.nombre;
-                    document.getElementById('mobileHeroSubtitle').textContent = latestContent.categorias?.nombre || 'Contenido exclusivo';
-                    document.getElementById('tvHeroSubtitle').textContent = latestContent.categorias?.nombre || 'Contenido exclusivo en alta calidad';
-                }
-                
-                renderContentForCurrentMode();
-                
-                document.getElementById('totalCount').textContent = allContent.length;
-                
+            if (error) { 
+                console.error('Error cargando contenido:', error); 
                 hideLoading();
-            } catch (e) {
-                console.error('Error en cargarContenidoOptimizado:', e);
-                hideLoading();
+                return; 
             }
+            
+            allContent = contenido || [];
+            
+            if (allContent.length > 0) {
+                latestContent = allContent[0];
+                
+                if (latestContent.url_portada) {
+                    document.getElementById('mobileHeroBanner').style.backgroundImage = 
+                        `linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%),
+                         url('${latestContent.url_portada}')`;
+                    
+                    document.getElementById('tvHeroBanner').style.backgroundImage = 
+                        `linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.8) 100%),
+                         linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%),
+                         url('${latestContent.url_portada}')`;
+                }
+                
+                document.getElementById('mobileHeroTitle').textContent = latestContent.nombre;
+                document.getElementById('tvHeroTitle').textContent = latestContent.nombre;
+                document.getElementById('mobileHeroSubtitle').textContent = latestContent.categorias?.nombre || 'Contenido exclusivo';
+                document.getElementById('tvHeroSubtitle').textContent = latestContent.categorias?.nombre || 'Contenido exclusivo en alta calidad';
+            }
+            
+            renderContentForCurrentMode();
+            
+            document.getElementById('totalCount').textContent = allContent.length;
+            
+            hideLoading();
         }
         
         // Renderizar contenido Móvil
@@ -3512,8 +3438,12 @@
             // Renderizar Mi Lista móvil
             renderMobileMyList();
             
-            // Inicializar búsqueda
-            performSearchOptimized('', 'all', 'mobile');
+            // Inicializar búsqueda (si hay búsqueda activa, mostrar resultados)
+            if (mobileSearchQuery || mobileCurrentFilter !== 'all') {
+                performSearchOptimized(mobileSearchQuery, mobileCurrentFilter, 'mobile');
+            } else {
+                performSearchOptimized('', 'all', 'mobile');
+            }
         }
         
         // Renderizar contenido TV
@@ -3533,8 +3463,12 @@
             // Renderizar Mi Lista TV
             renderTVMyList();
             
-            // Inicializar búsqueda
-            performSearchOptimized('', 'all', 'tv');
+            // Inicializar búsqueda (si hay búsqueda activa, mostrar resultados)
+            if (tvSearchQuery || tvCurrentFilter !== 'all') {
+                performSearchOptimized(tvSearchQuery, tvCurrentFilter, 'tv');
+            } else {
+                performSearchOptimized('', 'all', 'tv');
+            }
         }
         
         // RENDERIZAR 8 CONTENIDOS DESTACADOS (diseño especial)
@@ -3670,7 +3604,7 @@
             
             container.appendChild(fragment);
         }
-        
+
         // Crear tarjeta de contenido normal
         function crearTarjetaContenido(item, mode) {
             const badge = item.tipo === 'canal' ? '<div class="card-badge">EN VIVO</div>' : 
@@ -3718,7 +3652,7 @@
                 </div>`;
             }
         }
-        
+
         // Agregar a lista con confirmación
         function addToListAndConfirm(contentId) {
             const contentItem = allContent.find(item => item.id === contentId);
@@ -3744,7 +3678,7 @@
                 showNotification('Agregado a Mi Lista');
             }
         }
-        
+
         // Función para agregar el contenido del banner a Mi Lista
         function addBannerToList() {
             if (latestContent) {
@@ -3753,7 +3687,7 @@
                 showNotification('No hay contenido disponible');
             }
         }
-        
+
         // Función para reproducir el último contenido agregado
         function playLatestContent() {
             if (latestContent) {
@@ -3762,7 +3696,7 @@
                 showNotification('No hay contenido disponible');
             }
         }
-        
+
         // Mostrar notificación
         function showNotification(message) {
             const existingNotification = document.querySelector('.notification');
@@ -3782,7 +3716,7 @@
                 }
             }, 2000);
         }
-        
+
         // ===== NAVEGACIÓN ENTRE PANTALLAS =====
         function openMyListScreen() {
             document.getElementById('myListScreen').classList.add('active');
@@ -3804,7 +3738,7 @@
         function closeListScreen(screen) {
             document.getElementById(`${screen}Screen`).classList.remove('active');
         }
-        
+
         // ===== REPRODUCIR CONTENIDO =====
         function playContent(url, title, contentId) {
             let finalUrl = url;
@@ -3835,7 +3769,7 @@
         function playListContent(url, title, contentId) {
             playContent(url, title, contentId);
         }
-        
+
         // Cerrar reproductor
         function closePlayer() {
             document.getElementById('videoFrame').src = '';
@@ -3858,6 +3792,43 @@
                     closeProfile();
                 }
             }
+            
+            // Navegación con teclado para TV
+            if (document.body.classList.contains('tv-mode')) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || 
+                    e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                }
+            }
+        });
+        
+        // Optimizaciones para móvil
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevenir zoom en móvil
+            document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+            });
+            
+            // Mejorar scroll en iOS
+            if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                document.body.style.webkitOverflowScrolling = 'touch';
+            }
+            
+            // Ocultar elementos del sistema móvil
+            if ('standalone' in navigator && !navigator.standalone) {
+                document.documentElement.classList.add('hide-system-ui');
+            }
+        });
+        
+        // Mejorar compatibilidad con Smart TV
+        window.addEventListener('load', function() {
+            // Forzar modo TV en pantallas grandes
+            setTimeout(() => {
+                if (window.innerWidth > 1200) {
+                    document.body.classList.add('tv-mode');
+                    applyTVMode();
+                }
+            }, 500);
         });
     </script>
 </body>

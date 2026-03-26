@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0A2F1F">
-    <title>FINKI GC · CANAL 7.1 BOLIVIA TV</title>
+    <meta name="theme-color" content="#000000">
+    <title>FINKI GC · LIVE</title>
     <style>
         * {
             margin: 0;
@@ -16,673 +15,537 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        :root {
-            --verde-profundo: #0A2F1F;
-            --verde-oscuro: #1A4D2A;
-            --verde-brillante: #2E7D32;
-            --verde-neon: #4CAF50;
-            --negro-carbono: #030603;
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-        }
-
         body {
-            background-color: var(--negro-carbono);
-            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Inter', sans-serif;
-            color: white;
+            background-color: #000000;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Inter', sans-serif;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
             position: fixed;
         }
 
-        /* PANTALLA DE INICIO - 3 SEGUNDOS */
+        /* CONTENEDOR PRINCIPAL - SIN HEADER, SIN FOOTER */
+        .app {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: black;
+        }
+
+        /* PANTALLA DE INICIO CON MASCOTA + LOGO FINKI GC */
         .splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #030603 0%, #0A2F1F 100%);
+            background: radial-gradient(circle at center, #0A1F0F, #000000);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            z-index: 10000;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(2px);
+            transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             opacity: 1;
-            transition: opacity 0.6s ease;
+            pointer-events: none; /* No bloquea toques pero visible */
         }
-        
-        .splash-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
+
         .splash-content {
             text-align: center;
-            animation: fadeInScale 0.5s ease;
+            transform: scale(0.96);
+            animation: gentleRise 0.9s ease-out forwards;
         }
-        
+
+        /* mascota m.png */
         .splash-mascota {
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 25px;
+            width: 160px;
+            height: 160px;
             background-image: url('m.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            filter: drop-shadow(0 0 30px rgba(76, 175, 80, 0.7));
-            animation: float 2s ease-in-out infinite;
+            margin: 0 auto 24px auto;
+            filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.7));
+            animation: floatGlow 1.4s infinite alternate ease-in-out;
         }
-        
+
         .splash-title {
             font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #FFFFFF, #4CAF50);
+            font-weight: 800;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #FFFFFF, #7CFC00, #2E7D32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -1px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
             margin-bottom: 12px;
         }
-        
+
         .splash-sub {
-            font-size: 1.2rem;
-            color: #4CAF50;
+            color: #9eff9e;
             font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            opacity: 0.85;
         }
-        
-        .splash-loader {
-            width: 50px;
-            height: 50px;
-            margin: 30px auto 0;
-            position: relative;
+
+        /* animaciones */
+        @keyframes gentleRise {
+            0% { opacity: 0; transform: scale(0.92) translateY(15px);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
         }
-        
-        .splash-loader::before,
-        .splash-loader::after {
-            content: '';
+
+        @keyframes floatGlow {
+            0% { transform: translateY(0px); filter: drop-shadow(0 0 12px #4CAF50);}
+            100% { transform: translateY(-8px); filter: drop-shadow(0 0 28px #7CFC00);}
+        }
+
+        /* REPRODUCTOR FULLSCREEN (sin bordes ni controles visibles) */
+        .player-full {
             position: absolute;
-            border-radius: 50%;
-            animation: pulse-ring 1.5s ease-out infinite;
-        }
-        
-        .splash-loader::before {
-            width: 100%;
-            height: 100%;
-            background: rgba(76, 175, 80, 0.2);
-            border: 2px solid #4CAF50;
-        }
-        
-        .splash-loader::after {
-            width: 70%;
-            height: 70%;
-            top: 15%;
-            left: 15%;
-            background: rgba(76, 175, 80, 0.4);
-            border: 2px solid #4CAF50;
-            animation-delay: 0.5s;
-        }
-        
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-        }
-        
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        /* APP PRINCIPAL */
-        .app-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .app-container.visible {
-            opacity: 1;
-        }
-
-        /* HEADER */
-        .header {
-            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 100;
-            background: linear-gradient(180deg, rgba(3,6,3,0.95) 0%, rgba(3,6,3,0) 100%);
-            padding: 20px 24px 40px 24px;
-            pointer-events: none;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            pointer-events: auto;
-        }
-        
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .mascota {
-            width: 48px;
-            height: 48px;
-            background-image: url('m.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            filter: drop-shadow(0 0 8px #4CAF50);
-        }
-        
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #FFFFFF, #4CAF50);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .badge-live {
-            background: #E53935;
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px rgba(229,57,53,0.6);
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; transform: scale(0.98);}
-            50% { opacity: 1; transform: scale(1);}
-        }
-        
-        /* PLAYER */
-        .player-wrapper {
-            flex: 1;
-            width: 100%;
             height: 100%;
             background: #000000;
-            position: relative;
-            overflow: hidden;
+            z-index: 1;
         }
-        
+
         .video-container {
             width: 100%;
             height: 100%;
             background: black;
             position: relative;
         }
-        
-        iframe {
+
+        video, iframe {
             width: 100%;
             height: 100%;
             border: none;
             background: black;
+            object-fit: contain;
         }
-        
-        .channel-overlay {
+
+        /* ZONA DE GESTOS INVISIBLE pero funcional (swipe + tap oculto) */
+        .gesture-overlay {
             position: absolute;
-            bottom: 30px;
-            left: 20px;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(12px);
-            padding: 8px 20px;
-            border-radius: 40px;
-            border-left: 5px solid var(--verde-neon);
-            font-weight: bold;
-            z-index: 30;
-            pointer-events: none;
-            font-size: 1rem;
-            letter-spacing: 1px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .channel-overlay.show {
-            opacity: 1;
-        }
-        
-        .channel-number {
-            color: var(--verde-neon);
-            margin-right: 8px;
-        }
-        
-        /* CONTROLES INVISIBLES PERO FUNCIONALES */
-        .hidden-controls {
-            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 200;
-            pointer-events: none;
-        }
-        
-        .touch-zone {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            width: 25%;
-            pointer-events: auto;
+            z-index: 50;
             background: transparent;
-        }
-        
-        .touch-left {
-            left: 0;
-        }
-        
-        .touch-right {
-            right: 0;
-        }
-        
-        .guide-trigger {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: transparent;
-            border: none;
-            pointer-events: auto;
-            cursor: pointer;
-            opacity: 0;
-        }
-        
-        /* GUÍA DE CANALES */
-        .guide-panel {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            background: rgba(3,6,3,0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 12px 0;
-            min-width: 240px;
-            border: 1px solid rgba(76,175,80,0.3);
-            z-index: 150;
-            transform: translateX(120%);
-            transition: transform 0.3s ease;
             pointer-events: auto;
         }
-        
-        .guide-panel.open {
-            transform: translateX(0);
-        }
-        
-        .guide-item {
-            padding: 12px 20px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            border-bottom: 1px solid rgba(76,175,80,0.2);
-            cursor: pointer;
-        }
-        
-        .guide-item:active {
-            background: rgba(76,175,80,0.2);
-        }
-        
-        .guide-num {
-            font-weight: bold;
-            color: #4CAF50;
-            width: 35px;
-        }
-        
-        .guide-name {
-            font-weight: 500;
-        }
-        
-        /* TOAST */
-        .toast-msg {
+
+        /* NOTIFICACION TOAST MINIMALISTA (solo funcional, sin interferir diseño) */
+        .toast-ghost {
             position: fixed;
-            bottom: 80px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(12px);
-            color: #4CAF50;
-            padding: 6px 18px;
-            border-radius: 30px;
+            backdrop-filter: blur(16px);
+            color: #e0ffe0;
+            padding: 8px 20px;
+            border-radius: 100px;
             font-size: 0.8rem;
             font-weight: 500;
+            letter-spacing: 0.5px;
             z-index: 300;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s ease;
             pointer-events: none;
+            font-family: monospace;
+            border-left: 3px solid #6eff6e;
             white-space: nowrap;
         }
-        
-        .toast-msg.show {
+
+        .toast-ghost.show {
             opacity: 1;
         }
-        
-        .key-hint {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.5);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #aaa;
-            z-index: 200;
-            backdrop-filter: blur(4px);
-        }
-        
-        @media (max-width: 768px) {
-            .key-hint {
-                display: none;
-            }
-            .brand {
-                font-size: 1rem;
-            }
-            .mascota {
-                width: 32px;
-                height: 32px;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .brand {
-                font-size: 2rem;
-            }
-            .mascota {
-                width: 64px;
-                height: 64px;
-            }
-        }
-        
-        ::-webkit-scrollbar {
+
+        /* No hay header, ni footer, ni botones visuales. Todo está oculto */
+        .hidden-ui {
             display: none;
         }
+
+        /* Aseguramos que no aparezca ningún control flotante */
+        .no-controls {
+            user-select: none;
+        }
+
+        /* para evitar scrolls raros */
+        iframe, video {
+            pointer-events: auto;
+        }
     </style>
+    <!-- HLS.js para el stream m3u8 (solo canal 3 es iframe, pero mantenemos por si acaso) -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <!-- PANTALLA DE INICIO - 3 SEGUNDOS -->
+<div class="app">
+    <!-- SPLASH SCREEN: dura 3 segundos, muestra MASCOTA + FINKI GC -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-content">
             <div class="splash-mascota"></div>
-            <div class="splash-title">FINKI GC - J</div>
-            <div class="splash-sub">CANAL 7.1 · BOLIVIA TV</div>
-            <div class="splash-loader"></div>
+            <div class="splash-title">FINKI GC</div>
+            <div class="splash-sub">⚡ LIVE STREAM ⚡</div>
         </div>
     </div>
 
-    <!-- APP PRINCIPAL -->
-    <div class="app-container" id="appContainer">
-        <div class="header">
-            <div class="header-content">
-                <div class="logo-area">
-                    <div class="mascota"></div>
-                    <span class="brand">FINKI GC · BOLIVIA TV</span>
-                </div>
-                <div class="badge-live">EN VIVO</div>
-            </div>
+    <!-- REPRODUCTOR PRINCIPAL - ÚNICO CANAL (CANAL 3: Bolivia TV) -->
+    <div class="player-full" id="playerFull" style="opacity:0; transition: opacity 0.8s ease;">
+        <div class="video-container" id="videoContainer">
+            <!-- El stream se inyectará dinámicamente -->
         </div>
+        <!-- Zona de gestos táctiles / swipe (invisible) -->
+        <div class="gesture-overlay" id="gestureOverlay"></div>
+    </div>
 
-        <div class="player-wrapper">
-            <div class="video-container" id="videoContainer"></div>
-            <div class="channel-overlay" id="channelOverlay">
-                <span class="channel-number">7.1</span>
-                <span id="channelName">BOLIVIA TV · EN VIVO</span>
-            </div>
-        </div>
+    <!-- Toast minimal funcional (para feedback de cambios de canal aunque esté oculto visualmente) -->
+    <div class="toast-ghost" id="toastMsg"></div>
+</div>
 
-        <!-- CONTROLES INVISIBLES PERO FUNCIONALES -->
-        <div class="hidden-controls">
-            <div class="touch-zone touch-left" id="touchLeft"></div>
-            <div class="touch-zone touch-right" id="touchRight"></div>
-            <button class="guide-trigger" id="guideTrigger"></button>
-        </div>
+<script>
+    // =========================================================
+    // UNICO CANAL ACTIVO: CANAL 3 (Bolivia TV - Dailymotion)
+    // Pero las funciones de cambio de canal están ocultas pero operativas
+    // Se define el listado completo de canales (solo por compatibilidad con teclado/gestos)
+    // aunque la UI no muestre botones ni headers, se pueden cambiar canales (1 al 5) mediante números o swipe.
+    // El diseño NO muestra ningún header, badge, ni panel de guía. Todo permanece oculto.
+    // =========================================================
+    
+    // LISTA DE CANALES (Fútbol Bolivia, tal cual pero sin mostrar controles)
+    const CHANNELS = [
+        {
+            id: 1,
+            name: "Tigo Sports 1",
+            type: "iframe",
+            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player.html?video=xa0fwio" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Tigo Sports 1" allow="web-share"></iframe></div>`,
+        },
+        {
+            id: 2,
+            name: "Tigo Sports 2",
+            type: "iframe",
+            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player.html?video=x89sfvo" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Tigo Sports 2" allow="web-share"></iframe></div>`,
+        },
+        {
+            id: 3,
+            name: "Bolivia TV (Canal 7.1)",
+            type: "iframe",
+            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player/x12yfi.html?video=x9nzqpo" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Bolivia TV" allow="autoplay; fullscreen; picture-in-picture; web-share"></iframe></div>`,
+        },
+        {
+            id: 4,
+            name: "FBF Play",
+            type: "hls",
+            url: "https://d2qsan2ut81n2k.cloudfront.net/live/20446f64-67d8-4100-8c4b-20a759a8e919/ts:abr.m3u8"
+        },
+        {
+            id: 5,
+            name: "Unitel Deportes",
+            type: "iframe",
+            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player.html?video=x9nzqpo" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Unitel"></iframe></div>`,
+        }
+    ];
+
+    let activeChannel = 3;          // POR DEFECTO: CANAL 3 (Bolivia TV)
+    let currentHlsInstance = null;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let splashActive = true;
+
+    // Elementos DOM
+    const videoContainer = document.getElementById('videoContainer');
+    const playerFullDiv = document.getElementById('playerFull');
+    const splashElement = document.getElementById('splashScreen');
+    const toastEl = document.getElementById('toastMsg');
+
+    // ========== FUNCIONES INTERNAS (sin interfaz gráfica de botones) ==========
+    function showGhostToast(msg) {
+        if (!toastEl) return;
+        toastEl.innerText = msg;
+        toastEl.classList.add('show');
+        setTimeout(() => {
+            toastEl.classList.remove('show');
+        }, 1300);
+    }
+
+    // Destruir HLS si existe
+    function destroyHls() {
+        if (currentHlsInstance) {
+            try {
+                currentHlsInstance.destroy();
+            } catch(e) { console.warn(e); }
+            currentHlsInstance = null;
+        }
+    }
+
+    // Cargar canal específico (funcionalidad completa pero sin mostrar overlays ni headers)
+    function loadChannel(channelId) {
+        const channel = CHANNELS.find(c => c.id === channelId);
+        if (!channel) return;
+
+        // Limpiar reproductor anterior
+        destroyHls();
+        videoContainer.innerHTML = '';
         
-        <div class="guide-panel" id="guidePanel"></div>
-        <div class="key-hint">🎮 Números 1-9 · ← → · ↑↓ guía</div>
-        <div class="toast-msg" id="toastMsg"></div>
-    </div>
-
-    <script>
-        // ==================== ÚNICO CANAL: CANAL 7.1 BOLIVIA TV ====================
-        const CANAL = {
-            id: "7.1",
-            name: "BOLIVIA TV",
-            embed: `<iframe src="https://geo.dailymotion.com/player/x12yfi.html?video=x9nzqpo&autoplay=1&mute=0" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen; picture-in-picture; web-share" allowfullscreen></iframe>`
-        };
-
-        let overlayTimeout = null;
-        let touchStartX = 0;
-
-        const videoContainer = document.getElementById('videoContainer');
-        const channelOverlay = document.getElementById('channelOverlay');
-        const guidePanel = document.getElementById('guidePanel');
-        const toastMsg = document.getElementById('toastMsg');
-        const splashScreen = document.getElementById('splashScreen');
-        const appContainer = document.getElementById('appContainer');
-
-        // ========== PANTALLA COMPLETA AUTOMÁTICA ==========
-        function enterFullscreen() {
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) elem.requestFullscreen().catch(() => {});
-            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-        }
-
-        // ========== MOSTRAR NOTIFICACIÓN ==========
-        function showToast(msg) {
-            toastMsg.innerText = msg;
-            toastMsg.classList.add('show');
-            setTimeout(() => toastMsg.classList.remove('show'), 1200);
-        }
-
-        // ========== MOSTRAR OVERLAY ==========
-        function showChannelOverlay() {
-            channelOverlay.classList.add('show');
-            if (overlayTimeout) clearTimeout(overlayTimeout);
-            overlayTimeout = setTimeout(() => {
-                channelOverlay.classList.remove('show');
-            }, 2000);
-        }
-
-        // ========== CARGAR CANAL CON SONIDO AUTOMÁTICO ==========
-        function loadChannel() {
-            videoContainer.innerHTML = '';
-            
+        // Actualizar canal activo
+        activeChannel = channel.id;
+        
+        // Pequeño feedback táctil (toast invisible visualmente pero funcional)
+        showGhostToast(`${channel.name} · ${channel.id}`);
+        
+        // Reproducción según tipo
+        if (channel.type === 'iframe') {
+            // Crear contenedor full para iframe
             const wrapper = document.createElement('div');
             wrapper.style.width = '100%';
             wrapper.style.height = '100%';
             wrapper.style.position = 'relative';
-            wrapper.innerHTML = CANAL.embed;
-            videoContainer.appendChild(wrapper);
-            
-            const iframe = wrapper.querySelector('iframe');
-            if (iframe) {
-                iframe.allow = "autoplay; fullscreen; encrypted-media; web-share";
-                
-                // Forzar recarga con autoplay
-                let src = iframe.src;
-                if (!src.includes('autoplay=1')) {
-                    src = src.replace('autoplay=0', 'autoplay=1');
-                    if (!src.includes('autoplay')) {
-                        src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
-                    }
-                }
-                if (!src.includes('mute=0')) {
-                    src = src.replace('mute=1', 'mute=0');
-                    if (!src.includes('mute')) {
-                        src += '&mute=0';
-                    }
-                }
-                iframe.src = src;
+            wrapper.style.backgroundColor = '#000';
+            // Inyectar embed
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = channel.embed;
+            const iframeElem = tempDiv.querySelector('iframe');
+            if (iframeElem) {
+                iframeElem.style.position = 'absolute';
+                iframeElem.style.top = '0';
+                iframeElem.style.left = '0';
+                iframeElem.style.width = '100%';
+                iframeElem.style.height = '100%';
+                iframeElem.style.border = 'none';
+                wrapper.appendChild(iframeElem);
+                videoContainer.appendChild(wrapper);
+            } else {
+                // fallback
+                videoContainer.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;">Stream no disponible</div>`;
             }
+        } 
+        else if (channel.type === 'hls' && channel.url) {
+            // Usar video nativo + HLS
+            const videoElem = document.createElement('video');
+            videoElem.controls = false;   // SIN CONTROLES VISIBLES
+            videoElem.autoplay = true;
+            videoElem.muted = false;
+            videoElem.playsInline = true;
+            videoElem.style.width = '100%';
+            videoElem.style.height = '100%';
+            videoElem.style.objectFit = 'contain';
+            videoElem.style.backgroundColor = '#000';
+            videoContainer.appendChild(videoElem);
             
-            showChannelOverlay();
-        }
-
-        // ========== REFRESCAR CANAL (MANTIENE EL MISMO) ==========
-        function refreshChannel() {
-            loadChannel();
-            showToast("📺 CANAL 7.1 BOLIVIA TV");
-        }
-
-        // ========== GESTOS DESLIZAR ==========
-        function initGestures() {
-            // Deslizar en toda la pantalla
-            document.body.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            document.body.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].screenX;
-                const diff = touchEndX - touchStartX;
-                if (Math.abs(diff) > 50) {
-                    refreshChannel();
-                }
-                touchStartX = 0;
-            });
-            
-            // Zonas táctiles laterales
-            document.getElementById('touchLeft').addEventListener('click', () => refreshChannel());
-            document.getElementById('touchRight').addEventListener('click', () => refreshChannel());
-        }
-
-        // ========== CONTROL TECLADO (CONTROL REMOTO) ==========
-        function initKeyboard() {
-            window.addEventListener('keydown', (e) => {
-                const key = e.key;
-                // Cualquier número del 1 al 9
-                if (key >= '1' && key <= '9') {
-                    refreshChannel();
-                    e.preventDefault();
-                }
-                // Flechas izquierda/derecha
-                if (key === 'ArrowRight' || key === 'ArrowLeft') {
-                    refreshChannel();
-                    e.preventDefault();
-                }
-                // Flechas arriba/abajo para guía
-                if (key === 'ArrowUp' || key === 'ArrowDown') {
-                    toggleGuide();
-                    e.preventDefault();
-                }
-                // Tecla F para pantalla completa
-                if (key === 'f' || key === 'F') {
-                    enterFullscreen();
-                    e.preventDefault();
-                }
-                // Escape para cerrar guía
-                if (key === 'Escape') {
-                    guidePanel.classList.remove('open');
-                    e.preventDefault();
-                }
-            });
-        }
-
-        // ========== GUÍA DE CANALES ==========
-        function renderGuide() {
-            guidePanel.innerHTML = '';
-            const item = document.createElement('div');
-            item.className = 'guide-item';
-            item.innerHTML = `<span class="guide-num">7.1</span><span class="guide-name">BOLIVIA TV · EN VIVO</span>`;
-            item.onclick = () => {
-                refreshChannel();
-                guidePanel.classList.remove('open');
-            };
-            guidePanel.appendChild(item);
-        }
-
-        function toggleGuide() {
-            guidePanel.classList.toggle('open');
-        }
-
-        function initGuideButton() {
-            document.getElementById('guideTrigger').onclick = () => toggleGuide();
-            document.addEventListener('click', (e) => {
-                if (!guidePanel.contains(e.target) && e.target !== document.getElementById('guideTrigger')) {
-                    guidePanel.classList.remove('open');
-                }
-            });
-        }
-
-        // ========== FORZAR SONIDO AUTOMÁTICO ==========
-        function forceAudio() {
-            // Desbloquear AudioContext
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            // Forzar reproducción en iframes
-            setTimeout(() => {
-                const iframes = document.querySelectorAll('iframe');
-                iframes.forEach(iframe => {
-                    try {
-                        iframe.contentWindow.postMessage('play', '*');
-                    } catch(e) {}
+            if (Hls && Hls.isSupported()) {
+                const hls = new Hls({
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    maxBufferLength: 30,
                 });
-            }, 100);
-            setTimeout(() => {
-                const iframes = document.querySelectorAll('iframe');
-                iframes.forEach(iframe => {
-                    try {
-                        iframe.contentWindow.postMessage('play', '*');
-                    } catch(e) {}
+                hls.loadSource(channel.url);
+                hls.attachMedia(videoElem);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    videoElem.play().catch(e => console.log("autoplay", e));
                 });
-            }, 500);
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) console.error("HLS Error");
+                });
+                currentHlsInstance = hls;
+            } 
+            else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElem.src = channel.url;
+                videoElem.addEventListener('loadedmetadata', () => videoElem.play());
+            } else {
+                videoContainer.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;">No compatible HLS</div>`;
+            }
         }
-
-        // ========== MANTENER PANTALLA COMPLETA ==========
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement && appContainer.classList.contains('visible')) {
-                setTimeout(() => enterFullscreen(), 200);
+        
+        // guardar en localStorage (opcional)
+        localStorage.setItem('finki_last_channel', channel.id);
+    }
+    
+    // Funciones de navegación entre canales (ocultas pero activas)
+    function nextChannel() {
+        let currentIndex = CHANNELS.findIndex(c => c.id === activeChannel);
+        let nextIndex = (currentIndex + 1) % CHANNELS.length;
+        loadChannel(CHANNELS[nextIndex].id);
+    }
+    
+    function prevChannel() {
+        let currentIndex = CHANNELS.findIndex(c => c.id === activeChannel);
+        let prevIndex = (currentIndex - 1 + CHANNELS.length) % CHANNELS.length;
+        loadChannel(CHANNELS[prevIndex].id);
+    }
+    
+    function goToChannelById(id) {
+        const exists = CHANNELS.some(c => c.id === id);
+        if (exists) {
+            loadChannel(id);
+        } else {
+            showGhostToast("Canal no disponible");
+        }
+    }
+    
+    // ========== GESTOS DESLIZAR (totalmente ocultos pero operativos) ==========
+    function initHiddenSwipe() {
+        const gestureZone = document.getElementById('gestureOverlay');
+        if (!gestureZone) return;
+        
+        gestureZone.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        gestureZone.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (Math.abs(diff) > 45) {
+                if (diff > 0) {
+                    prevChannel();
+                    showGhostToast("← ANTERIOR");
+                } else {
+                    nextChannel();
+                    showGhostToast("SIGUIENTE →");
+                }
+            }
+            touchStartX = 0;
+            touchEndX = 0;
+        });
+    }
+    
+    // ========== CONTROL POR TECLADO (números 1-5, flechas, sin interfaz visible) ==========
+    function initKeyboardNav() {
+        window.addEventListener('keydown', (e) => {
+            const key = e.key;
+            // Números del 1 al 5 para cambiar canales (funcionalidad completa)
+            if (key >= '1' && key <= '5') {
+                const chNum = parseInt(key, 10);
+                goToChannelById(chNum);
+                e.preventDefault();
+            }
+            // flechas derecha/izquierda para cambiar canal
+            if (key === 'ArrowRight') {
+                nextChannel();
+                e.preventDefault();
+            }
+            if (key === 'ArrowLeft') {
+                prevChannel();
+                e.preventDefault();
+            }
+            // Se evita cualquier otra tecla que muestre interfaz (no hay guía)
+            if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'Escape') {
+                // No hacemos nada: sin menú, sin guía.
+                e.preventDefault();
             }
         });
-
-        // ========== INICIO CON SPLASH DE 3 SEGUNDOS ==========
-        function startApp() {
-            setTimeout(() => {
-                splashScreen.classList.add('fade-out');
+    }
+    
+    // ========== ANIMACIÓN SPLASH 3 SEGUNDOS Y LUEGO MUESTRA CANAL 3 ==========
+    function startSplashAndLoad() {
+        // Forzamos que el canal 3 (Bolivia TV) esté listo mientras el splash se muestra
+        // Pero precargamos en segundo plano? Mejor cargar después de fadeout.
+        // Aseguramos que el contenedor de video esté listo pero invisible.
+        // Inicialmente playerFull tiene opacity 0.
+        // Al terminar los 3 segundos, hacemos fadein del reproductor y eliminamos splash.
+        
+        // Cargar el canal 3 (por defecto) pero mientras está oculto, no importa
+        // Cargamos el stream directamente pero con el reproductor opaco, para que al mostrar esté listo.
+        loadChannel(3);   // Canal 3 = Bolivia TV (el que se debe mostrar de inicio)
+        
+        // Después de 3000ms (3 segundos) eliminar splash y mostrar el player con animación
+        setTimeout(() => {
+            if (splashElement) {
+                splashElement.style.opacity = '0';
+                // Después de la transición de opacidad, eliminar del DOM
                 setTimeout(() => {
-                    splashScreen.style.display = 'none';
-                    appContainer.classList.add('visible');
-                    
-                    enterFullscreen();
-                    loadChannel();
-                    forceAudio();
-                    
-                    setTimeout(() => {
-                        channelOverlay.classList.add('show');
-                        setTimeout(() => {
-                            channelOverlay.classList.remove('show');
-                        }, 2500);
-                    }, 500);
+                    if (splashElement && splashElement.parentNode) {
+                        splashElement.style.display = 'none';
+                        splashElement.remove();  // Eliminar completamente
+                    }
+                    // Mostrar el reproductor con fade-in
+                    if (playerFullDiv) {
+                        playerFullDiv.style.opacity = '1';
+                    }
+                    // Ajuste para garantizar que el stream se vea correctamente
+                    const currentChannel = CHANNELS.find(c => c.id === activeChannel);
+                    if (currentChannel && currentChannel.type === 'iframe') {
+                        // Pequeño reforce para iframe responsive
+                        const iframes = document.querySelectorAll('iframe');
+                        iframes.forEach(iframe => {
+                            try {
+                                iframe.style.width = '100%';
+                                iframe.style.height = '100%';
+                            } catch(e) {}
+                        });
+                    }
                 }, 600);
-            }, 3000);
-        }
-
-        // ========== INICIALIZAR ==========
-        function init() {
-            renderGuide();
-            initGestures();
-            initKeyboard();
-            initGuideButton();
-            startApp();
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+            }
+        }, 3000); // 3 segundos exactos de animación
+    }
+    
+    // ========== ASEGURAR QUE EL PLAYER OCUPE TODA LA PANTALLA SIN BORDES ==========
+    function enforceFullscreenSize() {
+        const updateSize = () => {
+            const player = document.querySelector('.player-full');
+            if (player) {
+                player.style.width = '100vw';
+                player.style.height = '100vh';
+            }
+            const container = document.getElementById('videoContainer');
+            if (container) {
+                container.style.width = '100%';
+                container.style.height = '100%';
+            }
+        };
+        updateSize();
+        window.addEventListener('resize', updateSize);
+        window.addEventListener('orientationchange', updateSize);
+    }
+    
+    // ========== MANTENER EN PRIMER PLANO Y EVITAR CONTROLES VISIBLES ==========
+    function removeAnyFloatingUI() {
+        // Aseguramos que no queden restos de otros elementos (como badges que pudieran existir)
+        // Eliminar cualquier elemento con clases sospechosas (por si acaso)
+        const possibleOverlays = document.querySelectorAll('.channel-overlay, .channel-controls, .guide-panel, .header, .key-hint, .badge-live');
+        possibleOverlays.forEach(el => {
+            if (el) el.remove();
+        });
+        // También aseguramos que no haya ningún botón flotante (por si algún residuo)
+        const styleKiller = document.createElement('style');
+        styleKiller.textContent = `
+            .channel-controls, .guide-panel, .header, .badge-live, .key-hint, .channel-overlay, .ctrl-btn, .btn-guide, .logo-area, .brand {
+                display: none !important;
+            }
+            body, .app, .player-full, .video-container {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(styleKiller);
+    }
+    
+    // ========== INICIALIZACIÓN DEFINITIVA ==========
+    function init() {
+        // Ocultar cualquier vestigio de UI no deseado
+        removeAnyFloatingUI();
+        enforceFullscreenSize();
+        
+        // Inicializar gestos y teclado (funcional pero invisible)
+        initHiddenSwipe();
+        initKeyboardNav();
+        
+        // Iniciar splash de 3 segundos y después mostrar el canal 3 (Bolivia TV)
+        startSplashAndLoad();
+        
+        // Pequeño helper para mantener el foco en el stream y evitar pantalla apagada (opcional)
+        setInterval(() => {
+            // Solo mantener activo, sin ninguna interacción visual
+        }, 25000);
+    }
+    
+    // Arrancar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>

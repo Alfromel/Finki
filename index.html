@@ -4,4252 +4,689 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
-    <meta name="description" content="NETFIX CAME - Streaming premium">
-    <meta name="apple-mobile-web-app-title" content="NETFIX CAME">
-    <meta name="format-detection" content="telephone=no">
-    <title>NETFIX CAME · Streaming</title>
-    
-    <!-- Preconexiones críticas -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://images.unsplash.com">
-    
-    <!-- Fuentes optimizadas -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Supabase -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    
+    <meta name="theme-color" content="#0A2F1F">
+    <title>BOLIVIA FÚTBOL TV · Stream Deportivo</title>
     <style>
-        /* =========================================== */
-        /* ===== RESET Y VARIABLES GLOBALES ===== */
-        /* =========================================== */
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-        
+
         :root {
-            /* Colores base */
-            --black: #000000;
-            --black-light: #0a0a0a;
-            --dark: #0f0f0f;
-            --gray-900: #141414;
-            --gray-800: #1a1a1a;
-            --gray-700: #2a2a2a;
-            --gray-600: #3a3a3a;
-            --gray-500: #4d4d4d;
-            --gray-400: #666666;
-            --gray-300: #808080;
-            --white: #ffffff;
-            --red: #e50914;
-            --red-dark: #b20710;
-            --red-light: #f40612;
-            --green: #46d369;
-            --blue: #0071eb;
-            
-            /* Sombras */
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.7);
-            --shadow-xl: 0 16px 32px rgba(0,0,0,0.9);
-            
-            /* Transiciones */
-            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --verde-profundo: #0A2F1F;
+            --verde-oscuro: #1A4D2A;
+            --verde-brillante: #2E7D32;
+            --verde-neon: #4CAF50;
+            --negro-carbono: #030603;
+            --gris-oscuro: #1E1E1E;
+            --blanco-puro: #FFFFFF;
+            --blanco-humo: #F5F5F5;
+            --gris-claro: #AAAAAA;
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
-        
-        html {
-            font-size: 16px;
-            -webkit-text-size-adjust: 100%;
-            background-color: var(--black);
-        }
-        
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--black);
-            color: var(--white);
+            background-color: var(--negro-carbono);
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Inter', sans-serif;
+            color: var(--blanco-puro);
             overflow-x: hidden;
-            line-height: 1.4;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
         }
-        
-        /* =========================================== */
-        /* ===== LOADING SCREEN ===== */
-        /* =========================================== */
-        
-        .loading-screen {
+
+        /* INTERFAZ GLOBAL */
+        .app-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: var(--negro-carbono);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER ELEGANTE */
+        .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: var(--black);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-        
-        .loading-screen.fade-out {
-            opacity: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(3,6,3,0.95) 0%, rgba(3,6,3,0) 100%);
+            padding: 20px 24px 40px 24px;
             pointer-events: none;
         }
         
-        .loading-content {
-            text-align: center;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
         }
         
-        .loading-logo {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--red);
-            letter-spacing: -2px;
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .mascota {
+            width: 48px;
+            height: 48px;
+            background-image: url('m.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: drop-shadow(0 0 8px #4CAF50);
+        }
+        
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FFFFFF, #4CAF50);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .badge-live {
+            background: #E53935;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(229,57,53,0.6);
             animation: pulse 1.5s infinite;
-            text-shadow: 0 0 30px rgba(229, 9, 20, 0.5);
-        }
-        
-        .loading-bar {
-            width: 200px;
-            height: 3px;
-            background: var(--gray-700);
-            margin: 20px auto 0;
-            border-radius: 3px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .loading-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -40%;
-            width: 40%;
-            height: 100%;
-            background: var(--red);
-            border-radius: 3px;
-            animation: loading 1.2s ease infinite;
         }
         
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
+            0% { opacity: 0.7; transform: scale(0.98);}
+            100% { opacity: 1; transform: scale(1);}
         }
         
-        @keyframes loading {
-            0% { left: -40%; }
-            100% { left: 100%; }
-        }
-        
-        /* =========================================== */
-        /* ===== AUTENTICACIÓN ===== */
-        /* =========================================== */
-        
-        .auth-section {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 10% 20%, var(--gray-900), var(--black));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9000;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .auth-container {
-            width: 100%;
-            max-width: 400px;
-            animation: fadeInUp 0.5s ease;
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .auth-logo {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--red);
-            text-align: center;
-            margin-bottom: 2rem;
-            letter-spacing: -2px;
-            text-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
-        }
-        
-        .auth-tabs {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid var(--gray-700);
-        }
-        
-        .auth-tab {
+        /* PLAYER PRINCIPAL */
+        .player-wrapper {
             flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--gray-500);
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 12px 0;
-            cursor: pointer;
+            width: 100%;
+            background: #000000;
             position: relative;
-            transition: var(--transition-base);
-        }
-        
-        .auth-tab::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--red);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        
-        .auth-tab.active {
-            color: var(--white);
-        }
-        
-        .auth-tab.active::after {
-            transform: scaleX(1);
-        }
-        
-        .auth-form {
-            display: none;
-        }
-        
-        .auth-form.active {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-15px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .auth-input-group {
-            margin-bottom: 15px;
-        }
-        
-        .auth-input {
-            width: 100%;
-            padding: 16px 14px;
-            background: var(--gray-800);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            color: var(--white);
-            font-size: 0.95rem;
-            transition: var(--transition-base);
-        }
-        
-        .auth-input:focus {
-            outline: none;
-            border-color: var(--red);
-            background: var(--gray-700);
-        }
-        
-        .auth-input::placeholder {
-            color: var(--gray-500);
-        }
-        
-        .auth-button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--red), var(--red-dark));
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition-base);
-            margin-top: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .auth-button:active {
-            transform: scale(0.98);
-        }
-        
-        .auth-error {
-            color: #ff6b6b;
-            font-size: 0.85rem;
-            margin: 10px 0 0;
-            padding: 10px 12px;
-            background: rgba(229, 9, 20, 0.1);
-            border-left: 4px solid var(--red);
-            border-radius: 4px;
-            display: none;
-        }
-        
-        /* =========================================== */
-        /* ===== DISEÑO MÓVIL ===== */
-        /* =========================================== */
-        
-        /* Solo visible en móvil */
-        .mobile-only {
-            display: block;
-        }
-        
-        .tv-only {
-            display: none;
-        }
-        
-        /* Header móvil */
-        .mobile-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 100;
-            transition: var(--transition-base);
-            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-            pointer-events: none;
-        }
-        
-        .mobile-header > * {
-            pointer-events: auto;
-        }
-        
-        .mobile-header.scrolled {
-            background: var(--black);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .mobile-logo {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--red);
-            letter-spacing: -1px;
-        }
-        
-        .mobile-header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .mobile-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.2rem;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-        }
-        
-        .mobile-icon:active {
-            background: var(--gray-700);
-        }
-        
-        .mobile-avatar {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--gray-600), var(--gray-800));
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            border: 2px solid transparent;
-        }
-        
-        .mobile-avatar:active {
-            transform: scale(0.95);
-            border-color: var(--white);
-        }
-        
-        /* Hero móvil */
-        .mobile-hero {
-            position: relative;
-            width: 100%;
-            height: 70vh;
-            min-height: 500px;
-            margin-bottom: 20px;
             overflow: hidden;
         }
         
-        .mobile-hero-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .video-container {
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
+            background: black;
         }
         
-        .mobile-hero-backdrop::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        iframe, .hls-player {
             width: 100%;
-            height: 150px;
-            background: linear-gradient(180deg, transparent, var(--black));
+            height: 100%;
+            border: none;
+            background: black;
         }
         
-        .mobile-hero-content {
+        .channel-overlay {
             position: absolute;
             bottom: 30px;
             left: 20px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border-left: 5px solid var(--verde-neon);
+            font-weight: bold;
+            z-index: 30;
+            pointer-events: none;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .channel-number {
+            color: var(--verde-neon);
+            margin-right: 8px;
+        }
+        
+        /* CONTROL DE CANALES (NUMERICO / DESLIZANTE) */
+        .channel-controls {
+            position: fixed;
+            bottom: 20px;
             right: 20px;
-            z-index: 2;
-        }
-        
-        .mobile-hero-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            line-height: 1.2;
-        }
-        
-        .mobile-hero-meta {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .mobile-hero-match {
-            color: var(--green);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .mobile-hero-match::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--green);
-            border-radius: 50%;
-        }
-        
-        .mobile-hero-buttons {
+            z-index: 200;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(20px);
+            padding: 10px 16px;
+            border-radius: 50px;
             display: flex;
             gap: 12px;
-        }
-        
-        .mobile-hero-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.2);
-            color: var(--white);
-            backdrop-filter: blur(5px);
-        }
-        
-        .mobile-hero-btn.play {
-            background: var(--white);
-            color: var(--black);
-        }
-        
-        .mobile-hero-btn:active {
-            transform: scale(0.97);
-        }
-        
-        /* Filas móvil */
-        .mobile-row {
-            padding: 20px 0;
-        }
-        
-        .mobile-row-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            margin-bottom: 10px;
-        }
-        
-        .mobile-row-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .mobile-row-title::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--red);
-            border-radius: 3px;
-        }
-        
-        .mobile-row-link {
-            color: var(--gray-500);
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .mobile-carousel {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            padding: 5px 20px;
-        }
-        
-        .mobile-carousel::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .mobile-carousel-item {
-            flex: 0 0 auto;
-            width: 130px;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .mobile-carousel-item:active {
-            transform: scale(0.95);
-        }
-        
-        .mobile-carousel-poster {
-            width: 100%;
-            aspect-ratio: 2/3;
-            border-radius: 6px;
-            overflow: hidden;
-            background: var(--gray-700);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .mobile-carousel-poster img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .mobile-carousel-title {
-            margin-top: 6px;
-            font-size: 0.8rem;
-            color: var(--white);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 500;
-        }
-        
-        .mobile-carousel-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: var(--red);
-            color: white;
-            padding: 4px 8px;
-            font-size: 0.6rem;
-            font-weight: 700;
-            border-radius: 4px;
-            z-index: 2;
-        }
-        
-        /* Grid móvil */
-        .mobile-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            padding: 15px 20px;
-        }
-        
-        .mobile-grid-item {
-            position: relative;
-            cursor: pointer;
-            border-radius: 6px;
-            overflow: hidden;
-            aspect-ratio: 2/3;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .mobile-grid-item:active {
-            transform: scale(0.97);
-        }
-        
-        .mobile-grid-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .mobile-grid-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: var(--red);
-            color: white;
-            padding: 3px 6px;
-            font-size: 0.55rem;
-            font-weight: 700;
-            border-radius: 3px;
-            z-index: 2;
-        }
-        
-        /* Navegación inferior móvil */
-        .mobile-bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 100;
-            border-top: 1px solid var(--gray-800);
-            padding-bottom: env(safe-area-inset-bottom, 0);
-        }
-        
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            color: var(--gray-500);
-            font-size: 0.65rem;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 20px;
-            transition: var(--transition-fast);
-        }
-        
-        .mobile-nav-item.active {
-            color: var(--white);
-        }
-        
-        .mobile-nav-item i {
-            font-size: 1.3rem;
-        }
-        
-        .mobile-nav-item.active i {
-            color: var(--red);
-        }
-        
-        .mobile-nav-item:active {
-            background: var(--gray-800);
-        }
-        
-        /* Secciones móvil */
-        .mobile-section {
-            display: none;
-            padding-bottom: 70px;
-            min-height: 100vh;
-        }
-        
-        .mobile-section.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* Header de categorías móvil */
-        .mobile-category-header {
-            position: sticky;
-            top: 60px;
-            background: var(--black);
-            padding: 15px 20px 10px;
-            z-index: 90;
-            border-bottom: 1px solid var(--gray-800);
-        }
-        
-        .mobile-category-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-        }
-        
-        .mobile-category-filters {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            padding-bottom: 5px;
-        }
-        
-        .mobile-category-filters::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .mobile-filter {
-            padding: 8px 16px;
-            background: var(--gray-800);
-            border: none;
-            border-radius: 20px;
-            color: var(--white);
-            font-size: 0.85rem;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .mobile-filter.active {
-            background: var(--red);
-        }
-        
-        .mobile-filter:active {
-            transform: scale(0.95);
-        }
-        
-        /* Búsqueda móvil */
-        .mobile-search-page {
-            padding: 80px 20px 70px;
-        }
-        
-        .mobile-search-box {
-            display: flex;
-            align-items: center;
-            background: var(--gray-800);
-            border-radius: 30px;
-            padding: 0 15px;
-            margin-bottom: 20px;
-            border: 2px solid transparent;
-            transition: var(--transition-fast);
-        }
-        
-        .mobile-search-box:focus-within {
-            border-color: var(--red);
-            background: var(--gray-700);
-        }
-        
-        .mobile-search-box i {
-            color: var(--gray-500);
-            margin-right: 10px;
-            font-size: 1rem;
-        }
-        
-        .mobile-search-input {
-            flex: 1;
-            padding: 14px 0;
-            background: transparent;
-            border: none;
-            color: var(--white);
-            font-size: 0.95rem;
-        }
-        
-        .mobile-search-input:focus {
-            outline: none;
-        }
-        
-        .mobile-search-input::placeholder {
-            color: var(--gray-600);
-        }
-        
-        .mobile-search-clear {
-            background: transparent;
-            border: none;
-            color: var(--gray-500);
-            cursor: pointer;
-            padding: 10px;
-            font-size: 1rem;
-        }
-        
-        /* Perfil móvil */
-        .mobile-profile-page {
-            padding: 80px 20px 70px;
-        }
-        
-        .mobile-profile-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .mobile-profile-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--red), #ff4d4d);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            box-shadow: var(--shadow-lg);
-            border: 3px solid rgba(255,255,255,0.2);
-        }
-        
-        .mobile-profile-info h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-        
-        .mobile-profile-info p {
-            color: var(--gray-500);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .mobile-profile-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .mobile-profile-stat {
-            background: var(--gray-800);
-            padding: 15px;
-            text-align: center;
-            border-radius: 12px;
-            border: 1px solid var(--gray-700);
-        }
-        
-        .mobile-profile-stat-value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--red);
-            margin-bottom: 5px;
-        }
-        
-        .mobile-profile-stat-label {
-            font-size: 0.75rem;
-            color: var(--gray-500);
-            text-transform: uppercase;
-        }
-        
-        .mobile-profile-menu-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--gray-800);
-            cursor: pointer;
-        }
-        
-        .mobile-profile-menu-item:active {
-            background: var(--gray-800);
-            padding-left: 10px;
-        }
-        
-        .mobile-profile-menu-item i:first-child {
-            width: 30px;
-            color: var(--red);
-            font-size: 1.1rem;
-        }
-        
-        .mobile-profile-menu-item span {
-            flex: 1;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
-        .mobile-profile-menu-item .fa-chevron-right {
-            color: var(--gray-500);
-            width: auto;
-        }
-        
-        /* Listas móvil */
-        .mobile-list-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--black);
-            z-index: 2000;
-            overflow-y: auto;
-            animation: slideUp 0.3s ease;
-            padding-bottom: 20px;
-            display: none;
-        }
-        
-        .mobile-list-header {
-            position: sticky;
-            top: 0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px 20px;
-            background: var(--black);
-            z-index: 10;
-            border-bottom: 1px solid var(--gray-800);
-        }
-        
-        .mobile-list-header h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-        }
-        
-        .mobile-list-back {
-            width: 40px;
-            height: 40px;
-            background: var(--gray-800);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-        
-        .mobile-list-back:active {
-            background: var(--red);
-        }
-        
-        /* Player móvil */
-        .mobile-player {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            z-index: 3000;
-            display: none;
-        }
-        
-        .mobile-player.active {
-            display: block;
-        }
-        
-        .mobile-player-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            background: rgba(0,0,0,0.7);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 3001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .mobile-player-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Empty states móvil */
-        .mobile-empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray-500);
-        }
-        
-        .mobile-empty i {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        
-        .mobile-empty p {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: var(--white);
-        }
-        
-        .mobile-empty small {
-            font-size: 0.9rem;
-            color: var(--gray-500);
-        }
-        
-        /* Notificaciones móvil */
-        .mobile-notification {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            right: 20px;
-            background: var(--gray-800);
-            color: white;
-            padding: 14px 20px;
-            border-radius: 10px;
-            z-index: 4000;
-            animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.2s forwards;
-            box-shadow: var(--shadow-lg);
-            border-left: 4px solid var(--red);
-            font-weight: 500;
-            text-align: center;
-        }
-        
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes fadeOut {
-            to { opacity: 0; transform: translateY(-20px); }
-        }
-        
-        /* =========================================== */
-        /* ===== DISEÑO TV ===== */
-        /* =========================================== */
-        
-        @media (min-width: 1280px) {
-            .mobile-only {
-                display: none;
-            }
-            
-            .tv-only {
-                display: block;
-            }
-            
-            body {
-                background: var(--black);
-            }
-        }
-        
-        .tv-only {
-            display: none;
-        }
-        
-        /* Header TV */
-        .tv-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, transparent 100%);
-            display: flex;
-            align-items: center;
-            padding: 0 50px 0 120px;
-            z-index: 100;
-            transition: var(--transition-base);
-            pointer-events: none;
-        }
-        
-        .tv-header > * {
+            font-size: 1.4rem;
+            font-weight: bold;
+            border: 1px solid rgba(76,175,80,0.5);
             pointer-events: auto;
         }
         
-        .tv-header.scrolled {
-            background: var(--black);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .tv-logo {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--red);
-            margin-right: 50px;
-            letter-spacing: -2px;
-        }
-        
-        .tv-nav {
-            display: flex;
-            gap: 30px;
-            flex: 1;
-        }
-        
-        .tv-nav-item {
-            color: var(--gray-400);
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: var(--transition-base);
-            padding: 8px 16px;
-            border-radius: 30px;
-        }
-        
-        .tv-nav-item:hover {
-            color: var(--white);
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .tv-nav-item.active {
-            color: var(--white);
-            background: var(--red);
-        }
-        
-        .tv-user {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .tv-user i {
-            font-size: 1.4rem;
-            cursor: pointer;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: var(--transition-base);
-        }
-        
-        .tv-user i:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .tv-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--gray-600), var(--gray-800));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.3rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: var(--transition-base);
-        }
-        
-        .tv-avatar:hover {
-            border-color: var(--white);
-            transform: scale(1.05);
-        }
-        
-        /* Sidebar TV */
-        .tv-sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 90px;
-            height: 100vh;
-            background: linear-gradient(90deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 100%);
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 35px;
-            z-index: 99;
-        }
-        
-        .tv-sidebar-item {
-            color: var(--gray-500);
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: var(--transition-base);
-            position: relative;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-        }
-        
-        .tv-sidebar-item:hover {
-            color: var(--white);
-            background: rgba(255,255,255,0.1);
-            transform: scale(1.1);
-        }
-        
-        .tv-sidebar-item.active {
-            color: var(--red);
-            background: rgba(229, 9, 20, 0.1);
-        }
-        
-        .tv-sidebar-item.active::before {
-            content: '';
-            position: absolute;
-            left: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 30px;
-            background: var(--red);
-            border-radius: 4px;
-        }
-        
-        /* Hero TV */
-        .tv-hero {
-            position: relative;
-            width: 100%;
-            height: 85vh;
-            min-height: 700px;
-            margin-left: 90px;
-            width: calc(100% - 90px);
-            overflow: hidden;
-        }
-        
-        .tv-hero-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center 20%;
-            transition: transform 0.5s ease;
-        }
-        
-        .tv-hero-backdrop:hover {
-            transform: scale(1.02);
-        }
-        
-        .tv-hero-backdrop::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(180deg, transparent, var(--black));
-        }
-        
-        .tv-hero-backdrop::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, transparent 50%);
-            z-index: 1;
-        }
-        
-        .tv-hero-content {
-            position: absolute;
-            bottom: 120px;
-            left: 60px;
-            right: 60px;
-            z-index: 2;
-            max-width: 700px;
-        }
-        
-        .tv-hero-title {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-            line-height: 1.2;
-        }
-        
-        .tv-hero-meta {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-        
-        .tv-hero-match {
-            color: var(--green);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .tv-hero-match::before {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background: var(--green);
-            border-radius: 50%;
-        }
-        
-        .tv-hero-buttons {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .tv-hero-btn {
-            padding: 16px 32px;
+        .ctrl-btn {
+            background: none;
             border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: var(--transition-base);
-            background: rgba(255,255,255,0.2);
-            color: var(--white);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .tv-hero-btn.play {
-            background: var(--white);
-            color: var(--black);
-            border: none;
-        }
-        
-        .tv-hero-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .tv-hero-btn.play:hover {
-            background: rgba(255,255,255,0.9);
-        }
-        
-        .tv-hero-btn:active {
-            transform: scale(0.98);
-        }
-        
-        /* Filas TV */
-        .tv-row {
-            padding: 30px 0 30px 120px;
-            width: calc(100% - 90px);
-            margin-left: 90px;
-        }
-        
-        .tv-row-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-right: 50px;
-            margin-bottom: 20px;
-        }
-        
-        .tv-row-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .tv-row-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--red);
-            border-radius: 4px;
-        }
-        
-        .tv-row-link {
-            color: var(--gray-500);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition-base);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .tv-row-link:hover {
-            color: var(--white);
-            transform: translateX(5px);
-        }
-        
-        .tv-carousel {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            padding: 10px 0;
-        }
-        
-        .tv-carousel::-webkit-scrollbar {
-            height: 6px;
-        }
-        
-        .tv-carousel::-webkit-scrollbar-track {
-            background: var(--gray-800);
-        }
-        
-        .tv-carousel::-webkit-scrollbar-thumb {
-            background: var(--red);
-            border-radius: 3px;
-        }
-        
-        .tv-carousel-item {
-            flex: 0 0 auto;
-            width: 200px;
-            cursor: pointer;
-            transition: var(--transition-base);
-            position: relative;
-        }
-        
-        .tv-carousel-item:hover {
-            transform: scale(1.1) translateY(-15px);
-            z-index: 10;
-        }
-        
-        .tv-carousel-poster {
-            width: 100%;
-            aspect-ratio: 2/3;
-            border-radius: 8px;
-            overflow: hidden;
-            background: var(--gray-700);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .tv-carousel-poster img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-base);
-        }
-        
-        .tv-carousel-item:hover .tv-carousel-poster img {
-            transform: scale(1.1);
-        }
-        
-        .tv-carousel-title {
-            margin-top: 10px;
-            font-size: 1rem;
-            color: var(--white);
-            font-weight: 500;
-            text-align: center;
-        }
-        
-        .tv-carousel-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: var(--red);
             color: white;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border-radius: 4px;
-            z-index: 2;
-            box-shadow: var(--shadow-sm);
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            width: 44px;
+            height: 44px;
+            border-radius: 40px;
         }
         
-        .tv-carousel-number {
+        .ctrl-btn:active {
+            background: var(--verde-oscuro);
+            transform: scale(0.92);
+        }
+        
+        /* Guía de canales */
+        .guide-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: var(--negro-carbono);
+            backdrop-filter: blur(20px);
+            background-color: rgba(3,6,3,0.9);
+            border-radius: 24px;
+            padding: 12px 0;
+            min-width: 220px;
+            border: 1px solid var(--verde-oscuro);
+            z-index: 150;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            pointer-events: auto;
+        }
+        
+        .guide-panel.open {
+            transform: translateX(0);
+        }
+        
+        .guide-item {
+            padding: 12px 20px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            border-bottom: 1px solid rgba(76,175,80,0.2);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        
+        .guide-item:active {
+            background: var(--verde-oscuro);
+        }
+        
+        .guide-num {
+            font-weight: bold;
+            color: var(--verde-neon);
+            width: 35px;
+        }
+        
+        .guide-name {
+            font-weight: 500;
+        }
+        
+        /* Gestos deslizar (mobile) */
+        .swipe-area {
             position: absolute;
-            top: -15px;
-            left: -15px;
-            font-size: 8rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.1);
-            line-height: 1;
-            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: auto;
+        }
+        
+        /* Diseño responsivo TV y PC */
+        @media (min-width: 1024px) {
+            .channel-controls {
+                bottom: 40px;
+                right: 40px;
+            }
+            .guide-panel {
+                bottom: 110px;
+                right: 40px;
+            }
+            .brand {
+                font-size: 2rem;
+            }
+            .mascota {
+                width: 64px;
+                height: 64px;
+            }
+        }
+        
+        /* notificacion sutil */
+        .toast-msg {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--verde-profundo);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 300;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border-left: 4px solid #4CAF50;
+            opacity: 0;
+            transition: opacity 0.2s;
             pointer-events: none;
         }
         
-        /* Grid TV */
-        .tv-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-            padding: 30px 50px 30px 120px;
-            width: calc(100% - 90px);
-            margin-left: 90px;
+        .toast-msg.show {
+            opacity: 1;
         }
         
-        .tv-grid-item {
-            position: relative;
-            cursor: pointer;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: var(--transition-base);
-            box-shadow: var(--shadow-md);
-            aspect-ratio: 2/3;
-        }
-        
-        .tv-grid-item:hover {
-            transform: scale(1.08) translateY(-10px);
-            box-shadow: var(--shadow-xl);
-            z-index: 20;
-        }
-        
-        .tv-grid-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-base);
-        }
-        
-        .tv-grid-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        .tv-grid-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px 15px 15px;
-            background: linear-gradient(180deg, transparent, rgba(0,0,0,0.95));
-            transform: translateY(100%);
-            transition: var(--transition-base);
-        }
-        
-        .tv-grid-item:hover .tv-grid-info {
-            transform: translateY(0);
-        }
-        
-        .tv-grid-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .tv-grid-subtitle {
-            font-size: 0.9rem;
-            color: var(--gray-400);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .tv-grid-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: var(--red);
-            color: white;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border-radius: 4px;
-            z-index: 2;
-        }
-        
-        /* Categorías TV */
-        .tv-category-header {
-            position: sticky;
-            top: 80px;
-            background: var(--black);
-            padding: 20px 50px 20px 120px;
-            width: calc(100% - 90px);
-            margin-left: 90px;
-            z-index: 90;
-            border-bottom: 1px solid var(--gray-800);
-        }
-        
-        .tv-category-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .tv-category-filters {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            scrollbar-width: thin;
-            padding-bottom: 5px;
-        }
-        
-        .tv-category-filters::-webkit-scrollbar {
-            height: 4px;
-        }
-        
-        .tv-filter {
-            padding: 10px 24px;
-            background: var(--gray-800);
-            border: none;
-            border-radius: 30px;
-            color: var(--white);
-            font-size: 1rem;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: var(--transition-base);
-            border: 1px solid transparent;
-        }
-        
-        .tv-filter:hover {
-            background: var(--gray-700);
-            transform: translateY(-2px);
-            border-color: var(--red);
-        }
-        
-        .tv-filter.active {
-            background: var(--red);
-            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
-        }
-        
-        /* Búsqueda TV */
-        .tv-search-page {
-            padding: 100px 50px 50px 120px;
-            width: calc(100% - 90px);
-            margin-left: 90px;
-        }
-        
-        .tv-search-box {
-            display: flex;
-            align-items: center;
-            background: var(--gray-800);
-            border-radius: 50px;
-            padding: 0 25px;
-            margin-bottom: 40px;
-            border: 2px solid transparent;
-            transition: var(--transition-base);
-            max-width: 600px;
-        }
-        
-        .tv-search-box:focus-within {
-            border-color: var(--red);
-            background: var(--gray-700);
-            box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.2);
-        }
-        
-        .tv-search-box i {
-            color: var(--gray-500);
-            margin-right: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .tv-search-input {
-            flex: 1;
-            padding: 18px 0;
-            background: transparent;
-            border: none;
-            color: var(--white);
-            font-size: 1.1rem;
-        }
-        
-        .tv-search-input:focus {
-            outline: none;
-        }
-        
-        .tv-search-clear {
-            background: transparent;
-            border: none;
-            color: var(--gray-500);
-            cursor: pointer;
-            padding: 15px;
-            font-size: 1.2rem;
-            border-radius: 50%;
-            transition: var(--transition-base);
-        }
-        
-        .tv-search-clear:hover {
-            color: var(--white);
-            background: var(--gray-600);
-        }
-        
-        /* Perfil TV */
-        .tv-profile-page {
-            padding: 100px 50px 50px 120px;
-            width: calc(100% - 90px);
-            margin-left: 90px;
-        }
-        
-        .tv-profile-header {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            margin-bottom: 50px;
-        }
-        
-        .tv-profile-avatar {
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(135deg, var(--red), #ff4d4d);
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            font-weight: 700;
-            box-shadow: var(--shadow-xl);
-            border: 4px solid rgba(255,255,255,0.2);
-        }
-        
-        .tv-profile-info h2 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-        
-        .tv-profile-info p {
-            color: var(--gray-500);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .tv-profile-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        .tv-profile-stat {
-            background: var(--gray-800);
-            padding: 30px;
-            text-align: center;
+        /* hint numerico */
+        .key-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 12px;
             border-radius: 20px;
-            border: 1px solid var(--gray-700);
-            transition: var(--transition-base);
+            font-size: 0.7rem;
+            color: #aaa;
+            z-index: 200;
+            backdrop-filter: blur(4px);
         }
         
-        .tv-profile-stat:hover {
-            transform: translateY(-5px);
-            border-color: var(--red);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .tv-profile-stat-value {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--red);
-            margin-bottom: 10px;
-        }
-        
-        .tv-profile-stat-label {
-            font-size: 1rem;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .tv-profile-menu-item {
-            display: flex;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--gray-800);
-            cursor: pointer;
-            transition: var(--transition-base);
-        }
-        
-        .tv-profile-menu-item:hover {
-            padding-left: 20px;
-            background: linear-gradient(90deg, var(--gray-800), transparent);
-        }
-        
-        .tv-profile-menu-item i:first-child {
-            width: 50px;
-            color: var(--red);
-            font-size: 1.4rem;
-        }
-        
-        .tv-profile-menu-item span {
-            flex: 1;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        
-        .tv-profile-menu-item .fa-chevron-right {
-            color: var(--gray-500);
-            width: auto;
-            transition: var(--transition-base);
-        }
-        
-        .tv-profile-menu-item:hover .fa-chevron-right {
-            transform: translateX(10px);
-            color: var(--white);
-        }
-        
-        /* Listas TV */
-        .tv-list-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--black);
-            z-index: 2000;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .tv-list-header {
-            position: sticky;
-            top: 0;
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            padding: 20px 50px 20px 120px;
-            background: var(--black);
-            z-index: 10;
-            border-bottom: 1px solid var(--gray-800);
-        }
-        
-        .tv-list-header h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .tv-list-back {
-            width: 50px;
-            height: 50px;
-            background: var(--gray-800);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: var(--transition-base);
-        }
-        
-        .tv-list-back:hover {
-            background: var(--red);
-            transform: scale(1.1) rotate(-90deg);
-        }
-        
-        /* Player TV */
-        .tv-player {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            z-index: 3000;
-            display: none;
-        }
-        
-        .tv-player.active {
-            display: block;
-        }
-        
-        .tv-player-close {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: rgba(0,0,0,0.7);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 3001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.2);
-            transition: var(--transition-base);
-        }
-        
-        .tv-player-close:hover {
-            background: var(--red);
-            transform: scale(1.1) rotate(90deg);
-        }
-        
-        .tv-player-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Configuración TV */
-        .tv-settings-section {
-            padding: 20px 50px 50px 120px;
-            width: calc(100% - 90px);
-            margin-left: 90px;
-        }
-        
-        .tv-settings-card {
-            background: var(--gray-800);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid var(--gray-700);
-        }
-        
-        .tv-settings-card h3 {
-            margin-bottom: 25px;
-            font-size: 1.5rem;
-        }
-        
-        .tv-setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--gray-700);
-        }
-        
-        .tv-setting-item span {
-            font-size: 1.1rem;
-        }
-        
-        .tv-toggle {
-            position: relative;
-            display: inline-block;
-            width: 70px;
-            height: 34px;
-        }
-        
-        .tv-toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .tv-toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--gray-600);
-            transition: var(--transition-base);
-            border-radius: 34px;
-        }
-        
-        .tv-toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: var(--transition-base);
-            border-radius: 50%;
-        }
-        
-        input:checked + .tv-toggle-slider {
-            background-color: var(--red);
-        }
-        
-        input:checked + .tv-toggle-slider:before {
-            transform: translateX(36px);
-        }
-        
-        .tv-settings-button {
-            width: 100%;
-            padding: 18px;
-            background: var(--gray-700);
-            border: none;
-            color: white;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-base);
-            margin-bottom: 15px;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .tv-settings-button i {
-            width: 24px;
-            color: var(--red);
-            font-size: 1.2rem;
-        }
-        
-        .tv-settings-button:hover {
-            background: var(--gray-600);
-            transform: translateX(10px);
-        }
-        
-        .tv-settings-button.danger {
-            color: #ff6b6b;
-        }
-        
-        .tv-settings-button.danger i {
-            color: #ff6b6b;
-        }
-        
-        .tv-settings-button.danger:hover {
-            background: rgba(255, 107, 107, 0.1);
-        }
-        
-        /* Empty states TV */
-        .tv-empty {
-            text-align: center;
-            padding: 100px 20px;
-            color: var(--gray-500);
-        }
-        
-        .tv-empty i {
-            font-size: 6rem;
-            margin-bottom: 30px;
-            opacity: 0.5;
-        }
-        
-        .tv-empty p {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--white);
-        }
-        
-        .tv-empty small {
-            font-size: 1.1rem;
-            color: var(--gray-500);
-        }
-        
-        /* Notificaciones TV */
-        .tv-notification {
-            position: fixed;
-            top: 100px;
-            right: 50px;
-            background: var(--gray-800);
-            color: white;
-            padding: 18px 30px;
-            border-radius: 12px;
-            z-index: 4000;
-            animation: slideInRight 0.3s ease, fadeOutRight 0.3s ease 2.7s forwards;
-            box-shadow: var(--shadow-xl);
-            border-left: 4px solid var(--red);
-            font-weight: 500;
-            min-width: 300px;
-            backdrop-filter: blur(10px);
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes fadeOutRight {
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        
-        /* Scrollbars personalizados */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--gray-800);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--gray-600);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--red);
-        }
-        
-        /* Safe areas */
-        @supports (padding: max(0px)) {
-            .mobile-header,
-            .mobile-bottom-nav,
-            .mobile-section,
-            .mobile-category-header,
-            .mobile-search-page,
-            .mobile-profile-page,
-            .mobile-list-header {
-                padding-left: max(20px, env(safe-area-inset-left));
-                padding-right: max(20px, env(safe-area-inset-right));
-            }
-            
-            .mobile-bottom-nav {
-                padding-bottom: max(0px, env(safe-area-inset-bottom));
-                height: calc(60px + env(safe-area-inset-bottom));
-            }
-            
-            .mobile-section {
-                padding-bottom: calc(70px + env(safe-area-inset-bottom));
-            }
-            
-            .mobile-hero-content {
-                left: max(20px, env(safe-area-inset-left));
-                right: max(20px, env(safe-area-inset-right));
-            }
-            
-            .tv-header,
-            .tv-category-header,
-            .tv-search-page,
-            .tv-profile-page,
-            .tv-list-header,
-            .tv-settings-section {
-                padding-left: max(120px, env(safe-area-inset-left));
-                padding-right: max(50px, env(safe-area-inset-right));
-            }
-            
-            .tv-sidebar {
-                padding-top: env(safe-area-inset-top);
-                padding-bottom: env(safe-area-inset-bottom);
-            }
-        }
-        
-        /* Ajustes responsivos */
-        @media (max-width: 480px) {
-            .mobile-hero-title {
-                font-size: 1.8rem;
-            }
-            
-            .mobile-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .mobile-profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .mobile-profile-stats {
-                grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+            .key-hint {
+                display: none;
             }
         }
     </style>
+    <!-- HLS.js para el stream .m3u8 -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-content">
-            <div class="loading-logo">NETFIX CAME</div>
-            <div class="loading-bar"></div>
+<div class="app-container">
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-area">
+                <div class="mascota"></div>
+                <span class="brand">BOLIVIA FÚTBOL TV</span>
+            </div>
+            <div class="badge-live">EN VIVO</div>
         </div>
     </div>
 
-    <!-- Auth Section -->
-    <section class="auth-section" id="authSection">
-        <div class="auth-container">
-            <div class="auth-logo">NETFIX CAME</div>
-            <div class="auth-tabs">
-                <button class="auth-tab active" onclick="window.switchAuthTab('login')">Iniciar sesión</button>
-                <button class="auth-tab" onclick="window.switchAuthTab('register')">Registrarse</button>
-            </div>
-            
-            <!-- Login Form -->
-            <form id="loginForm" class="auth-form active" onsubmit="window.handleLogin(event)">
-                <div class="auth-input-group">
-                    <input type="tel" class="auth-input" id="loginCelular" placeholder="Número de celular" maxlength="8" required>
-                </div>
-                <div class="auth-input-group">
-                    <input type="password" class="auth-input" id="loginPassword" placeholder="Contraseña" required>
-                </div>
-                <div id="loginError" class="auth-error"></div>
-                <button type="submit" class="auth-button">Entrar</button>
-            </form>
-            
-            <!-- Register Form -->
-            <form id="registerForm" class="auth-form" onsubmit="window.handleRegister(event)">
-                <div class="auth-input-group">
-                    <input type="text" class="auth-input" id="regNombre" placeholder="Nombre completo" required>
-                </div>
-                <div class="auth-input-group">
-                    <input type="number" class="auth-input" id="regEdad" placeholder="Edad" min="1" max="120" required>
-                </div>
-                <div class="auth-input-group">
-                    <input type="tel" class="auth-input" id="regCelular" placeholder="Número de celular" maxlength="8" required>
-                </div>
-                <div class="auth-input-group">
-                    <input type="password" class="auth-input" id="regPassword" placeholder="Contraseña" required>
-                </div>
-                <div id="registerError" class="auth-error"></div>
-                <button type="submit" class="auth-button">Crear cuenta</button>
-            </form>
+    <div class="player-wrapper" id="playerWrapper">
+        <div class="video-container" id="videoContainer">
+            <!-- Aquí se cargará dinámicamente iframe o video nativo HLS -->
         </div>
-    </section>
-
-    <!-- Main App -->
-    <div id="mainApp" style="display: none;">
-        <!-- =========================================== -->
-        <!-- ===== DISEÑO MÓVIL ===== -->
-        <!-- =========================================== -->
-        <div class="mobile-only">
-            <!-- Header Móvil -->
-            <header class="mobile-header" id="mobileHeader">
-                <div class="mobile-logo">N</div>
-                <div class="mobile-header-right">
-                    <i class="fas fa-search mobile-icon" onclick="window.switchMobileSection('search')"></i>
-                    <div class="mobile-avatar" onclick="window.openMobileProfile()" id="mobileAvatar">U</div>
-                </div>
-            </header>
-
-            <!-- Contenido Móvil -->
-            <div class="mobile-content" id="mobileContent">
-                <!-- Home Section Móvil -->
-                <section id="mobileHomeSection" class="mobile-section active">
-                    <!-- Hero Móvil -->
-                    <div class="mobile-hero" id="mobileHero">
-                        <div class="mobile-hero-backdrop" id="mobileHeroBackdrop"></div>
-                        <div class="mobile-hero-content">
-                            <h1 class="mobile-hero-title" id="mobileHeroTitle">Cargando...</h1>
-                            <div class="mobile-hero-meta">
-                                <span class="mobile-hero-match"><i class="fas fa-check-circle"></i> 97%</span>
-                                <span><i class="far fa-calendar-alt"></i> 2024</span>
-                                <span><i class="far fa-clock"></i> Nuevo</span>
-                            </div>
-                            <div class="mobile-hero-buttons">
-                                <button class="mobile-hero-btn play" onclick="window.playMobileHero()">
-                                    <i class="fas fa-play"></i> Reproducir
-                                </button>
-                                <button class="mobile-hero-btn" onclick="window.addMobileHeroToList()">
-                                    <i class="fas fa-plus"></i> Mi lista
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Destacados -->
-                    <div class="mobile-row">
-                        <div class="mobile-row-header">
-                            <h2 class="mobile-row-title">Destacados</h2>
-                            <span class="mobile-row-link" onclick="window.viewMobileAll('featured')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="mobile-carousel" id="mobileFeaturedCarousel"></div>
-                    </div>
-
-                    <!-- Fila 2: Continuar viendo -->
-                    <div class="mobile-row">
-                        <div class="mobile-row-header">
-                            <h2 class="mobile-row-title">Continuar viendo</h2>
-                            <span class="mobile-row-link" onclick="window.viewMobileAll('continue')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="mobile-carousel" id="mobileContinueCarousel"></div>
-                    </div>
-
-                    <!-- Fila 3: Películas populares -->
-                    <div class="mobile-row">
-                        <div class="mobile-row-header">
-                            <h2 class="mobile-row-title">Películas</h2>
-                            <span class="mobile-row-link" onclick="window.switchMobileSection('movies')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="mobile-carousel" id="mobileMoviesCarousel"></div>
-                    </div>
-
-                    <!-- Fila 4: Series populares -->
-                    <div class="mobile-row">
-                        <div class="mobile-row-header">
-                            <h2 class="mobile-row-title">Series</h2>
-                            <span class="mobile-row-link" onclick="window.switchMobileSection('series')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="mobile-carousel" id="mobileSeriesCarousel"></div>
-                    </div>
-
-                    <!-- Fila 5: Canales en vivo -->
-                    <div class="mobile-row">
-                        <div class="mobile-row-header">
-                            <h2 class="mobile-row-title">Canales en vivo</h2>
-                            <span class="mobile-row-link" onclick="window.switchMobileSection('channels')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="mobile-carousel" id="mobileChannelsCarousel"></div>
-                    </div>
-
-                    <!-- Fila 6: Mi lista -->
-                    <div class="mobile-row">
-                        <div class="mobile-row-header">
-                            <h2 class="mobile-row-title">Mi lista</h2>
-                            <span class="mobile-row-link" onclick="window.openMobileMyList()">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="mobile-carousel" id="mobileMyListCarousel"></div>
-                    </div>
-                </section>
-
-                <!-- Movies Section Móvil -->
-                <section id="mobileMoviesSection" class="mobile-section">
-                    <div class="mobile-category-header">
-                        <h1 class="mobile-category-title">Películas</h1>
-                        <div class="mobile-category-filters" id="mobileMovieFilters">
-                            <button class="mobile-filter active" data-filter="all">Todos</button>
-                            <button class="mobile-filter" data-filter="accion">Acción</button>
-                            <button class="mobile-filter" data-filter="comedia">Comedia</button>
-                            <button class="mobile-filter" data-filter="drama">Drama</button>
-                            <button class="mobile-filter" data-filter="ciencia-ficcion">Ciencia ficción</button>
-                            <button class="mobile-filter" data-filter="terror">Terror</button>
-                        </div>
-                    </div>
-                    <div class="mobile-grid" id="mobileMoviesGrid"></div>
-                </section>
-
-                <!-- Series Section Móvil -->
-                <section id="mobileSeriesSection" class="mobile-section">
-                    <div class="mobile-category-header">
-                        <h1 class="mobile-category-title">Series</h1>
-                        <div class="mobile-category-filters" id="mobileSeriesFilters">
-                            <button class="mobile-filter active" data-filter="all">Todos</button>
-                            <button class="mobile-filter" data-filter="accion">Acción</button>
-                            <button class="mobile-filter" data-filter="comedia">Comedia</button>
-                            <button class="mobile-filter" data-filter="drama">Drama</button>
-                            <button class="mobile-filter" data-filter="ciencia-ficcion">Ciencia ficción</button>
-                            <button class="mobile-filter" data-filter="terror">Terror</button>
-                        </div>
-                    </div>
-                    <div class="mobile-grid" id="mobileSeriesGrid"></div>
-                </section>
-
-                <!-- Channels Section Móvil -->
-                <section id="mobileChannelsSection" class="mobile-section">
-                    <div class="mobile-category-header">
-                        <h1 class="mobile-category-title">Canales</h1>
-                        <div class="mobile-category-filters" id="mobileChannelFilters">
-                            <button class="mobile-filter active" data-filter="all">Todos</button>
-                            <button class="mobile-filter" data-filter="deportes">Deportes</button>
-                            <button class="mobile-filter" data-filter="noticias">Noticias</button>
-                            <button class="mobile-filter" data-filter="entretenimiento">Entretenimiento</button>
-                            <button class="mobile-filter" data-filter="infantil">Infantil</button>
-                        </div>
-                    </div>
-                    <div class="mobile-grid" id="mobileChannelsGrid"></div>
-                </section>
-
-                <!-- Search Section Móvil -->
-                <section id="mobileSearchSection" class="mobile-section">
-                    <div class="mobile-search-page">
-                        <div class="mobile-search-box">
-                            <i class="fas fa-search"></i>
-                            <input type="text" class="mobile-search-input" id="mobileSearchInput" placeholder="Buscar títulos, géneros..." autocomplete="off">
-                            <button class="mobile-search-clear" onclick="window.clearMobileSearch()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="mobile-grid" id="mobileSearchResults"></div>
-                    </div>
-                </section>
-
-                <!-- Profile Section Móvil -->
-                <section id="mobileProfileSection" class="mobile-section">
-                    <div class="mobile-profile-page">
-                        <div class="mobile-profile-header">
-                            <div class="mobile-profile-avatar" id="mobileProfileAvatar">U</div>
-                            <div class="mobile-profile-info">
-                                <h2 id="mobileProfileName">Usuario</h2>
-                                <p><i class="fas fa-phone-alt"></i> <span id="mobileProfilePhone">---</span></p>
-                            </div>
-                        </div>
-                        
-                        <div class="mobile-profile-stats">
-                            <div class="mobile-profile-stat">
-                                <div class="mobile-profile-stat-value" id="mobileMyListCount">0</div>
-                                <div class="mobile-profile-stat-label">Mi lista</div>
-                            </div>
-                            <div class="mobile-profile-stat">
-                                <div class="mobile-profile-stat-value" id="mobileHistoryCount">0</div>
-                                <div class="mobile-profile-stat-label">Historial</div>
-                            </div>
-                            <div class="mobile-profile-stat">
-                                <div class="mobile-profile-stat-value" id="mobileTotalCount">0</div>
-                                <div class="mobile-profile-stat-label">Total</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mobile-profile-menu-item" onclick="window.openMobileMyList()">
-                            <i class="fas fa-bookmark"></i>
-                            <span>Mi lista</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="mobile-profile-menu-item" onclick="window.openMobileHistory()">
-                            <i class="fas fa-history"></i>
-                            <span>Historial</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="mobile-profile-menu-item" onclick="window.openMobileSettings()">
-                            <i class="fas fa-cog"></i>
-                            <span>Ajustes</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="mobile-profile-menu-item" onclick="window.logout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Cerrar sesión</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Navegación Inferior Móvil -->
-            <nav class="mobile-bottom-nav">
-                <button class="mobile-nav-item active" onclick="window.switchMobileSection('home')">
-                    <i class="fas fa-home"></i>
-                    <span>Inicio</span>
-                </button>
-                <button class="mobile-nav-item" onclick="window.switchMobileSection('movies')">
-                    <i class="fas fa-film"></i>
-                    <span>Películas</span>
-                </button>
-                <button class="mobile-nav-item" onclick="window.switchMobileSection('series')">
-                    <i class="fas fa-tv"></i>
-                    <span>Series</span>
-                </button>
-                <button class="mobile-nav-item" onclick="window.switchMobileSection('channels')">
-                    <i class="fas fa-satellite-dish"></i>
-                    <span>Canales</span>
-                </button>
-                <button class="mobile-nav-item" onclick="window.switchMobileSection('profile')">
-                    <i class="fas fa-user"></i>
-                    <span>Perfil</span>
-                </button>
-            </nav>
-
-            <!-- Listas Móvil -->
-            <div class="mobile-list-page" id="mobileMyListPage">
-                <div class="mobile-list-header">
-                    <button class="mobile-list-back" onclick="window.closeMobileList('myList')">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2>Mi lista</h2>
-                </div>
-                <div class="mobile-grid" id="mobileMyListGrid"></div>
-            </div>
-
-            <div class="mobile-list-page" id="mobileHistoryPage">
-                <div class="mobile-list-header">
-                    <button class="mobile-list-back" onclick="window.closeMobileList('history')">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2>Historial</h2>
-                </div>
-                <div class="mobile-grid" id="mobileHistoryGrid"></div>
-            </div>
-
-            <div class="mobile-list-page" id="mobileSettingsPage">
-                <div class="mobile-list-header">
-                    <button class="mobile-list-back" onclick="window.closeMobileList('settings')">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2>Ajustes</h2>
-                </div>
-                <div style="padding: 20px;">
-                    <div style="background: var(--gray-800); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                        <h3 style="margin-bottom: 20px;">Preferencias</h3>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <span><i class="fas fa-wifi" style="color: var(--red); margin-right: 10px;"></i> Wi-Fi solo</span>
-                            <label class="tv-toggle" style="width: 50px; height: 24px;">
-                                <input type="checkbox" id="mobileWifiOnly" onchange="window.saveMobileSetting('wifiOnly', this.checked)">
-                                <span class="tv-toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span><i class="fas fa-play" style="color: var(--red); margin-right: 10px;"></i> Auto-reproducir</span>
-                            <label class="tv-toggle" style="width: 50px; height: 24px;">
-                                <input type="checkbox" id="mobileAutoPlay" onchange="window.saveMobileSetting('autoPlay', this.checked)">
-                                <span class="tv-toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div style="background: var(--gray-800); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                        <h3 style="margin-bottom: 20px;">Datos</h3>
-                        <button class="tv-settings-button" style="margin-bottom: 10px;" onclick="window.clearMobileHistory()">
-                            <i class="fas fa-trash-alt"></i> Borrar historial
-                        </button>
-                        <button class="tv-settings-button" onclick="window.clearMobileCache()">
-                            <i class="fas fa-broom"></i> Limpiar caché
-                        </button>
-                    </div>
-                    
-                    <div style="background: var(--gray-800); border-radius: 12px; padding: 20px;">
-                        <h3 style="margin-bottom: 20px;">Cuenta</h3>
-                        <button class="tv-settings-button danger" style="margin-bottom: 10px;" onclick="window.resetMobileData()">
-                            <i class="fas fa-exclamation-triangle"></i> Restablecer datos
-                        </button>
-                        <button class="tv-settings-button danger" onclick="window.logout()">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Player Móvil -->
-            <div class="mobile-player" id="mobilePlayer">
-                <button class="mobile-player-close" onclick="window.closeMobilePlayer()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <iframe class="mobile-player-frame" id="mobileVideoFrame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-            </div>
-        </div>
-
-        <!-- =========================================== -->
-        <!-- ===== DISEÑO TV ===== -->
-        <!-- =========================================== -->
-        <div class="tv-only">
-            <!-- Header TV -->
-            <header class="tv-header" id="tvHeader">
-                <div class="tv-logo">NETFIX CAME</div>
-                <div class="tv-nav">
-                    <span class="tv-nav-item active" onclick="window.switchTVSection('home')">Inicio</span>
-                    <span class="tv-nav-item" onclick="window.switchTVSection('movies')">Películas</span>
-                    <span class="tv-nav-item" onclick="window.switchTVSection('series')">Series</span>
-                    <span class="tv-nav-item" onclick="window.switchTVSection('channels')">Canales</span>
-                    <span class="tv-nav-item" onclick="window.switchTVSection('myList')">Mi lista</span>
-                </div>
-                <div class="tv-user">
-                    <i class="fas fa-search" onclick="window.switchTVSection('search')"></i>
-                    <div class="tv-avatar" onclick="window.openTVProfile()" id="tvAvatar">U</div>
-                </div>
-            </header>
-
-            <!-- Sidebar TV -->
-            <nav class="tv-sidebar">
-                <div class="tv-sidebar-item active" onclick="window.switchTVSection('home')">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div class="tv-sidebar-item" onclick="window.switchTVSection('movies')">
-                    <i class="fas fa-film"></i>
-                </div>
-                <div class="tv-sidebar-item" onclick="window.switchTVSection('series')">
-                    <i class="fas fa-tv"></i>
-                </div>
-                <div class="tv-sidebar-item" onclick="window.switchTVSection('channels')">
-                    <i class="fas fa-satellite-dish"></i>
-                </div>
-                <div class="tv-sidebar-item" onclick="window.switchTVSection('myList')">
-                    <i class="fas fa-bookmark"></i>
-                </div>
-                <div class="tv-sidebar-item" onclick="window.switchTVSection('search')">
-                    <i class="fas fa-search"></i>
-                </div>
-            </nav>
-
-            <!-- Contenido TV -->
-            <div class="tv-content">
-                <!-- Home Section TV -->
-                <section id="tvHomeSection" class="tv-section" style="display: block;">
-                    <!-- Hero TV -->
-                    <div class="tv-hero" id="tvHero">
-                        <div class="tv-hero-backdrop" id="tvHeroBackdrop"></div>
-                        <div class="tv-hero-content">
-                            <h1 class="tv-hero-title" id="tvHeroTitle">Cargando...</h1>
-                            <div class="tv-hero-meta">
-                                <span class="tv-hero-match"><i class="fas fa-check-circle"></i> 97% coincidencia</span>
-                                <span><i class="far fa-calendar-alt"></i> 2024</span>
-                                <span><i class="far fa-clock"></i> Nuevo episodio</span>
-                            </div>
-                            <div class="tv-hero-buttons">
-                                <button class="tv-hero-btn play" onclick="window.playTVHero()">
-                                    <i class="fas fa-play"></i> Reproducir
-                                </button>
-                                <button class="tv-hero-btn" onclick="window.addTVHeroToList()">
-                                    <i class="fas fa-plus"></i> Mi lista
-                                </button>
-                                <button class="tv-hero-btn">
-                                    <i class="fas fa-info-circle"></i> Más info
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Destacados -->
-                    <div class="tv-row">
-                        <div class="tv-row-header">
-                            <h2 class="tv-row-title">Destacados de la semana</h2>
-                            <span class="tv-row-link" onclick="window.viewTVAll('featured')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="tv-carousel" id="tvFeaturedCarousel"></div>
-                    </div>
-
-                    <!-- Fila 2: Continuar viendo -->
-                    <div class="tv-row">
-                        <div class="tv-row-header">
-                            <h2 class="tv-row-title">Continuar viendo</h2>
-                            <span class="tv-row-link" onclick="window.viewTVAll('continue')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="tv-carousel" id="tvContinueCarousel"></div>
-                    </div>
-
-                    <!-- Fila 3: Películas populares -->
-                    <div class="tv-row">
-                        <div class="tv-row-header">
-                            <h2 class="tv-row-title">Películas populares</h2>
-                            <span class="tv-row-link" onclick="window.switchTVSection('movies')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="tv-carousel" id="tvMoviesCarousel"></div>
-                    </div>
-
-                    <!-- Fila 4: Series del momento -->
-                    <div class="tv-row">
-                        <div class="tv-row-header">
-                            <h2 class="tv-row-title">Series del momento</h2>
-                            <span class="tv-row-link" onclick="window.switchTVSection('series')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="tv-carousel" id="tvSeriesCarousel"></div>
-                    </div>
-
-                    <!-- Fila 5: Canales en vivo -->
-                    <div class="tv-row">
-                        <div class="tv-row-header">
-                            <h2 class="tv-row-title">Canales en vivo</h2>
-                            <span class="tv-row-link" onclick="window.switchTVSection('channels')">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="tv-carousel" id="tvChannelsCarousel"></div>
-                    </div>
-
-                    <!-- Fila 6: Mi lista -->
-                    <div class="tv-row">
-                        <div class="tv-row-header">
-                            <h2 class="tv-row-title">Mi lista</h2>
-                            <span class="tv-row-link" onclick="window.openTVMyList()">Ver todo <i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <div class="tv-carousel" id="tvMyListCarousel"></div>
-                    </div>
-                </section>
-
-                <!-- Movies Section TV -->
-                <section id="tvMoviesSection" class="tv-section" style="display: none;">
-                    <div class="tv-category-header">
-                        <h1 class="tv-category-title">Películas</h1>
-                        <div class="tv-category-filters" id="tvMovieFilters">
-                            <button class="tv-filter active" data-filter="all">Todos</button>
-                            <button class="tv-filter" data-filter="accion">Acción</button>
-                            <button class="tv-filter" data-filter="comedia">Comedia</button>
-                            <button class="tv-filter" data-filter="drama">Drama</button>
-                            <button class="tv-filter" data-filter="ciencia-ficcion">Ciencia ficción</button>
-                            <button class="tv-filter" data-filter="terror">Terror</button>
-                        </div>
-                    </div>
-                    <div class="tv-grid" id="tvMoviesGrid"></div>
-                </section>
-
-                <!-- Series Section TV -->
-                <section id="tvSeriesSection" class="tv-section" style="display: none;">
-                    <div class="tv-category-header">
-                        <h1 class="tv-category-title">Series</h1>
-                        <div class="tv-category-filters" id="tvSeriesFilters">
-                            <button class="tv-filter active" data-filter="all">Todos</button>
-                            <button class="tv-filter" data-filter="accion">Acción</button>
-                            <button class="tv-filter" data-filter="comedia">Comedia</button>
-                            <button class="tv-filter" data-filter="drama">Drama</button>
-                            <button class="tv-filter" data-filter="ciencia-ficcion">Ciencia ficción</button>
-                            <button class="tv-filter" data-filter="terror">Terror</button>
-                        </div>
-                    </div>
-                    <div class="tv-grid" id="tvSeriesGrid"></div>
-                </section>
-
-                <!-- Channels Section TV -->
-                <section id="tvChannelsSection" class="tv-section" style="display: none;">
-                    <div class="tv-category-header">
-                        <h1 class="tv-category-title">Canales</h1>
-                        <div class="tv-category-filters" id="tvChannelFilters">
-                            <button class="tv-filter active" data-filter="all">Todos</button>
-                            <button class="tv-filter" data-filter="deportes">Deportes</button>
-                            <button class="tv-filter" data-filter="noticias">Noticias</button>
-                            <button class="tv-filter" data-filter="entretenimiento">Entretenimiento</button>
-                            <button class="tv-filter" data-filter="infantil">Infantil</button>
-                        </div>
-                    </div>
-                    <div class="tv-grid" id="tvChannelsGrid"></div>
-                </section>
-
-                <!-- Search Section TV -->
-                <section id="tvSearchSection" class="tv-section" style="display: none;">
-                    <div class="tv-search-page">
-                        <div class="tv-search-box">
-                            <i class="fas fa-search"></i>
-                            <input type="text" class="tv-search-input" id="tvSearchInput" placeholder="Buscar títulos, personas, géneros..." autocomplete="off">
-                            <button class="tv-search-clear" onclick="window.clearTVSearch()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="tv-grid" id="tvSearchResults"></div>
-                    </div>
-                </section>
-
-                <!-- Profile Section TV -->
-                <section id="tvProfileSection" class="tv-section" style="display: none;">
-                    <div class="tv-profile-page">
-                        <div class="tv-profile-header">
-                            <div class="tv-profile-avatar" id="tvProfileAvatar">U</div>
-                            <div class="tv-profile-info">
-                                <h2 id="tvProfileName">Usuario</h2>
-                                <p><i class="fas fa-phone-alt"></i> <span id="tvProfilePhone">---</span></p>
-                            </div>
-                        </div>
-                        
-                        <div class="tv-profile-stats">
-                            <div class="tv-profile-stat">
-                                <div class="tv-profile-stat-value" id="tvMyListCount">0</div>
-                                <div class="tv-profile-stat-label">Mi lista</div>
-                            </div>
-                            <div class="tv-profile-stat">
-                                <div class="tv-profile-stat-value" id="tvHistoryCount">0</div>
-                                <div class="tv-profile-stat-label">Historial</div>
-                            </div>
-                            <div class="tv-profile-stat">
-                                <div class="tv-profile-stat-value" id="tvTotalCount">0</div>
-                                <div class="tv-profile-stat-label">Total</div>
-                            </div>
-                        </div>
-                        
-                        <div class="tv-profile-menu-item" onclick="window.openTVMyList()">
-                            <i class="fas fa-bookmark"></i>
-                            <span>Mi lista</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="tv-profile-menu-item" onclick="window.openTVHistory()">
-                            <i class="fas fa-history"></i>
-                            <span>Historial</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="tv-profile-menu-item" onclick="window.openTVSettings()">
-                            <i class="fas fa-cog"></i>
-                            <span>Ajustes</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="tv-profile-menu-item" onclick="window.logout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Cerrar sesión</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Listas TV -->
-            <div class="tv-list-page" id="tvMyListPage">
-                <div class="tv-list-header">
-                    <button class="tv-list-back" onclick="window.closeTVList('myList')">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2>Mi lista</h2>
-                </div>
-                <div class="tv-grid" id="tvMyListGrid"></div>
-            </div>
-
-            <div class="tv-list-page" id="tvHistoryPage">
-                <div class="tv-list-header">
-                    <button class="tv-list-back" onclick="window.closeTVList('history')">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2>Historial</h2>
-                </div>
-                <div class="tv-grid" id="tvHistoryGrid"></div>
-            </div>
-
-            <div class="tv-list-page" id="tvSettingsPage">
-                <div class="tv-list-header">
-                    <button class="tv-list-back" onclick="window.closeTVList('settings')">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2>Ajustes</h2>
-                </div>
-                <div class="tv-settings-section">
-                    <div class="tv-settings-card">
-                        <h3>Preferencias</h3>
-                        <div class="tv-setting-item">
-                            <span><i class="fas fa-wifi"></i> Wi-Fi solo</span>
-                            <label class="tv-toggle">
-                                <input type="checkbox" id="tvWifiOnly" onchange="window.saveTVSetting('wifiOnly', this.checked)">
-                                <span class="tv-toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="tv-setting-item">
-                            <span><i class="fas fa-play"></i> Auto-reproducir</span>
-                            <label class="tv-toggle">
-                                <input type="checkbox" id="tvAutoPlay" onchange="window.saveTVSetting('autoPlay', this.checked)">
-                                <span class="tv-toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="tv-settings-card">
-                        <h3>Datos</h3>
-                        <button class="tv-settings-button" onclick="window.clearTVHistory()">
-                            <i class="fas fa-trash-alt"></i> Borrar historial
-                        </button>
-                        <button class="tv-settings-button" onclick="window.clearTVCache()">
-                            <i class="fas fa-broom"></i> Limpiar caché
-                        </button>
-                    </div>
-                    
-                    <div class="tv-settings-card">
-                        <h3>Cuenta</h3>
-                        <button class="tv-settings-button danger" onclick="window.resetTVData()">
-                            <i class="fas fa-exclamation-triangle"></i> Restablecer todos los datos
-                        </button>
-                        <button class="tv-settings-button danger" onclick="window.logout()">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Player TV -->
-            <div class="tv-player" id="tvPlayer">
-                <button class="tv-player-close" onclick="window.closeTVPlayer()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <iframe class="tv-player-frame" id="tvVideoFrame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-            </div>
+        <div class="swipe-area" id="swipeArea"></div>
+        <div class="channel-overlay" id="channelOverlay">
+            <span class="channel-number" id="currentChannelNum">1</span>
+            <span id="currentChannelName">Tigo Sports 1</span>
         </div>
     </div>
 
-    <script>
-        (function() {
-            // ===========================================
-            // ===== CONFIGURACIÓN SUPABASE =====
-            // ===========================================
-            const SUPABASE_URL = 'https://rojsndimvyjzgstxivqo.supabase.co';
-            const SUPABASE_ANON_KEY = 'sb_publishable_djOXqhg8VILB9fwLLFkNlg_xjWvBqEh';
-            const { createClient } = supabase;
-            const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            
-            // ===========================================
-            // ===== VARIABLES GLOBALES =====
-            // ===========================================
-            let currentUser = null;
-            let allContent = [];
-            let userLists = {
-                myList: [],
-                history: []
-            };
-            let userSettings = {
-                wifiOnly: false,
-                autoPlay: true
-            };
-            let currentHeroIndex = 0;
-            let heroInterval = null;
-            
-            // ===========================================
-            // ===== INICIALIZACIÓN =====
-            // ===========================================
-            document.addEventListener('DOMContentLoaded', () => {
-                // Loading screen
-                setTimeout(() => {
-                    document.getElementById('loadingScreen').classList.add('fade-out');
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').style.display = 'none';
-                    }, 500);
-                }, 1500);
-                
-                checkSavedSession();
-                setupSearchListeners();
-                setupScrollListener();
-                setupFilterListeners();
-                detectScreenSize();
-                
-                window.addEventListener('resize', detectScreenSize);
-            });
-            
-            // Exponer funciones
-            window.switchAuthTab = switchAuthTab;
-            window.handleLogin = handleLogin;
-            window.handleRegister = handleRegister;
-            window.logout = logout;
-            
-            // Móvil
-            window.switchMobileSection = switchMobileSection;
-            window.openMobileProfile = openMobileProfile;
-            window.openMobileMyList = openMobileMyList;
-            window.openMobileHistory = openMobileHistory;
-            window.openMobileSettings = openMobileSettings;
-            window.closeMobileList = closeMobileList;
-            window.playMobileHero = playMobileHero;
-            window.addMobileHeroToList = addMobileHeroToList;
-            window.clearMobileSearch = clearMobileSearch;
-            window.saveMobileSetting = saveMobileSetting;
-            window.clearMobileHistory = clearMobileHistory;
-            window.clearMobileCache = clearMobileCache;
-            window.resetMobileData = resetMobileData;
-            window.viewMobileAll = viewMobileAll;
-            window.closeMobilePlayer = closeMobilePlayer;
-            
-            // TV
-            window.switchTVSection = switchTVSection;
-            window.openTVProfile = openTVProfile;
-            window.openTVMyList = openTVMyList;
-            window.openTVHistory = openTVHistory;
-            window.openTVSettings = openTVSettings;
-            window.closeTVList = closeTVList;
-            window.playTVHero = playTVHero;
-            window.addTVHeroToList = addTVHeroToList;
-            window.clearTVSearch = clearTVSearch;
-            window.saveTVSetting = saveTVSetting;
-            window.clearTVHistory = clearTVHistory;
-            window.clearTVCache = clearTVCache;
-            window.resetTVData = resetTVData;
-            window.viewTVAll = viewTVAll;
-            window.closeTVPlayer = closeTVPlayer;
-            
-            // ===========================================
-            // ===== DETECCIÓN DE PANTALLA =====
-            // ===========================================
-            function detectScreenSize() {
-                // Esto se maneja con CSS, no necesita lógica adicional
-            }
-            
-            // ===========================================
-            // ===== AUTENTICACIÓN =====
-            // ===========================================
-            function switchAuthTab(tab) {
-                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-                
-                if (tab === 'login') {
-                    document.querySelectorAll('.auth-tab')[0].classList.add('active');
-                    document.getElementById('loginForm').classList.add('active');
+    <div class="channel-controls">
+        <button class="ctrl-btn" id="btnPrev"><i class="icon-prev">◀</i></button>
+        <button class="ctrl-btn" id="btnNext"><i class="icon-next">▶</i></button>
+        <button class="ctrl-btn" id="btnGuide"><i class="icon-list">☰</i></button>
+    </div>
+    
+    <div class="guide-panel" id="guidePanel">
+        <!-- canales dinámicos -->
+    </div>
+    <div class="key-hint">💡 Usa los números (1-5) en tu control remoto</div>
+    <div class="toast-msg" id="toastMsg"></div>
+</div>
+
+<script>
+    // =========================================================
+    // LISTA DEFINITIVA DE CANALES: SOLO FÚTBOL BOLIVIA + STREAMING
+    // =========================================================
+    const CHANNELS = [
+        {
+            id: 1,
+            name: "Tigo Sports 1",
+            type: "iframe",
+            embed: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="https://geo.dailymotion.com/player.html?video=xa0fwio" style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;" allowfullscreen title="Dailymotion Video Player" allow="web-share"></iframe></div>`,
+            url: null
+        },
+        {
+            id: 2,
+            name: "Tigo Sports 2",
+            type: "iframe",
+            embed: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="https://geo.dailymotion.com/player.html?video=x89sfvo" style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;" allowfullscreen title="Dailymotion Video Player" allow="web-share"></iframe></div>`,
+            url: null
+        },
+        {
+            id: 3,
+            name: "Canal 7.1 (Bolivia TV)",
+            type: "iframe",
+            embed: `<iframe frameborder="0" width="100%" height="100%" src="https://geo.dailymotion.com/player/x12yfi.html?video=x9nzqpo" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; web-share" title="Canal 7.1"></iframe>`,
+            url: null
+        },
+        {
+            id: 4,
+            name: "FBF Play (M3U8 HD)",
+            type: "hls",
+            embed: null,
+            url: "https://d2qsan2ut81n2k.cloudfront.net/live/20446f64-67d8-4100-8c4b-20a759a8e919/ts:abr.m3u8"
+        },
+        {
+            id: 5,
+            name: "Unitel (Partidos Especiales)",
+            type: "iframe",
+            embed: `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="https://geo.dailymotion.com/player.html?video=x9nzqpo" style="width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden; border:none;" allowfullscreen title="Unitel Deportes"></iframe></div>`,
+            url: null
+        }
+    ];
+
+    let activeChannel = 1;          // ID activo
+    let currentHlsInstance = null;   // para limpiar hls
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Elementos DOM
+    const videoContainer = document.getElementById('videoContainer');
+    const channelOverlayNum = document.getElementById('currentChannelNum');
+    const channelOverlayName = document.getElementById('currentChannelName');
+    const guidePanel = document.getElementById('guidePanel');
+    const toastMsg = document.getElementById('toastMsg');
+
+    // ==================== FUNCIÓN PRINCIPAL: CARGAR CANAL ==================
+    function loadChannel(channelId) {
+        const channel = CHANNELS.find(c => c.id === channelId);
+        if (!channel) return;
+        
+        // Limpiar cualquier reproductor HLS anterior
+        if (currentHlsInstance) {
+            currentHlsInstance.destroy();
+            currentHlsInstance = null;
+        }
+        
+        // Limpiar contenedor
+        videoContainer.innerHTML = '';
+        
+        // Actualizar UI
+        activeChannel = channel.id;
+        channelOverlayNum.innerText = channel.id;
+        channelOverlayName.innerText = channel.name;
+        
+        // Mostrar notificacion visual breve
+        showToast(`${channel.name} · Canal ${channel.id}`);
+        
+        // Lógica de reproducción según tipo
+        if (channel.type === 'iframe') {
+            // Crear wrapper 100% altura sin márgenes extra
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.style.width = '100%';
+            wrapperDiv.style.height = '100%';
+            wrapperDiv.style.position = 'relative';
+            wrapperDiv.style.backgroundColor = '#000';
+            // Inyectar el embed (iframe) pero ajustarlo para ocupar todo el contenedor
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = channel.embed;
+            const iframeElement = tempDiv.querySelector('iframe');
+            if (iframeElement) {
+                // Eliminar estilos antiguos de padding-bottom y hacerlo full
+                iframeElement.style.position = 'absolute';
+                iframeElement.style.top = '0';
+                iframeElement.style.left = '0';
+                iframeElement.style.width = '100%';
+                iframeElement.style.height = '100%';
+                iframeElement.style.border = 'none';
+                // Contenedor absoluto responsivo
+                const fullFrameContainer = document.createElement('div');
+                fullFrameContainer.style.position = 'relative';
+                fullFrameContainer.style.width = '100%';
+                fullFrameContainer.style.height = '100%';
+                fullFrameContainer.appendChild(iframeElement);
+                videoContainer.appendChild(fullFrameContainer);
+            } else {
+                // Fallback: insertar raw embed con arreglo de altura
+                const fallbackDiv = document.createElement('div');
+                fallbackDiv.innerHTML = channel.embed;
+                const firstChild = fallbackDiv.firstElementChild;
+                if (firstChild) {
+                    firstChild.style.position = 'absolute';
+                    firstChild.style.top = '0';
+                    firstChild.style.left = '0';
+                    firstChild.style.width = '100%';
+                    firstChild.style.height = '100%';
+                    videoContainer.appendChild(firstChild);
                 } else {
-                    document.querySelectorAll('.auth-tab')[1].classList.add('active');
-                    document.getElementById('registerForm').classList.add('active');
+                    videoContainer.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;">Error al cargar el stream</div>`;
                 }
             }
+        } 
+        else if (channel.type === 'hls' && channel.url) {
+            // Usar HLS.js para m3u8
+            const videoElem = document.createElement('video');
+            videoElem.controls = true;
+            videoElem.autoplay = true;
+            videoElem.muted = false;
+            videoElem.playsInline = true;
+            videoElem.style.width = '100%';
+            videoElem.style.height = '100%';
+            videoElem.style.objectFit = 'contain';
+            videoElem.style.backgroundColor = '#000';
+            videoContainer.appendChild(videoElem);
             
-            async function handleLogin(e) {
+            if (Hls.isSupported()) {
+                const hls = new Hls({
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    maxBufferLength: 30,
+                });
+                hls.loadSource(channel.url);
+                hls.attachMedia(videoElem);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    videoElem.play().catch(e => console.log("Auto-play bloqueado", e));
+                });
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        console.error("HLS Error fatal", data);
+                    }
+                });
+                currentHlsInstance = hls;
+            } 
+            else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+                // Safari nativo
+                videoElem.src = channel.url;
+                videoElem.addEventListener('loadedmetadata', () => videoElem.play());
+            } else {
+                videoContainer.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;">Tu navegador no soporta este stream</div>`;
+            }
+        }
+        
+        // Guardar en localStorage la ultima sesion
+        localStorage.setItem('bolivia_last_channel', channel.id);
+    }
+    
+    // Siguiente canal
+    function nextChannel() {
+        let currentIndex = CHANNELS.findIndex(c => c.id === activeChannel);
+        let nextIndex = (currentIndex + 1) % CHANNELS.length;
+        loadChannel(CHANNELS[nextIndex].id);
+    }
+    
+    function prevChannel() {
+        let currentIndex = CHANNELS.findIndex(c => c.id === activeChannel);
+        let prevIndex = (currentIndex - 1 + CHANNELS.length) % CHANNELS.length;
+        loadChannel(CHANNELS[prevIndex].id);
+    }
+    
+    function goToChannelById(id) {
+        const exists = CHANNELS.some(c => c.id === id);
+        if (exists) {
+            loadChannel(id);
+        } else {
+            showToast("Canal no disponible");
+        }
+    }
+    
+    // Mostrar guía de canales
+    function toggleGuide() {
+        guidePanel.classList.toggle('open');
+        renderGuideList();
+    }
+    
+    function renderGuideList() {
+        guidePanel.innerHTML = '';
+        CHANNELS.forEach(ch => {
+            const item = document.createElement('div');
+            item.className = 'guide-item';
+            item.innerHTML = `<span class="guide-num">${ch.id}</span><span class="guide-name">${ch.name}</span>`;
+            item.onclick = (e) => {
+                e.stopPropagation();
+                loadChannel(ch.id);
+                guidePanel.classList.remove('open');
+            };
+            guidePanel.appendChild(item);
+        });
+    }
+    
+    // Toast efímero
+    function showToast(msg) {
+        toastMsg.innerText = msg;
+        toastMsg.classList.add('show');
+        setTimeout(() => {
+            toastMsg.classList.remove('show');
+        }, 1800);
+    }
+    
+    // =============== GESTOS TÁCTILES (deslizar en móvil) ===============
+    function initSwipeDetection() {
+        const swipeZone = document.getElementById('swipeArea');
+        if (!swipeZone) return;
+        swipeZone.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        swipeZone.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    // deslizar derecha -> canal anterior
+                    prevChannel();
+                    showToast("← Canal anterior");
+                } else {
+                    // deslizar izquierda -> siguiente canal
+                    nextChannel();
+                    showToast("Canal siguiente →");
+                }
+            }
+            touchStartX = 0;
+            touchEndX = 0;
+        });
+    }
+    
+    // =============== CONTROL POR TECLADO (NÚMEROS para TV/remoto) ===============
+    function initKeyboardControl() {
+        window.addEventListener('keydown', (e) => {
+            const key = e.key;
+            // detectar números del 1 al 5 (canales)
+            if (key >= '1' && key <= '5') {
+                const channelNum = parseInt(key, 10);
+                goToChannelById(channelNum);
                 e.preventDefault();
-                const celular = document.getElementById('loginCelular').value.trim();
-                const password = document.getElementById('loginPassword').value;
-                const errorEl = document.getElementById('loginError');
-                
-                if (!/^\d{8}$/.test(celular)) {
-                    showError(errorEl, 'El celular debe tener 8 dígitos');
-                    return;
-                }
-                
-                try {
-                    const { data, error } = await supabaseClient
-                        .from('users')
-                        .select('*')
-                        .eq('celular', celular)
-                        .eq('password', password)
-                        .single();
-                    
-                    if (error || !data) {
-                        showError(errorEl, 'Celular o contraseña incorrectos');
-                        return;
-                    }
-                    
-                    currentUser = {
-                        id: data.id,
-                        nombre: data.nombre,
-                        celular: data.celular,
-                        edad: data.edad
-                    };
-                    
-                    localStorage.setItem('netfix_user', JSON.stringify(currentUser));
-                    
-                    initializeUserData();
-                    await loadContent();
-                    
-                    document.getElementById('authSection').style.display = 'none';
-                    document.getElementById('mainApp').style.display = 'block';
-                    
-                    updateAllUI();
-                    startHeroRotation();
-                    
-                } catch (err) {
-                    showError(errorEl, 'Error al iniciar sesión');
-                }
+                showToast(`Canal ${channelNum}`);
             }
-            
-            async function handleRegister(e) {
+            // flechas derecha/izquierda también para mayor comodidad
+            if (key === 'ArrowRight') {
+                nextChannel();
                 e.preventDefault();
-                const nombre = document.getElementById('regNombre').value.trim();
-                const edad = parseInt(document.getElementById('regEdad').value);
-                const celular = document.getElementById('regCelular').value.trim();
-                const password = document.getElementById('regPassword').value;
-                const errorEl = document.getElementById('registerError');
-                
-                if (!nombre || !edad || !celular || !password) {
-                    showError(errorEl, 'Todos los campos son obligatorios');
-                    return;
-                }
-                
-                if (edad < 1 || edad > 120) {
-                    showError(errorEl, 'Edad inválida');
-                    return;
-                }
-                
-                if (!/^\d{8}$/.test(celular)) {
-                    showError(errorEl, 'El celular debe tener 8 dígitos');
-                    return;
-                }
-                
-                if (password.length < 4) {
-                    showError(errorEl, 'La contraseña debe tener al menos 4 caracteres');
-                    return;
-                }
-                
-                try {
-                    const { data: existing } = await supabaseClient
-                        .from('users')
-                        .select('celular')
-                        .eq('celular', celular)
-                        .single();
-                    
-                    if (existing) {
-                        showError(errorEl, 'Este celular ya está registrado');
-                        return;
-                    }
-                    
-                    const { data, error } = await supabaseClient
-                        .from('users')
-                        .insert([{ nombre, edad, celular, password }])
-                        .select()
-                        .single();
-                    
-                    if (error) throw error;
-                    
-                    showNotification('Registro exitoso', 'success');
-                    switchAuthTab('login');
-                    document.getElementById('registerForm').reset();
-                    errorEl.style.display = 'none';
-                    
-                } catch (err) {
-                    showError(errorEl, 'Error al registrar');
-                }
-            }
-            
-            function showError(element, message) {
-                element.textContent = message;
-                element.style.display = 'block';
-                setTimeout(() => {
-                    element.style.display = 'none';
-                }, 3000);
-            }
-            
-            function checkSavedSession() {
-                const savedUser = localStorage.getItem('netfix_user');
-                if (savedUser) {
-                    try {
-                        currentUser = JSON.parse(savedUser);
-                        initializeUserData();
-                        loadContent();
-                        document.getElementById('authSection').style.display = 'none';
-                        document.getElementById('mainApp').style.display = 'block';
-                        updateAllUI();
-                        startHeroRotation();
-                    } catch (e) {
-                        localStorage.removeItem('netfix_user');
-                    }
-                }
-            }
-            
-            function logout() {
-                localStorage.removeItem('netfix_user');
-                currentUser = null;
-                userLists = { myList: [], history: [] };
-                document.getElementById('mainApp').style.display = 'none';
-                document.getElementById('authSection').style.display = 'flex';
-                document.getElementById('loginForm').reset();
-                document.getElementById('registerForm').reset();
-                switchAuthTab('login');
-                
-                if (heroInterval) {
-                    clearInterval(heroInterval);
-                }
-            }
-            
-            // ===========================================
-            // ===== DATOS DE USUARIO =====
-            // ===========================================
-            function initializeUserData() {
-                if (!currentUser) return;
-                
-                const userKey = `netfix_${currentUser.id}`;
-                
-                try {
-                    const savedMyList = localStorage.getItem(`${userKey}_myList`);
-                    userLists.myList = savedMyList ? JSON.parse(savedMyList) : [];
-                    
-                    const savedHistory = localStorage.getItem(`${userKey}_history`);
-                    userLists.history = savedHistory ? JSON.parse(savedHistory) : [];
-                    
-                    const savedSettings = localStorage.getItem(`${userKey}_settings`);
-                    userSettings = savedSettings ? JSON.parse(savedSettings) : {
-                        wifiOnly: false,
-                        autoPlay: true
-                    };
-                    
-                    // Sincronizar checkboxes
-                    const mobileWifi = document.getElementById('mobileWifiOnly');
-                    const mobileAuto = document.getElementById('mobileAutoPlay');
-                    const tvWifi = document.getElementById('tvWifiOnly');
-                    const tvAuto = document.getElementById('tvAutoPlay');
-                    
-                    if (mobileWifi) mobileWifi.checked = userSettings.wifiOnly;
-                    if (mobileAuto) mobileAuto.checked = userSettings.autoPlay;
-                    if (tvWifi) tvWifi.checked = userSettings.wifiOnly;
-                    if (tvAuto) tvAuto.checked = userSettings.autoPlay;
-                    
-                } catch (e) {
-                    console.error('Error loading user data:', e);
-                }
-            }
-            
-            function updateAllUI() {
-                if (!currentUser) return;
-                
-                const initial = currentUser.nombre.charAt(0).toUpperCase();
-                
-                // Móvil
-                document.getElementById('mobileAvatar').textContent = initial;
-                document.getElementById('mobileProfileAvatar').textContent = initial;
-                document.getElementById('mobileProfileName').textContent = currentUser.nombre;
-                document.getElementById('mobileProfilePhone').textContent = currentUser.celular;
-                
-                // TV
-                document.getElementById('tvAvatar').textContent = initial;
-                document.getElementById('tvProfileAvatar').textContent = initial;
-                document.getElementById('tvProfileName').textContent = currentUser.nombre;
-                document.getElementById('tvProfilePhone').textContent = currentUser.celular;
-                
-                updateCounters();
-            }
-            
-            function updateCounters() {
-                // Móvil
-                document.getElementById('mobileMyListCount').textContent = userLists.myList.length;
-                document.getElementById('mobileHistoryCount').textContent = userLists.history.length;
-                document.getElementById('mobileTotalCount').textContent = allContent.length;
-                
-                // TV
-                document.getElementById('tvMyListCount').textContent = userLists.myList.length;
-                document.getElementById('tvHistoryCount').textContent = userLists.history.length;
-                document.getElementById('tvTotalCount').textContent = allContent.length;
-            }
-            
-            // ===========================================
-            // ===== AJUSTES =====
-            // ===========================================
-            function saveMobileSetting(key, value) {
-                if (!currentUser) return;
-                userSettings[key] = value;
-                const userKey = `netfix_${currentUser.id}`;
-                localStorage.setItem(`${userKey}_settings`, JSON.stringify(userSettings));
-                showNotification('Ajuste guardado');
-            }
-            
-            function saveTVSetting(key, value) {
-                saveMobileSetting(key, value); // Misma función
-            }
-            
-            function clearMobileHistory() {
-                if (!currentUser) return;
-                userLists.history = [];
-                const userKey = `netfix_${currentUser.id}`;
-                localStorage.setItem(`${userKey}_history`, JSON.stringify([]));
-                updateCounters();
-                renderMobileContinue();
-                renderMobileFullHistory();
-                showNotification('Historial eliminado');
-            }
-            
-            function clearTVHistory() {
-                clearMobileHistory();
-            }
-            
-            function clearMobileCache() {
-                if ('caches' in window) {
-                    caches.keys().then(names => {
-                        names.forEach(name => caches.delete(name));
-                    });
-                }
-                showNotification('Caché limpiada');
-            }
-            
-            function clearTVCache() {
-                clearMobileCache();
-            }
-            
-            function resetMobileData() {
-                if (!currentUser) return;
-                
-                const userKey = `netfix_${currentUser.id}`;
-                localStorage.removeItem(`${userKey}_myList`);
-                localStorage.removeItem(`${userKey}_history`);
-                localStorage.removeItem(`${userKey}_settings`);
-                
-                userLists = { myList: [], history: [] };
-                userSettings = { wifiOnly: false, autoPlay: true };
-                
-                document.getElementById('mobileWifiOnly').checked = false;
-                document.getElementById('mobileAutoPlay').checked = true;
-                document.getElementById('tvWifiOnly').checked = false;
-                document.getElementById('tvAutoPlay').checked = true;
-                
-                updateCounters();
-                renderAllContent();
-                showNotification('Datos restablecidos');
-            }
-            
-            function resetTVData() {
-                resetMobileData();
-            }
-            
-            // ===========================================
-            // ===== CARGAR CONTENIDO =====
-            // ===========================================
-            async function loadContent() {
-                try {
-                    const { data, error } = await supabaseClient
-                        .from('contenido')
-                        .select('*, categorias(nombre)')
-                        .order('fecha_agregado', { ascending: false });
-                    
-                    if (error) throw error;
-                    
-                    allContent = data || [];
-                    
-                    if (allContent.length === 0) {
-                        createSampleContent();
-                    }
-                    
-                    renderAllContent();
-                    updateCounters();
-                    
-                } catch (err) {
-                    console.error('Error loading content:', err);
-                    createSampleContent();
-                    renderAllContent();
-                }
-            }
-            
-            function createSampleContent() {
-                allContent = [
-                    { id: '1', nombre: 'Stranger Things', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/b9EkMc79ZSU?autoplay=1', categorias: { nombre: 'Ciencia ficción' } },
-                    { id: '2', nombre: 'The Witcher', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1535666669445-b8c4cd306a4a?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/ndl1W4ltcmg?autoplay=1', categorias: { nombre: 'Fantasía' } },
-                    { id: '3', nombre: 'Inception', tipo: 'pelicula', url_portada: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/YoHD9XEInc0?autoplay=1', categorias: { nombre: 'Ciencia ficción' } },
-                    { id: '4', nombre: 'The Crown', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/JWtnJjn6r0c?autoplay=1', categorias: { nombre: 'Drama' } },
-                    { id: '5', nombre: 'Breaking Bad', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/HhesaQXLuRY?autoplay=1', categorias: { nombre: 'Drama' } },
-                    { id: '6', nombre: 'The Office', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/tNcDHWpselE?autoplay=1', categorias: { nombre: 'Comedia' } },
-                    { id: '7', nombre: 'ESPN', tipo: 'canal', url_portada: 'https://images.unsplash.com/photo-1471295253337-3ceaaedca402?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/6Jc2Mv-2gpc?autoplay=1', categorias: { nombre: 'Deportes' } },
-                    { id: '8', nombre: 'CNN', tipo: 'canal', url_portada: 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/9Auq9mYxFEE?autoplay=1', categorias: { nombre: 'Noticias' } },
-                    { id: '9', nombre: 'Game of Thrones', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1542204160-126bf84a845b?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/KPLWWIOCOOQ?autoplay=1', categorias: { nombre: 'Fantasía' } },
-                    { id: '10', nombre: 'The Mandalorian', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1564844536366-c92c9b5e5b3e?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/aOC8E8z_ifw?autoplay=1', categorias: { nombre: 'Ciencia ficción' } },
-                    { id: '11', nombre: 'Avengers: Endgame', tipo: 'pelicula', url_portada: 'https://images.unsplash.com/photo-1560109947-543ewrwrewr?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/TcMBFSGVi1c?autoplay=1', categorias: { nombre: 'Acción' } },
-                    { id: '12', nombre: 'Friends', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/hDNNmeeJs1Q?autoplay=1', categorias: { nombre: 'Comedia' } },
-                    { id: '13', nombre: 'The Boys', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1579548122080-9c9b27c6c3b1?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/M1bhOaLV4FU?autoplay=1', categorias: { nombre: 'Acción' } },
-                    { id: '14', nombre: 'Dark', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/cq2iTHoLrt0?autoplay=1', categorias: { nombre: 'Ciencia ficción' } },
-                    { id: '15', nombre: 'The Last of Us', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/uLtkt8BonwM?autoplay=1', categorias: { nombre: 'Drama' } },
-                    { id: '16', nombre: 'Wednesday', tipo: 'serie', url_portada: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/Di310WS8zLk?autoplay=1', categorias: { nombre: 'Comedia' } },
-                    { id: '17', nombre: 'Fox Sports', tipo: 'canal', url_portada: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/live_stream?autoplay=1', categorias: { nombre: 'Deportes' } },
-                    { id: '18', nombre: 'MTV', tipo: 'canal', url_portada: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/live_stream?autoplay=1', categorias: { nombre: 'Entretenimiento' } },
-                    { id: '19', nombre: 'Discovery Kids', tipo: 'canal', url_portada: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/live_stream?autoplay=1', categorias: { nombre: 'Infantil' } },
-                    { id: '20', nombre: 'BBC News', tipo: 'canal', url_portada: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80', url_contenido: 'https://www.youtube.com/embed/live_stream?autoplay=1', categorias: { nombre: 'Noticias' } }
-                ];
-            }
-            
-            // ===========================================
-            // ===== RENDERIZADO MÓVIL =====
-            // ===========================================
-            function renderAllContent() {
-                renderMobileFeatured();
-                renderMobileContinue();
-                renderMobileMovies();
-                renderMobileSeries();
-                renderMobileChannels();
-                renderMobileMyList();
-                renderMobileMoviesGrid();
-                renderMobileSeriesGrid();
-                renderMobileChannelsGrid();
-                updateMobileHero();
-                
-                // TV
-                renderTVFeatured();
-                renderTVContinue();
-                renderTVMovies();
-                renderTVSeries();
-                renderTVChannels();
-                renderTVMyList();
-                renderTVMoviesGrid();
-                renderTVSeriesGrid();
-                renderTVChannelsGrid();
-                updateTVHero();
-            }
-            
-            function renderMobileFeatured() {
-                const carousel = document.getElementById('mobileFeaturedCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.slice(0, 10).forEach((item, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-carousel-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `
-                        <div class="mobile-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/150x225?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150x225?text=NETFIX'">
-                        </div>
-                        <div class="mobile-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderMobileContinue() {
-                const carousel = document.getElementById('mobileContinueCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                if (userLists.history.length === 0) {
-                    carousel.innerHTML = '<div style="color: var(--gray-500); padding: 20px;">No hay contenido en historial</div>';
-                    return;
-                }
-                userLists.history.slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-carousel-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `
-                        <div class="mobile-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/150x225?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150x225?text=NETFIX'">
-                        </div>
-                        <div class="mobile-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderMobileMovies() {
-                const carousel = document.getElementById('mobileMoviesCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.filter(item => item.tipo === 'pelicula').slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-carousel-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `
-                        <div class="mobile-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/150x225?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150x225?text=NETFIX'">
-                        </div>
-                        <div class="mobile-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderMobileSeries() {
-                const carousel = document.getElementById('mobileSeriesCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.filter(item => item.tipo === 'serie').slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-carousel-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `
-                        <div class="mobile-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/150x225?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150x225?text=NETFIX'">
-                        </div>
-                        <div class="mobile-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderMobileChannels() {
-                const carousel = document.getElementById('mobileChannelsCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.filter(item => item.tipo === 'canal').slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-carousel-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `
-                        <div class="mobile-carousel-badge">EN VIVO</div>
-                        <div class="mobile-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/150x225?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150x225?text=NETFIX'">
-                        </div>
-                        <div class="mobile-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderMobileMyList() {
-                const carousel = document.getElementById('mobileMyListCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                if (userLists.myList.length === 0) {
-                    carousel.innerHTML = '<div style="color: var(--gray-500); padding: 20px;">Agrega contenido a tu lista</div>';
-                    return;
-                }
-                userLists.myList.slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-carousel-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `
-                        <div class="mobile-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/150x225?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150x225?text=NETFIX'">
-                        </div>
-                        <div class="mobile-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderMobileMoviesGrid(filter = 'all') {
-                const grid = document.getElementById('mobileMoviesGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                let movies = allContent.filter(item => item.tipo === 'pelicula');
-                if (filter !== 'all') {
-                    movies = movies.filter(item => item.categorias?.nombre?.toLowerCase() === filter.toLowerCase());
-                }
-                if (movies.length === 0) {
-                    grid.innerHTML = '<div class="mobile-empty"><i class="fas fa-film"></i><p>No hay películas disponibles</p></div>';
-                    return;
-                }
-                movies.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-grid-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `<img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">`;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderMobileSeriesGrid(filter = 'all') {
-                const grid = document.getElementById('mobileSeriesGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                let series = allContent.filter(item => item.tipo === 'serie');
-                if (filter !== 'all') {
-                    series = series.filter(item => item.categorias?.nombre?.toLowerCase() === filter.toLowerCase());
-                }
-                if (series.length === 0) {
-                    grid.innerHTML = '<div class="mobile-empty"><i class="fas fa-tv"></i><p>No hay series disponibles</p></div>';
-                    return;
-                }
-                series.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-grid-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `<img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">`;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderMobileChannelsGrid(filter = 'all') {
-                const grid = document.getElementById('mobileChannelsGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                let channels = allContent.filter(item => item.tipo === 'canal');
-                if (filter !== 'all') {
-                    channels = channels.filter(item => item.categorias?.nombre?.toLowerCase() === filter.toLowerCase());
-                }
-                if (channels.length === 0) {
-                    grid.innerHTML = '<div class="mobile-empty"><i class="fas fa-satellite-dish"></i><p>No hay canales disponibles</p></div>';
-                    return;
-                }
-                channels.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-grid-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `<div class="mobile-grid-badge">EN VIVO</div><img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">`;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderMobileFullMyList() {
-                const grid = document.getElementById('mobileMyListGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                if (userLists.myList.length === 0) {
-                    grid.innerHTML = '<div class="mobile-empty"><i class="fas fa-bookmark"></i><p>Tu lista está vacía</p><small>Agrega contenido para verlo aquí</small></div>';
-                    return;
-                }
-                userLists.myList.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-grid-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `<img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">`;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderMobileFullHistory() {
-                const grid = document.getElementById('mobileHistoryGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                if (userLists.history.length === 0) {
-                    grid.innerHTML = '<div class="mobile-empty"><i class="fas fa-history"></i><p>No hay historial</p><small>Los contenidos que veas aparecerán aquí</small></div>';
-                    return;
-                }
-                userLists.history.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-grid-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `<img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">`;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function updateMobileHero() {
-                if (allContent.length === 0) return;
-                const heroContent = allContent[currentHeroIndex] || allContent[0];
-                document.getElementById('mobileHeroTitle').textContent = heroContent.nombre;
-                document.getElementById('mobileHeroBackdrop').style.backgroundImage = `url('${heroContent.url_portada || 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80'}')`;
-            }
-            
-            // ===========================================
-            // ===== RENDERIZADO TV =====
-            // ===========================================
-            function renderTVFeatured() {
-                const carousel = document.getElementById('tvFeaturedCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.slice(0, 10).forEach((item, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-carousel-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <div class="tv-carousel-number">${index + 1}</div>
-                        <div class="tv-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/200x300?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300?text=NETFIX'">
-                        </div>
-                        <div class="tv-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderTVContinue() {
-                const carousel = document.getElementById('tvContinueCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                if (userLists.history.length === 0) {
-                    carousel.innerHTML = '<div style="color: var(--gray-500); padding: 20px;">No hay contenido en historial</div>';
-                    return;
-                }
-                userLists.history.slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-carousel-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <div class="tv-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/200x300?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300?text=NETFIX'">
-                        </div>
-                        <div class="tv-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderTVMovies() {
-                const carousel = document.getElementById('tvMoviesCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.filter(item => item.tipo === 'pelicula').slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-carousel-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <div class="tv-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/200x300?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300?text=NETFIX'">
-                        </div>
-                        <div class="tv-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderTVSeries() {
-                const carousel = document.getElementById('tvSeriesCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.filter(item => item.tipo === 'serie').slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-carousel-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <div class="tv-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/200x300?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300?text=NETFIX'">
-                        </div>
-                        <div class="tv-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderTVChannels() {
-                const carousel = document.getElementById('tvChannelsCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                allContent.filter(item => item.tipo === 'canal').slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-carousel-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <div class="tv-carousel-badge">EN VIVO</div>
-                        <div class="tv-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/200x300?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300?text=NETFIX'">
-                        </div>
-                        <div class="tv-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderTVMyList() {
-                const carousel = document.getElementById('tvMyListCarousel');
-                if (!carousel) return;
-                carousel.innerHTML = '';
-                if (userLists.myList.length === 0) {
-                    carousel.innerHTML = '<div style="color: var(--gray-500); padding: 20px;">Agrega contenido a tu lista</div>';
-                    return;
-                }
-                userLists.myList.slice(0, 10).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-carousel-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <div class="tv-carousel-poster">
-                            <img src="${item.url_portada || 'https://via.placeholder.com/200x300?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300?text=NETFIX'">
-                        </div>
-                        <div class="tv-carousel-title">${item.nombre}</div>
-                    `;
-                    carousel.appendChild(div);
-                });
-            }
-            
-            function renderTVMoviesGrid(filter = 'all') {
-                const grid = document.getElementById('tvMoviesGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                let movies = allContent.filter(item => item.tipo === 'pelicula');
-                if (filter !== 'all') {
-                    movies = movies.filter(item => item.categorias?.nombre?.toLowerCase() === filter.toLowerCase());
-                }
-                if (movies.length === 0) {
-                    grid.innerHTML = '<div class="tv-empty"><i class="fas fa-film"></i><p>No hay películas disponibles</p></div>';
-                    return;
-                }
-                movies.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-grid-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">
-                        <div class="tv-grid-info">
-                            <div class="tv-grid-title">${item.nombre}</div>
-                            <div class="tv-grid-subtitle"><i class="fas fa-tag"></i> ${item.categorias?.nombre || 'General'}</div>
-                        </div>
-                    `;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderTVSeriesGrid(filter = 'all') {
-                const grid = document.getElementById('tvSeriesGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                let series = allContent.filter(item => item.tipo === 'serie');
-                if (filter !== 'all') {
-                    series = series.filter(item => item.categorias?.nombre?.toLowerCase() === filter.toLowerCase());
-                }
-                if (series.length === 0) {
-                    grid.innerHTML = '<div class="tv-empty"><i class="fas fa-tv"></i><p>No hay series disponibles</p></div>';
-                    return;
-                }
-                series.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-grid-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">
-                        <div class="tv-grid-info">
-                            <div class="tv-grid-title">${item.nombre}</div>
-                            <div class="tv-grid-subtitle"><i class="fas fa-tag"></i> ${item.categorias?.nombre || 'General'}</div>
-                        </div>
-                    `;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderTVChannelsGrid(filter = 'all') {
-                const grid = document.getElementById('tvChannelsGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                let channels = allContent.filter(item => item.tipo === 'canal');
-                if (filter !== 'all') {
-                    channels = channels.filter(item => item.categorias?.nombre?.toLowerCase() === filter.toLowerCase());
-                }
-                if (channels.length === 0) {
-                    grid.innerHTML = '<div class="tv-empty"><i class="fas fa-satellite-dish"></i><p>No hay canales disponibles</p></div>';
-                    return;
-                }
-                channels.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-grid-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <div class="tv-grid-badge">EN VIVO</div>
-                        <img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">
-                        <div class="tv-grid-info">
-                            <div class="tv-grid-title">${item.nombre}</div>
-                            <div class="tv-grid-subtitle"><i class="fas fa-tag"></i> ${item.categorias?.nombre || 'General'}</div>
-                        </div>
-                    `;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderTVFullMyList() {
-                const grid = document.getElementById('tvMyListGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                if (userLists.myList.length === 0) {
-                    grid.innerHTML = '<div class="tv-empty"><i class="fas fa-bookmark"></i><p>Tu lista está vacía</p><small>Agrega contenido para verlo aquí</small></div>';
-                    return;
-                }
-                userLists.myList.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-grid-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">
-                        <div class="tv-grid-info">
-                            <div class="tv-grid-title">${item.nombre}</div>
-                        </div>
-                    `;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function renderTVFullHistory() {
-                const grid = document.getElementById('tvHistoryGrid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                if (userLists.history.length === 0) {
-                    grid.innerHTML = '<div class="tv-empty"><i class="fas fa-history"></i><p>No hay historial</p><small>Los contenidos que veas aparecerán aquí</small></div>';
-                    return;
-                }
-                userLists.history.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-grid-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">
-                        <div class="tv-grid-info">
-                            <div class="tv-grid-title">${item.nombre}</div>
-                        </div>
-                    `;
-                    grid.appendChild(div);
-                });
-            }
-            
-            function updateTVHero() {
-                if (allContent.length === 0) return;
-                const heroContent = allContent[currentHeroIndex] || allContent[0];
-                document.getElementById('tvHeroTitle').textContent = heroContent.nombre;
-                document.getElementById('tvHeroBackdrop').style.backgroundImage = `url('${heroContent.url_portada || 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80'}')`;
-            }
-            
-            // ===========================================
-            // ===== FUNCIONES DE LISTA =====
-            // ===========================================
-            function addToMyList(item) {
-                if (!currentUser) return false;
-                const exists = userLists.myList.some(i => i.id === item.id);
-                if (exists) {
-                    showNotification('Ya está en tu lista');
-                    return false;
-                }
-                userLists.myList.push({
-                    id: item.id,
-                    nombre: item.nombre,
-                    url_portada: item.url_portada,
-                    url_contenido: item.url_contenido,
-                    tipo: item.tipo
-                });
-                const userKey = `netfix_${currentUser.id}`;
-                localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
-                updateCounters();
-                renderMobileMyList();
-                renderMobileFullMyList();
-                renderTVMyList();
-                renderTVFullMyList();
-                showNotification('Agregado a Mi lista', 'success');
-                return true;
-            }
-            
-            function removeFromMyList(itemId) {
-                if (!currentUser) return false;
-                const index = userLists.myList.findIndex(i => i.id === itemId);
-                if (index === -1) return false;
-                userLists.myList.splice(index, 1);
-                const userKey = `netfix_${currentUser.id}`;
-                localStorage.setItem(`${userKey}_myList`, JSON.stringify(userLists.myList));
-                updateCounters();
-                renderMobileMyList();
-                renderMobileFullMyList();
-                renderTVMyList();
-                renderTVFullMyList();
-                showNotification('Eliminado de Mi lista');
-                return true;
-            }
-            
-            function addToHistory(item) {
-                if (!currentUser) return;
-                userLists.history = userLists.history.filter(i => i.id !== item.id);
-                userLists.history.unshift({
-                    id: item.id,
-                    nombre: item.nombre,
-                    url_portada: item.url_portada,
-                    url_contenido: item.url_contenido,
-                    tipo: item.tipo
-                });
-                if (userLists.history.length > 50) {
-                    userLists.history = userLists.history.slice(0, 50);
-                }
-                const userKey = `netfix_${currentUser.id}`;
-                localStorage.setItem(`${userKey}_history`, JSON.stringify(userLists.history));
-                updateCounters();
-                renderMobileContinue();
-                renderMobileFullHistory();
-                renderTVContinue();
-                renderTVFullHistory();
-            }
-            
-            // ===========================================
-            // ===== REPRODUCTOR MÓVIL =====
-            // ===========================================
-            function playMobileContent(item) {
-                let url = item.url_contenido;
-                if (url.includes('<iframe')) {
-                    const match = url.match(/src="([^"]+)"/);
-                    if (match) url = match[1];
-                }
-                if (url.includes('youtube') || url.includes('youtu.be')) {
-                    if (!url.includes('autoplay=1')) {
-                        url += (url.includes('?') ? '&' : '?') + 'autoplay=1';
-                    }
-                    if (!url.includes('rel=0')) {
-                        url += '&rel=0';
-                    }
-                }
-                document.getElementById('mobileVideoFrame').src = url;
-                document.getElementById('mobilePlayer').classList.add('active');
-                document.body.style.overflow = 'hidden';
-                addToHistory(item);
-            }
-            
-            function closeMobilePlayer() {
-                document.getElementById('mobileVideoFrame').src = '';
-                document.getElementById('mobilePlayer').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-            
-            function playMobileHero() {
-                if (allContent.length > 0) {
-                    const heroContent = allContent[currentHeroIndex] || allContent[0];
-                    playMobileContent(heroContent);
-                }
-            }
-            
-            function addMobileHeroToList() {
-                if (allContent.length > 0) {
-                    const heroContent = allContent[currentHeroIndex] || allContent[0];
-                    addToMyList(heroContent);
-                }
-            }
-            
-            // ===========================================
-            // ===== REPRODUCTOR TV =====
-            // ===========================================
-            function playTVContent(item) {
-                let url = item.url_contenido;
-                if (url.includes('<iframe')) {
-                    const match = url.match(/src="([^"]+)"/);
-                    if (match) url = match[1];
-                }
-                if (url.includes('youtube') || url.includes('youtu.be')) {
-                    if (!url.includes('autoplay=1')) {
-                        url += (url.includes('?') ? '&' : '?') + 'autoplay=1';
-                    }
-                    if (!url.includes('rel=0')) {
-                        url += '&rel=0';
-                    }
-                }
-                document.getElementById('tvVideoFrame').src = url;
-                document.getElementById('tvPlayer').classList.add('active');
-                document.body.style.overflow = 'hidden';
-                addToHistory(item);
-            }
-            
-            function closeTVPlayer() {
-                document.getElementById('tvVideoFrame').src = '';
-                document.getElementById('tvPlayer').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-            
-            function playTVHero() {
-                if (allContent.length > 0) {
-                    const heroContent = allContent[currentHeroIndex] || allContent[0];
-                    playTVContent(heroContent);
-                }
-            }
-            
-            function addTVHeroToList() {
-                if (allContent.length > 0) {
-                    const heroContent = allContent[currentHeroIndex] || allContent[0];
-                    addToMyList(heroContent);
-                }
-            }
-            
-            // ===========================================
-            // ===== NAVEGACIÓN MÓVIL =====
-            // ===========================================
-            function switchMobileSection(section) {
-                document.querySelectorAll('.mobile-section').forEach(s => s.classList.remove('active'));
-                document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
-                
-                document.getElementById(`mobile${section.charAt(0).toUpperCase() + section.slice(1)}Section`).classList.add('active');
-                
-                const navItems = document.querySelectorAll('.mobile-nav-item');
-                const index = section === 'home' ? 0 : 
-                             section === 'movies' ? 1 : 
-                             section === 'series' ? 2 : 
-                             section === 'channels' ? 3 : 4;
-                if (navItems[index]) navItems[index].classList.add('active');
-            }
-            
-            function openMobileProfile() {
-                switchMobileSection('profile');
-            }
-            
-            function openMobileMyList() {
-                renderMobileFullMyList();
-                document.getElementById('mobileMyListPage').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function openMobileHistory() {
-                renderMobileFullHistory();
-                document.getElementById('mobileHistoryPage').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function openMobileSettings() {
-                document.getElementById('mobileSettingsPage').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function closeMobileList(page) {
-                document.getElementById(`mobile${page.charAt(0).toUpperCase() + page.slice(1)}Page`).style.display = 'none';
-                document.body.style.overflow = '';
-            }
-            
-            function viewMobileAll(type) {
-                if (type === 'movies') switchMobileSection('movies');
-                else if (type === 'series') switchMobileSection('series');
-                else if (type === 'channels') switchMobileSection('channels');
-                else if (type === 'myList') openMobileMyList();
-            }
-            
-            // ===========================================
-            // ===== NAVEGACIÓN TV =====
-            // ===========================================
-            function switchTVSection(section) {
-                document.querySelectorAll('.tv-section').forEach(s => s.style.display = 'none');
-                document.querySelectorAll('.tv-nav-item').forEach(i => i.classList.remove('active'));
-                document.querySelectorAll('.tv-sidebar-item').forEach(i => i.classList.remove('active'));
-                
-                document.getElementById(`tv${section.charAt(0).toUpperCase() + section.slice(1)}Section`).style.display = 'block';
-                
-                const navItems = document.querySelectorAll('.tv-nav-item');
-                const sidebarItems = document.querySelectorAll('.tv-sidebar-item');
-                const index = section === 'home' ? 0 : 
-                             section === 'movies' ? 1 : 
-                             section === 'series' ? 2 : 
-                             section === 'channels' ? 3 : 
-                             section === 'myList' ? 4 : 5;
-                
-                if (navItems[index]) navItems[index].classList.add('active');
-                if (sidebarItems[index]) sidebarItems[index].classList.add('active');
-                
-                if (section === 'myList') {
-                    renderTVFullMyList();
-                    document.getElementById('tvMyListPage').style.display = 'block';
-                }
-            }
-            
-            function openTVProfile() {
-                switchTVSection('profile');
-            }
-            
-            function openTVMyList() {
-                renderTVFullMyList();
-                document.getElementById('tvMyListPage').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function openTVHistory() {
-                renderTVFullHistory();
-                document.getElementById('tvHistoryPage').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function openTVSettings() {
-                document.getElementById('tvSettingsPage').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function closeTVList(page) {
-                document.getElementById(`tv${page.charAt(0).toUpperCase() + page.slice(1)}Page`).style.display = 'none';
-                document.body.style.overflow = '';
-                if (page === 'myList') {
-                    document.getElementById('tvMyListPage').style.display = 'none';
-                }
-            }
-            
-            function viewTVAll(type) {
-                if (type === 'movies') switchTVSection('movies');
-                else if (type === 'series') switchTVSection('series');
-                else if (type === 'channels') switchTVSection('channels');
-                else if (type === 'myList') openTVMyList();
-            }
-            
-            // ===========================================
-            // ===== BÚSQUEDA =====
-            // ===========================================
-            function setupSearchListeners() {
-                const mobileInput = document.getElementById('mobileSearchInput');
-                const tvInput = document.getElementById('tvSearchInput');
-                
-                if (mobileInput) {
-                    mobileInput.addEventListener('input', () => {
-                        setTimeout(() => performMobileSearch(mobileInput.value), 300);
-                    });
-                }
-                
-                if (tvInput) {
-                    tvInput.addEventListener('input', () => {
-                        setTimeout(() => performTVSearch(tvInput.value), 300);
-                    });
-                }
-            }
-            
-            function performMobileSearch(query) {
-                const resultsContainer = document.getElementById('mobileSearchResults');
-                if (!query.trim()) {
-                    resultsContainer.innerHTML = '';
-                    return;
-                }
-                const results = allContent.filter(item => 
-                    item.nombre.toLowerCase().includes(query.toLowerCase()) ||
-                    (item.categorias?.nombre && item.categorias.nombre.toLowerCase().includes(query.toLowerCase()))
-                );
-                resultsContainer.innerHTML = '';
-                if (results.length === 0) {
-                    resultsContainer.innerHTML = '<div class="mobile-empty"><i class="fas fa-search"></i><p>No se encontraron resultados</p><small>Prueba con otros términos</small></div>';
-                    return;
-                }
-                results.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'mobile-grid-item';
-                    div.onclick = () => playMobileContent(item);
-                    div.innerHTML = `<img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">`;
-                    resultsContainer.appendChild(div);
-                });
-            }
-            
-            function performTVSearch(query) {
-                const resultsContainer = document.getElementById('tvSearchResults');
-                if (!query.trim()) {
-                    resultsContainer.innerHTML = '';
-                    return;
-                }
-                const results = allContent.filter(item => 
-                    item.nombre.toLowerCase().includes(query.toLowerCase()) ||
-                    (item.categorias?.nombre && item.categorias.nombre.toLowerCase().includes(query.toLowerCase()))
-                );
-                resultsContainer.innerHTML = '';
-                if (results.length === 0) {
-                    resultsContainer.innerHTML = '<div class="tv-empty"><i class="fas fa-search"></i><p>No se encontraron resultados</p><small>Prueba con otros términos</small></div>';
-                    return;
-                }
-                results.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'tv-grid-item';
-                    div.onclick = () => playTVContent(item);
-                    div.innerHTML = `
-                        <img src="${item.url_portada || 'https://via.placeholder.com/300x450?text=NETFIX'}" alt="${item.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=NETFIX'">
-                        <div class="tv-grid-info">
-                            <div class="tv-grid-title">${item.nombre}</div>
-                        </div>
-                    `;
-                    resultsContainer.appendChild(div);
-                });
-            }
-            
-            function clearMobileSearch() {
-                document.getElementById('mobileSearchInput').value = '';
-                document.getElementById('mobileSearchResults').innerHTML = '';
-            }
-            
-            function clearTVSearch() {
-                document.getElementById('tvSearchInput').value = '';
-                document.getElementById('tvSearchResults').innerHTML = '';
-            }
-            
-            // ===========================================
-            // ===== FILTROS =====
-            // ===========================================
-            function setupFilterListeners() {
-                // Móvil
-                document.querySelectorAll('#mobileMovieFilters .mobile-filter').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('#mobileMovieFilters .mobile-filter').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        renderMobileMoviesGrid(btn.dataset.filter);
-                    });
-                });
-                
-                document.querySelectorAll('#mobileSeriesFilters .mobile-filter').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('#mobileSeriesFilters .mobile-filter').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        renderMobileSeriesGrid(btn.dataset.filter);
-                    });
-                });
-                
-                document.querySelectorAll('#mobileChannelFilters .mobile-filter').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('#mobileChannelFilters .mobile-filter').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        renderMobileChannelsGrid(btn.dataset.filter);
-                    });
-                });
-                
-                // TV
-                document.querySelectorAll('#tvMovieFilters .tv-filter').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('#tvMovieFilters .tv-filter').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        renderTVMoviesGrid(btn.dataset.filter);
-                    });
-                });
-                
-                document.querySelectorAll('#tvSeriesFilters .tv-filter').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('#tvSeriesFilters .tv-filter').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        renderTVSeriesGrid(btn.dataset.filter);
-                    });
-                });
-                
-                document.querySelectorAll('#tvChannelFilters .tv-filter').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('#tvChannelFilters .tv-filter').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        renderTVChannelsGrid(btn.dataset.filter);
-                    });
-                });
-            }
-            
-            // ===========================================
-            // ===== HERO ROTATION =====
-            // ===========================================
-            function startHeroRotation() {
-                if (heroInterval) clearInterval(heroInterval);
-                heroInterval = setInterval(() => {
-                    if (allContent.length > 0) {
-                        currentHeroIndex = (currentHeroIndex + 1) % Math.min(allContent.length, 5);
-                        updateMobileHero();
-                        updateTVHero();
-                    }
-                }, 8000);
-            }
-            
-            // ===========================================
-            // ===== SCROLL LISTENER =====
-            // ===========================================
-            function setupScrollListener() {
-                const mobileHeader = document.getElementById('mobileHeader');
-                const tvHeader = document.getElementById('tvHeader');
-                
-                window.addEventListener('scroll', () => {
-                    const scrolled = window.scrollY > 50;
-                    
-                    if (mobileHeader) {
-                        if (scrolled) mobileHeader.classList.add('scrolled');
-                        else mobileHeader.classList.remove('scrolled');
-                    }
-                    
-                    if (tvHeader) {
-                        if (scrolled) tvHeader.classList.add('scrolled');
-                        else tvHeader.classList.remove('scrolled');
-                    }
-                });
-            }
-            
-            // ===========================================
-            // ===== NOTIFICACIONES =====
-            // ===========================================
-            function showNotification(message, type = 'info') {
-                const isMobile = window.innerWidth < 1280;
-                const className = isMobile ? 'mobile-notification' : 'tv-notification';
-                
-                const notification = document.createElement('div');
-                notification.className = className;
-                notification.textContent = message;
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 2500);
-            }
-            
-            // ===========================================
-            // ===== TECLA ESC =====
-            // ===========================================
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeMobilePlayer();
-                    closeTVPlayer();
-                    closeMobileList('myList');
-                    closeMobileList('history');
-                    closeMobileList('settings');
-                    closeTVList('myList');
-                    closeTVList('history');
-                    closeTVList('settings');
-                }
-            });
-            
-            // ===========================================
-            // ===== PREVENIR ZOOM =====
-            // ===========================================
-            document.addEventListener('touchmove', (e) => {
-                if (e.scale !== 1) e.preventDefault();
-            }, { passive: false });
-        })();
-    </script>
+                showToast("Siguiente");
+            }
+            if (key === 'ArrowLeft') {
+                prevChannel();
+                e.preventDefault();
+                showToast("Anterior");
+            }
+            if (key === 'ArrowUp' || key === 'ArrowDown') {
+                toggleGuide();
+                e.preventDefault();
+            }
+            if (key === 'Escape') {
+                guidePanel.classList.remove('open');
+            }
+        });
+    }
+    
+    // =============== BOTONES UI ===============
+    function initButtons() {
+        document.getElementById('btnPrev').addEventListener('click', () => {
+            prevChannel();
+            showToast("Canal anterior");
+        });
+        document.getElementById('btnNext').addEventListener('click', () => {
+            nextChannel();
+            showToast("Canal siguiente");
+        });
+        document.getElementById('btnGuide').addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleGuide();
+        });
+        // Cerrar guía si se hace click fuera (opcional)
+        document.addEventListener('click', function(event) {
+            if (!guidePanel.contains(event.target) && event.target !== document.getElementById('btnGuide')) {
+                guidePanel.classList.remove('open');
+            }
+        });
+    }
+    
+    // =============== DETECTAR DISPOSITIVO Y RESET ===============
+    function ensureFullscreenVideo() {
+        // ajustar altura dinámica del contenedor para que ocupe toda pantalla
+        const wrapper = document.querySelector('.player-wrapper');
+        const updateHeight = () => {
+            const windowHeight = window.innerHeight;
+            wrapper.style.height = `${windowHeight}px`;
+        };
+        updateHeight();
+        window.addEventListener('resize', updateHeight);
+    }
+    
+    // Cargar último canal o empezar por defecto
+    function loadLastSession() {
+        const last = localStorage.getItem('bolivia_last_channel');
+        if (last && CHANNELS.some(c => c.id == last)) {
+            loadChannel(parseInt(last, 10));
+        } else {
+            loadChannel(1); // Tigo Sports 1 por defecto
+        }
+    }
+    
+    // =============== MANTENER ACTIVO, EVITAR BLOQUEO AUTOPLAY ===============
+    function init() {
+        ensureFullscreenVideo();
+        loadLastSession();
+        initSwipeDetection();
+        initKeyboardControl();
+        initButtons();
+        renderGuideList();
+        // para que el player no tenga problemas de autoplay en navegadores, ya está
+        // Precarga visual
+        setInterval(() => {
+            // Pequeño "keep alive" de consciencia, no interfiere
+        }, 30000);
+    }
+    
+    // Ejecutar todo cuando DOM listo
+    document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>

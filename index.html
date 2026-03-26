@@ -127,7 +127,7 @@
             object-fit: contain;
         }
 
-        /* ZONA DE GESTOS INVISIBLE pero funcional (swipe + tap oculto) */
+        /* ZONA DE GESTOS INVISIBLE pero funcional (swipe + tap para activar sonido) */
         .gesture-overlay {
             position: absolute;
             top: 0;
@@ -171,17 +171,12 @@
             display: none;
         }
 
-        /* Aseguramos que no aparezca ningún control flotante */
-        .no-controls {
-            user-select: none;
-        }
-
         /* para evitar scrolls raros */
         iframe, video {
             pointer-events: auto;
         }
     </style>
-    <!-- HLS.js para el stream m3u8 (solo canal 3 es iframe, pero mantenemos por si acaso) -->
+    <!-- HLS.js para el stream m3u8 -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
@@ -211,10 +206,11 @@
 <script>
     // =========================================================
     // UNICO CANAL ACTIVO: CANAL 3 (Bolivia TV - Dailymotion)
-    // Pero las funciones de cambio de canal están ocultas pero operativas
+    // Las funciones de cambio de canal están ocultas pero operativas
     // Se define el listado completo de canales (solo por compatibilidad con teclado/gestos)
     // aunque la UI no muestre botones ni headers, se pueden cambiar canales (1 al 5) mediante números o swipe.
     // El diseño NO muestra ningún header, badge, ni panel de guía. Todo permanece oculto.
+    // NUEVA FUNCIONALIDAD: Tocar la pantalla activa el sonido en móvil (desmutear automáticamente)
     // =========================================================
     
     // LISTA DE CANALES (Fútbol Bolivia, tal cual pero sin mostrar controles)
@@ -256,12 +252,14 @@
     let touchStartX = 0;
     let touchEndX = 0;
     let splashActive = true;
+    let audioUnlocked = false;      // Bandera para saber si ya se activó el sonido
 
     // Elementos DOM
     const videoContainer = document.getElementById('videoContainer');
     const playerFullDiv = document.getElementById('playerFull');
     const splashElement = document.getElementById('splashScreen');
     const toastEl = document.getElementById('toastMsg');
+    const gestureOverlay = document.getElementById('gestureOverlay');
 
     // ========== FUNCIONES INTERNAS (sin interfaz gráfica de botones) ==========
     function showGhostToast(msg) {
@@ -273,6 +271,70 @@
         }, 1300);
     }
 
+    // FUNCIÓN PARA ACTIVAR EL SONIDO EN MÓVIL (tocar pantalla)
+    function unlockAudio() {
+        if (audioUnlocked) return true;
+        
+        // Buscar elementos de audio/video para activar sonido
+        const videoElements = document.querySelectorAll('video');
+        const iframes = document.querySelectorAll('iframe');
+        
+        let audioActivated = false;
+        
+        // Para elementos de video nativo
+        videoElements.forEach(video => {
+            if (video.muted) {
+                video.muted = false;
+                audioActivated = true;
+            }
+            // Intentar reproducir si está pausado
+            if (video.paused && video.readyState >= 2) {
+                video.play().catch(e => console.log('Play intent:', e));
+            }
+        });
+        
+        // Para iframes, intentamos enviar mensaje para desmutear (soporte para Dailymotion)
+        iframes.forEach(iframe => {
+            try {
+                // Intentar enviar mensaje al iframe para desmutear (Dailymotion soporta postMessage)
+                iframe.contentWindow.postMessage({
+                    event: 'volume',
+                    volume: 1,
+                    muted: false
+                }, '*');
+                
+                // También intentar con comandos de Dailymotion específicos
+                iframe.contentWindow.postMessage({
+                    command: 'setVolume',
+                    parameters: [1]
+                }, '*');
+                
+                iframe.contentWindow.postMessage({
+                    command: 'unmute',
+                    parameters: []
+                }, '*');
+                
+                audioActivated = true;
+            } catch(e) {
+                // Cross-origin, no se puede, pero al menos se intentó
+            }
+        });
+        
+        if (audioActivated) {
+            audioUnlocked = true;
+            showGhostToast("🔊 SONIDO ACTIVADO");
+        } else {
+            showGhostToast("🎵 Toca para activar sonido");
+        }
+        
+        return audioActivated;
+    }
+    
+    // Función para manejar el tap en toda la pantalla (activa sonido sin interferir con swipe)
+    function handleScreenTap() {
+        unlockAudio();
+    }
+    
     // Destruir HLS si existe
     function destroyHls() {
         if (currentHlsInstance) {
@@ -311,6 +373,8 @@
             tempDiv.innerHTML = channel.embed;
             const iframeElem = tempDiv.querySelector('iframe');
             if (iframeElem) {
+                // Añadir atributo allow="autoplay" para permitir autoplay
+                iframeElem.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; web-share');
                 iframeElem.style.position = 'absolute';
                 iframeElem.style.top = '0';
                 iframeElem.style.left = '0';
@@ -329,7 +393,7 @@
             const videoElem = document.createElement('video');
             videoElem.controls = false;   // SIN CONTROLES VISIBLES
             videoElem.autoplay = true;
-            videoElem.muted = false;
+            videoElem.muted = true;        // Inicia muteado para permitir autoplay en navegadores
             videoElem.playsInline = true;
             videoElem.style.width = '100%';
             videoElem.style.height = '100%';
@@ -361,6 +425,9 @@
             }
         }
         
+        // Resetear el estado de audio desbloqueado al cambiar de canal
+        audioUnlocked = false;
+        
         // guardar en localStorage (opcional)
         localStorage.setItem('finki_last_channel', channel.id);
     }
@@ -387,19 +454,44 @@
         }
     }
     
-    // ========== GESTOS DESLIZAR (totalmente ocultos pero operativos) ==========
-    function initHiddenSwipe() {
-        const gestureZone = document.getElementById('gestureOverlay');
-        if (!gestureZone) return;
+    // ========== GESTOS DESLIZAR + TAP PARA SONIDO (totalmente ocultos pero operativos) ==========
+    function initHiddenSwipeAndTap() {
+        if (!gestureOverlay) return;
         
-        gestureZone.addEventListener('touchstart', (e) => {
+        let tapTimer = null;
+        let touchMoved = false;
+        
+        gestureOverlay.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
+            touchMoved = false;
+            
+            // Limpiar timer anterior
+            if (tapTimer) clearTimeout(tapTimer);
+            
+            // Configurar timer para detectar tap (sin movimiento)
+            tapTimer = setTimeout(() => {
+                if (!touchMoved) {
+                    // Es un tap (no hubo movimiento significativo)
+                    handleScreenTap();
+                }
+            }, 100);
         }, { passive: true });
         
-        gestureZone.addEventListener('touchend', (e) => {
+        gestureOverlay.addEventListener('touchmove', (e) => {
+            // Si se mueve el dedo, no es un tap
+            touchMoved = true;
+            if (tapTimer) {
+                clearTimeout(tapTimer);
+                tapTimer = null;
+            }
+        }, { passive: true });
+        
+        gestureOverlay.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             const diff = touchEndX - touchStartX;
-            if (Math.abs(diff) > 45) {
+            
+            // Si hubo movimiento significativo horizontal, es swipe
+            if (Math.abs(diff) > 45 && touchMoved) {
                 if (diff > 0) {
                     prevChannel();
                     showGhostToast("← ANTERIOR");
@@ -408,8 +500,21 @@
                     showGhostToast("SIGUIENTE →");
                 }
             }
+            
+            // Limpiar timer si no se activó
+            if (tapTimer) {
+                clearTimeout(tapTimer);
+                tapTimer = null;
+            }
+            
             touchStartX = 0;
             touchEndX = 0;
+            touchMoved = false;
+        });
+        
+        // También soporte para mouse (para debugging en escritorio)
+        gestureOverlay.addEventListener('click', (e) => {
+            handleScreenTap();
         });
     }
     
@@ -432,9 +537,13 @@
                 prevChannel();
                 e.preventDefault();
             }
+            // Tecla espacio o Enter también activan sonido (útil para teclado)
+            if (key === ' ' || key === 'Space' || key === 'Enter') {
+                unlockAudio();
+                e.preventDefault();
+            }
             // Se evita cualquier otra tecla que muestre interfaz (no hay guía)
             if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'Escape') {
-                // No hacemos nada: sin menú, sin guía.
                 e.preventDefault();
             }
         });
@@ -442,14 +551,7 @@
     
     // ========== ANIMACIÓN SPLASH 3 SEGUNDOS Y LUEGO MUESTRA CANAL 3 ==========
     function startSplashAndLoad() {
-        // Forzamos que el canal 3 (Bolivia TV) esté listo mientras el splash se muestra
-        // Pero precargamos en segundo plano? Mejor cargar después de fadeout.
-        // Aseguramos que el contenedor de video esté listo pero invisible.
-        // Inicialmente playerFull tiene opacity 0.
-        // Al terminar los 3 segundos, hacemos fadein del reproductor y eliminamos splash.
-        
-        // Cargar el canal 3 (por defecto) pero mientras está oculto, no importa
-        // Cargamos el stream directamente pero con el reproductor opaco, para que al mostrar esté listo.
+        // Cargar el canal 3 (por defecto) pero mientras está oculto
         loadChannel(3);   // Canal 3 = Bolivia TV (el que se debe mostrar de inicio)
         
         // Después de 3000ms (3 segundos) eliminar splash y mostrar el player con animación
@@ -469,7 +571,6 @@
                     // Ajuste para garantizar que el stream se vea correctamente
                     const currentChannel = CHANNELS.find(c => c.id === activeChannel);
                     if (currentChannel && currentChannel.type === 'iframe') {
-                        // Pequeño reforce para iframe responsive
                         const iframes = document.querySelectorAll('iframe');
                         iframes.forEach(iframe => {
                             try {
@@ -478,6 +579,11 @@
                             } catch(e) {}
                         });
                     }
+                    
+                    // Pequeño toast recordatorio para tocar la pantalla
+                    setTimeout(() => {
+                        showGhostToast("🎵 Toca la pantalla para activar el sonido");
+                    }, 500);
                 }, 600);
             }
         }, 3000); // 3 segundos exactos de animación
@@ -504,13 +610,12 @@
     
     // ========== MANTENER EN PRIMER PLANO Y EVITAR CONTROLES VISIBLES ==========
     function removeAnyFloatingUI() {
-        // Aseguramos que no queden restos de otros elementos (como badges que pudieran existir)
-        // Eliminar cualquier elemento con clases sospechosas (por si acaso)
+        // Eliminar cualquier elemento con clases sospechosas
         const possibleOverlays = document.querySelectorAll('.channel-overlay, .channel-controls, .guide-panel, .header, .key-hint, .badge-live');
         possibleOverlays.forEach(el => {
             if (el) el.remove();
         });
-        // También aseguramos que no haya ningún botón flotante (por si algún residuo)
+        // Asegurar que no haya ningún botón flotante
         const styleKiller = document.createElement('style');
         styleKiller.textContent = `
             .channel-controls, .guide-panel, .header, .badge-live, .key-hint, .channel-overlay, .ctrl-btn, .btn-guide, .logo-area, .brand {
@@ -520,6 +625,13 @@
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
+            }
+            /* Evitar que aparezcan controles nativos en video */
+            video::-webkit-media-controls {
+                display: none !important;
+            }
+            video::-webkit-media-controls-enclosure {
+                display: none !important;
             }
         `;
         document.head.appendChild(styleKiller);
@@ -531,17 +643,20 @@
         removeAnyFloatingUI();
         enforceFullscreenSize();
         
-        // Inicializar gestos y teclado (funcional pero invisible)
-        initHiddenSwipe();
+        // Inicializar gestos (swipe + tap para sonido) y teclado
+        initHiddenSwipeAndTap();
         initKeyboardNav();
         
         // Iniciar splash de 3 segundos y después mostrar el canal 3 (Bolivia TV)
         startSplashAndLoad();
         
-        // Pequeño helper para mantener el foco en el stream y evitar pantalla apagada (opcional)
-        setInterval(() => {
-            // Solo mantener activo, sin ninguna interacción visual
-        }, 25000);
+        // Intentar activar sonido automáticamente después de la interacción del usuario con cualquier parte
+        // El overlay ya maneja el tap, pero también agregamos un listener al documento completo como respaldo
+        document.body.addEventListener('touchstart', function onFirstTouch() {
+            unlockAudio();
+            // Remover después del primer toque para no ejecutar múltiples veces
+            document.body.removeEventListener('touchstart', onFirstTouch);
+        }, { once: true });
     }
     
     // Arrancar cuando el DOM esté listo

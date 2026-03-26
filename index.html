@@ -24,7 +24,6 @@
             position: fixed;
         }
 
-        /* CONTENEDOR PRINCIPAL - SIN HEADER, SIN FOOTER */
         .app {
             position: relative;
             width: 100%;
@@ -32,7 +31,6 @@
             background: black;
         }
 
-        /* PANTALLA DE INICIO CON MASCOTA + LOGO FINKI GC */
         .splash-screen {
             position: fixed;
             top: 0;
@@ -48,7 +46,7 @@
             backdrop-filter: blur(2px);
             transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             opacity: 1;
-            pointer-events: none; /* No bloquea toques pero visible */
+            pointer-events: none;
         }
 
         .splash-content {
@@ -57,7 +55,6 @@
             animation: gentleRise 0.9s ease-out forwards;
         }
 
-        /* mascota m.png */
         .splash-mascota {
             width: 300px;
             height: 300px;
@@ -90,7 +87,6 @@
             opacity: 0.85;
         }
 
-        /* animaciones */
         @keyframes gentleRise {
             0% { opacity: 0; transform: scale(0.92) translateY(15px);}
             100% { opacity: 1; transform: scale(1) translateY(0);}
@@ -101,7 +97,6 @@
             100% { transform: translateY(-8px); filter: drop-shadow(0 0 28px #7CFC00);}
         }
 
-        /* REPRODUCTOR FULLSCREEN (sin bordes ni controles visibles) */
         .player-full {
             position: absolute;
             top: 0;
@@ -125,9 +120,10 @@
             border: none;
             background: black;
             object-fit: contain;
+            pointer-events: auto;
         }
 
-        /* ZONA DE GESTOS INVISIBLE pero funcional (swipe + tap para activar sonido) */
+        /* El overlay ya no bloquea el iframe, ahora el iframe es directamente tocable */
         .gesture-overlay {
             position: absolute;
             top: 0;
@@ -136,10 +132,9 @@
             height: 100%;
             z-index: 50;
             background: transparent;
-            pointer-events: auto;
+            pointer-events: none;
         }
 
-        /* NOTIFICACION TOAST MINIMALISTA (solo funcional, sin interferir diseño) */
         .toast-ghost {
             position: fixed;
             bottom: 30px;
@@ -166,22 +161,14 @@
             opacity: 1;
         }
 
-        /* No hay header, ni footer, ni botones visuales. Todo está oculto */
         .hidden-ui {
             display: none;
         }
-
-        /* para evitar scrolls raros */
-        iframe, video {
-            pointer-events: auto;
-        }
     </style>
-    <!-- HLS.js para el stream m3u8 -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 <div class="app">
-    <!-- SPLASH SCREEN: dura 3 segundos, muestra MASCOTA + FINKI GC -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-content">
             <div class="splash-mascota"></div>
@@ -190,48 +177,33 @@
         </div>
     </div>
 
-    <!-- REPRODUCTOR PRINCIPAL - ÚNICO CANAL (CANAL 3: Bolivia TV) -->
     <div class="player-full" id="playerFull" style="opacity:0; transition: opacity 0.8s ease;">
-        <div class="video-container" id="videoContainer">
-            <!-- El stream se inyectará dinámicamente -->
-        </div>
-        <!-- Zona de gestos táctiles / swipe (invisible) -->
+        <div class="video-container" id="videoContainer"></div>
         <div class="gesture-overlay" id="gestureOverlay"></div>
     </div>
 
-    <!-- Toast minimal funcional (para feedback de cambios de canal aunque esté oculto visualmente) -->
     <div class="toast-ghost" id="toastMsg"></div>
 </div>
 
 <script>
-    // =========================================================
-    // UNICO CANAL ACTIVO: CANAL 3 (Bolivia TV - Dailymotion)
-    // Las funciones de cambio de canal están ocultas pero operativas
-    // Se define el listado completo de canales (solo por compatibilidad con teclado/gestos)
-    // aunque la UI no muestre botones ni headers, se pueden cambiar canales (1 al 5) mediante números o swipe.
-    // El diseño NO muestra ningún header, badge, ni panel de guía. Todo permanece oculto.
-    // NUEVA FUNCIONALIDAD: Tocar la pantalla activa el sonido en móvil (desmutear automáticamente)
-    // =========================================================
-    
-    // LISTA DE CANALES (Fútbol Bolivia, tal cual pero sin mostrar controles)
     const CHANNELS = [
         {
             id: 1,
             name: "Tigo Sports 1",
             type: "iframe",
-            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player.html?video=xa0fwio" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Tigo Sports 1" allow="web-share"></iframe></div>`,
+            embed: `<iframe src="https://geo.dailymotion.com/player.html?video=xa0fwio" style="width:100%; height:100%; border:none;" allowfullscreen title="Tigo Sports 1" allow="autoplay; fullscreen; picture-in-picture; web-share"></iframe>`,
         },
         {
             id: 2,
             name: "Tigo Sports 2",
             type: "iframe",
-            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player.html?video=x89sfvo" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Tigo Sports 2" allow="web-share"></iframe></div>`,
+            embed: `<iframe src="https://geo.dailymotion.com/player.html?video=x89sfvo" style="width:100%; height:100%; border:none;" allowfullscreen title="Tigo Sports 2" allow="autoplay; fullscreen; picture-in-picture; web-share"></iframe>`,
         },
         {
             id: 3,
             name: "Bolivia TV (Canal 7.1)",
             type: "iframe",
-            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player/x12yfi.html?video=x9nzqpo" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Bolivia TV" allow="autoplay; fullscreen; picture-in-picture; web-share"></iframe></div>`,
+            embed: `<iframe src="https://geo.dailymotion.com/player/x12yfi.html?video=x9nzqpo" style="width:100%; height:100%; border:none;" allowfullscreen title="Bolivia TV" allow="autoplay; fullscreen; picture-in-picture; web-share"></iframe>`,
         },
         {
             id: 4,
@@ -243,25 +215,22 @@
             id: 5,
             name: "Unitel Deportes",
             type: "iframe",
-            embed: `<div style="position:relative;width:100%;height:100%;"><iframe src="https://geo.dailymotion.com/player.html?video=x9nzqpo" style="width:100%; height:100%; position:absolute; top:0; left:0; border:none;" allowfullscreen title="Unitel"></iframe></div>`,
+            embed: `<iframe src="https://geo.dailymotion.com/player.html?video=x9nzqpo" style="width:100%; height:100%; border:none;" allowfullscreen title="Unitel" allow="autoplay; fullscreen; picture-in-picture; web-share"></iframe>`,
         }
     ];
 
-    let activeChannel = 3;          // POR DEFECTO: CANAL 3 (Bolivia TV)
+    let activeChannel = 3;
     let currentHlsInstance = null;
     let touchStartX = 0;
     let touchEndX = 0;
-    let splashActive = true;
-    let audioUnlocked = false;      // Bandera para saber si ya se activó el sonido
+    let audioUnlocked = false;
+    let currentIframe = null;
 
-    // Elementos DOM
     const videoContainer = document.getElementById('videoContainer');
     const playerFullDiv = document.getElementById('playerFull');
     const splashElement = document.getElementById('splashScreen');
     const toastEl = document.getElementById('toastMsg');
-    const gestureOverlay = document.getElementById('gestureOverlay');
 
-    // ========== FUNCIONES INTERNAS (sin interfaz gráfica de botones) ==========
     function showGhostToast(msg) {
         if (!toastEl) return;
         toastEl.innerText = msg;
@@ -271,71 +240,66 @@
         }, 1300);
     }
 
-    // FUNCIÓN PARA ACTIVAR EL SONIDO EN MÓVIL (tocar pantalla)
-    function unlockAudio() {
+    // Función para activar sonido dentro del iframe
+    function unlockAudioInIframe() {
         if (audioUnlocked) return true;
         
-        // Buscar elementos de audio/video para activar sonido
-        const videoElements = document.querySelectorAll('video');
-        const iframes = document.querySelectorAll('iframe');
+        const iframe = document.querySelector('iframe');
+        if (!iframe) return false;
         
-        let audioActivated = false;
-        
-        // Para elementos de video nativo
-        videoElements.forEach(video => {
-            if (video.muted) {
-                video.muted = false;
-                audioActivated = true;
-            }
-            // Intentar reproducir si está pausado
-            if (video.paused && video.readyState >= 2) {
-                video.play().catch(e => console.log('Play intent:', e));
-            }
-        });
-        
-        // Para iframes, intentamos enviar mensaje para desmutear (soporte para Dailymotion)
-        iframes.forEach(iframe => {
-            try {
-                // Intentar enviar mensaje al iframe para desmutear (Dailymotion soporta postMessage)
-                iframe.contentWindow.postMessage({
-                    event: 'volume',
-                    volume: 1,
-                    muted: false
-                }, '*');
-                
-                // También intentar con comandos de Dailymotion específicos
-                iframe.contentWindow.postMessage({
-                    command: 'setVolume',
-                    parameters: [1]
-                }, '*');
-                
-                iframe.contentWindow.postMessage({
-                    command: 'unmute',
-                    parameters: []
-                }, '*');
-                
-                audioActivated = true;
-            } catch(e) {
-                // Cross-origin, no se puede, pero al menos se intentó
-            }
-        });
-        
-        if (audioActivated) {
+        try {
+            // Método 1: Intentar con postMessage para Dailymotion
+            iframe.contentWindow.postMessage({
+                event: 'volume',
+                volume: 1,
+                muted: false
+            }, '*');
+            
+            iframe.contentWindow.postMessage({
+                command: 'setVolume',
+                parameters: [1]
+            }, '*');
+            
+            iframe.contentWindow.postMessage({
+                command: 'unmute',
+                parameters: []
+            }, '*');
+            
+            // Método 2: Simular clic dentro del iframe para activar políticas de autoplay
+            const fakeClick = new MouseEvent('click', {
+                view: iframe.contentWindow,
+                bubbles: true,
+                cancelable: true
+            });
+            
+            // Método 3: Para videos nativos
+            const videoElements = document.querySelectorAll('video');
+            videoElements.forEach(video => {
+                if (video.muted) {
+                    video.muted = false;
+                }
+                if (video.paused) {
+                    video.play().catch(e => console.log('Play error:', e));
+                }
+            });
+            
             audioUnlocked = true;
             showGhostToast("🔊 SONIDO ACTIVADO");
-        } else {
-            showGhostToast("🎵 Toca para activar sonido");
+            return true;
+        } catch(e) {
+            console.log('No se pudo enviar mensaje al iframe (cross-origin normal)');
+            showGhostToast("🎵 Toca el video para activar sonido");
+            return false;
         }
-        
-        return audioActivated;
     }
-    
-    // Función para manejar el tap en toda la pantalla (activa sonido sin interferir con swipe)
-    function handleScreenTap() {
-        unlockAudio();
+
+    // Función específica para cuando se toca el iframe directamente
+    function handleIframeTap() {
+        if (!audioUnlocked) {
+            unlockAudioInIframe();
+        }
     }
-    
-    // Destruir HLS si existe
+
     function destroyHls() {
         if (currentHlsInstance) {
             try {
@@ -345,60 +309,88 @@
         }
     }
 
-    // Cargar canal específico (funcionalidad completa pero sin mostrar overlays ni headers)
     function loadChannel(channelId) {
         const channel = CHANNELS.find(c => c.id === channelId);
         if (!channel) return;
 
-        // Limpiar reproductor anterior
         destroyHls();
         videoContainer.innerHTML = '';
-        
-        // Actualizar canal activo
         activeChannel = channel.id;
         
-        // Pequeño feedback táctil (toast invisible visualmente pero funcional)
-        showGhostToast(`${channel.name} · ${channel.id}`);
+        showGhostToast(`${channel.name}`);
         
-        // Reproducción según tipo
         if (channel.type === 'iframe') {
-            // Crear contenedor full para iframe
             const wrapper = document.createElement('div');
             wrapper.style.width = '100%';
             wrapper.style.height = '100%';
             wrapper.style.position = 'relative';
             wrapper.style.backgroundColor = '#000';
-            // Inyectar embed
+            
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = channel.embed;
             const iframeElem = tempDiv.querySelector('iframe');
+            
             if (iframeElem) {
-                // Añadir atributo allow="autoplay" para permitir autoplay
-                iframeElem.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; web-share');
+                // Hacer que el iframe sea completamente interactivo y tocable
                 iframeElem.style.position = 'absolute';
                 iframeElem.style.top = '0';
                 iframeElem.style.left = '0';
                 iframeElem.style.width = '100%';
                 iframeElem.style.height = '100%';
                 iframeElem.style.border = 'none';
+                iframeElem.style.pointerEvents = 'auto';
+                
+                // Agregar evento de toque directamente al iframe
+                iframeElem.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                    handleIframeTap();
+                });
+                
+                iframeElem.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    handleIframeTap();
+                });
+                
                 wrapper.appendChild(iframeElem);
                 videoContainer.appendChild(wrapper);
+                currentIframe = iframeElem;
             } else {
-                // fallback
                 videoContainer.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;">Stream no disponible</div>`;
             }
         } 
         else if (channel.type === 'hls' && channel.url) {
-            // Usar video nativo + HLS
             const videoElem = document.createElement('video');
-            videoElem.controls = false;   // SIN CONTROLES VISIBLES
+            videoElem.controls = false;
             videoElem.autoplay = true;
-            videoElem.muted = true;        // Inicia muteado para permitir autoplay en navegadores
+            videoElem.muted = true;
             videoElem.playsInline = true;
             videoElem.style.width = '100%';
             videoElem.style.height = '100%';
             videoElem.style.objectFit = 'contain';
             videoElem.style.backgroundColor = '#000';
+            videoElem.style.pointerEvents = 'auto';
+            
+            // Agregar evento para video nativo
+            videoElem.addEventListener('touchstart', function(e) {
+                e.stopPropagation();
+                if (videoElem.muted) {
+                    videoElem.muted = false;
+                    audioUnlocked = true;
+                    showGhostToast("🔊 SONIDO ACTIVADO");
+                }
+                videoElem.play().catch(e => console.log('Play error:', e));
+            });
+            
+            videoElem.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (videoElem.muted) {
+                    videoElem.muted = false;
+                    audioUnlocked = true;
+                    showGhostToast("🔊 SONIDO ACTIVADO");
+                }
+                videoElem.play().catch(e => console.log('Play error:', e));
+            });
+            
             videoContainer.appendChild(videoElem);
             
             if (Hls && Hls.isSupported()) {
@@ -412,9 +404,6 @@
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
                     videoElem.play().catch(e => console.log("autoplay", e));
                 });
-                hls.on(Hls.Events.ERROR, (event, data) => {
-                    if (data.fatal) console.error("HLS Error");
-                });
                 currentHlsInstance = hls;
             } 
             else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
@@ -425,14 +414,10 @@
             }
         }
         
-        // Resetear el estado de audio desbloqueado al cambiar de canal
         audioUnlocked = false;
-        
-        // guardar en localStorage (opcional)
         localStorage.setItem('finki_last_channel', channel.id);
     }
     
-    // Funciones de navegación entre canales (ocultas pero activas)
     function nextChannel() {
         let currentIndex = CHANNELS.findIndex(c => c.id === activeChannel);
         let nextIndex = (currentIndex + 1) % CHANNELS.length;
@@ -454,81 +439,51 @@
         }
     }
     
-    // ========== GESTOS DESLIZAR + TAP PARA SONIDO (totalmente ocultos pero operativos) ==========
-    function initHiddenSwipeAndTap() {
-        if (!gestureOverlay) return;
+    // Gestos de swipe (con overlay que no bloquea el iframe)
+    function initHiddenSwipe() {
+        const gestureZone = document.getElementById('gestureOverlay');
+        if (!gestureZone) return;
         
-        let tapTimer = null;
-        let touchMoved = false;
+        // El overlay ahora tiene pointer-events: none para no bloquear el iframe
+        // Pero necesitamos capturar los swipes de otra forma: desde el body
+        let touchStartXGlobal = 0;
+        let touchStartYGlobal = 0;
         
-        gestureOverlay.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchMoved = false;
-            
-            // Limpiar timer anterior
-            if (tapTimer) clearTimeout(tapTimer);
-            
-            // Configurar timer para detectar tap (sin movimiento)
-            tapTimer = setTimeout(() => {
-                if (!touchMoved) {
-                    // Es un tap (no hubo movimiento significativo)
-                    handleScreenTap();
-                }
-            }, 100);
+        document.body.addEventListener('touchstart', (e) => {
+            touchStartXGlobal = e.changedTouches[0].screenX;
+            touchStartYGlobal = e.changedTouches[0].screenY;
         }, { passive: true });
         
-        gestureOverlay.addEventListener('touchmove', (e) => {
-            // Si se mueve el dedo, no es un tap
-            touchMoved = true;
-            if (tapTimer) {
-                clearTimeout(tapTimer);
-                tapTimer = null;
-            }
-        }, { passive: true });
-        
-        gestureOverlay.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const diff = touchEndX - touchStartX;
+        document.body.addEventListener('touchend', (e) => {
+            const touchEndXGlobal = e.changedTouches[0].screenX;
+            const touchEndYGlobal = e.changedTouches[0].screenY;
+            const diffX = touchEndXGlobal - touchStartXGlobal;
+            const diffY = touchEndYGlobal - touchStartYGlobal;
             
-            // Si hubo movimiento significativo horizontal, es swipe
-            if (Math.abs(diff) > 45 && touchMoved) {
-                if (diff > 0) {
+            // Swipe horizontal si el movimiento horizontal es mayor que vertical
+            if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0) {
                     prevChannel();
                     showGhostToast("← ANTERIOR");
                 } else {
                     nextChannel();
                     showGhostToast("SIGUIENTE →");
                 }
+                e.preventDefault();
             }
-            
-            // Limpiar timer si no se activó
-            if (tapTimer) {
-                clearTimeout(tapTimer);
-                tapTimer = null;
-            }
-            
-            touchStartX = 0;
-            touchEndX = 0;
-            touchMoved = false;
-        });
-        
-        // También soporte para mouse (para debugging en escritorio)
-        gestureOverlay.addEventListener('click', (e) => {
-            handleScreenTap();
+            touchStartXGlobal = 0;
+            touchStartYGlobal = 0;
         });
     }
     
-    // ========== CONTROL POR TECLADO (números 1-5, flechas, sin interfaz visible) ==========
     function initKeyboardNav() {
         window.addEventListener('keydown', (e) => {
             const key = e.key;
-            // Números del 1 al 5 para cambiar canales (funcionalidad completa)
             if (key >= '1' && key <= '5') {
                 const chNum = parseInt(key, 10);
                 goToChannelById(chNum);
                 e.preventDefault();
             }
-            // flechas derecha/izquierda para cambiar canal
             if (key === 'ArrowRight') {
                 nextChannel();
                 e.preventDefault();
@@ -537,59 +492,40 @@
                 prevChannel();
                 e.preventDefault();
             }
-            // Tecla espacio o Enter también activan sonido (útil para teclado)
             if (key === ' ' || key === 'Space' || key === 'Enter') {
-                unlockAudio();
+                unlockAudioInIframe();
                 e.preventDefault();
             }
-            // Se evita cualquier otra tecla que muestre interfaz (no hay guía)
             if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'Escape') {
                 e.preventDefault();
             }
         });
     }
     
-    // ========== ANIMACIÓN SPLASH 3 SEGUNDOS Y LUEGO MUESTRA CANAL 3 ==========
     function startSplashAndLoad() {
-        // Cargar el canal 3 (por defecto) pero mientras está oculto
-        loadChannel(3);   // Canal 3 = Bolivia TV (el que se debe mostrar de inicio)
+        loadChannel(3);
         
-        // Después de 3000ms (3 segundos) eliminar splash y mostrar el player con animación
         setTimeout(() => {
             if (splashElement) {
                 splashElement.style.opacity = '0';
-                // Después de la transición de opacidad, eliminar del DOM
                 setTimeout(() => {
                     if (splashElement && splashElement.parentNode) {
                         splashElement.style.display = 'none';
-                        splashElement.remove();  // Eliminar completamente
+                        splashElement.remove();
                     }
-                    // Mostrar el reproductor con fade-in
                     if (playerFullDiv) {
                         playerFullDiv.style.opacity = '1';
                     }
-                    // Ajuste para garantizar que el stream se vea correctamente
-                    const currentChannel = CHANNELS.find(c => c.id === activeChannel);
-                    if (currentChannel && currentChannel.type === 'iframe') {
-                        const iframes = document.querySelectorAll('iframe');
-                        iframes.forEach(iframe => {
-                            try {
-                                iframe.style.width = '100%';
-                                iframe.style.height = '100%';
-                            } catch(e) {}
-                        });
-                    }
                     
-                    // Pequeño toast recordatorio para tocar la pantalla
+                    // Mostrar mensaje para tocar el iframe
                     setTimeout(() => {
                         showGhostToast("🎵 Toca la pantalla para activar el sonido");
                     }, 500);
                 }, 600);
             }
-        }, 3000); // 3 segundos exactos de animación
+        }, 3000);
     }
     
-    // ========== ASEGURAR QUE EL PLAYER OCUPE TODA LA PANTALLA SIN BORDES ==========
     function enforceFullscreenSize() {
         const updateSize = () => {
             const player = document.querySelector('.player-full');
@@ -608,14 +544,11 @@
         window.addEventListener('orientationchange', updateSize);
     }
     
-    // ========== MANTENER EN PRIMER PLANO Y EVITAR CONTROLES VISIBLES ==========
     function removeAnyFloatingUI() {
-        // Eliminar cualquier elemento con clases sospechosas
         const possibleOverlays = document.querySelectorAll('.channel-overlay, .channel-controls, .guide-panel, .header, .key-hint, .badge-live');
         possibleOverlays.forEach(el => {
             if (el) el.remove();
         });
-        // Asegurar que no haya ningún botón flotante
         const styleKiller = document.createElement('style');
         styleKiller.textContent = `
             .channel-controls, .guide-panel, .header, .badge-live, .key-hint, .channel-overlay, .ctrl-btn, .btn-guide, .logo-area, .brand {
@@ -626,7 +559,6 @@
                 padding: 0;
                 overflow: hidden;
             }
-            /* Evitar que aparezcan controles nativos en video */
             video::-webkit-media-controls {
                 display: none !important;
             }
@@ -637,29 +569,21 @@
         document.head.appendChild(styleKiller);
     }
     
-    // ========== INICIALIZACIÓN DEFINITIVA ==========
     function init() {
-        // Ocultar cualquier vestigio de UI no deseado
         removeAnyFloatingUI();
         enforceFullscreenSize();
-        
-        // Inicializar gestos (swipe + tap para sonido) y teclado
-        initHiddenSwipeAndTap();
+        initHiddenSwipe();
         initKeyboardNav();
-        
-        // Iniciar splash de 3 segundos y después mostrar el canal 3 (Bolivia TV)
         startSplashAndLoad();
         
-        // Intentar activar sonido automáticamente después de la interacción del usuario con cualquier parte
-        // El overlay ya maneja el tap, pero también agregamos un listener al documento completo como respaldo
-        document.body.addEventListener('touchstart', function onFirstTouch() {
-            unlockAudio();
-            // Remover después del primer toque para no ejecutar múltiples veces
-            document.body.removeEventListener('touchstart', onFirstTouch);
-        }, { once: true });
+        // También agregar un listener global para el primer toque en cualquier lugar
+        document.body.addEventListener('touchstart', function onFirstTouch(e) {
+            // No hacer nada aquí, solo para que el navegador sepa que hubo interacción
+            // El iframe ya tiene sus propios listeners
+            console.log('Interacción detectada');
+        }, { passive: true });
     }
     
-    // Arrancar cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>

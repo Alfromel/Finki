@@ -15,14 +15,10 @@
     :root {
       --primary: #E50914;
       --bg: #141414;
-      --bg-light: #1a1a2e;
       --text: #ffffff;
       --text-secondary: #b3b3b3;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-top: env(safe-area-inset-top, 0px);
-      --card-width-mobile: 45vw;
-      --card-width-tablet: 28vw;
-      --card-width-tv: 18vw;
     }
     
     * {
@@ -231,7 +227,7 @@
       border: 2px solid rgba(255,255,255,0.2);
     }
     
-    /* === HERO CAROUSEL === */
+    /* === HERO CAROUSEL (SOLO INICIO) === */
     .hero-section {
       position: relative;
       height: 70vh;
@@ -257,6 +253,7 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(to top, #000 0%, transparent 40%, rgba(0,0,0,0.4) 100%);
+      z-index: 1;
     }
     
     .hero-content {
@@ -342,7 +339,7 @@
       border-radius: 4px;
     }
     
-    /* === CONTENT ROWS === */
+    /* === CONTENT AREA === */
     .content-area {
       flex: 1;
       overflow-y: auto;
@@ -350,8 +347,14 @@
       -webkit-overflow-scrolling: touch;
       scroll-behavior: smooth;
       padding-bottom: calc(80px + var(--safe-bottom));
+      scrollbar-width: none;
     }
     
+    .content-area::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* === HOME ROWS (CON SLIDER) === */
     .content-row {
       margin-bottom: 30px;
       padding: 0 5%;
@@ -378,9 +381,10 @@
       display: none;
     }
     
+    /* === CARDS === */
     .card {
       flex: 0 0 auto;
-      width: var(--card-width-mobile);
+      width: 45vw;
       max-width: 200px;
       cursor: pointer;
       scroll-snap-align: start;
@@ -480,6 +484,23 @@
     .card-list-btn.in-list {
       background: #E50914;
       border-color: #E50914;
+    }
+    
+    /* === GRID PARA OTRAS SECCIONES === */
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      padding: 20px 5%;
+      padding-top: 80px;
+    }
+    
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #e5e5e5;
+      grid-column: 1 / -1;
     }
     
     /* === SEARCH === */
@@ -700,7 +721,7 @@
     /* === RESPONSIVE TV === */
     @media (min-width: 768px) {
       .card {
-        width: var(--card-width-tablet);
+        width: 28vw;
         max-width: 250px;
       }
       
@@ -712,11 +733,15 @@
         left: 8%;
         right: 8%;
       }
+      
+      .section-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
     }
     
     @media (min-width: 1200px) {
       .card {
-        width: var(--card-width-tv);
+        width: 18vw;
         max-width: 300px;
       }
       
@@ -747,6 +772,11 @@
         z-index: 10;
         box-shadow: 0 15px 40px rgba(0,0,0,0.8);
       }
+      
+      .section-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+      }
     }
     
     /* Animaciones */
@@ -771,15 +801,6 @@
     
     .hero-content > *:nth-child(3) {
       animation-delay: 0.4s;
-    }
-    
-    /* Scrollbar oculto */
-    .content-area {
-      scrollbar-width: none;
-    }
-    
-    .content-area::-webkit-scrollbar {
-      display: none;
     }
   </style>
 </head>
@@ -838,22 +859,7 @@
     </header>
     
     <div class="content-area" id="contentArea">
-      <!-- Hero Carousel -->
-      <div class="hero-section" id="heroSection">
-        <div class="hero-gradient"></div>
-        <div class="hero-content" id="heroContent">
-          <h1 class="hero-title" id="heroTitle">Cargando...</h1>
-          <p class="hero-meta" id="heroMeta"></p>
-          <div class="hero-buttons">
-            <button class="btn-hero btn-play" onclick="playHero()"><i class="fas fa-play"></i> Reproducir</button>
-            <button class="btn-hero btn-list" onclick="addHeroToList()"><i class="fas fa-plus"></i> Mi lista</button>
-          </div>
-        </div>
-        <div class="hero-progress" id="heroProgress"></div>
-      </div>
-      
-      <!-- Content Rows -->
-      <div id="contentRows"></div>
+      <!-- Contenido dinámico se carga aquí -->
     </div>
     
     <!-- Bottom Navigation -->
@@ -1053,71 +1059,125 @@
       allContent = data || [];
       
       if (allContent.length > 0) {
+        // Los 5 últimos contenidos recientes para el carrusel
         heroContent = allContent.slice(0, 5);
-        setupHeroCarousel();
       }
       
-      renderContent();
+      // Mostrar sección de inicio por defecto
+      showSection('home');
     }
 
-    // ============ HERO CAROUSEL ============
-    function setupHeroCarousel() {
-      if (heroContent.length === 0) return;
+    // ============ HERO CAROUSEL (SOLO EN INICIO) ============
+    function renderHomeWithCarousel() {
+      const contentArea = document.getElementById('contentArea');
       
-      const heroSection = document.getElementById('heroSection');
-      const heroTitle = document.getElementById('heroTitle');
-      const heroMeta = document.getElementById('heroMeta');
-      const heroProgress = document.getElementById('heroProgress');
+      let html = '';
       
-      // Clear existing slides
-      heroSection.querySelectorAll('.hero-slide').forEach(s => s.remove());
+      // Solo mostrar carrusel si hay contenido
+      if (heroContent.length > 0) {
+        html += `
+          <div class="hero-section" id="heroSection">
+            ${heroContent.map((item, index) => `
+              <div class="hero-slide ${index === 0 ? 'active' : ''}" 
+                   style="background-image: url('${item.url_portada || ''}');"
+                   data-index="${index}">
+              </div>
+            `).join('')}
+            <div class="hero-gradient"></div>
+            <div class="hero-content">
+              <h1 class="hero-title" id="heroTitle">${heroContent[0].nombre}</h1>
+              <p class="hero-meta" id="heroMeta">${heroContent[0].categorias?.nombre || 'Contenido exclusivo'}</p>
+              <div class="hero-buttons">
+                <button class="btn-hero btn-play" onclick="playHero()"><i class="fas fa-play"></i> Reproducir</button>
+                <button class="btn-hero btn-list" onclick="addHeroToList()"><i class="fas fa-plus"></i> Mi lista</button>
+              </div>
+            </div>
+            <div class="hero-progress" id="heroProgress">
+              ${heroContent.map((_, index) => `
+                <div class="progress-dot ${index === 0 ? 'active' : ''}" 
+                     onclick="goToHeroSlide(${index})"
+                     data-index="${index}"></div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
       
-      // Create slides
-      heroContent.forEach((item, index) => {
-        const slide = document.createElement('div');
-        slide.className = `hero-slide ${index === 0 ? 'active' : ''}`;
-        slide.style.backgroundImage = `url('${item.url_portada || ''}')`;
-        heroSection.insertBefore(slide, heroSection.firstChild);
-        
-        // Create progress dot
-        const dot = document.createElement('div');
-        dot.className = `progress-dot ${index === 0 ? 'active' : ''}`;
-        dot.onclick = () => goToHeroSlide(index);
-        heroProgress.appendChild(dot);
-      });
+      // Añadir filas de contenido destacado debajo del carrusel
+      const destacados = allContent.slice(5, 15); // Siguientes 10 después del carrusel
+      const peliculas = allContent.filter(i => i.tipo === 'pelicula').slice(0, 10);
+      const series = allContent.filter(i => i.tipo === 'serie').slice(0, 10);
       
-      // Update initial content
-      updateHeroContent(0);
+      if (destacados.length > 0) {
+        html += `
+          <div class="content-row">
+            <h2 class="row-header">🔥 Destacados</h2>
+            <div class="row-slider">
+              ${destacados.map(item => createCard(item)).join('')}
+            </div>
+          </div>
+        `;
+      }
       
-      // Start auto rotation
+      if (peliculas.length > 0) {
+        html += `
+          <div class="content-row">
+            <h2 class="row-header">🎬 Películas</h2>
+            <div class="row-slider">
+              ${peliculas.map(item => createCard(item)).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      if (series.length > 0) {
+        html += `
+          <div class="content-row">
+            <h2 class="row-header">📺 Series</h2>
+            <div class="row-slider">
+              ${series.map(item => createCard(item)).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      contentArea.innerHTML = html;
+      
+      // Actualizar color de fondo del héroe
+      if (heroContent.length > 0) {
+        updateHeroBackground(heroContent[0]);
+      }
+      
+      // Iniciar rotación automática
       startHeroRotation();
     }
 
-    function updateHeroContent(index) {
+    function updateHeroSlide(index) {
       if (!heroContent[index]) return;
       
       const item = heroContent[index];
+      
+      // Actualizar texto
       document.getElementById('heroTitle').textContent = item.nombre;
       document.getElementById('heroMeta').textContent = item.categorias?.nombre || 'Contenido exclusivo';
       
-      // Update background color based on image (simulated)
-      updateHeroBackground(item);
-      
-      // Update slides
+      // Actualizar slides
       document.querySelectorAll('.hero-slide').forEach((slide, i) => {
         slide.classList.toggle('active', i === index);
       });
       
-      // Update progress dots
+      // Actualizar dots
       document.querySelectorAll('.progress-dot').forEach((dot, i) => {
         dot.classList.toggle('active', i === index);
       });
+      
+      // Actualizar color de fondo
+      updateHeroBackground(item);
       
       currentHeroIndex = index;
     }
 
     function updateHeroBackground(item) {
-      // Create a canvas to analyze image color
       const img = new Image();
       img.crossOrigin = 'Anonymous';
       img.src = item.url_portada || '';
@@ -1129,7 +1189,6 @@
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
         
-        // Get average color
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
         let r = 0, g = 0, b = 0;
         const step = Math.floor(imageData.length / 1000);
@@ -1145,27 +1204,27 @@
         g = Math.floor(g / count);
         b = Math.floor(b / count);
         
-        // Apply color gradient to hero section
-        document.getElementById('heroSection').style.background = 
-          `radial-gradient(ellipse at center, rgba(${r},${g},${b},0.3) 0%, rgba(0,0,0,0.8) 70%)`;
-      };
-      
-      img.onerror = () => {
-        document.getElementById('heroSection').style.background = 'radial-gradient(ellipse at center, rgba(20,20,20,0.5) 0%, #000 70%)';
+        const heroSection = document.getElementById('heroSection');
+        if (heroSection) {
+          heroSection.style.background = 
+            `radial-gradient(ellipse at center, rgba(${r},${g},${b},0.3) 0%, rgba(0,0,0,0.8) 70%)`;
+        }
       };
     }
 
     function goToHeroSlide(index) {
-      updateHeroContent(index);
+      updateHeroSlide(index);
       restartHeroRotation();
     }
 
     function startHeroRotation() {
       stopHeroRotation();
-      heroInterval = setInterval(() => {
-        const nextIndex = (currentHeroIndex + 1) % heroContent.length;
-        updateHeroContent(nextIndex);
-      }, 5000);
+      if (heroContent.length > 1) {
+        heroInterval = setInterval(() => {
+          const nextIndex = (currentHeroIndex + 1) % heroContent.length;
+          updateHeroSlide(nextIndex);
+        }, 5000);
+      }
     }
 
     function stopHeroRotation() {
@@ -1180,34 +1239,7 @@
       startHeroRotation();
     }
 
-    // ============ RENDER CONTENT ============
-    function renderContent() {
-      const contentRows = document.getElementById('contentRows');
-      
-      const sections = [
-        { title: '🔥 Destacados', items: allContent.slice(0, 10), id: 'destacados' },
-        { title: '🎬 Películas', items: allContent.filter(i => i.tipo === 'pelicula'), id: 'peliculas' },
-        { title: '📺 Series', items: allContent.filter(i => i.tipo === 'serie'), id: 'series' },
-        { title: '📡 Canales en Vivo', items: allContent.filter(i => i.tipo === 'canal'), id: 'canales' }
-      ];
-      
-      let html = '';
-      sections.forEach(section => {
-        if (section.items.length > 0) {
-          html += `
-            <div class="content-row">
-              <h2 class="row-header">${section.title}</h2>
-              <div class="row-slider" id="slider-${section.id}">
-                ${section.items.map(item => createCard(item)).join('')}
-              </div>
-            </div>
-          `;
-        }
-      });
-      
-      contentRows.innerHTML = html;
-    }
-
+    // ============ CREATE CARD ============
     function createCard(item) {
       const inList = myList.some(i => i.id === item.id);
       const badge = item.tipo === 'canal' ? 'EN VIVO' : (item.tipo === 'serie' ? 'SERIE' : 'PELÍCULA');
@@ -1238,17 +1270,92 @@
       return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     }
 
+    // ============ SECTIONS ============
+    function showSection(section) {
+      currentSection = section;
+      
+      // Detener carrusel si no estamos en home
+      if (section !== 'home') {
+        stopHeroRotation();
+      }
+      
+      // Actualizar navegación
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelector(`.nav-item[data-section="${section}"]`)?.classList.add('active');
+      
+      const contentArea = document.getElementById('contentArea');
+      
+      switch(section) {
+        case 'home':
+          renderHomeWithCarousel();
+          break;
+        case 'movies':
+          renderCategoryGrid('pelicula', '🎬 Películas');
+          break;
+        case 'series':
+          renderCategoryGrid('serie', '📺 Series');
+          break;
+        case 'channels':
+          renderCategoryGrid('canal', '📡 Canales en Vivo');
+          break;
+        case 'mylist':
+          renderMyListGrid();
+          break;
+        case 'history':
+          renderHistoryGrid();
+          break;
+      }
+      
+      // Scroll to top
+      contentArea.scrollTop = 0;
+    }
+
+    function renderCategoryGrid(tipo, title) {
+      const items = allContent.filter(i => i.tipo === tipo);
+      const contentArea = document.getElementById('contentArea');
+      
+      contentArea.innerHTML = `
+        <div class="section-grid">
+          <h1 class="section-title">${title}</h1>
+          ${items.length > 0 ? items.map(item => createCard(item)).join('') : 
+            '<p style="color:#888; grid-column:1/-1; text-align:center; padding:40px;">No hay contenido disponible</p>'}
+        </div>
+      `;
+    }
+
+    function renderMyListGrid() {
+      const contentArea = document.getElementById('contentArea');
+      
+      contentArea.innerHTML = `
+        <div class="section-grid">
+          <h1 class="section-title">📌 Mi Lista</h1>
+          ${myList.length > 0 ? myList.map(item => createCard(item)).join('') : 
+            '<p style="color:#888; grid-column:1/-1; text-align:center; padding:40px;">Tu lista está vacía</p>'}
+        </div>
+      `;
+    }
+
+    function renderHistoryGrid() {
+      const contentArea = document.getElementById('contentArea');
+      
+      contentArea.innerHTML = `
+        <div class="section-grid">
+          <h1 class="section-title">🕐 Historial</h1>
+          ${history.length > 0 ? history.map(item => createCard(item)).join('') : 
+            '<p style="color:#888; grid-column:1/-1; text-align:center; padding:40px;">No hay historial</p>'}
+        </div>
+      `;
+    }
+
     // ============ PLAYER ============
     function playContent(url, contentId) {
       let finalUrl = url;
       
-      // Extract iframe src if needed
       if (url.includes('<iframe')) {
         const match = url.match(/src=["']([^"']+)["']/);
         if (match) finalUrl = match[1];
       }
       
-      // Add autoplay for YouTube
       if (finalUrl.includes('youtube.com') && !finalUrl.includes('autoplay=1')) {
         finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
       }
@@ -1257,13 +1364,11 @@
       playerFrame.src = finalUrl;
       document.getElementById('playerOverlay').classList.add('active');
       
-      // Add to history
       const item = allContent.find(i => i.id === contentId);
       if (item) {
         addToHistory(item);
       }
       
-      // Try to trigger fullscreen on mobile
       try {
         const playerOverlay = document.getElementById('playerOverlay');
         if (playerOverlay.requestFullscreen) {
@@ -1280,7 +1385,6 @@
       document.getElementById('playerFrame').src = '';
       document.getElementById('playerOverlay').classList.remove('active');
       
-      // Exit fullscreen
       if (document.fullscreenElement) {
         document.exitFullscreen();
       }
@@ -1317,10 +1421,9 @@
       }
       
       saveList();
-      renderContent();
-      if (currentSection === 'mylist') {
-        renderMyList();
-      }
+      
+      // Refrescar vista actual
+      showSection(currentSection);
     }
 
     function addToHistory(item) {
@@ -1334,83 +1437,6 @@
       
       if (history.length > 30) history.pop();
       saveHistory();
-    }
-
-    // ============ SECTIONS ============
-    function showSection(section) {
-      currentSection = section;
-      
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      document.querySelector(`.nav-item[data-section="${section}"]`)?.classList.add('active');
-      
-      if (section === 'mylist') {
-        renderMyList();
-      } else if (section === 'history') {
-        renderHistory();
-      } else {
-        // Filter and show specific content
-        renderFilteredContent(section);
-      }
-      
-      // Scroll to top
-      document.getElementById('contentArea').scrollTop = 0;
-    }
-
-    function renderMyList() {
-      const contentRows = document.getElementById('contentRows');
-      contentRows.innerHTML = `
-        <div class="content-row" style="padding-top: 80px;">
-          <h2 class="row-header">📌 Mi Lista</h2>
-          <div class="search-results" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px;">
-            ${myList.length > 0 ? myList.map(item => createCard(item)).join('') : '<p style="color:#888; grid-column: 1/-1; text-align:center; padding:40px;">Tu lista está vacía</p>'}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderHistory() {
-      const contentRows = document.getElementById('contentRows');
-      contentRows.innerHTML = `
-        <div class="content-row" style="padding-top: 80px;">
-          <h2 class="row-header">🕐 Historial</h2>
-          <div class="search-results" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px;">
-            ${history.length > 0 ? history.map(item => createCard(item)).join('') : '<p style="color:#888; grid-column: 1/-1; text-align:center; padding:40px;">No hay historial</p>'}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderFilteredContent(section) {
-      const contentRows = document.getElementById('contentRows');
-      let items = [];
-      let title = '';
-      
-      switch(section) {
-        case 'movies':
-          items = allContent.filter(i => i.tipo === 'pelicula');
-          title = '🎬 Películas';
-          break;
-        case 'series':
-          items = allContent.filter(i => i.tipo === 'serie');
-          title = '📺 Series';
-          break;
-        case 'channels':
-          items = allContent.filter(i => i.tipo === 'canal');
-          title = '📡 Canales';
-          break;
-        default:
-          renderContent();
-          return;
-      }
-      
-      contentRows.innerHTML = `
-        <div class="content-row" style="padding-top: 80px;">
-          <h2 class="row-header">${title}</h2>
-          <div class="search-results" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px;">
-            ${items.map(item => createCard(item)).join('')}
-          </div>
-        </div>
-      `;
     }
 
     // ============ SEARCH ============
@@ -1482,7 +1508,6 @@
         document.getElementById('profilePanel').classList.remove('open');
       }
       
-      // TV navigation with arrow keys
       if (window.innerWidth > 1200) {
         if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
           const sliders = document.querySelectorAll('.row-slider');
@@ -1511,11 +1536,6 @@
           localStorage.removeItem('finki_user');
         }
       }
-      
-      // Handle resize for responsive
-      window.addEventListener('resize', () => {
-        // Update card sizes if needed
-      });
     })();
   </script>
 </body>

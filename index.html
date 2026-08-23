@@ -124,8 +124,12 @@ button{font-family:inherit;}
 .m-card-list-btn.in-list{background:var(--primary);border-color:var(--primary);}
 
 /* --- category grid sections --- */
-.m-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:18px 5% 20px;padding-top:calc(90px + var(--safe-t));}
+.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px 4% 20px;padding-top:calc(90px + var(--safe-t));}
 .m-grid .m-card{width:100%;max-width:none;}
+.m-grid .m-card-title{font-size:.74rem;}
+.m-grid .m-card-meta{font-size:.62rem;}
+.m-grid .m-card-badge{font-size:.55rem;padding:3px 6px;}
+.m-grid .m-card-list-btn{width:24px;height:24px;font-size:.62rem;}
 .m-section-title{font-size:1.4rem;font-weight:800;margin-bottom:4px;grid-column:1/-1;display:flex;align-items:center;gap:10px;}
 .m-empty{color:var(--text-faint);grid-column:1/-1;text-align:center;padding:60px 20px;font-size:.9rem;}
 .m-empty i{display:block;font-size:2rem;margin-bottom:12px;opacity:.5;}

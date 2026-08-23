@@ -83,7 +83,7 @@ button{font-family:inherit;}
 .m-avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#ff4444);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;cursor:pointer;border:2px solid rgba(255,255,255,.18);}
 
 /* --- content scroll --- */
-.m-content{flex:1 0 auto;padding-bottom:18px;}
+.m-content{flex:1 0 auto;padding-bottom:calc(96px + var(--safe-b));}
 
 /* --- hero carousel --- */
 .m-hero{position:relative;height:62vh;min-height:380px;overflow:hidden;transition:background 1s ease;}
@@ -131,8 +131,8 @@ button{font-family:inherit;}
 .m-empty i{display:block;font-size:2rem;margin-bottom:12px;opacity:.5;}
 
 /* --- floating bottom nav (pill / glass) --- */
-.m-nav-bar{position:sticky;bottom:0;left:0;right:0;display:flex;justify-content:center;padding:10px 12px max(10px, var(--safe-b));z-index:100;background:linear-gradient(to top, rgba(0,0,0,.85) 55%, rgba(0,0,0,0));flex:0 0 auto;}
-.m-nav{display:flex;gap:2px;background:rgba(20,20,28,.85);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid rgba(255,255,255,.1);border-radius:26px;padding:6px;box-shadow:0 12px 34px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);}
+.m-nav-bar{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:0 16px max(16px, calc(var(--safe-b) + 10px));z-index:100;pointer-events:none;}
+.m-nav{pointer-events:auto;display:flex;gap:2px;background:rgba(24,24,32,.82);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border:1px solid rgba(255,255,255,.12);border-radius:26px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);}
 .m-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#8a8a94;background:none;border:none;font-size:.6rem;font-weight:600;cursor:pointer;padding:9px 15px;border-radius:20px;transition:.25s var(--ease);position:relative;min-width:58px;}
 .m-nav-item i{font-size:1.15rem;transition:.25s var(--ease);}
 .m-nav-item.active{color:#fff;background:var(--primary);box-shadow:0 6px 16px var(--primary-glow);}

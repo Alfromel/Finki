@@ -13,396 +13,92 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <!-- ============================================================
-     BLOQUEADOR DE ANUNCIOS INTEGRADO (uBlock-style) v2.0
-     Optimizado para finkii.netlify.app
+     BLOQUEADOR DE ANUNCIOS EN REPRODUCTORES EMBEBIDOS
+     Especializado en bloquear anuncios tipo YouTube dentro de iframes
      ============================================================ -->
 <script>
-class AdBlocker {
+class VideoAdBlocker {
     constructor() {
-        this.filters = [];
-        this.cosmeticFilters = [];
         this.initialized = false;
+        this.blockedAds = 0;
+        this.videoPlayers = new Map();
         this.observer = null;
-        this.blockedCount = 0;
-        this.blockedUrls = new Set();
-        this.allowedDomains = [
-            // Dominios de la aplicación
-            'finkii.netlify.app',
-            'netlify.app',
-            'netlify.com',
-            // Supabase
-            'supabase.co',
-            'rojsndimvyjzgstxivqo.supabase.co',
-            'supabase.io',
-            'supabase.net',
-            'supabase.in',
-            // CDNs y librerías
-            'unpkg.com',
-            'cdnjs.cloudflare.com',
-            'jsdelivr.net',
-            'cdn.jsdelivr.net',
-            'esm.sh',
-            'skypack.dev',
-            // Fuentes
-            'fonts.googleapis.com',
-            'fonts.gstatic.com',
-            'googleapis.com',
-            'gstatic.com',
-            // Listas de filtros
-            'easylist.to',
-            'easylist-downloads.adblockplus.org',
-            'raw.githubusercontent.com',
-            'github.com',
-            'githubusercontent.com',
-            // APIs y servicios
-            'api.github.com',
-            'images.unsplash.com',
-            'unsplash.com',
-            'picsum.photos',
-            'placehold.co',
-            'placeholder.com',
-            'via.placeholder.com',
-            // Streaming y contenido (si usas servicios de streaming)
-            'youtube.com',
-            'youtu.be',
-            'googlevideo.com',
-            'vimeo.com',
-            'player.vimeo.com',
-            'dailymotion.com',
-            'twitch.tv',
-            'kick.com',
-            'rumble.com',
-            'odysee.com',
-            'bitchute.com',
-            'archive.org',
-            // Redes sociales (para compartir)
-            'facebook.com',
-            'twitter.com',
-            'x.com',
-            'instagram.com',
-            'tiktok.com',
-            'whatsapp.com',
-            'telegram.org',
-            'telegram.me',
-            't.me',
-            'discord.com',
-            'discord.gg',
-            // Servicios de pago
-            'stripe.com',
-            'stripe.network',
-            'paypal.com',
-            'paypalobjects.com',
-            'mercadopago.com',
-            'mercadolibre.com',
-            // Analytics propios (si usas)
-            'plausible.io',
-            'umami.is',
-            'matomo.org',
-            'analytics.google.com',
-            'google-analytics.com',
-            // Otros servicios comunes
-            'cloudflare.com',
-            'cloudflareinsights.com',
-            'workers.dev',
-            'vercel.app',
-            'vercel.com',
-            'herokuapp.com',
-            'firebaseapp.com',
-            'firebaseio.com',
+        this.adSelectors = [
+            // Selectores de anuncios en reproductores
+            '.video-ads', '.ytp-ad-module', '.ytp-ad-player-overlay',
+            '.ytp-ad-text', '.ytp-ad-skip-button', '.ytp-ad-overlay-container',
+            '.ad-container', '.ad-overlay', '.video-ad', '.ad-showing',
+            '.ad-interrupting', '.ad-display', '.ad-iframe',
+            '.vjs-ad-overlay', '.vjs-ad-playing', '.ima-ad-container',
+            '.jw-ad-media-container', '.jw-ad-label', '.jw-ad-icon',
+            '.html5-ad-progress-list', '.advertisement-box',
+            '[class*="ad-"]', '[class*="ads-"]', '[class*="advert"]',
+            '[id*="ad-"]', '[id*="ads-"]', '[id*="advert"]',
+            '.skip-ad', '.skip-button', '.ad-skip', '.ad-countdown',
+            '.ad-timer', '.ad-badge', '.ad-label', '.ad-notice',
+        ];
+        
+        this.adTexts = [
+            'Publicidad', 'Anuncio', 'Advertisement', 'Ad', 'Ads',
+            'Patrocinado', 'Sponsored', 'Promocionado', 'Promoted',
+            'Comercial', 'Commercial', 'Propaganda', 'Advert',
+        ];
+        
+        this.blockedDomains = [
+            'doubleclick.net', 'googlesyndication.com', 'googleadservices.com',
+            'adservice.google.com', 'googlevideo.com/videoplayback',
+            'imasdk.googleapis.com', 'pubads.g.doubleclick.net',
+            'ad.doubleclick.net', 'googleads.g.doubleclick.net',
+            'static.doubleclick.net', 'adservice.google.com',
+            'pagead2.googlesyndication.com', 'googleads4.g.doubleclick.net',
+            'adclick.g.doubleclick.net', 'securepubads.g.doubleclick.net',
+            'ads.youtube.com', 's0.2mdn.net', 's1.2mdn.net',
+            'media-adengine.com', 'adengine.com', 'adtech.com',
+            'advertising.com', 'adnxs.com', 'adsrvr.org',
+            'moatads.com', 'adform.net', 'criteo.com',
+            'taboola.com', 'outbrain.com', 'revcontent.com',
+            'mgid.com', 'content.ad', 'adblade.com',
         ];
     }
 
     async init() {
         if (this.initialized) return;
         
-        console.log('🛡️ Inicializando AdBlocker para finkii.netlify.app...');
+        console.log('🛡️ Inicializando VideoAdBlocker...');
         
-        // Cargar listas de filtros (EasyList + EasyPrivacy)
-        await this.loadFilterLists();
-        
-        // Inicializar bloqueo de solicitudes
+        // Bloquear requests de anuncios
         this.setupRequestBlocking();
         
-        // Inicializar bloqueo cosmético (elementos del DOM)
-        this.setupCosmeticBlocking();
+        // Bloquear elementos de anuncios en el DOM
+        this.setupDOMBlocking();
         
-        // Observador para elementos dinámicos
-        this.setupMutationObserver();
+        // Observar iframes de video
+        this.setupIframeObserver();
         
-        // Bloquear Service Workers de rastreo
-        this.setupServiceWorkerBlocking();
+        // Bloquear anuncios en video
+        this.setupVideoAdBlocking();
         
-        // Bloquear cookies de terceros
-        this.setupCookieBlocking();
+        // Limpiar anuncios periódicamente
+        this.startPeriodicCleaning();
         
         this.initialized = true;
-        console.log(`✅ AdBlocker activo: ${this.filters.length} filtros cargados`);
-        
-        // Mostrar estadísticas
-        this.showBlockingStats();
-    }
-
-    async loadFilterLists() {
-        try {
-            // Intentar cargar desde múltiples fuentes
-            const sources = [
-                {
-                    name: 'EasyList',
-                    urls: [
-                        'https://easylist.to/easylist/easylist.txt',
-                        'https://easylist-downloads.adblockplus.org/easylist.txt'
-                    ]
-                },
-                {
-                    name: 'EasyPrivacy',
-                    urls: [
-                        'https://easylist.to/easylist/easyprivacy.txt',
-                        'https://easylist-downloads.adblockplus.org/easyprivacy.txt'
-                    ]
-                }
-            ];
-
-            for (const source of sources) {
-                let loaded = false;
-                for (const url of source.urls) {
-                    try {
-                        const content = await this.fetchWithTimeout(url, 5000);
-                        if (content && content.length > 0) {
-                            this.parseFilterLists(content);
-                            console.log(`📋 ${source.name}: ${content.split('\n').length} líneas cargadas`);
-                            loaded = true;
-                            break;
-                        }
-                    } catch (e) {
-                        console.warn(`⚠️ No se pudo cargar ${source.name} desde ${url}`);
-                    }
-                }
-                if (!loaded) {
-                    console.warn(`❌ ${source.name} no disponible, usando filtros por defecto`);
-                }
-            }
-            
-            // Si no se cargaron suficientes filtros, usar por defecto
-            if (this.filters.length < 100) {
-                console.log('📦 Cargando filtros por defecto...');
-                this.loadDefaultFilters();
-            }
-        } catch (error) {
-            console.warn('⚠️ Error cargando listas. Usando filtros por defecto.');
-            this.loadDefaultFilters();
-        }
-    }
-
-    async fetchWithTimeout(url, timeout) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
-        
-        try {
-            const response = await fetch(url, { 
-                signal: controller.signal,
-                mode: 'cors',
-                credentials: 'omit',
-                headers: {
-                    'Accept': 'text/plain,text/html,*/*',
-                    'Cache-Control': 'no-cache'
-                }
-            });
-            
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const text = await response.text();
-            return text;
-        } catch (error) {
-            throw error;
-        } finally {
-            clearTimeout(timeoutId);
-        }
-    }
-
-    parseFilterLists(content) {
-        const lines = content.split('\n');
-        let networkFilters = 0;
-        let cosmeticFilters = 0;
-        
-        for (let line of lines) {
-            line = line.trim();
-            
-            // Ignorar comentarios y líneas vacías
-            if (!line || line.startsWith('!') || line.startsWith('[')) continue;
-            
-            // Ignorar excepciones (reglas de desbloqueo)
-            if (line.startsWith('@@')) continue;
-            
-            // Filtros cosméticos (elementos del DOM)
-            if (line.includes('##') || line.includes('#@#')) {
-                this.cosmeticFilters.push(line);
-                cosmeticFilters++;
-                continue;
-            }
-            
-            // Filtros de red (URLs)
-            if (line.startsWith('||') || line.startsWith('|') || 
-                line.includes('$') || line.includes('^') || 
-                line.startsWith('.') || line.startsWith('/')) {
-                this.filters.push(line);
-                networkFilters++;
-            }
-        }
-        
-        // Deduplicar filtros
-        this.filters = [...new Set(this.filters)];
-        this.cosmeticFilters = [...new Set(this.cosmeticFilters)];
-        
-        console.log(`🔍 Filtros de red: ${networkFilters}, Filtros cosméticos: ${cosmeticFilters}`);
-    }
-
-    loadDefaultFilters() {
-        // Filtros por defecto para dominios comunes de anuncios y rastreo
-        const defaultNetworkFilters = [
-            // Ad networks principales
-            '||doubleclick.net^',
-            '||googleadservices.com^',
-            '||googlesyndication.com^',
-            '||adservice.google.com^',
-            '||adnxs.com^',
-            '||rubiconproject.com^',
-            '||pubmatic.com^',
-            '||openx.net^',
-            '||contextweb.com^',
-            '||casalemedia.com^',
-            '||sharethrough.com^',
-            '||sovrn.com^',
-            '||indexexchange.com^',
-            '||advertising.com^',
-            '||adsrvr.org^',
-            '||amazon-adsystem.com^',
-            '||moatads.com^',
-            '||adform.net^',
-            '||adroll.com^',
-            '||taboola.com^',
-            '||outbrain.com^',
-            '||criteo.com^',
-            
-            // Analytics y tracking
-            '||google-analytics.com^',
-            '||googletagmanager.com^',
-            '||scorecardresearch.com^',
-            '||hotjar.com^',
-            '||mixpanel.com^',
-            '||segment.io^',
-            '||fullstory.com^',
-            '||kissmetrics.com^',
-            '||clicktale.net^',
-            
-            // Social tracking
-            '||facebook.com/tr^',
-            '||connect.facebook.net^',
-            '||platform.twitter.com^',
-            '||analytics.twitter.com^',
-            '||ads.linkedin.com^',
-            
-            // Otros rastreadores
-            '||bounceexchange.com^',
-            '||livechatinc.com^',
-            '||intercom.io^',
-            '||drift.com^',
-            
-            // Patrones genéricos
-            '||analytics^',
-            '||tracking^',
-            '||tracker^',
-            '||metrics^',
-            '||pixel^',
-            '||beacon^',
-            '||collect^',
-            '||log^',
-            '||stats^',
-            '||stat^',
-        ];
-
-        const defaultCosmeticFilters = [
-            '##.advertisement',
-            '##.ad-container',
-            '##.ad-banner',
-            '##.ad-slot',
-            '##.ad-wrapper',
-            '##.advert',
-            '##.adsbygoogle',
-            '##.sponsored-content',
-            '##.promoted-content',
-            '##.native-ad',
-            '##.video-ad',
-            '##.skip-ad',
-            '##.ad-overlay',
-            '##.ad-popup',
-            '##.ad-modal',
-            '##.ad-iframe',
-            '##[class*="ad-"]',
-            '##[class*="ads-"]',
-            '##[class*="advert"]',
-            '##[class*="banner-ad"]',
-            '##[class*="sponsored"]',
-            '##[class*="promoted"]',
-            '##[id*="ad-"]',
-            '##[id*="ads-"]',
-            '##[id*="advert"]',
-            '##[id*="banner-ad"]',
-            '##[id*="sponsored"]',
-            '##[id*="promoted"]',
-            '##.google-ads',
-            '##.googleads',
-            '##.adsense',
-            '##.adwords',
-            '##.ad-network',
-            '##.ad-partner',
-            '##.ad-affiliate',
-            '##.ad-target',
-            '##.ad-serve',
-            '##.ad-click',
-            '##.ad-impression',
-            '##.ad-campaign',
-            '##.ad-delivery',
-            '##.ad-exchange',
-            '##.ad-marketplace',
-            '##.ad-platform',
-            '##.ad-server',
-            '##.ad-service',
-            '##.ad-tech',
-            '##.ad-tracker',
-            '##.ad-network',
-            '##.popup-ad',
-            '##.interstitial-ad',
-            '##.pre-roll-ad',
-            '##.mid-roll-ad',
-            '##.post-roll-ad',
-            '##.overlay-ad',
-            '##.floating-ad',
-            '##.sticky-ad',
-            '##.auto-ad',
-            '##.dynamic-ad',
-        ];
-
-        this.filters = defaultNetworkFilters;
-        this.cosmeticFilters = defaultCosmeticFilters;
-        
-        console.log(`📦 Filtros por defecto cargados: ${this.filters.length} red, ${this.cosmeticFilters.length} cosméticos`);
+        console.log('✅ VideoAdBlocker activo - Anuncios de video bloqueados');
     }
 
     setupRequestBlocking() {
         const self = this;
         
-        // Sobrescribir fetch para bloquear URLs de anuncios
+        // Sobrescribir fetch para bloquear URLs de anuncios de video
         const originalFetch = window.fetch;
-        
         window.fetch = function(...args) {
             const url = typeof args[0] === 'string' ? args[0] : 
                        (args[0] instanceof Request ? args[0].url : 
                         (args[0]?.url || ''));
             
-            if (url && self.shouldBlock(url)) {
-                self.blockedCount++;
-                self.blockedUrls.add(url);
-                console.debug(`🚫 Bloqueado (fetch): ${url}`);
-                return Promise.reject(new Error('Blocked by Finki AdBlocker'));
+            if (url && self.isAdUrl(url)) {
+                self.blockedAds++;
+                console.log(`🚫 Anuncio bloqueado (fetch): ${url.substring(0, 100)}`);
+                return Promise.reject(new Error('Blocked by VideoAdBlocker'));
             }
             
             return originalFetch.apply(this, args);
@@ -413,439 +109,501 @@ class AdBlocker {
         const originalSend = XMLHttpRequest.prototype.send;
         
         XMLHttpRequest.prototype.open = function(method, url, ...rest) {
-            this._finkiBlocked = false;
+            this._videoAdBlocked = false;
             
-            if (self.shouldBlock(url)) {
-                this._finkiBlocked = true;
-                self.blockedCount++;
-                self.blockedUrls.add(url);
-                console.debug(`🚫 Bloqueado (XHR): ${url}`);
+            if (self.isAdUrl(url)) {
+                this._videoAdBlocked = true;
+                self.blockedAds++;
+                console.log(`🚫 Anuncio bloqueado (XHR): ${url.substring(0, 100)}`);
             }
             
             return originalOpen.call(this, method, url, ...rest);
         };
         
         XMLHttpRequest.prototype.send = function(...args) {
-            if (this._finkiBlocked) {
+            if (this._videoAdBlocked) {
                 setTimeout(() => {
                     const errorEvent = new Event('error');
                     this.dispatchEvent(errorEvent);
                     if (this.onerror) this.onerror(errorEvent);
-                    if (this.onreadystatechange) {
-                        this.status = 0;
-                        this.readyState = 4;
-                        this.onreadystatechange();
-                    }
                 }, 0);
                 return;
             }
             
             return originalSend.apply(this, args);
         };
-
-        // Sobrescribir WebSocket
-        const originalWebSocket = window.WebSocket;
-        
-        window.WebSocket = function(url, protocols) {
-            if (self.shouldBlock(url)) {
-                self.blockedCount++;
-                self.blockedUrls.add(url);
-                console.debug(`🚫 Bloqueado (WebSocket): ${url}`);
-                throw new Error('WebSocket blocked by Finki AdBlocker');
-            }
-            
-            return protocols ? new originalWebSocket(url, protocols) : new originalWebSocket(url);
-        };
-        
-        window.WebSocket.prototype = originalWebSocket.prototype;
-        window.WebSocket.CONNECTING = originalWebSocket.CONNECTING;
-        window.WebSocket.OPEN = originalWebSocket.OPEN;
-        window.WebSocket.CLOSING = originalWebSocket.CLOSING;
-        window.WebSocket.CLOSED = originalWebSocket.CLOSED;
     }
 
-    setupCosmeticBlocking() {
-        // Crear hoja de estilos para ocultar elementos
+    setupDOMBlocking() {
+        // Crear estilos CSS para ocultar anuncios
         const style = document.createElement('style');
-        style.id = 'finki-adblocker-cosmetic';
+        style.id = 'video-adblocker-styles';
         
         let css = '';
-        for (const filter of this.cosmeticFilters) {
-            if (filter.startsWith('##')) {
-                const selector = filter.substring(2);
-                css += `${selector}{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;height:0!important;width:0!important;overflow:hidden!important;}\n`;
-            }
+        for (const selector of this.adSelectors) {
+            css += `${selector} { 
+                display: none !important; 
+                visibility: hidden !important; 
+                opacity: 0 !important; 
+                pointer-events: none !important;
+                z-index: -9999 !important;
+                position: absolute !important;
+            }\n`;
         }
         
         style.textContent = css;
         document.head.appendChild(style);
     }
 
-    setupMutationObserver() {
-        // Observar cambios en el DOM para bloquear elementos dinámicos
+    setupIframeObserver() {
+        // Observar iframes de video
         this.observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
                 if (mutation.addedNodes.length) {
-                    this.blockDynamicElements(mutation.addedNodes);
-                }
-                
-                // Verificar cambios de atributos
-                if (mutation.type === 'attributes' && 
-                    (mutation.attributeName === 'src' || 
-                     mutation.attributeName === 'href' ||
-                     mutation.attributeName === 'class' ||
-                     mutation.attributeName === 'id')) {
-                    const element = mutation.target;
-                    if (element.nodeType === Node.ELEMENT_NODE) {
-                        this.checkSingleElement(element);
-                    }
+                    this.processAddedNodes(mutation.addedNodes);
                 }
             }
         });
         
-        // Iniciar observación
-        const observeTarget = document.body || document.documentElement;
-        this.observer.observe(observeTarget, {
+        this.observer.observe(document.body || document.documentElement, {
             childList: true,
             subtree: true,
             attributes: true,
-            attributeFilter: ['src', 'href', 'class', 'id', 'style']
+            attributeFilter: ['src', 'class', 'id', 'style']
         });
     }
 
-    checkSingleElement(element) {
-        // Verificar iframes y scripts
-        if (element.tagName === 'IFRAME' || element.tagName === 'SCRIPT') {
-            const src = element.src || element.href || '';
-            if (src && this.shouldBlock(src)) {
-                element.remove();
-                this.blockedCount++;
-                return true;
+    processAddedNodes(nodes) {
+        for (const node of nodes) {
+            if (node.nodeType !== Node.ELEMENT_NODE) continue;
+            
+            // Verificar iframes de video
+            if (node.tagName === 'IFRAME') {
+                this.processVideoIframe(node);
+            }
+            
+            // Verificar elementos de video
+            if (node.tagName === 'VIDEO') {
+                this.processVideoElement(node);
+            }
+            
+            // Verificar elementos de anuncios
+            this.checkForAdElements(node);
+            
+            // Recursivamente verificar hijos
+            if (node.children && node.children.length) {
+                this.processAddedNodes(node.children);
             }
         }
+    }
+
+    processVideoIframe(iframe) {
+        const src = iframe.src || '';
         
-        // Verificar imágenes
-        if (element.tagName === 'IMG') {
-            const src = element.src || '';
-            if (src && this.shouldBlock(src)) {
-                element.remove();
-                this.blockedCount++;
-                return true;
+        // Verificar si es un iframe de video
+        if (this.isVideoIframe(src)) {
+            console.log('🎬 Video iframe detectado:', src.substring(0, 100));
+            
+            // Intentar bloquear anuncios dentro del iframe
+            this.blockAdsInIframe(iframe);
+        }
+    }
+
+    processVideoElement(video) {
+        // Bloquear anuncios en elementos de video HTML5
+        video.addEventListener('loadedmetadata', () => {
+            this.checkVideoForAds(video);
+        });
+        
+        video.addEventListener('timeupdate', () => {
+            this.checkVideoForAds(video);
+        });
+        
+        // Detectar y saltar anuncios automáticamente
+        video.addEventListener('play', () => {
+            this.checkVideoForAds(video);
+        });
+    }
+
+    blockAdsInIframe(iframe) {
+        try {
+            // Intentar acceder al contenido del iframe (mismo origen)
+            if (iframe.contentDocument) {
+                this.cleanIframeContent(iframe.contentDocument);
             }
+            
+            // Para iframes de YouTube y otros servicios
+            if (this.isYouTubeIframe(iframe.src)) {
+                this.blockYouTubeAds(iframe);
+            }
+            
+            // Para iframes de Vimeo
+            if (this.isVimeoIframe(iframe.src)) {
+                this.blockVimeoAds(iframe);
+            }
+            
+            // Para otros reproductores
+            this.blockGenericVideoAds(iframe);
+        } catch (e) {
+            // No se puede acceder al iframe (cross-origin)
+            // Usar técnicas alternativas
+            this.blockCrossOriginAds(iframe);
+        }
+    }
+
+    blockYouTubeAds(iframe) {
+        // YouTube usa parámetros especiales para ads
+        const src = iframe.src;
+        
+        // Agregar parámetros para deshabilitar anuncios
+        if (!src.includes('rel=0')) {
+            iframe.src = this.addUrlParam(src, 'rel', '0');
         }
         
-        // Verificar elementos con clases/id de anuncios
+        if (!src.includes('iv_load_policy=3')) {
+            iframe.src = this.addUrlParam(iframe.src, 'iv_load_policy', '3');
+        }
+        
+        if (!src.includes('modestbranding=1')) {
+            iframe.src = this.addUrlParam(iframe.src, 'modestbranding', '1');
+        }
+        
+        // Observar cambios en el iframe
+        this.observeIframeChanges(iframe);
+    }
+
+    blockVimeoAds(iframe) {
+        // Vimeo usa parámetros para controlar publicidad
+        const src = iframe.src;
+        
+        if (!src.includes('ad_block=true')) {
+            iframe.src = this.addUrlParam(src, 'ad_block', 'true');
+        }
+        
+        this.observeIframeChanges(iframe);
+    }
+
+    blockGenericVideoAds(iframe) {
+        // Técnicas genéricas para otros reproductores
+        this.observeIframeChanges(iframe);
+    }
+
+    blockCrossOriginAds(iframe) {
+        // Para iframes cross-origin, usar técnicas de overlay
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            background: transparent;
+        `;
+        
+        // Agregar overlay al contenedor del iframe
+        if (iframe.parentElement) {
+            iframe.parentElement.style.position = 'relative';
+            iframe.parentElement.appendChild(overlay);
+        }
+        
+        // Observar cambios en el iframe
+        this.observeIframeChanges(iframe);
+    }
+
+    observeIframeChanges(iframe) {
+        // Observer para detectar cambios en el iframe
+        const iframeObserver = new MutationObserver(() => {
+            this.cleanIframeIfPossible(iframe);
+        });
+        
+        iframeObserver.observe(iframe, {
+            attributes: true,
+            attributeFilter: ['src', 'class', 'style']
+        });
+    }
+
+    cleanIframeIfPossible(iframe) {
+        try {
+            if (iframe.contentDocument) {
+                this.cleanIframeContent(iframe.contentDocument);
+            }
+        } catch (e) {
+            // Cross-origin, no se puede acceder
+        }
+    }
+
+    cleanIframeContent(doc) {
+        // Eliminar elementos de anuncios
+        for (const selector of this.adSelectors) {
+            const elements = doc.querySelectorAll(selector);
+            elements.forEach(el => el.remove());
+        }
+        
+        // Buscar y eliminar elementos con texto de anuncios
+        const allElements = doc.querySelectorAll('*');
+        allElements.forEach(el => {
+            if (el.textContent && el.textContent.length < 100) {
+                for (const adText of this.adTexts) {
+                    if (el.textContent.toLowerCase().includes(adText.toLowerCase())) {
+                        // Verificar si es un botón de saltar anuncio
+                        if (el.textContent.toLowerCase().includes('skip') || 
+                            el.textContent.toLowerCase().includes('saltar') ||
+                            el.textContent.toLowerCase().includes('omitir')) {
+                            // Hacer clic automáticamente en el botón de saltar
+                            setTimeout(() => {
+                                el.click();
+                                console.log('⏭️ Anuncio saltado automáticamente');
+                            }, 100);
+                        } else {
+                            el.remove();
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+        
+        // Buscar botones de saltar anuncio
+        const skipButtons = doc.querySelectorAll('.ytp-ad-skip-button, .ytp-ad-skip-button-modern, .skip-ad, .skip-button, .ad-skip-button, [class*="skip-ad"], [class*="skip-button"]');
+        skipButtons.forEach(btn => {
+            setTimeout(() => {
+                btn.click();
+                console.log('⏭️ Botón de saltar anuncio clickeado');
+            }, 200);
+        });
+    }
+
+    checkVideoForAds(video) {
+        // Verificar si el video actual es un anuncio
+        if (video.duration < 60) { // Anuncios suelen ser cortos
+            console.log('🔍 Posible anuncio detectado (duración corta)');
+            
+            // Intentar saltar el anuncio
+            video.currentTime = video.duration;
+            video.play();
+            
+            this.blockedAds++;
+        }
+    }
+
+    checkForAdElements(element) {
+        // Verificar si el elemento es un anuncio
         const className = element.className || '';
         const elementId = element.id || '';
         
-        for (const filter of this.cosmeticFilters) {
-            if (filter.startsWith('##')) {
-                const selector = filter.substring(2);
-                
-                try {
-                    if (element.matches && element.matches(selector)) {
-                        element.style.display = 'none';
-                        element.style.visibility = 'hidden';
-                        element.style.opacity = '0';
-                        element.style.pointerEvents = 'none';
-                        this.blockedCount++;
-                        return true;
-                    }
-                } catch (e) {
-                    // Selector inválido, ignorar
+        // Verificar clases de anuncios
+        for (const selector of this.adSelectors) {
+            try {
+                if (element.matches && element.matches(selector)) {
+                    element.remove();
+                    this.blockedAds++;
+                    return;
                 }
+            } catch (e) {
+                // Selector inválido
+            }
+        }
+        
+        // Verificar texto de anuncios
+        if (element.textContent && element.textContent.length < 200) {
+            for (const adText of this.adTexts) {
+                if (element.textContent.toLowerCase().includes(adText.toLowerCase())) {
+                    // Verificar si es un botón de saltar
+                    if (element.textContent.toLowerCase().includes('skip') || 
+                        element.textContent.toLowerCase().includes('saltar') ||
+                        element.textContent.toLowerCase().includes('omitir')) {
+                        setTimeout(() => {
+                            element.click();
+                            console.log('⏭️ Anuncio saltado');
+                        }, 100);
+                    } else if (element.tagName !== 'BODY' && element.tagName !== 'HTML') {
+                        element.remove();
+                        this.blockedAds++;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    startPeriodicCleaning() {
+        // Limpiar anuncios cada 2 segundos
+        setInterval(() => {
+            this.cleanAllIframes();
+            this.cleanMainDocument();
+        }, 2000);
+    }
+
+    cleanAllIframes() {
+        const iframes = document.querySelectorAll('iframe');
+        iframes.forEach(iframe => {
+            this.cleanIframeIfPossible(iframe);
+        });
+    }
+
+    cleanMainDocument() {
+        // Limpiar anuncios en el documento principal
+        for (const selector of this.adSelectors) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                if (!el.closest('#finki-adblocker-stats')) {
+                    el.remove();
+                    this.blockedAds++;
+                }
+            });
+        }
+    }
+
+    isAdUrl(url) {
+        if (!url || url.startsWith('data:') || url.startsWith('blob:')) return false;
+        
+        const urlLower = url.toLowerCase();
+        
+        // Verificar dominios bloqueados
+        for (const domain of this.blockedDomains) {
+            if (urlLower.includes(domain)) {
+                return true;
+            }
+        }
+        
+        // Verificar patrones de anuncios
+        const adPatterns = [
+            '/ad/', '/ads/', '/advert', '/advertisement',
+            '/doubleclick', '/googlesyndication', '/adserver',
+            '/adservice', '/adengine', '/adnetwork',
+            '/advertisement', '/promoted', '/sponsored',
+            'advert', 'adserver', 'adservice', 'adnetwork',
+            'doubleclick', 'googlesyndication', 'advertising',
+            'adclick', 'adtech', 'adtracker', 'advertising',
+        ];
+        
+        for (const pattern of adPatterns) {
+            if (urlLower.includes(pattern)) {
+                return true;
             }
         }
         
         return false;
     }
 
-    blockDynamicElements(nodes) {
-        for (const node of nodes) {
-            if (node.nodeType !== Node.ELEMENT_NODE) continue;
-            
-            // Verificar el elemento actual
-            this.checkSingleElement(node);
-            
-            // Recursivamente verificar hijos
-            if (node.children && node.children.length) {
-                this.blockDynamicElements(node.children);
+    isVideoIframe(src) {
+        const videoDomains = [
+            'youtube.com', 'youtu.be', 'vimeo.com', 'player.vimeo.com',
+            'dailymotion.com', 'twitch.tv', 'kick.com', 'rumble.com',
+            'odysee.com', 'bitchute.com', 'archive.org',
+            'vimeos.net', 'vimeo.net', 'vidstream', 'streamtape',
+            'mystream', 'dood', 'voe', 'upstream', 'mixdrop',
+            'vudeo', 'filemoon', 'streamwish', 'voe.sx',
+        ];
+        
+        for (const domain of videoDomains) {
+            if (src.toLowerCase().includes(domain)) {
+                return true;
             }
         }
+        
+        return false;
     }
 
-    setupServiceWorkerBlocking() {
-        // Bloquear registro de service workers de rastreo
-        if ('serviceWorker' in navigator) {
-            const originalRegister = navigator.serviceWorker.register;
-            const self = this;
-            
-            navigator.serviceWorker.register = function(url, options) {
-                if (self.shouldBlock(url)) {
-                    self.blockedCount++;
-                    self.blockedUrls.add(url);
-                    console.debug(`🚫 Service Worker bloqueado: ${url}`);
-                    return Promise.reject(new Error('Service Worker blocked by Finki AdBlocker'));
-                }
-                
-                return originalRegister.call(this, url, options);
-            };
-        }
+    isYouTubeIframe(src) {
+        return src.toLowerCase().includes('youtube.com') || 
+               src.toLowerCase().includes('youtu.be');
     }
 
-    setupCookieBlocking() {
-        // Bloquear cookies de terceros
-        const originalSetCookie = document.cookie;
-        
-        // Sobrescribir document.cookie para filtrar cookies de rastreo
-        let cookieDescriptor = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie');
-        
-        if (cookieDescriptor && cookieDescriptor.set) {
-            const originalSet = cookieDescriptor.set;
-            
-            Object.defineProperty(document, 'cookie', {
-                get: function() {
-                    return originalSet.call(document);
-                },
-                set: function(value) {
-                    // Verificar si la cookie es de rastreo
-                    const trackingPatterns = [
-                        '_ga', '_gid', '_gat', 'utm_', 'fbp', 'fbc',
-                        'optimizely', 'intercom', 'drift', 'hotjar',
-                        'mixpanel', 'segment', 'amplitude', 'fullstory'
-                    ];
-                    
-                    for (const pattern of trackingPatterns) {
-                        if (value.includes(pattern)) {
-                            console.debug(`🍪 Cookie de rastreo bloqueada: ${pattern}`);
-                            this.blockedCount++;
-                            return;
-                        }
-                    }
-                    
-                    // Permitir cookies legítimas
-                    originalSet.call(document, value);
-                },
-                configurable: true
-            });
-        }
+    isVimeoIframe(src) {
+        return src.toLowerCase().includes('vimeo.com') || 
+               src.toLowerCase().includes('vimeos.net');
     }
 
-    shouldBlock(url) {
-        if (!url || url === 'about:blank') return false;
-        
-        // No bloquear URLs relativas
-        if (url.startsWith('/') && !url.startsWith('//')) return false;
-        
-        // No bloquear data: o blob:
-        if (url.startsWith('data:') || url.startsWith('blob:')) return false;
-        
-        try {
-            const urlObj = new URL(url, window.location.origin);
-            const domain = urlObj.hostname.toLowerCase();
-            
-            // Verificar lista blanca
-            for (const allowed of this.allowedDomains) {
-                if (domain === allowed || domain.endsWith(`.${allowed}`)) {
-                    return false;
-                }
-            }
-            
-            // Verificar contra filtros
-            const urlToCheck = url.toLowerCase();
-            
-            for (const filter of this.filters) {
-                if (this.matchFilter(filter, urlToCheck)) {
-                    return true;
-                }
-            }
-            
-            return false;
-        } catch (e) {
-            // Si hay error al parsear URL, no bloquear
-            return false;
-        }
-    }
-
-    matchFilter(filter, url) {
-        // Convertir filtro a regex
-        let pattern = filter;
-        
-        // Eliminar modificadores después del $
-        const dollarIndex = pattern.indexOf('$');
-        if (dollarIndex !== -1) {
-            pattern = pattern.substring(0, dollarIndex);
-        }
-        
-        // Manejar filtros ||domain^
-        if (pattern.startsWith('||')) {
-            pattern = pattern.substring(2);
-            pattern = pattern.replace(/\^/g, '[^a-zA-Z0-9_\\-\\.\\?\\&\\=\\/]?');
-            
-            // Buscar coincidencia con dominio o URL completa
-            const regex = new RegExp(`(^|\\.)${pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i');
-            return regex.test(url);
-        }
-        
-        // Reemplazar caracteres especiales
-        pattern = pattern.replace(/\^/g, '[^a-zA-Z0-9_\\-\\.\\?\\&\\=\\/]?');
-        pattern = pattern.replace(/\*/g, '.*');
-        pattern = pattern.replace(/\|/g, '');
-        pattern = pattern.replace(/\./g, '\\.');
-        
-        try {
-            const regex = new RegExp(pattern, 'i');
-            return regex.test(url);
-        } catch (e) {
-            return false;
-        }
-    }
-
-    showBlockingStats() {
-        // Crear elemento de estadísticas
-        const statsDiv = document.createElement('div');
-        statsDiv.id = 'finki-adblocker-stats';
-        statsDiv.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.85);
-            color: #4ade80;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-family: 'Inter', -apple-system, monospace;
-            z-index: 999999;
-            display: none;
-            pointer-events: none;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        `;
-        statsDiv.textContent = `🛡️ ${this.blockedCount} bloqueados`;
-        document.body.appendChild(statsDiv);
-        
-        // Mostrar actualizaciones periódicas
-        let lastUpdate = Date.now();
-        
-        const updateStats = () => {
-            const now = Date.now();
-            const timeDiff = now - lastUpdate;
-            
-            if (timeDiff > 5000) { // Actualizar cada 5 segundos
-                const stats = this.getStats();
-                statsDiv.textContent = `🛡️ ${stats.blockedCount} anuncios bloqueados`;
-                
-                // Mostrar con animación
-                statsDiv.style.display = 'block';
-                statsDiv.style.opacity = '0';
-                statsDiv.style.transform = 'translateY(10px)';
-                
-                setTimeout(() => {
-                    statsDiv.style.opacity = '1';
-                    statsDiv.style.transform = 'translateY(0)';
-                }, 50);
-                
-                // Ocultar después de 3 segundos
-                setTimeout(() => {
-                    statsDiv.style.opacity = '0';
-                    statsDiv.style.transform = 'translateY(10px)';
-                    setTimeout(() => {
-                        statsDiv.style.display = 'none';
-                    }, 300);
-                }, 3000);
-                
-                lastUpdate = now;
-            }
-            
-            requestAnimationFrame(updateStats);
-        };
-        
-        // Iniciar actualización continua
-        requestAnimationFrame(updateStats);
+    addUrlParam(url, param, value) {
+        const separator = url.includes('?') ? '&' : '?';
+        return `${url}${separator}${param}=${value}`;
     }
 
     getStats() {
         return {
-            blockedCount: this.blockedCount,
-            blockedUrls: Array.from(this.blockedUrls).slice(0, 20), // Últimas 20 URLs bloqueadas
-            filtersLoaded: this.filters.length,
-            cosmeticFilters: this.cosmeticFilters.length,
-            allowedDomains: this.allowedDomains.length,
-            initialized: this.initialized
+            blockedAds: this.blockedAds,
+            activePlayers: this.videoPlayers.size,
+            initialized: this.initialized,
         };
     }
 
-    // Método para verificar manualmente una URL
-    isUrlAllowed(url) {
-        return !this.shouldBlock(url);
-    }
-
-    // Método para agregar dominios a la lista blanca en tiempo real
-    addAllowedDomain(domain) {
-        domain = domain.toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-        if (!this.allowedDomains.includes(domain)) {
-            this.allowedDomains.push(domain);
-            console.log(`✅ Dominio agregado a lista blanca: ${domain}`);
-        }
-    }
-
-    // Método para agregar filtros personalizados
-    addCustomFilter(filter) {
-        if (!this.filters.includes(filter)) {
-            this.filters.push(filter);
-            console.log(`🔧 Filtro personalizado agregado: ${filter}`);
-        }
-    }
-
-    // Método para agregar filtros cosméticos personalizados
-    addCustomCosmeticFilter(selector) {
-        const filter = `##${selector}`;
-        if (!this.cosmeticFilters.includes(filter)) {
-            this.cosmeticFilters.push(filter);
+    // Método para mejorar URLs de iframes de video
+    enhanceVideoUrl(url) {
+        let enhancedUrl = url;
+        
+        // Para YouTube
+        if (enhancedUrl.includes('youtube.com') || enhancedUrl.includes('youtu.be')) {
+            const params = [
+                'rel=0',
+                'iv_load_policy=3',
+                'modestbranding=1',
+                'controls=1',
+                'disablekb=0',
+                'fs=1',
+                'playsinline=1',
+                'autoplay=1',
+                'mute=0',
+                'ad_block=true',
+                'showinfo=0',
+                'autohide=1',
+                'wmode=transparent',
+                'hd=1',
+                'version=3',
+                'enablejsapi=1',
+                'origin=' + encodeURIComponent(window.location.origin),
+            ];
             
-            // Aplicar inmediatamente
-            const style = document.getElementById('finki-adblocker-cosmetic');
-            if (style) {
-                style.textContent += `${selector}{display:none!important;visibility:hidden!important;}\n`;
+            for (const param of params) {
+                const [key] = param.split('=');
+                if (!enhancedUrl.includes(`${key}=`)) {
+                    enhancedUrl = this.addUrlParam(enhancedUrl, key, param.split('=')[1]);
+                }
             }
-            console.log(`🎨 Filtro cosmético agregado: ${selector}`);
         }
+        
+        // Para Vimeo
+        if (enhancedUrl.includes('vimeo.com') || enhancedUrl.includes('vimeos.net')) {
+            const params = [
+                'ad_block=true',
+                'autoplay=1',
+                'muted=0',
+                'playsinline=1',
+                'title=0',
+                'byline=0',
+                'portrait=0',
+                'dnt=1',
+                'quality=1080p',
+            ];
+            
+            for (const param of params) {
+                const [key] = param.split('=');
+                if (!enhancedUrl.includes(`${key}=`)) {
+                    enhancedUrl = this.addUrlParam(enhancedUrl, key, param.split('=')[1]);
+                }
+            }
+        }
+        
+        return enhancedUrl;
     }
 }
 
-// Inicializar el bloqueador
-const adBlocker = new AdBlocker();
-window.adBlocker = adBlocker;
+// Inicializar el bloqueador de anuncios de video
+const videoAdBlocker = new VideoAdBlocker();
+window.videoAdBlocker = videoAdBlocker;
 
-// Inicializar después de que el DOM esté listo
+// Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    adBlocker.init();
+    videoAdBlocker.init();
 });
 
-// También inicializar si el DOM ya está listo
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        adBlocker.init();
-    });
-} else {
-    // DOM ya está listo
-    setTimeout(() => {
-        adBlocker.init();
-    }, 0);
-}
-
-// Exponer API global para debugging
-window.finkiAdBlocker = {
-    getStats: () => adBlocker.getStats(),
-    isUrlAllowed: (url) => adBlocker.isUrlAllowed(url),
-    addAllowedDomain: (domain) => adBlocker.addAllowedDomain(domain),
-    addCustomFilter: (filter) => adBlocker.addCustomFilter(filter),
-    addCustomCosmeticFilter: (selector) => adBlocker.addCustomCosmeticFilter(selector),
-    blockedUrls: () => Array.from(adBlocker.blockedUrls)
+// Exponer API global
+window.finkiVideoAdBlocker = {
+    getStats: () => videoAdBlocker.getStats(),
+    enhanceVideoUrl: (url) => videoAdBlocker.enhanceVideoUrl(url),
+    blockAds: () => videoAdBlocker.cleanAllIframes(),
 };
 </script>
 
@@ -1182,7 +940,7 @@ button{font-family:inherit;}
 
 <div class="m-player-overlay" id="mPlayerOverlay">
   <button class="m-close-player" onclick="mClosePlayer()"><i class="fas fa-xmark"></i></button>
-  <iframe class="m-player-frame" id="mPlayerFrame" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  <iframe class="m-player-frame" id="mPlayerFrame" allow="autoplay; fullscreen" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
 </div>
 
 <div class="m-profile-panel" id="mProfilePanel">
@@ -1233,7 +991,7 @@ button{font-family:inherit;}
 
   <div class="tv-player-overlay" id="tvPlayerOverlay">
     <button class="tv-close-player" id="tvClosePlayerBtn" data-tv-nav data-row="player" data-col="0" onclick="tvClosePlayer()"><i class="fas fa-xmark"></i></button>
-    <iframe class="tv-player-frame" id="tvPlayerFrame" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <iframe class="tv-player-frame" id="tvPlayerFrame" allow="autoplay; fullscreen" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
   </div>
 
   <div class="tv-remote-hints" id="tvRemoteHints">
@@ -1518,20 +1276,27 @@ function mStopHeroRotation(){ if (mHeroInterval){ clearInterval(mHeroInterval); 
 function mPlayContent(url, contentId){
   let finalUrl = url;
   if (url.includes('<iframe')) { const m = url.match(/src=["']([^"']+)["']/); if (m) finalUrl = m[1]; }
-  if (finalUrl.includes('youtube.com') && !finalUrl.includes('autoplay=1')) finalUrl += (finalUrl.includes('?')?'&':'?')+'autoplay=1';
   
-  // Verificar si el bloqueador bloquearía esta URL
-  if (window.adBlocker && window.adBlocker.shouldBlock(finalUrl)) {
-    console.warn('⚠️ URL bloqueada por AdBlocker:', finalUrl);
-    alert('⚠️ Contenido bloqueado por el filtro de anuncios');
-    return;
+  // Mejorar la URL para bloquear anuncios
+  if (window.videoAdBlocker) {
+    finalUrl = window.videoAdBlocker.enhanceVideoUrl(finalUrl);
   }
+  
+  if (finalUrl.includes('youtube.com') && !finalUrl.includes('autoplay=1')) finalUrl += (finalUrl.includes('?')?'&':'?')+'autoplay=1';
   
   document.getElementById('mPlayerFrame').src = finalUrl;
   document.getElementById('mPlayerOverlay').classList.add('active');
   const item = allContent.find(i=>i.id===contentId);
   if (item) addToHistory(item);
   try { const o=document.getElementById('mPlayerOverlay'); (o.requestFullscreen||o.webkitRequestFullscreen)?.call(o); } catch(e){}
+  
+  // Activar bloqueo de anuncios en el iframe
+  setTimeout(() => {
+    if (window.videoAdBlocker) {
+      const iframe = document.getElementById('mPlayerFrame');
+      window.videoAdBlocker.processVideoIframe(iframe);
+    }
+  }, 1000);
 }
 function mClosePlayer(){
   document.getElementById('mPlayerFrame').src='';
@@ -1693,14 +1458,13 @@ function tvStopHeroRotation(){ if (tvHeroInterval){ clearInterval(tvHeroInterval
 function tvPlayContent(url, contentId){
   let finalUrl = url;
   if (url.includes('<iframe')) { const m = url.match(/src=["']([^"']+)["']/); if (m) finalUrl = m[1]; }
-  if (finalUrl.includes('youtube.com') && !finalUrl.includes('autoplay=1')) finalUrl += (finalUrl.includes('?')?'&':'?')+'autoplay=1';
   
-  // Verificar si el bloqueador bloquearía esta URL
-  if (window.adBlocker && window.adBlocker.shouldBlock(finalUrl)) {
-    console.warn('⚠️ URL bloqueada por AdBlocker:', finalUrl);
-    alert('⚠️ Contenido bloqueado por el filtro de anuncios');
-    return;
+  // Mejorar la URL para bloquear anuncios
+  if (window.videoAdBlocker) {
+    finalUrl = window.videoAdBlocker.enhanceVideoUrl(finalUrl);
   }
+  
+  if (finalUrl.includes('youtube.com') && !finalUrl.includes('autoplay=1')) finalUrl += (finalUrl.includes('?')?'&':'?')+'autoplay=1';
   
   document.getElementById('tvPlayerFrame').src = finalUrl;
   document.getElementById('tvPlayerOverlay').classList.add('active');
@@ -1709,6 +1473,14 @@ function tvPlayContent(url, contentId){
   tvContext = 'player';
   tvSetFocus('player', 0);
   try { const o=document.getElementById('tvPlayerOverlay'); (o.requestFullscreen||o.webkitRequestFullscreen)?.call(o); } catch(e){}
+  
+  // Activar bloqueo de anuncios en el iframe
+  setTimeout(() => {
+    if (window.videoAdBlocker) {
+      const iframe = document.getElementById('tvPlayerFrame');
+      window.videoAdBlocker.processVideoIframe(iframe);
+    }
+  }, 1000);
 }
 function tvClosePlayer(){
   document.getElementById('tvPlayerFrame').src='';

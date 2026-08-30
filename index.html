@@ -41,28 +41,6 @@ button{font-family:inherit;}
 ::selection{background:var(--primary);color:#fff;}
 
 /* ======================================================================
-   AUTH SCREEN — shared between both experiences
-   ====================================================================== */
-.auth-screen{position:fixed;inset:0;background:
-  radial-gradient(ellipse 80% 60% at 20% 0%, rgba(229,9,20,.18), transparent 60%),
-  radial-gradient(ellipse 70% 60% at 100% 100%, rgba(80,40,180,.16), transparent 60%),
-  #08080c;
-  display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px;}
-.auth-container{background:rgba(18,18,26,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px;padding:44px 32px;max-width:400px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.08);}
-.auth-logo{text-align:center;font-size:2.6rem;font-weight:900;background:linear-gradient(135deg,#E50914,#ff5f6d 60%,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;letter-spacing:-2px;}
-.auth-sub{text-align:center;color:var(--text-faint);font-size:.8rem;margin-bottom:28px;letter-spacing:.06em;text-transform:uppercase;}
-.auth-tabs{display:flex;margin-bottom:24px;background:rgba(255,255,255,.04);border-radius:14px;padding:4px;}
-.auth-tab{flex:1;padding:12px;text-align:center;color:#999;border:none;background:transparent;border-radius:11px;font-weight:600;cursor:pointer;transition:.25s var(--ease);font-size:.92rem;}
-.auth-tab.active{background:var(--primary);color:#fff;box-shadow:0 6px 18px var(--primary-glow);}
-.input-group{position:relative;margin-bottom:14px;}
-.input-group i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#666;font-size:.9rem;}
-.input-group input{width:100%;padding:15px 16px 15px 46px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:13px;color:#fff;font-size:.98rem;transition:.25s var(--ease);outline:none;}
-.input-group input:focus{border-color:var(--primary);background:rgba(255,255,255,.1);box-shadow:0 0 0 4px var(--primary-glow);}
-.btn-submit{width:100%;padding:16px;background:var(--primary);color:#fff;border:none;border-radius:13px;font-size:1.02rem;font-weight:700;cursor:pointer;margin-top:16px;transition:.2s var(--ease);letter-spacing:.02em;}
-.btn-submit:active{transform:scale(.98);background:#c70812;}
-.error-msg{color:#ff8080;font-size:.83rem;margin-top:6px;display:none;padding:9px 10px;background:rgba(255,107,107,.1);border-radius:9px;}
-
-/* ======================================================================
    ROOT APP WRAPPER
    ====================================================================== */
 .app{display:none;background:#000;}
@@ -272,34 +250,6 @@ button{font-family:inherit;}
 <body>
 
 <!-- ============================================================
-     AUTH SCREEN (shared)
-     ============================================================ -->
-<div class="auth-screen" id="authScreen">
-  <div class="auth-container">
-    <div class="auth-logo">FINKI</div>
-    <div class="auth-sub">Streaming premium</div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuth('login')">Iniciar sesión</button>
-      <button class="auth-tab" onclick="switchAuth('register')">Registrarse</button>
-    </div>
-    <form id="loginForm">
-      <div class="input-group"><i class="fas fa-mobile-alt"></i><input type="tel" id="loginPhone" placeholder="Celular (8 dígitos)" maxlength="8" inputmode="numeric"></div>
-      <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="loginPass" placeholder="Contraseña"></div>
-      <div class="error-msg" id="loginError"></div>
-      <button type="submit" class="btn-submit">Iniciar sesión</button>
-    </form>
-    <form id="registerForm" style="display:none;">
-      <div class="input-group"><i class="fas fa-user"></i><input type="text" id="regName" placeholder="Nombre completo"></div>
-      <div class="input-group"><i class="fas fa-calendar"></i><input type="number" id="regAge" placeholder="Edad" min="1" max="120"></div>
-      <div class="input-group"><i class="fas fa-mobile-alt"></i><input type="tel" id="regPhone" placeholder="Celular (8 dígitos)" maxlength="8"></div>
-      <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="regPass" placeholder="Contraseña"></div>
-      <div class="error-msg" id="registerError"></div>
-      <button type="submit" class="btn-submit">Crear cuenta</button>
-    </form>
-  </div>
-</div>
-
-<!-- ============================================================
      MOBILE APP
      ============================================================ -->
 <div class="app" id="appMobile">
@@ -307,7 +257,7 @@ button{font-family:inherit;}
     <div class="m-logo">FINKI</div>
     <div class="m-header-right">
       <button class="m-icon-btn" onclick="mOpenSearch()"><i class="fas fa-search"></i></button>
-      <div class="m-avatar" id="mAvatar" onclick="mToggleProfile()">U</div>
+      <div class="m-avatar" id="mAvatar" onclick="mToggleProfile()">I</div>
     </div>
   </header>
 
@@ -350,15 +300,14 @@ button{font-family:inherit;}
 <div class="m-profile-panel" id="mProfilePanel">
   <button class="m-panel-close" onclick="mToggleProfile()"><i class="fas fa-xmark"></i></button>
   <div style="display:flex;align-items:center;gap:14px;margin:20px 0 28px;">
-    <div class="m-avatar" style="width:50px;height:50px;font-size:1.15rem;" id="mPanelAvatar">U</div>
+    <div class="m-avatar" style="width:50px;height:50px;font-size:1.15rem;" id="mPanelAvatar">I</div>
     <div>
-      <div style="font-weight:800;font-size:1.08rem;" id="mPanelName">Usuario</div>
-      <div style="color:#999;font-size:.82rem;" id="mPanelPhone">Celular</div>
+      <div style="font-weight:800;font-size:1.08rem;" id="mPanelName">Invitado</div>
+      <div style="color:#999;font-size:.82rem;" id="mPanelPhone">Modo invitado</div>
     </div>
   </div>
   <div class="m-panel-item" onclick="mShowSection('mylist');mToggleProfile();"><i class="fas fa-bookmark"></i> Mi lista</div>
   <div class="m-panel-item" onclick="mShowSection('history');mToggleProfile();"><i class="fas fa-clock-rotate-left"></i> Historial</div>
-  <div class="m-panel-item" onclick="logout()"><i class="fas fa-right-from-bracket"></i> Cerrar sesión</div>
 </div>
 
 <!-- ============================================================
@@ -374,7 +323,7 @@ button{font-family:inherit;}
       <button class="tv-rail-item" data-section="series" data-tv-nav data-row="rail" data-col="3"><i class="fas fa-tv"></i><span>Series</span></button>
       <button class="tv-rail-item" data-section="channels" data-tv-nav data-row="rail" data-col="4"><i class="fas fa-satellite-dish"></i><span>Canales</span></button>
       <button class="tv-rail-item" data-section="mylist" data-tv-nav data-row="rail" data-col="5"><i class="fas fa-bookmark"></i><span>Mi lista</span></button>
-      <div class="tv-rail-avatar" id="tvAvatar" data-tv-nav data-row="rail" data-col="6" onclick="logout()">U</div>
+      <div class="tv-rail-avatar" id="tvAvatar" data-tv-nav data-row="rail" data-col="6">I</div>
     </nav>
     <div class="tv-content" id="tvContent"></div>
   </div>
@@ -414,7 +363,12 @@ const SUPABASE_ANON_KEY = 'sb_publishable_djOXqhg8VILB9fwLLFkNlg_xjWvBqEh';
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let currentUser = null;
+let currentUser = {
+  id: 'guest',
+  nombre: 'Invitado',
+  celular: '',
+  edad: null
+};
 let allContent = [];
 let myList = [];
 let history = [];
@@ -438,17 +392,17 @@ function detectDevice(){
 
 function applyDeviceMode(){
   deviceMode = detectDevice();
-  document.getElementById('appMobile').classList.toggle('active', deviceMode === 'mobile' && !!currentUser);
-  document.getElementById('appTV').classList.toggle('active', deviceMode === 'tv' && !!currentUser);
+  document.getElementById('appMobile').classList.toggle('active', deviceMode === 'mobile');
+  document.getElementById('appTV').classList.toggle('active', deviceMode === 'tv');
   document.body.classList.toggle('is-mobile', deviceMode === 'mobile');
   document.body.classList.toggle('is-tv', deviceMode === 'tv');
 }
 
-// Manual override for testing: triple-tap/click the auth logo cycles mode.
+// Manual override for testing: triple-tap/click the logo cycles mode.
 (function setupModeSwitcher(){
   let taps = 0, timer = null;
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('.auth-logo, .m-logo, .tv-rail-logo');
+    const el = e.target.closest('.m-logo, .tv-rail-logo');
     if (!el) return;
     taps++;
     clearTimeout(timer);
@@ -464,74 +418,24 @@ function applyDeviceMode(){
 })();
 
 /* ==========================================================================
-   AUTH
+   USER DATA (Guest Mode)
    ========================================================================== */
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const phone = document.getElementById('loginPhone').value.trim();
-  const pass = document.getElementById('loginPass').value;
-  const errEl = document.getElementById('loginError');
-  if (!/^\d{8}$/.test(phone)) { errEl.style.display='block'; errEl.textContent='El celular debe tener 8 dígitos'; return; }
-  errEl.style.display = 'none';
-  const { data, error } = await supabaseClient.from('users').select('*').eq('celular', phone).eq('password', pass).single();
-  if (error || !data) { errEl.style.display='block'; errEl.textContent='Credenciales incorrectas'; return; }
-  loginUser(data);
-});
-
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = document.getElementById('regName').value.trim();
-  const age = document.getElementById('regAge').value;
-  const phone = document.getElementById('regPhone').value.trim();
-  const pass = document.getElementById('regPass').value;
-  const errEl = document.getElementById('registerError');
-  if (!name || !age || !phone || !pass) { errEl.style.display='block'; errEl.textContent='Todos los campos son obligatorios'; return; }
-  if (!/^\d{8}$/.test(phone)) { errEl.style.display='block'; errEl.textContent='Celular debe tener 8 dígitos'; return; }
-  errEl.style.display = 'none';
-  const { data: exist } = await supabaseClient.from('users').select('celular').eq('celular', phone).single();
-  if (exist) { errEl.style.display='block'; errEl.textContent='Este celular ya está registrado'; return; }
-  const { data, error } = await supabaseClient.from('users').insert([{ nombre:name, edad:parseInt(age), celular:phone, password:pass }]).select();
-  if (error) { errEl.style.display='block'; errEl.textContent='Error al registrar'; return; }
-  loginUser(data[0]);
-});
-
-function loginUser(user){
-  currentUser = user;
-  localStorage.setItem('finki_user', JSON.stringify(user));
-  document.getElementById('authScreen').style.display = 'none';
-  applyDeviceMode();
-  updateProfileUI();
-  loadUserData();
-  fetchContent();
-}
-
-function logout(){ localStorage.removeItem('finki_user'); location.reload(); }
-
-function switchAuth(tab){
-  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-  document.querySelector(`.auth-tab[onclick*="${tab}"]`).classList.add('active');
-  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
-}
-
 function updateProfileUI(){
-  if (!currentUser) return;
   const initial = currentUser.nombre.charAt(0).toUpperCase();
   const mAv = document.getElementById('mAvatar'); if (mAv) mAv.textContent = initial;
   const mPAv = document.getElementById('mPanelAvatar'); if (mPAv) mPAv.textContent = initial;
   const mPName = document.getElementById('mPanelName'); if (mPName) mPName.textContent = currentUser.nombre;
-  const mPPhone = document.getElementById('mPanelPhone'); if (mPPhone) mPPhone.textContent = currentUser.celular;
+  const mPPhone = document.getElementById('mPanelPhone'); if (mPPhone) mPPhone.textContent = 'Modo invitado';
   const tvAv = document.getElementById('tvAvatar'); if (tvAv) tvAv.textContent = initial;
 }
 
 function loadUserData(){
-  if (!currentUser) return;
-  const base = `finki_${currentUser.id}`;
+  const base = `finki_guest`;
   myList = JSON.parse(localStorage.getItem(`${base}_mylist`) || '[]');
   history = JSON.parse(localStorage.getItem(`${base}_history`) || '[]');
 }
-function saveList(){ if (currentUser) localStorage.setItem(`finki_${currentUser.id}_mylist`, JSON.stringify(myList)); }
-function saveHistory(){ if (currentUser) localStorage.setItem(`finki_${currentUser.id}_history`, JSON.stringify(history)); }
+function saveList(){ localStorage.setItem(`finki_guest_mylist`, JSON.stringify(myList)); }
+function saveHistory(){ localStorage.setItem(`finki_guest_history`, JSON.stringify(history)); }
 
 function escapeHtml(str){ if (!str) return ''; return str.replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
 const PLACEHOLDER_IMG = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 150%22><rect fill=%22%231c1c26%22 width=%22100%22 height=%22150%22/></svg>';
@@ -986,20 +890,13 @@ document.addEventListener('keydown', (e)=>{
 /* ==========================================================================
    INIT
    ========================================================================== */
-window.addEventListener('resize', ()=>{ if (currentUser) applyDeviceMode(); });
+window.addEventListener('resize', ()=>{ applyDeviceMode(); });
 
 (function init(){
-  const saved = localStorage.getItem('finki_user');
-  if (saved){
-    try {
-      currentUser = JSON.parse(saved);
-      document.getElementById('authScreen').style.display = 'none';
-      applyDeviceMode();
-      updateProfileUI();
-      loadUserData();
-      fetchContent();
-    } catch(e){ localStorage.removeItem('finki_user'); }
-  }
+  applyDeviceMode();
+  updateProfileUI();
+  loadUserData();
+  fetchContent();
 })();
 </script>
 </body>
